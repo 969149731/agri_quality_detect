@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>统计</title>
+    <link rel="shortcut icon" href="favicon.ico">
+    <link href="../static/css/bootstrap.min.css" th:href="@{/css/bootstrap.min.css}" rel="stylesheet"/>
+    <link href="../static/css/font-awesome.min.css" th:href="@{/css/font-awesome.min.css}" rel="stylesheet"/>
+    <link href="../static/css/main/animate.min.css" th:href="@{/css/main/animate.min.css}" rel="stylesheet"/>
+    <link href="../static/css/main/style.min862f.css" th:href="@{/css/main/style.min862f.css}" rel="stylesheet"/>
+</head>
+
+<body class="gray-bg">
+    <div class="wrapper wrapper-content">
+
+        <div class="row">
+            <div class="col-sm-3">
+                <div class="ibox float-e-margins">
+                    <div class="ibox-title">
+                        <span class="label label-success pull-right">总</span>
+                        <h5>检测样本</h5>
+                    </div>
+                    <div class="ibox-content">
+                        <h1 class="no-margins" th:text="${totalReport.sampleCnt}"></h1>
+                        <!--<div class="stat-percent font-bold text-success">98% <i class="fa fa-bolt"></i>
+                        </div>-->
+                        <small>抽（送）检样本数量</small>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-3">
+                <div class="ibox float-e-margins">
+                    <div class="ibox-title">
+                        <span class="label label-success pull-right">种类</span>
+                        <h5>农产品种类</h5>
+                    </div>
+                    <div class="ibox-content">
+                        <h1 class="no-margins" th:text="${totalReport.productCnt}"></h1>
+                        <!--<div class="stat-percent font-bold text-success">98% <i class="fa fa-bolt"></i>
+                        </div>-->
+                        <small>样本种类数量</small>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-3">
+                <div class="ibox float-e-margins">
+                    <div class="ibox-title">
+                        <span class="label label-info pull-right">机构</span>
+                        <h5>抽（送）检单位</h5>
+                    </div>
+                    <div class="ibox-content">
+                        <h1 class="no-margins" th:text="${totalReport.orgCnt}"></h1>
+                        <!--<div class="stat-percent font-bold text-info">20% <i class="fa fa-level-up"></i>
+                        </div>-->
+                        <small>抽（送）检单位数量</small>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-3">
+                <div class="ibox float-e-margins">
+                    <div class="ibox-title">
+                        <span class="label label-primary pull-right">地址</span>
+                        <h5>抽（送）检地址</h5>
+                    </div>
+                    <div class="ibox-content">
+                        <h1 class="no-margins" th:text="${totalReport.addrCnt}"></h1>
+                        <!--<div class="stat-percent font-bold text-navy">44% <i class="fa fa-level-up"></i>
+                        </div>-->
+                        <small>抽（送）检地址数量</small>
+                    </div>
+                </div>
+            </div>
+            <!--<div class="col-sm-3">
+                <div class="ibox float-e-margins">
+                    <div class="ibox-title">
+                        <span class="label label-danger pull-right">最近一个月</span>
+                        <h5>活跃用户</h5>
+                    </div>
+                    <div class="ibox-content">
+                        <h1 class="no-margins">80,600</h1>
+                        <div class="stat-percent font-bold text-danger">38% <i class="fa fa-level-down"></i>
+                        </div>
+                        <small>12月</small>
+                    </div>
+                </div>
+            </div>-->
+        </div>
+
+        <div class="row">
+            <div class="col-sm-3">
+                <div class="ibox float-e-margins">
+                    <div class="ibox-title">
+                        <span class="label label-success pull-right">种类</span>
+                        <h5>农药</h5>
+                    </div>
+                    <div class="ibox-content">
+                        <h1 class="no-margins">15</h1>
+                        <!--<div class="stat-percent font-bold text-success">98% <i class="fa fa-bolt"></i>
+                        </div>-->
+                        <small>检测农药残留</small>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-3">
+                <div class="ibox float-e-margins">
+                    <div class="ibox-title">
+                        <span class="label label-success pull-right">样本数量</span>
+                        <h5>农药</h5>
+                    </div>
+                    <div class="ibox-content">
+                        <h1 class="no-margins" th:text="${totalReport.pesCnt}"></h1>
+                        <!--<div class="stat-percent font-bold text-success">98% <i class="fa fa-bolt"></i>
+                        </div>-->
+                        <small>检测农药残留</small>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-3">
+                <div class="ibox float-e-margins">
+                    <div class="ibox-title">
+                        <span class="label label-info pull-right">种类</span>
+                        <h5>重金属</h5>
+                    </div>
+                    <div class="ibox-content">
+                        <h1 class="no-margins">5</h1>
+                        <!--<div class="stat-percent font-bold text-info">20% <i class="fa fa-level-up"></i>
+                        </div>-->
+                        <small>检测重金属</small>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-3">
+                <div class="ibox float-e-margins">
+                    <div class="ibox-title">
+                        <span class="label label-primary pull-right">样本数量</span>
+                        <h5>重金属</h5>
+                    </div>
+                    <div class="ibox-content">
+                        <h1 class="no-margins" th:text="${totalReport.metalCnt}"></h1>
+                        <!--<div class="stat-percent font-bold text-navy">44% <i class="fa fa-level-up"></i>
+                        </div>-->
+                        <small>检测重金属</small>
+                    </div>
+                </div>
+            </div>
+            <!--<div class="col-sm-3">
+                <div class="ibox float-e-margins">
+                    <div class="ibox-title">
+                        <span class="label label-danger pull-right">最近一个月</span>
+                        <h5>活跃用户</h5>
+                    </div>
+                    <div class="ibox-content">
+                        <h1 class="no-margins">80,600</h1>
+                        <div class="stat-percent font-bold text-danger">38% <i class="fa fa-level-down"></i>
+                        </div>
+                        <small>12月</small>
+                    </div>
+                </div>
+            </div>-->
+        </div>
+
+        <div class="row  border-bottom white-bg dashboard-header">
+            <div class="col-sm-4">
+                <h3 class="label label-warning">特色果蔬重金属超标情况建议</h3>
+                <br>
+                <small><b>特色蔬菜主要的风险因子集中在重金属方面。为了减少叶菜类蔬菜的重金属污染，建议如下：👇</b></small>
+                <br>
+                <ol>
+                    <li>采取网格化管理，在土地本底重金属超标的区域严禁种植果蔬，加强对蔬菜种植区的重金属监测力度。</li>
+                    <li>避免在污染土壤种植易富集重金属的蔬菜品种/类型，同时采取一定的措施减低重金属活性。</li>
+                    <li>改变蔬菜的种植技术，合理使用化肥农药，上市之前做好蔬菜的重金属含量检测。</li>
+                </ol>
+                <br>
+                <br>
+                <h3 class="label label-warning">推动全产业链监管体系升级</h3>
+                <br>
+                <small><b>特色小宗果蔬产业规模有限，大型基地较少，多数是以小农户家庭生产方式为主。建议如下：👇</b></small>
+                <br>
+                <ol>
+                    <li>建立一批广西特色蔬菜的标准化生产基地，培育特色蔬菜品牌，加大对全产业链的监管力度，建立健全全产业链监管体系升级。</li>
+                    <li>建议建立各县风险评估站，实时实地监控关键风险因子。</li>
+                </ol>
+            </div>
+            <div class="col-sm-4">
+                <br>
+                <br>
+                <h2>⭐特色果蔬质量安全评估建议</h2>
+                <br>
+                <br>
+                <h3 class="label label-warning">推动建立风险评估，全力保障消费者权益</h3>
+                <br>
+                <p>广西特色果蔬农药监测总体的合格率较高，风险较小，但是超范围使用农药的现象仍存在。现有的国家标准对于南瓜花、南瓜苗、豌豆苗等南方常见蔬菜无明确的农药使用限量。农业部门主要的监管集中在大宗蔬菜，对特色小宗果蔬质量安全的监管不足，属于监管的空白。建议政府加强对小宗特色果蔬风险评估及监管，制定有效安全用药规范，推动建立风险评估体系。</p>
+            </div>
+            <div class="col-sm-4">
+                <h3 class="label label-warning">部分特色野菜在套种模式安全性建议</h3>
+                <br>
+                <small><b>部分特色蔬菜常与果树套种，这种立体种植模式可提高土地的复种指数和资源利用率，但使用农药时需要考虑到果树规定可使用的农药在蔬菜种植中可能是限用或禁用药，因此建议如下：👇</b></small>
+                <ol>
+                    <li>选择病虫害较少的两种作物，避免共同病虫害作物套种，减少农药的使用。</li>
+                    <li>套种的时间错开，蔬菜的喷药期应当考虑果树的安全间隔期。</li>
+                    <li>尽量分开种植。</li>
+                </ol>
+                <br>
+                <br>
+                <h3 class="label label-warning">推进风险评估技术发展</h3>
+                <br>
+                <small><b>建议如下：👇</b></small>
+                <ol>
+                    <li>建立更加完善的科学创新技术评估体系，加强风险评估技术创新，有利于提升特色小宗果蔬的质量和安全水平，促进特色小宗果蔬产业的发展。</li>
+                    <li>可通过收集和整理特色小宗果蔬风险评估相关数据，构建特色小宗果蔬风险评估风险等级数据库，以此实现在第一时间评估对应风险，准确发布权威数据，应对舆情风险。</li>
+                </ol>
+            </div>
+        </div>
+        
+        <!--<div class="row">
+            <div class="col-sm-12">
+                <div class="ibox float-e-margins">
+                    <div class="ibox-title">
+                        <h5>订单</h5>
+                        <div class="pull-right">
+                            <div class="btn-group">
+                                <button type="button" class="btn btn-xs btn-white active">天</button>
+                                <button type="button" class="btn btn-xs btn-white">月</button>
+                                <button type="button" class="btn btn-xs btn-white">年</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="ibox-content">
+                        <div class="row">
+                            <div class="col-sm-9">
+                                <div class="flot-chart">
+                                    <div class="flot-chart-content" id="flot-dashboard-chart"></div>
+                                </div>
+                            </div>
+                            <div class="col-sm-3">
+                                <ul class="stat-list">
+                                    <li>
+                                        <h2 class="no-margins">2,346</h2>
+                                        <small>订单总数</small>
+                                        <div class="stat-percent">48% <i class="fa fa-level-up text-navy"></i>
+                                        </div>
+                                        <div class="progress progress-mini">
+                                            <div style="width: 48%;" class="progress-bar"></div>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <h2 class="no-margins ">4,422</h2>
+                                        <small>最近一个月订单</small>
+                                        <div class="stat-percent">60% <i class="fa fa-level-down text-navy"></i>
+                                        </div>
+                                        <div class="progress progress-mini">
+                                            <div style="width: 60%;" class="progress-bar"></div>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <h2 class="no-margins ">9,180</h2>
+                                        <small>最近一个月销售额</small>
+                                        <div class="stat-percent">22% <i class="fa fa-bolt text-navy"></i>
+                                        </div>
+                                        <div class="progress progress-mini">
+                                            <div style="width: 22%;" class="progress-bar"></div>
+                                        </div>
+                                    </li>
+                                 </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>-->
+        
+        <div class="row">
+            <div class="col-sm-12">
+                <table id="bootstrap-table"></table>
+            </div>
+         </div>
+      </div>
+    </div>
+    <script th:src="@{/js/jquery.min.js}"></script>
+    <script th:src="@{/js/bootstrap.min.js}"></script>
+    <script th:src="@{/ajax/libs/flot/jquery.flot.js}"></script>
+    <th:block th:include="include :: footer" />
+    <th:block th:include="include :: sparkline-js" />
+    <script type="text/javascript">
+        var prefix = ctx + "crops/sampleRecord";
+	    $(document).ready(function () {
+            var options = {
+                url: prefix+"/detail",
+                modalName: "抽样记录",
+                columns: [
+                    {
+                        field: 'sampleDate',
+                        title: '抽样日期',
+                        formatter: function(value, row, index){
+                            return value.substring(0,10)
+                        }
+                    },
+                    {
+                        field: 'sampleCnt',
+                        title: '样品数量'
+                    },
+                    {
+                        field: 'productCnt',
+                        title: '样品种类'
+                    },
+                    {
+                        field: 'orgCnt',
+                        title: '供样单位数量'
+                    },
+                    {
+                        field: 'addrCnt',
+                        title: '供样地址数量'
+                    },
+                    {
+                        field: 'pesCnt',
+                        title: '农药检测数量'
+                    },
+                    {
+                        field: 'metalCnt',
+                        title: '重金属检测数量'
+                    }
+                ]
+            };
+            $.table.init(options);
+            //$("#bootstrap-table1").bootstrapTable(options);
+
+	    });
+    </script>
+</body>
+</html>

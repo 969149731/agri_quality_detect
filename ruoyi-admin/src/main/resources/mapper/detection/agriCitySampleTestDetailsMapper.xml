@@ -1,0 +1,205 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.detection.mapper.agriCitySampleTestDetailsMapper">
+    
+    <resultMap type="agriCitySampleTestDetails" id="agriCitySampleTestDetailsResult">
+        <result property="citySampleTestDetailsId"    column="city_sample_test_details_id"    />
+        <result property="sampleCode"    column="sample_code"    />
+        <result property="vegFruName"    column="veg_fru_name"    />
+        <result property="samplingLocation"    column="sampling_location"    />
+        <result property="detectLocation"    column="detect_location"    />
+        <result property="samplingQuantity"    column="sampling_quantity"    />
+        <result property="samplingBase"    column="sampling_base"    />
+        <result property="samplingStageType"    column="sampling_stage_type"    />
+        <result property="samplingDate"    column="sampling_date"    />
+        <result property="chinaStandard"    column="china_standard"    />
+        <result property="cacStandard"    column="cac_standard"    />
+        <result property="japanStandard"    column="japan_standard"    />
+        <result property="euStandard"    column="eu_standard"    />
+        <result property="usStandard"    column="us_standard"    />
+        <result property="koreaStandard"    column="korea_standard"    />
+        <result property="createdAt"    column="created_at"    />
+    </resultMap>
+
+    <resultMap id="agriCitySampleTestDetailsagriPesticideDetResultResult" type="agriCitySampleTestDetails" extends="agriCitySampleTestDetailsResult">
+        <collection property="agriPesticideDetResultList" notNullColumn="sub_pesticide_det_result_id" javaType="java.util.List" resultMap="agriPesticideDetResultResult" />
+    </resultMap>
+
+    <resultMap type="agriPesticideDetResult" id="agriPesticideDetResultResult">
+        <result property="pesticideDetResultId"    column="sub_pesticide_det_result_id"    />
+        <result property="pesticideName"    column="sub_pesticide_name"    />
+        <result property="pesticideDetValue"    column="sub_pesticide_det_value"    />
+        <result property="citySampleTestDetailsId"    column="sub_city_sample_test_details_id"    />
+        <result property="createdAt"    column="sub_created_at"    />
+    </resultMap>
+
+    <sql id="selectagriCitySampleTestDetailsVo">
+        select city_sample_test_details_id, sample_code, veg_fru_name, sampling_location, detect_location, sampling_quantity, sampling_base, sampling_stage_type, sampling_date, china_standard, cac_standard, japan_standard, eu_standard, us_standard, korea_standard, created_at from agri_city_sample_test_details
+    </sql>
+
+<!--    <select id="selectagriCitySampleTestDetailsList" parameterType="agriCitySampleTestDetails" resultMap="agriCitySampleTestDetailsResult">-->
+<!--        <include refid="selectagriCitySampleTestDetailsVo"/>-->
+<!--        <where>  -->
+<!--            <if test="sampleCode != null  and sampleCode != ''"> and sample_code = #{sampleCode}</if>-->
+<!--            <if test="vegFruName != null  and vegFruName != ''"> and veg_fru_name like concat('%', #{vegFruName}, '%')</if>-->
+<!--            <if test="samplingLocation != null  and samplingLocation != ''"> and sampling_location = #{samplingLocation}</if>-->
+<!--            <if test="detectLocation != null  and detectLocation != ''"> and detect_location = #{detectLocation}</if>-->
+<!--            <if test="samplingStageType != null  and samplingStageType != ''"> and sampling_stage_type = #{samplingStageType}</if>-->
+<!--            <if test="samplingDate != null "> and sampling_date = #{samplingDate}</if>-->
+<!--            <if test="chinaStandard != null  and chinaStandard != ''"> and china_standard = #{chinaStandard}</if>-->
+<!--            <if test="cacStandard != null  and cacStandard != ''"> and cac_standard = #{cacStandard}</if>-->
+<!--            <if test="japanStandard != null  and japanStandard != ''"> and japan_standard = #{japanStandard}</if>-->
+<!--            <if test="euStandard != null  and euStandard != ''"> and eu_standard = #{euStandard}</if>-->
+<!--            <if test="usStandard != null  and usStandard != ''"> and us_standard = #{usStandard}</if>-->
+<!--            <if test="koreaStandard != null  and koreaStandard != ''"> and korea_standard = #{koreaStandard}</if>-->
+<!--        </where>-->
+<!--    </select>-->
+
+    <!-- 定义封装account和user的resultMap -->
+    <resultMap id="myMap" type="agriCitySampleTestDetails">
+        <id property="citySampleTestDetailsId" column="city_sample_test_details_id"/>
+        <result property="sampleCode" column="sample_code"/>
+        <result property="vegFruName" column="veg_fru_name"/>
+        <result property="samplingLocation" column="sampling_location"/>
+        <result property="detectLocation" column="detect_location"/>
+        <result property="samplingQuantity" column="sampling_quantity"/>
+        <result property="samplingBase" column="sampling_base"/>
+        <result property="samplingStageType" column="sampling_stage_type"/>
+        <result property="samplingDate" column="sampling_date"/>
+        <result property="chinaStandard" column="china_standard"/>
+        <result property="cacStandard" column="cac_standard"/>
+        <result property="japanStandard" column="japan_standard"/>
+        <result property="euStandard" column="eu_standard"/>
+        <result property="usStandard" column="us_standard"/>
+        <result property="koreaStandard" column="korea_standard"/>
+        <result property="createdAt" column="created_at"/>
+
+        <collection property="agriPesticideDetResultList" ofType="agriPesticideDetResult">
+            <id column="id" property="pesticideDetResultId"/>
+            <result column="pesticide_name" property="pesticideName"/>
+            <result column="pesticide_det_value" property="pesticideDetValue"/>
+            <result column="city_sample_test_details_id" property="citySampleTestDetailsId"/>
+            <result column="created_at" property="createdAt"/>
+        </collection>
+    </resultMap>
+
+    <select id="selectagriCitySampleTestDetailsList" resultMap="myMap">
+        SELECT * FROM agri_city_sample_test_details
+        JOIN agri_pesticide_det_result ON agri_city_sample_test_details.city_sample_test_details_id=agri_pesticide_det_result.city_sample_test_details_id
+    </select>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <select id="selectagriCitySampleTestDetailsByCitySampleTestDetailsId" parameterType="Long" resultMap="agriCitySampleTestDetailsagriPesticideDetResultResult">
+        select a.city_sample_test_details_id, a.sample_code, a.veg_fru_name, a.sampling_location, a.detect_location, a.sampling_quantity, a.sampling_base, a.sampling_stage_type, a.sampling_date, a.china_standard, a.cac_standard, a.japan_standard, a.eu_standard, a.us_standard, a.korea_standard, a.created_at,
+ b.pesticide_det_result_id as sub_pesticide_det_result_id, b.pesticide_name as sub_pesticide_name, b.pesticide_det_value as sub_pesticide_det_value, b.city_sample_test_details_id as sub_city_sample_test_details_id, b.created_at as sub_created_at
+        from agri_city_sample_test_details a
+        left join agri_pesticide_det_result b on b.city_sample_test_details_id = a.city_sample_test_details_id
+        where a.city_sample_test_details_id = #{citySampleTestDetailsId}
+    </select>
+        
+    <insert id="insertagriCitySampleTestDetails" parameterType="agriCitySampleTestDetails" useGeneratedKeys="true" keyProperty="citySampleTestDetailsId">
+        insert into agri_city_sample_test_details
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="sampleCode != null">sample_code,</if>
+            <if test="vegFruName != null">veg_fru_name,</if>
+            <if test="samplingLocation != null">sampling_location,</if>
+            <if test="detectLocation != null">detect_location,</if>
+            <if test="samplingQuantity != null">sampling_quantity,</if>
+            <if test="samplingBase != null">sampling_base,</if>
+            <if test="samplingStageType != null">sampling_stage_type,</if>
+            <if test="samplingDate != null">sampling_date,</if>
+            <if test="chinaStandard != null">china_standard,</if>
+            <if test="cacStandard != null">cac_standard,</if>
+            <if test="japanStandard != null">japan_standard,</if>
+            <if test="euStandard != null">eu_standard,</if>
+            <if test="usStandard != null">us_standard,</if>
+            <if test="koreaStandard != null">korea_standard,</if>
+            <if test="createdAt != null">created_at,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="sampleCode != null">#{sampleCode},</if>
+            <if test="vegFruName != null">#{vegFruName},</if>
+            <if test="samplingLocation != null">#{samplingLocation},</if>
+            <if test="detectLocation != null">#{detectLocation},</if>
+            <if test="samplingQuantity != null">#{samplingQuantity},</if>
+            <if test="samplingBase != null">#{samplingBase},</if>
+            <if test="samplingStageType != null">#{samplingStageType},</if>
+            <if test="samplingDate != null">#{samplingDate},</if>
+            <if test="chinaStandard != null">#{chinaStandard},</if>
+            <if test="cacStandard != null">#{cacStandard},</if>
+            <if test="japanStandard != null">#{japanStandard},</if>
+            <if test="euStandard != null">#{euStandard},</if>
+            <if test="usStandard != null">#{usStandard},</if>
+            <if test="koreaStandard != null">#{koreaStandard},</if>
+            <if test="createdAt != null">#{createdAt},</if>
+         </trim>
+    </insert>
+
+    <update id="updateagriCitySampleTestDetails" parameterType="agriCitySampleTestDetails">
+        update agri_city_sample_test_details
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="sampleCode != null">sample_code = #{sampleCode},</if>
+            <if test="vegFruName != null">veg_fru_name = #{vegFruName},</if>
+            <if test="samplingLocation != null">sampling_location = #{samplingLocation},</if>
+            <if test="detectLocation != null">detect_location = #{detectLocation},</if>
+            <if test="samplingQuantity != null">sampling_quantity = #{samplingQuantity},</if>
+            <if test="samplingBase != null">sampling_base = #{samplingBase},</if>
+            <if test="samplingStageType != null">sampling_stage_type = #{samplingStageType},</if>
+            <if test="samplingDate != null">sampling_date = #{samplingDate},</if>
+            <if test="chinaStandard != null">china_standard = #{chinaStandard},</if>
+            <if test="cacStandard != null">cac_standard = #{cacStandard},</if>
+            <if test="japanStandard != null">japan_standard = #{japanStandard},</if>
+            <if test="euStandard != null">eu_standard = #{euStandard},</if>
+            <if test="usStandard != null">us_standard = #{usStandard},</if>
+            <if test="koreaStandard != null">korea_standard = #{koreaStandard},</if>
+            <if test="createdAt != null">created_at = #{createdAt},</if>
+        </trim>
+        where city_sample_test_details_id = #{citySampleTestDetailsId}
+    </update>
+
+    <delete id="deleteagriCitySampleTestDetailsByCitySampleTestDetailsId" parameterType="Long">
+        delete from agri_city_sample_test_details where city_sample_test_details_id = #{citySampleTestDetailsId}
+    </delete>
+
+    <delete id="deleteagriCitySampleTestDetailsByCitySampleTestDetailsIds" parameterType="String">
+        delete from agri_city_sample_test_details where city_sample_test_details_id in 
+        <foreach item="citySampleTestDetailsId" collection="array" open="(" separator="," close=")">
+            #{citySampleTestDetailsId}
+        </foreach>
+    </delete>
+    
+    <delete id="deleteagriPesticideDetResultByCitySampleTestDetailsIds" parameterType="String">
+        delete from agri_pesticide_det_result where city_sample_test_details_id in 
+        <foreach item="citySampleTestDetailsId" collection="array" open="(" separator="," close=")">
+            #{citySampleTestDetailsId}
+        </foreach>
+    </delete>
+
+    <delete id="deleteagriPesticideDetResultByCitySampleTestDetailsId" parameterType="Long">
+        delete from agri_pesticide_det_result where city_sample_test_details_id = #{citySampleTestDetailsId}
+    </delete>
+
+    <insert id="batchagriPesticideDetResult">
+        insert into agri_pesticide_det_result( pesticide_det_result_id, pesticide_name, pesticide_det_value, city_sample_test_details_id, created_at) values
+		<foreach item="item" index="index" collection="list" separator=",">
+            ( #{item.pesticideDetResultId}, #{item.pesticideName}, #{item.pesticideDetValue}, #{item.citySampleTestDetailsId}, #{item.createdAt})
+        </foreach>
+    </insert>
+</mapper>

@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.detection.mapper.fruitVegQualificationMapper">
+    
+    <resultMap type="fruitVegQualification" id="fruitVegQualificationResult">
+        <result property="id"    column="id"    />
+        <result property="detailCategory"    column="detail_category"    />
+        <result property="samplingNumber"    column="sampling_number"    />
+        <result property="qualifiedNumber"    column="qualified_number"    />
+        <result property="qualificationRate"    column="qualification_rate"    />
+        <result property="exceedingSamples"    column="exceeding_samples"    />
+        <result property="exceedingPesticides"    column="exceeding_pesticides"    />
+        <result property="sourceArea"    column="source_area"    />
+    </resultMap>
+
+    <sql id="selectfruitVegQualificationVo">
+        select id, detail_category, sampling_number, qualified_number, qualification_rate, exceeding_samples, exceeding_pesticides, source_area from qu_fruit_veg_qualification
+    </sql>
+
+    <select id="selectfruitVegQualificationList" parameterType="fruitVegQualification" resultMap="fruitVegQualificationResult">
+        <include refid="selectfruitVegQualificationVo"/>
+        <where>  
+            <if test="detailCategory != null  and detailCategory != ''"> and detail_category = #{detailCategory}</if>
+            <if test="sourceArea != null  and sourceArea != ''"> and source_area = #{sourceArea}</if>
+        </where>
+    </select>
+    
+    <select id="selectfruitVegQualificationById" parameterType="Long" resultMap="fruitVegQualificationResult">
+        <include refid="selectfruitVegQualificationVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertfruitVegQualification" parameterType="fruitVegQualification" useGeneratedKeys="true" keyProperty="id">
+        insert into qu_fruit_veg_qualification
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="detailCategory != null">detail_category,</if>
+            <if test="samplingNumber != null">sampling_number,</if>
+            <if test="qualifiedNumber != null">qualified_number,</if>
+            <if test="qualificationRate != null">qualification_rate,</if>
+            <if test="exceedingSamples != null">exceeding_samples,</if>
+            <if test="exceedingPesticides != null">exceeding_pesticides,</if>
+            <if test="sourceArea != null">source_area,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="detailCategory != null">#{detailCategory},</if>
+            <if test="samplingNumber != null">#{samplingNumber},</if>
+            <if test="qualifiedNumber != null">#{qualifiedNumber},</if>
+            <if test="qualificationRate != null">#{qualificationRate},</if>
+            <if test="exceedingSamples != null">#{exceedingSamples},</if>
+            <if test="exceedingPesticides != null">#{exceedingPesticides},</if>
+            <if test="sourceArea != null">#{sourceArea},</if>
+         </trim>
+    </insert>
+
+    <update id="updatefruitVegQualification" parameterType="fruitVegQualification">
+        update qu_fruit_veg_qualification
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="detailCategory != null">detail_category = #{detailCategory},</if>
+            <if test="samplingNumber != null">sampling_number = #{samplingNumber},</if>
+            <if test="qualifiedNumber != null">qualified_number = #{qualifiedNumber},</if>
+            <if test="qualificationRate != null">qualification_rate = #{qualificationRate},</if>
+            <if test="exceedingSamples != null">exceeding_samples = #{exceedingSamples},</if>
+            <if test="exceedingPesticides != null">exceeding_pesticides = #{exceedingPesticides},</if>
+            <if test="sourceArea != null">source_area = #{sourceArea},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deletefruitVegQualificationById" parameterType="Long">
+        delete from qu_fruit_veg_qualification where id = #{id}
+    </delete>
+
+    <delete id="deletefruitVegQualificationByIds" parameterType="String">
+        delete from qu_fruit_veg_qualification where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+
+
+</mapper>
