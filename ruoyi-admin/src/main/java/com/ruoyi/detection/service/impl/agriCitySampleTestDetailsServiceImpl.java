@@ -5,7 +5,6 @@ import java.util.List;
 
 import com.ruoyi.common.exception.ServiceException;
 import com.ruoyi.detection.domain.agriOutCitySampleTestDetails;
-import com.ruoyi.detection.domain.fruitVegQualification;
 import com.ruoyi.detection.mapper.agriPesticideDetResultMapper;
 import com.ruoyi.system.service.ISysConfigService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -172,7 +171,6 @@ public class agriCitySampleTestDetailsServiceImpl implements IagriCitySampleTest
         }
         int successNum = 0;
         int failureNum = 0;
-
         long mainTableId =0;
         long noUseTableId =0;
         StringBuilder successMsg = new StringBuilder();
