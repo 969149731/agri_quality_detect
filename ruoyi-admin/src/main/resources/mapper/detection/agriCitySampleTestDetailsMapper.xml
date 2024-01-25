@@ -88,6 +88,20 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     <select id="selectagriCitySampleTestDetailsList" resultMap="myMap">
         SELECT * FROM agri_city_sample_test_details
         JOIN agri_pesticide_det_result ON agri_city_sample_test_details.city_sample_test_details_id=agri_pesticide_det_result.city_sample_test_details_id
+        <where>
+            <if test="sampleCode != null  and sampleCode != ''"> and sample_code = #{sampleCode}</if>
+            <if test="vegFruName != null  and vegFruName != ''"> and veg_fru_name like concat('%', #{vegFruName}, '%')</if>
+            <if test="samplingLocation != null  and samplingLocation != ''"> and sampling_location = #{samplingLocation}</if>
+            <if test="detectLocation != null  and detectLocation != ''"> and detect_location = #{detectLocation}</if>
+            <if test="samplingStageType != null  and samplingStageType != ''"> and sampling_stage_type = #{samplingStageType}</if>
+            <if test="samplingDate != null "> and sampling_date = #{samplingDate}</if>
+            <if test="chinaStandard != null  and chinaStandard != ''"> and china_standard = #{chinaStandard}</if>
+            <if test="cacStandard != null  and cacStandard != ''"> and cac_standard = #{cacStandard}</if>
+            <if test="japanStandard != null  and japanStandard != ''"> and japan_standard = #{japanStandard}</if>
+            <if test="euStandard != null  and euStandard != ''"> and eu_standard = #{euStandard}</if>
+            <if test="usStandard != null  and usStandard != ''"> and us_standard = #{usStandard}</if>
+            <if test="koreaStandard != null  and koreaStandard != ''"> and korea_standard = #{koreaStandard}</if>
+        </where>
     </select>
 
 

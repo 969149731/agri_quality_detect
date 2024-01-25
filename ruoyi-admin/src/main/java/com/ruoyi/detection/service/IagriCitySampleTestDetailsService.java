@@ -2,6 +2,7 @@ package com.ruoyi.detection.service;
 
 import java.util.List;
 import com.ruoyi.detection.domain.agriCitySampleTestDetails;
+import com.ruoyi.detection.domain.agriOutCitySampleTestDetails;
 
 /**
  * 各市样品检测结果详细Service接口
@@ -58,4 +59,8 @@ public interface IagriCitySampleTestDetailsService
      * @return 结果
      */
     public int deleteagriCitySampleTestDetailsByCitySampleTestDetailsId(Long citySampleTestDetailsId);
+
+    String importAgriCitySampleTestDetails(List<agriCitySampleTestDetails> agriCitySampleTestDetailsList, boolean updateSupport, String operName);
+
+    String importAgriOutCitySampleTestDetailsList(List<agriOutCitySampleTestDetails> agriOutCitySampleTestDetailsList, boolean updateSupport, String operName);
 }

@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.detection.mapper.agriPesticideDetResultMapper">
+    
+    <resultMap type="agriPesticideDetResult" id="agriPesticideDetResultResult">
+        <result property="pesticideDetResultId"    column="pesticide_det_result_id"    />
+        <result property="pesticideName"    column="pesticide_name"    />
+        <result property="pesticideDetValue"    column="pesticide_det_value"    />
+        <result property="citySampleTestDetailsId"    column="city_sample_test_details_id"    />
+        <result property="createdAt"    column="created_at"    />
+    </resultMap>
+
+    <sql id="selectagriPesticideDetResultVo">
+        select pesticide_det_result_id, pesticide_name, pesticide_det_value, city_sample_test_details_id, created_at from agri_pesticide_det_result
+    </sql>
+
+    <select id="selectagriPesticideDetResultList" parameterType="agriPesticideDetResult" resultMap="agriPesticideDetResultResult">
+        <include refid="selectagriPesticideDetResultVo"/>
+        <where>  
+            <if test="pesticideName != null  and pesticideName != ''"> and pesticide_name like concat('%', #{pesticideName}, '%')</if>
+            <if test="pesticideDetValue != null "> and pesticide_det_value = #{pesticideDetValue}</if>
+        </where>
+    </select>
+    
+    <select id="selectagriPesticideDetResultByPesticideDetResultId" parameterType="Long" resultMap="agriPesticideDetResultResult">
+        <include refid="selectagriPesticideDetResultVo"/>
+        where pesticide_det_result_id = #{pesticideDetResultId}
+    </select>
+        
+    <insert id="insertagriPesticideDetResult" parameterType="agriPesticideDetResult" useGeneratedKeys="true" keyProperty="pesticideDetResultId">
+        insert into agri_pesticide_det_result
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="pesticideName != null">pesticide_name,</if>
+            <if test="pesticideDetValue != null">pesticide_det_value,</if>
+            <if test="citySampleTestDetailsId != null">city_sample_test_details_id,</if>
+            <if test="createdAt != null">created_at,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="pesticideName != null">#{pesticideName},</if>
+            <if test="pesticideDetValue != null">#{pesticideDetValue},</if>
+            <if test="citySampleTestDetailsId != null">#{citySampleTestDetailsId},</if>
+            <if test="createdAt != null">#{createdAt},</if>
+         </trim>
+    </insert>
+
+    <update id="updateagriPesticideDetResult" parameterType="agriPesticideDetResult">
+        update agri_pesticide_det_result
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="pesticideName != null">pesticide_name = #{pesticideName},</if>
+            <if test="pesticideDetValue != null">pesticide_det_value = #{pesticideDetValue},</if>
+            <if test="citySampleTestDetailsId != null">city_sample_test_details_id = #{citySampleTestDetailsId},</if>
+            <if test="createdAt != null">created_at = #{createdAt},</if>
+        </trim>
+        where pesticide_det_result_id = #{pesticideDetResultId}
+    </update>
+
+    <delete id="deleteagriPesticideDetResultByPesticideDetResultId" parameterType="Long">
+        delete from agri_pesticide_det_result where pesticide_det_result_id = #{pesticideDetResultId}
+    </delete>
+
+    <delete id="deleteagriPesticideDetResultByPesticideDetResultIds" parameterType="String">
+        delete from agri_pesticide_det_result where pesticide_det_result_id in 
+        <foreach item="pesticideDetResultId" collection="array" open="(" separator="," close=")">
+            #{pesticideDetResultId}
+        </foreach>
+    </delete>
+</mapper>

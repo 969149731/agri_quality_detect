@@ -2,6 +2,9 @@ package com.ruoyi.detection.controller;
 
 import java.util.List;
 import javax.servlet.http.HttpServletResponse;
+
+import com.ruoyi.detection.domain.agriOutCitySampleTestDetails;
+import com.ruoyi.detection.domain.fruitVegQualification;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,6 +23,7 @@ import com.ruoyi.detection.domain.agriCitySampleTestDetails;
 import com.ruoyi.detection.service.IagriCitySampleTestDetailsService;
 import com.ruoyi.common.utils.poi.ExcelUtil;
 import com.ruoyi.common.core.page.TableDataInfo;
+import org.springframework.web.multipart.MultipartFile;
 
 /**
  * 各市样品检测结果详细Controller
@@ -33,6 +37,35 @@ public class agriCitySampleTestDetailsController extends BaseController
 {
     @Autowired
     private IagriCitySampleTestDetailsService agriCitySampleTestDetailsService;
+
+
+//    @Log(title = "用户管理", businessType = BusinessType.IMPORT)
+//    @PreAuthorize("@ss.hasPermi('system:user:import')")
+//    @PostMapping("/importData")
+//    public AjaxResult importData(MultipartFile file, boolean updateSupport) throws Exception
+//    {
+//        ExcelUtil<agriCitySampleTestDetails> util = new ExcelUtil<agriCitySampleTestDetails>(agriCitySampleTestDetails.class);
+//        List<agriCitySampleTestDetails> agriCitySampleTestDetailsList = util.importExcel(file.getInputStream());
+//        String operName = getUsername();
+//        String message = agriCitySampleTestDetailsService.importAgriCitySampleTestDetails(agriCitySampleTestDetailsList, updateSupport, operName);
+//
+//
+//        return success(message);
+//    }
+
+    @Log(title = "用户管理", businessType = BusinessType.IMPORT)
+    @PreAuthorize("@ss.hasPermi('system:user:import')")
+    @PostMapping("/importData")
+    public AjaxResult importData(MultipartFile file, boolean updateSupport) throws Exception
+    {
+        ExcelUtil<agriOutCitySampleTestDetails> util = new ExcelUtil<agriOutCitySampleTestDetails>(agriOutCitySampleTestDetails.class);
+        List<agriOutCitySampleTestDetails> agriOutCitySampleTestDetailsList = util.importExcel(file.getInputStream());
+        String operName = getUsername();
+        String message = agriCitySampleTestDetailsService.importAgriOutCitySampleTestDetailsList(agriOutCitySampleTestDetailsList, updateSupport, operName);
+
+
+        return success(message);
+    }
 
     /**
      * 查询各市样品检测结果详细列表
