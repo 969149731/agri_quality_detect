@@ -208,6 +208,18 @@
           <dict-tag :options="dict.type.pass_or_not" :value="scope.row.koreaStandard"/>
         </template>
       </el-table-column>
+
+      <el-table-column label="检测结果" align="center" prop="result" width="300px">
+        <template slot-scope="props" >
+          <el-table  :data="props.row.agriPesticideDetResultList">
+            <el-table-column  label="农药名" align="center" prop="pesticideName">
+            </el-table-column>
+            <el-table-column  label="检测值" align="center" prop="pesticideDetValue">
+            </el-table-column>
+          </el-table>
+        </template>
+      </el-table-column>
+
       <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
         <template slot-scope="scope">
           <el-button
