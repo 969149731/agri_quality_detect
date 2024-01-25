@@ -165,7 +165,7 @@
 
     <el-table v-loading="loading" :data="detectionDetailsList" @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="55" align="center" />
-      <el-table-column label="主键" align="center" prop="citySampleTestDetailsId" />
+<!--      <el-table-column label="主键" align="center" prop="citySampleTestDetailsId" />-->
       <el-table-column label="样品编号" align="center" prop="sampleCode" />
       <el-table-column label="样品名称" align="center" prop="vegFruName" />
       <el-table-column label="抽样地点" align="center" prop="samplingLocation" />
@@ -178,6 +178,18 @@
           <span>{{ parseTime(scope.row.samplingDate, '{y}-{m}-{d}') }}</span>
         </template>
       </el-table-column>
+
+      <el-table-column label="检测结果" align="center" prop="result" width="300px">
+        <template slot-scope="props" >
+          <el-table  :data="props.row.agriPesticideDetResultList">
+            <el-table-column  label="农药名" align="center" prop="pesticideName">
+            </el-table-column>
+            <el-table-column  label="检测值" align="center" prop="pesticideDetValue">
+            </el-table-column>
+          </el-table>
+        </template>
+      </el-table-column>
+
       <el-table-column label="国家标准" align="center" prop="chinaStandard">
         <template slot-scope="scope">
           <dict-tag :options="dict.type.pass_or_not" :value="scope.row.chinaStandard"/>
@@ -209,16 +221,7 @@
         </template>
       </el-table-column>
 
-      <el-table-column label="检测结果" align="center" prop="result" width="300px">
-        <template slot-scope="props" >
-          <el-table  :data="props.row.agriPesticideDetResultList">
-            <el-table-column  label="农药名" align="center" prop="pesticideName">
-            </el-table-column>
-            <el-table-column  label="检测值" align="center" prop="pesticideDetValue">
-            </el-table-column>
-          </el-table>
-        </template>
-      </el-table-column>
+
 
       <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
         <template slot-scope="scope">
