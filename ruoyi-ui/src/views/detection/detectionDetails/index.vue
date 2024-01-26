@@ -101,6 +101,21 @@
           />
         </el-select>
       </el-form-item>
+
+
+      <el-form-item label="抽样日期">
+        <el-date-picker
+          v-model="dateRange"
+          style="width: 240px"
+          value-format="yyyy-MM-dd"
+          type="daterange"
+          range-separator="-"
+          start-placeholder="开始日期"
+          end-placeholder="结束日期"
+        ></el-date-picker>
+      </el-form-item>
+
+
       <el-form-item>
         <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery">搜索</el-button>
         <el-button icon="el-icon-refresh" size="mini" @click="resetQuery">重置</el-button>
@@ -330,6 +345,7 @@
             ></el-option>
           </el-select>
         </el-form-item>
+
         <el-form-item label="韩国标准" prop="koreaStandard">
           <el-select v-model="form.koreaStandard" placeholder="请选择韩国标准">
             <el-option
@@ -340,6 +356,9 @@
             ></el-option>
           </el-select>
         </el-form-item>
+
+
+
         <el-divider content-position="center">农药检测结果信息</el-divider>
         <el-row :gutter="10" class="mb8">
           <el-col :span="1.5">
@@ -405,6 +424,7 @@
 <script>
 import { listDetectionDetails, getDetectionDetails, delDetectionDetails, addDetectionDetails, updateDetectionDetails } from "@/api/detection/detectionDetails";
 import { getToken } from "@/utils/auth";
+import {listUser} from "@/api/system/user";
 
 export default {
   name: "DetectionDetails",
@@ -433,6 +453,8 @@ export default {
       title: "",
       // 是否显示弹出层
       open: false,
+      // 日期范围
+      dateRange: [],
       // 查询参数
       queryParams: {
         pageNum: 1,
@@ -479,7 +501,7 @@ export default {
     /** 查询各市样品检测结果详细列表 */
     getList() {
       this.loading = true;
-      listDetectionDetails(this.queryParams).then(response => {
+      listDetectionDetails(this.addDateRange(this.queryParams, this.dateRange)).then(response => {
         this.detectionDetailsList = response.rows;
         this.total = response.total;
         this.loading = false;
@@ -520,6 +542,7 @@ export default {
     },
     /** 重置按钮操作 */
     resetQuery() {
+      this.dateRange = [];
       this.resetForm("queryForm");
       this.handleQuery();
     },
