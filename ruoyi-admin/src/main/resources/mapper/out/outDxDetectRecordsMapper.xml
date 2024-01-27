@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.out.mapper.outDxDetectRecordsMapper">
+    
+    <resultMap type="outDxDetectRecords" id="outDxDetectRecordsResult">
+        <result property="recordDxId"    column="record_dx_id"    />
+        <result property="detectLocation"    column="detect_location"    />
+        <result property="samplingDate"    column="sampling_date"    />
+        <result property="samplingYear"    column="sampling_year"    />
+        <result property="samplingMonth"    column="sampling_month"    />
+        <result property="samplingCount"    column="sampling_count"    />
+        <result property="qualifiedCount"    column="qualified_count"    />
+        <result property="passRate"    column="pass_rate"    />
+        <result property="createdDate"    column="created_date"    />
+    </resultMap>
+
+    <sql id="selectoutDxDetectRecordsVo">
+        select record_dx_id, detect_location, sampling_date, sampling_year, sampling_month, sampling_count, qualified_count, pass_rate, created_date from out_dx_detect_records
+    </sql>
+
+    <select id="selectoutDxDetectRecordsList" parameterType="outDxDetectRecords" resultMap="outDxDetectRecordsResult">
+        <include refid="selectoutDxDetectRecordsVo"/>
+        <where>  
+            <if test="detectLocation != null  and detectLocation != ''"> and detect_location = #{detectLocation}</if>
+            <if test="samplingDate != null "> and sampling_date = #{samplingDate}</if>
+            <if test="samplingYear != null "> and sampling_year = #{samplingYear}</if>
+            <if test="samplingMonth != null "> and sampling_month = #{samplingMonth}</if>
+            <if test="samplingCount != null "> and sampling_count = #{samplingCount}</if>
+            <if test="qualifiedCount != null "> and qualified_count = #{qualifiedCount}</if>
+            <if test="passRate != null "> and pass_rate = #{passRate}</if>
+            <if test="createdDate != null "> and created_date = #{createdDate}</if>
+        </where>
+    </select>
+    
+    <select id="selectoutDxDetectRecordsByRecordDxId" parameterType="Long" resultMap="outDxDetectRecordsResult">
+        <include refid="selectoutDxDetectRecordsVo"/>
+        where record_dx_id = #{recordDxId}
+    </select>
+        
+    <insert id="insertoutDxDetectRecords" parameterType="outDxDetectRecords" useGeneratedKeys="true" keyProperty="recordDxId">
+        insert into out_dx_detect_records
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="detectLocation != null">detect_location,</if>
+            <if test="samplingDate != null">sampling_date,</if>
+            <if test="samplingYear != null">sampling_year,</if>
+            <if test="samplingMonth != null">sampling_month,</if>
+            <if test="samplingCount != null">sampling_count,</if>
+            <if test="qualifiedCount != null">qualified_count,</if>
+            <if test="passRate != null">pass_rate,</if>
+            <if test="createdDate != null">created_date,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="detectLocation != null">#{detectLocation},</if>
+            <if test="samplingDate != null">#{samplingDate},</if>
+            <if test="samplingYear != null">#{samplingYear},</if>
+            <if test="samplingMonth != null">#{samplingMonth},</if>
+            <if test="samplingCount != null">#{samplingCount},</if>
+            <if test="qualifiedCount != null">#{qualifiedCount},</if>
+            <if test="passRate != null">#{passRate},</if>
+            <if test="createdDate != null">#{createdDate},</if>
+         </trim>
+    </insert>
+
+    <update id="updateoutDxDetectRecords" parameterType="outDxDetectRecords">
+        update out_dx_detect_records
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="detectLocation != null">detect_location = #{detectLocation},</if>
+            <if test="samplingDate != null">sampling_date = #{samplingDate},</if>
+            <if test="samplingYear != null">sampling_year = #{samplingYear},</if>
+            <if test="samplingMonth != null">sampling_month = #{samplingMonth},</if>
+            <if test="samplingCount != null">sampling_count = #{samplingCount},</if>
+            <if test="qualifiedCount != null">qualified_count = #{qualifiedCount},</if>
+            <if test="passRate != null">pass_rate = #{passRate},</if>
+            <if test="createdDate != null">created_date = #{createdDate},</if>
+        </trim>
+        where record_dx_id = #{recordDxId}
+    </update>
+
+    <delete id="deleteoutDxDetectRecordsByRecordDxId" parameterType="Long">
+        delete from out_dx_detect_records where record_dx_id = #{recordDxId}
+    </delete>
+
+    <delete id="deleteoutDxDetectRecordsByRecordDxIds" parameterType="String">
+        delete from out_dx_detect_records where record_dx_id in 
+        <foreach item="recordDxId" collection="array" open="(" separator="," close=")">
+            #{recordDxId}
+        </foreach>
+    </delete>
+</mapper>

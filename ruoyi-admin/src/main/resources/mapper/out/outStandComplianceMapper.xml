@@ -1,0 +1,401 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.out.mapper.outStandComplianceMapper">
+    
+    <resultMap type="outStandCompliance" id="outStandComplianceResult">
+        <result property="interStandId"    column="inter_stand_id"    />
+        <result property="standard"    column="standard"    />
+        <result property="chinaStandard"    column="china_standard"    />
+        <result property="cacStandard"    column="cac_standard"    />
+        <result property="japanStandard"    column="japan_standard"    />
+        <result property="euStandard"    column="eu_standard"    />
+        <result property="usStandard"    column="us_standard"    />
+        <result property="koreaStandard"    column="korea_standard"    />
+        <result property="sourceArea"    column="source_area"    />
+        <result property="methamidophos"    column="methamidophos"    />
+        <result property="acephate"    column="acephate"    />
+        <result property="Phorate"    column="Phorate"    />
+        <result property="oxamyl"    column="oxamyl"    />
+        <result property="chlorpyrifos"    column="chlorpyrifos"    />
+        <result property="fenitrothion"    column="fenitrothion"    />
+        <result property="triazophos"    column="triazophos"    />
+        <result property="fenthion"    column="fenthion"    />
+        <result property="isocarbophos"    column="isocarbophos"    />
+        <result property="leGuo"    column="le_guo"    />
+        <result property="isofenphosMethyl"    column="isofenphos_methyl"    />
+        <result property="flucythrinate"    column="flucythrinate"    />
+        <result property="kebaiwei"    column="kebaiwei"    />
+        <result property="Bifenthrin"    column="Bifenthrin"    />
+        <result property="chlorfluazuron"    column="chlorfluazuron"    />
+        <result property="fluorochloridone"    column="fluorochloridone"    />
+        <result property="cypermethrin"    column="cypermethrin"    />
+        <result property="fenpyroximate"    column="fenpyroximate"    />
+        <result property="bromfenac"    column="bromfenac"    />
+        <result property="triazolone"    column="triazolone"    />
+        <result property="pyrimethanil"    column="pyrimethanil"    />
+        <result property="furalaxyl"    column="furalaxyl"    />
+        <result property="profenofos"    column="profenofos"    />
+        <result property="carbendazim"    column="carbendazim"    />
+        <result property="imidacloprid"    column="imidacloprid"    />
+        <result property="epoxiconazole"    column="epoxiconazole"    />
+        <result property="abamectin"    column="abamectin"    />
+        <result property="emamectinBenzoate"    column="emamectin_benzoate"    />
+        <result property="fludioxonil"    column="fludioxonil"    />
+        <result property="methomyl"    column="methomyl"    />
+        <result property="fipronil"    column="fipronil"    />
+        <result property="thiamethoxam"    column="thiamethoxam"    />
+        <result property="metalaxyl"    column="metalaxyl"    />
+        <result property="mefenoxam"    column="mefenoxam"    />
+        <result property="prochloraz"    column="prochloraz"    />
+        <result property="linuron"    column="linuron"    />
+        <result property="azoxystrobin"    column="azoxystrobin"    />
+        <result property="imidaclothiz"    column="imidaclothiz"    />
+        <result property="furametpyr"    column="furametpyr"    />
+        <result property="lufenuron"    column="lufenuron"    />
+        <result property="sulfotep"    column="sulfotep"    />
+        <result property="propiconazole"    column="propiconazole"    />
+        <result property="dichlorvos"    column="dichlorvos"    />
+        <result property="chlorpyrifosMethyl"    column="chlorpyrifos_methyl"    />
+        <result property="fenvalerate"    column="fenvalerate"    />
+        <result property="fluopicolide"    column="fluopicolide"    />
+        <result property="spirodiclofen"    column="spirodiclofen"    />
+        <result property="fenpyrazamine"    column="fenpyrazamine"    />
+        <result property="propargite"    column="propargite"    />
+        <result property="etoxazole"    column="etoxazole"    />
+        <result property="pyraclostrobin"    column="pyraclostrobin"    />
+        <result property="thiacloprid"    column="thiacloprid"    />
+        <result property="spinetoram"    column="spinetoram"    />
+        <result property="pyridaben"    column="pyridaben"    />
+        <result property="clofentezine"    column="clofentezine"    />
+        <result property="chlorfenapyr"    column="chlorfenapyr"    />
+        <result property="milbemectin"    column="milbemectin"    />
+        <result property="dimethomorph"    column="dimethomorph"    />
+        <result property="samplingQuantity"    column="sampling_quantity"    />
+        <result property="qualifiedNumber"    column="qualified_number"    />
+        <result property="qualificationRate"    column="qualification_rate"    />
+        <result property="createdDate"    column="created_date"    />
+    </resultMap>
+
+    <sql id="selectoutStandComplianceVo">
+        select inter_stand_id, standard, china_standard, cac_standard, japan_standard, eu_standard, us_standard, korea_standard, source_area, methamidophos, acephate, Phorate, oxamyl, chlorpyrifos, fenitrothion, triazophos, fenthion, isocarbophos, le_guo, isofenphos_methyl, flucythrinate, kebaiwei, Bifenthrin, chlorfluazuron, fluorochloridone, cypermethrin, fenpyroximate, bromfenac, triazolone, pyrimethanil, furalaxyl, profenofos, carbendazim, imidacloprid, epoxiconazole, abamectin, emamectin_benzoate, fludioxonil, methomyl, fipronil, thiamethoxam, metalaxyl, mefenoxam, prochloraz, linuron, azoxystrobin, imidaclothiz, furametpyr, lufenuron, sulfotep, propiconazole, dichlorvos, chlorpyrifos_methyl, fenvalerate, fluopicolide, spirodiclofen, fenpyrazamine, propargite, etoxazole, pyraclostrobin, thiacloprid, spinetoram, pyridaben, clofentezine, chlorfenapyr, milbemectin, dimethomorph, sampling_quantity, qualified_number, qualification_rate, created_date from out_stand_compliance
+    </sql>
+
+    <select id="selectoutStandComplianceList" parameterType="outStandCompliance" resultMap="outStandComplianceResult">
+        <include refid="selectoutStandComplianceVo"/>
+        <where>  
+            <if test="standard != null  and standard != ''"> and standard = #{standard}</if>
+            <if test="chinaStandard != null  and chinaStandard != ''"> and china_standard = #{chinaStandard}</if>
+            <if test="cacStandard != null  and cacStandard != ''"> and cac_standard = #{cacStandard}</if>
+            <if test="japanStandard != null  and japanStandard != ''"> and japan_standard = #{japanStandard}</if>
+            <if test="euStandard != null  and euStandard != ''"> and eu_standard = #{euStandard}</if>
+            <if test="usStandard != null  and usStandard != ''"> and us_standard = #{usStandard}</if>
+            <if test="koreaStandard != null  and koreaStandard != ''"> and korea_standard = #{koreaStandard}</if>
+            <if test="sourceArea != null  and sourceArea != ''"> and source_area = #{sourceArea}</if>
+            <if test="methamidophos != null "> and methamidophos = #{methamidophos}</if>
+            <if test="acephate != null "> and acephate = #{acephate}</if>
+            <if test="Phorate != null "> and Phorate = #{Phorate}</if>
+            <if test="oxamyl != null "> and oxamyl = #{oxamyl}</if>
+            <if test="chlorpyrifos != null "> and chlorpyrifos = #{chlorpyrifos}</if>
+            <if test="fenitrothion != null "> and fenitrothion = #{fenitrothion}</if>
+            <if test="triazophos != null "> and triazophos = #{triazophos}</if>
+            <if test="fenthion != null "> and fenthion = #{fenthion}</if>
+            <if test="isocarbophos != null "> and isocarbophos = #{isocarbophos}</if>
+            <if test="leGuo != null "> and le_guo = #{leGuo}</if>
+            <if test="isofenphosMethyl != null "> and isofenphos_methyl = #{isofenphosMethyl}</if>
+            <if test="flucythrinate != null "> and flucythrinate = #{flucythrinate}</if>
+            <if test="kebaiwei != null "> and kebaiwei = #{kebaiwei}</if>
+            <if test="Bifenthrin != null "> and Bifenthrin = #{Bifenthrin}</if>
+            <if test="chlorfluazuron != null "> and chlorfluazuron = #{chlorfluazuron}</if>
+            <if test="fluorochloridone != null "> and fluorochloridone = #{fluorochloridone}</if>
+            <if test="cypermethrin != null "> and cypermethrin = #{cypermethrin}</if>
+            <if test="fenpyroximate != null "> and fenpyroximate = #{fenpyroximate}</if>
+            <if test="bromfenac != null "> and bromfenac = #{bromfenac}</if>
+            <if test="triazolone != null "> and triazolone = #{triazolone}</if>
+            <if test="pyrimethanil != null "> and pyrimethanil = #{pyrimethanil}</if>
+            <if test="furalaxyl != null "> and furalaxyl = #{furalaxyl}</if>
+            <if test="profenofos != null "> and profenofos = #{profenofos}</if>
+            <if test="carbendazim != null "> and carbendazim = #{carbendazim}</if>
+            <if test="imidacloprid != null "> and imidacloprid = #{imidacloprid}</if>
+            <if test="epoxiconazole != null "> and epoxiconazole = #{epoxiconazole}</if>
+            <if test="abamectin != null "> and abamectin = #{abamectin}</if>
+            <if test="emamectinBenzoate != null "> and emamectin_benzoate = #{emamectinBenzoate}</if>
+            <if test="fludioxonil != null "> and fludioxonil = #{fludioxonil}</if>
+            <if test="methomyl != null "> and methomyl = #{methomyl}</if>
+            <if test="fipronil != null "> and fipronil = #{fipronil}</if>
+            <if test="thiamethoxam != null "> and thiamethoxam = #{thiamethoxam}</if>
+            <if test="metalaxyl != null "> and metalaxyl = #{metalaxyl}</if>
+            <if test="mefenoxam != null "> and mefenoxam = #{mefenoxam}</if>
+            <if test="prochloraz != null "> and prochloraz = #{prochloraz}</if>
+            <if test="linuron != null "> and linuron = #{linuron}</if>
+            <if test="azoxystrobin != null "> and azoxystrobin = #{azoxystrobin}</if>
+            <if test="imidaclothiz != null "> and imidaclothiz = #{imidaclothiz}</if>
+            <if test="furametpyr != null "> and furametpyr = #{furametpyr}</if>
+            <if test="lufenuron != null "> and lufenuron = #{lufenuron}</if>
+            <if test="sulfotep != null "> and sulfotep = #{sulfotep}</if>
+            <if test="propiconazole != null "> and propiconazole = #{propiconazole}</if>
+            <if test="dichlorvos != null "> and dichlorvos = #{dichlorvos}</if>
+            <if test="chlorpyrifosMethyl != null "> and chlorpyrifos_methyl = #{chlorpyrifosMethyl}</if>
+            <if test="fenvalerate != null "> and fenvalerate = #{fenvalerate}</if>
+            <if test="fluopicolide != null "> and fluopicolide = #{fluopicolide}</if>
+            <if test="spirodiclofen != null "> and spirodiclofen = #{spirodiclofen}</if>
+            <if test="fenpyrazamine != null "> and fenpyrazamine = #{fenpyrazamine}</if>
+            <if test="propargite != null "> and propargite = #{propargite}</if>
+            <if test="etoxazole != null "> and etoxazole = #{etoxazole}</if>
+            <if test="pyraclostrobin != null "> and pyraclostrobin = #{pyraclostrobin}</if>
+            <if test="thiacloprid != null "> and thiacloprid = #{thiacloprid}</if>
+            <if test="spinetoram != null "> and spinetoram = #{spinetoram}</if>
+            <if test="pyridaben != null "> and pyridaben = #{pyridaben}</if>
+            <if test="clofentezine != null "> and clofentezine = #{clofentezine}</if>
+            <if test="chlorfenapyr != null "> and chlorfenapyr = #{chlorfenapyr}</if>
+            <if test="milbemectin != null "> and milbemectin = #{milbemectin}</if>
+            <if test="dimethomorph != null "> and dimethomorph = #{dimethomorph}</if>
+            <if test="samplingQuantity != null "> and sampling_quantity = #{samplingQuantity}</if>
+            <if test="qualifiedNumber != null "> and qualified_number = #{qualifiedNumber}</if>
+            <if test="qualificationRate != null "> and qualification_rate = #{qualificationRate}</if>
+            <if test="createdDate != null "> and created_date = #{createdDate}</if>
+        </where>
+    </select>
+    
+    <select id="selectoutStandComplianceByInterStandId" parameterType="Long" resultMap="outStandComplianceResult">
+        <include refid="selectoutStandComplianceVo"/>
+        where inter_stand_id = #{interStandId}
+    </select>
+        
+    <insert id="insertoutStandCompliance" parameterType="outStandCompliance" useGeneratedKeys="true" keyProperty="interStandId">
+        insert into out_stand_compliance
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="standard != null">standard,</if>
+            <if test="chinaStandard != null">china_standard,</if>
+            <if test="cacStandard != null">cac_standard,</if>
+            <if test="japanStandard != null">japan_standard,</if>
+            <if test="euStandard != null">eu_standard,</if>
+            <if test="usStandard != null">us_standard,</if>
+            <if test="koreaStandard != null">korea_standard,</if>
+            <if test="sourceArea != null">source_area,</if>
+            <if test="methamidophos != null">methamidophos,</if>
+            <if test="acephate != null">acephate,</if>
+            <if test="Phorate != null">Phorate,</if>
+            <if test="oxamyl != null">oxamyl,</if>
+            <if test="chlorpyrifos != null">chlorpyrifos,</if>
+            <if test="fenitrothion != null">fenitrothion,</if>
+            <if test="triazophos != null">triazophos,</if>
+            <if test="fenthion != null">fenthion,</if>
+            <if test="isocarbophos != null">isocarbophos,</if>
+            <if test="leGuo != null">le_guo,</if>
+            <if test="isofenphosMethyl != null">isofenphos_methyl,</if>
+            <if test="flucythrinate != null">flucythrinate,</if>
+            <if test="kebaiwei != null">kebaiwei,</if>
+            <if test="Bifenthrin != null">Bifenthrin,</if>
+            <if test="chlorfluazuron != null">chlorfluazuron,</if>
+            <if test="fluorochloridone != null">fluorochloridone,</if>
+            <if test="cypermethrin != null">cypermethrin,</if>
+            <if test="fenpyroximate != null">fenpyroximate,</if>
+            <if test="bromfenac != null">bromfenac,</if>
+            <if test="triazolone != null">triazolone,</if>
+            <if test="pyrimethanil != null">pyrimethanil,</if>
+            <if test="furalaxyl != null">furalaxyl,</if>
+            <if test="profenofos != null">profenofos,</if>
+            <if test="carbendazim != null">carbendazim,</if>
+            <if test="imidacloprid != null">imidacloprid,</if>
+            <if test="epoxiconazole != null">epoxiconazole,</if>
+            <if test="abamectin != null">abamectin,</if>
+            <if test="emamectinBenzoate != null">emamectin_benzoate,</if>
+            <if test="fludioxonil != null">fludioxonil,</if>
+            <if test="methomyl != null">methomyl,</if>
+            <if test="fipronil != null">fipronil,</if>
+            <if test="thiamethoxam != null">thiamethoxam,</if>
+            <if test="metalaxyl != null">metalaxyl,</if>
+            <if test="mefenoxam != null">mefenoxam,</if>
+            <if test="prochloraz != null">prochloraz,</if>
+            <if test="linuron != null">linuron,</if>
+            <if test="azoxystrobin != null">azoxystrobin,</if>
+            <if test="imidaclothiz != null">imidaclothiz,</if>
+            <if test="furametpyr != null">furametpyr,</if>
+            <if test="lufenuron != null">lufenuron,</if>
+            <if test="sulfotep != null">sulfotep,</if>
+            <if test="propiconazole != null">propiconazole,</if>
+            <if test="dichlorvos != null">dichlorvos,</if>
+            <if test="chlorpyrifosMethyl != null">chlorpyrifos_methyl,</if>
+            <if test="fenvalerate != null">fenvalerate,</if>
+            <if test="fluopicolide != null">fluopicolide,</if>
+            <if test="spirodiclofen != null">spirodiclofen,</if>
+            <if test="fenpyrazamine != null">fenpyrazamine,</if>
+            <if test="propargite != null">propargite,</if>
+            <if test="etoxazole != null">etoxazole,</if>
+            <if test="pyraclostrobin != null">pyraclostrobin,</if>
+            <if test="thiacloprid != null">thiacloprid,</if>
+            <if test="spinetoram != null">spinetoram,</if>
+            <if test="pyridaben != null">pyridaben,</if>
+            <if test="clofentezine != null">clofentezine,</if>
+            <if test="chlorfenapyr != null">chlorfenapyr,</if>
+            <if test="milbemectin != null">milbemectin,</if>
+            <if test="dimethomorph != null">dimethomorph,</if>
+            <if test="samplingQuantity != null">sampling_quantity,</if>
+            <if test="qualifiedNumber != null">qualified_number,</if>
+            <if test="qualificationRate != null">qualification_rate,</if>
+            <if test="createdDate != null">created_date,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="standard != null">#{standard},</if>
+            <if test="chinaStandard != null">#{chinaStandard},</if>
+            <if test="cacStandard != null">#{cacStandard},</if>
+            <if test="japanStandard != null">#{japanStandard},</if>
+            <if test="euStandard != null">#{euStandard},</if>
+            <if test="usStandard != null">#{usStandard},</if>
+            <if test="koreaStandard != null">#{koreaStandard},</if>
+            <if test="sourceArea != null">#{sourceArea},</if>
+            <if test="methamidophos != null">#{methamidophos},</if>
+            <if test="acephate != null">#{acephate},</if>
+            <if test="Phorate != null">#{Phorate},</if>
+            <if test="oxamyl != null">#{oxamyl},</if>
+            <if test="chlorpyrifos != null">#{chlorpyrifos},</if>
+            <if test="fenitrothion != null">#{fenitrothion},</if>
+            <if test="triazophos != null">#{triazophos},</if>
+            <if test="fenthion != null">#{fenthion},</if>
+            <if test="isocarbophos != null">#{isocarbophos},</if>
+            <if test="leGuo != null">#{leGuo},</if>
+            <if test="isofenphosMethyl != null">#{isofenphosMethyl},</if>
+            <if test="flucythrinate != null">#{flucythrinate},</if>
+            <if test="kebaiwei != null">#{kebaiwei},</if>
+            <if test="Bifenthrin != null">#{Bifenthrin},</if>
+            <if test="chlorfluazuron != null">#{chlorfluazuron},</if>
+            <if test="fluorochloridone != null">#{fluorochloridone},</if>
+            <if test="cypermethrin != null">#{cypermethrin},</if>
+            <if test="fenpyroximate != null">#{fenpyroximate},</if>
+            <if test="bromfenac != null">#{bromfenac},</if>
+            <if test="triazolone != null">#{triazolone},</if>
+            <if test="pyrimethanil != null">#{pyrimethanil},</if>
+            <if test="furalaxyl != null">#{furalaxyl},</if>
+            <if test="profenofos != null">#{profenofos},</if>
+            <if test="carbendazim != null">#{carbendazim},</if>
+            <if test="imidacloprid != null">#{imidacloprid},</if>
+            <if test="epoxiconazole != null">#{epoxiconazole},</if>
+            <if test="abamectin != null">#{abamectin},</if>
+            <if test="emamectinBenzoate != null">#{emamectinBenzoate},</if>
+            <if test="fludioxonil != null">#{fludioxonil},</if>
+            <if test="methomyl != null">#{methomyl},</if>
+            <if test="fipronil != null">#{fipronil},</if>
+            <if test="thiamethoxam != null">#{thiamethoxam},</if>
+            <if test="metalaxyl != null">#{metalaxyl},</if>
+            <if test="mefenoxam != null">#{mefenoxam},</if>
+            <if test="prochloraz != null">#{prochloraz},</if>
+            <if test="linuron != null">#{linuron},</if>
+            <if test="azoxystrobin != null">#{azoxystrobin},</if>
+            <if test="imidaclothiz != null">#{imidaclothiz},</if>
+            <if test="furametpyr != null">#{furametpyr},</if>
+            <if test="lufenuron != null">#{lufenuron},</if>
+            <if test="sulfotep != null">#{sulfotep},</if>
+            <if test="propiconazole != null">#{propiconazole},</if>
+            <if test="dichlorvos != null">#{dichlorvos},</if>
+            <if test="chlorpyrifosMethyl != null">#{chlorpyrifosMethyl},</if>
+            <if test="fenvalerate != null">#{fenvalerate},</if>
+            <if test="fluopicolide != null">#{fluopicolide},</if>
+            <if test="spirodiclofen != null">#{spirodiclofen},</if>
+            <if test="fenpyrazamine != null">#{fenpyrazamine},</if>
+            <if test="propargite != null">#{propargite},</if>
+            <if test="etoxazole != null">#{etoxazole},</if>
+            <if test="pyraclostrobin != null">#{pyraclostrobin},</if>
+            <if test="thiacloprid != null">#{thiacloprid},</if>
+            <if test="spinetoram != null">#{spinetoram},</if>
+            <if test="pyridaben != null">#{pyridaben},</if>
+            <if test="clofentezine != null">#{clofentezine},</if>
+            <if test="chlorfenapyr != null">#{chlorfenapyr},</if>
+            <if test="milbemectin != null">#{milbemectin},</if>
+            <if test="dimethomorph != null">#{dimethomorph},</if>
+            <if test="samplingQuantity != null">#{samplingQuantity},</if>
+            <if test="qualifiedNumber != null">#{qualifiedNumber},</if>
+            <if test="qualificationRate != null">#{qualificationRate},</if>
+            <if test="createdDate != null">#{createdDate},</if>
+         </trim>
+    </insert>
+
+    <update id="updateoutStandCompliance" parameterType="outStandCompliance">
+        update out_stand_compliance
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="standard != null">standard = #{standard},</if>
+            <if test="chinaStandard != null">china_standard = #{chinaStandard},</if>
+            <if test="cacStandard != null">cac_standard = #{cacStandard},</if>
+            <if test="japanStandard != null">japan_standard = #{japanStandard},</if>
+            <if test="euStandard != null">eu_standard = #{euStandard},</if>
+            <if test="usStandard != null">us_standard = #{usStandard},</if>
+            <if test="koreaStandard != null">korea_standard = #{koreaStandard},</if>
+            <if test="sourceArea != null">source_area = #{sourceArea},</if>
+            <if test="methamidophos != null">methamidophos = #{methamidophos},</if>
+            <if test="acephate != null">acephate = #{acephate},</if>
+            <if test="Phorate != null">Phorate = #{Phorate},</if>
+            <if test="oxamyl != null">oxamyl = #{oxamyl},</if>
+            <if test="chlorpyrifos != null">chlorpyrifos = #{chlorpyrifos},</if>
+            <if test="fenitrothion != null">fenitrothion = #{fenitrothion},</if>
+            <if test="triazophos != null">triazophos = #{triazophos},</if>
+            <if test="fenthion != null">fenthion = #{fenthion},</if>
+            <if test="isocarbophos != null">isocarbophos = #{isocarbophos},</if>
+            <if test="leGuo != null">le_guo = #{leGuo},</if>
+            <if test="isofenphosMethyl != null">isofenphos_methyl = #{isofenphosMethyl},</if>
+            <if test="flucythrinate != null">flucythrinate = #{flucythrinate},</if>
+            <if test="kebaiwei != null">kebaiwei = #{kebaiwei},</if>
+            <if test="Bifenthrin != null">Bifenthrin = #{Bifenthrin},</if>
+            <if test="chlorfluazuron != null">chlorfluazuron = #{chlorfluazuron},</if>
+            <if test="fluorochloridone != null">fluorochloridone = #{fluorochloridone},</if>
+            <if test="cypermethrin != null">cypermethrin = #{cypermethrin},</if>
+            <if test="fenpyroximate != null">fenpyroximate = #{fenpyroximate},</if>
+            <if test="bromfenac != null">bromfenac = #{bromfenac},</if>
+            <if test="triazolone != null">triazolone = #{triazolone},</if>
+            <if test="pyrimethanil != null">pyrimethanil = #{pyrimethanil},</if>
+            <if test="furalaxyl != null">furalaxyl = #{furalaxyl},</if>
+            <if test="profenofos != null">profenofos = #{profenofos},</if>
+            <if test="carbendazim != null">carbendazim = #{carbendazim},</if>
+            <if test="imidacloprid != null">imidacloprid = #{imidacloprid},</if>
+            <if test="epoxiconazole != null">epoxiconazole = #{epoxiconazole},</if>
+            <if test="abamectin != null">abamectin = #{abamectin},</if>
+            <if test="emamectinBenzoate != null">emamectin_benzoate = #{emamectinBenzoate},</if>
+            <if test="fludioxonil != null">fludioxonil = #{fludioxonil},</if>
+            <if test="methomyl != null">methomyl = #{methomyl},</if>
+            <if test="fipronil != null">fipronil = #{fipronil},</if>
+            <if test="thiamethoxam != null">thiamethoxam = #{thiamethoxam},</if>
+            <if test="metalaxyl != null">metalaxyl = #{metalaxyl},</if>
+            <if test="mefenoxam != null">mefenoxam = #{mefenoxam},</if>
+            <if test="prochloraz != null">prochloraz = #{prochloraz},</if>
+            <if test="linuron != null">linuron = #{linuron},</if>
+            <if test="azoxystrobin != null">azoxystrobin = #{azoxystrobin},</if>
+            <if test="imidaclothiz != null">imidaclothiz = #{imidaclothiz},</if>
+            <if test="furametpyr != null">furametpyr = #{furametpyr},</if>
+            <if test="lufenuron != null">lufenuron = #{lufenuron},</if>
+            <if test="sulfotep != null">sulfotep = #{sulfotep},</if>
+            <if test="propiconazole != null">propiconazole = #{propiconazole},</if>
+            <if test="dichlorvos != null">dichlorvos = #{dichlorvos},</if>
+            <if test="chlorpyrifosMethyl != null">chlorpyrifos_methyl = #{chlorpyrifosMethyl},</if>
+            <if test="fenvalerate != null">fenvalerate = #{fenvalerate},</if>
+            <if test="fluopicolide != null">fluopicolide = #{fluopicolide},</if>
+            <if test="spirodiclofen != null">spirodiclofen = #{spirodiclofen},</if>
+            <if test="fenpyrazamine != null">fenpyrazamine = #{fenpyrazamine},</if>
+            <if test="propargite != null">propargite = #{propargite},</if>
+            <if test="etoxazole != null">etoxazole = #{etoxazole},</if>
+            <if test="pyraclostrobin != null">pyraclostrobin = #{pyraclostrobin},</if>
+            <if test="thiacloprid != null">thiacloprid = #{thiacloprid},</if>
+            <if test="spinetoram != null">spinetoram = #{spinetoram},</if>
+            <if test="pyridaben != null">pyridaben = #{pyridaben},</if>
+            <if test="clofentezine != null">clofentezine = #{clofentezine},</if>
+            <if test="chlorfenapyr != null">chlorfenapyr = #{chlorfenapyr},</if>
+            <if test="milbemectin != null">milbemectin = #{milbemectin},</if>
+            <if test="dimethomorph != null">dimethomorph = #{dimethomorph},</if>
+            <if test="samplingQuantity != null">sampling_quantity = #{samplingQuantity},</if>
+            <if test="qualifiedNumber != null">qualified_number = #{qualifiedNumber},</if>
+            <if test="qualificationRate != null">qualification_rate = #{qualificationRate},</if>
+            <if test="createdDate != null">created_date = #{createdDate},</if>
+        </trim>
+        where inter_stand_id = #{interStandId}
+    </update>
+
+    <delete id="deleteoutStandComplianceByInterStandId" parameterType="Long">
+        delete from out_stand_compliance where inter_stand_id = #{interStandId}
+    </delete>
+
+    <delete id="deleteoutStandComplianceByInterStandIds" parameterType="String">
+        delete from out_stand_compliance where inter_stand_id in 
+        <foreach item="interStandId" collection="array" open="(" separator="," close=")">
+            #{interStandId}
+        </foreach>
+    </delete>
+</mapper>

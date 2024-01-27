@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.out.mapper.outUndeterminedStandDetMapper">
+    
+    <resultMap type="outUndeterminedStandDet" id="outUndeterminedStandDetResult">
+        <result property="undeterminedStandardDetectionId"    column="undetermined_standard_detection_id"    />
+        <result property="detectUnit"    column="detect_unit"    />
+        <result property="sampleCode"    column="sample_code"    />
+        <result property="vegFruName"    column="veg_fru_name"    />
+        <result property="samplingLocation"    column="sampling_location"    />
+        <result property="detPesticideName"    column="det_pesticide_name"    />
+        <result property="detPesticideValue"    column="det_pesticide_value"    />
+        <result property="remarks"    column="remarks"    />
+        <result property="createdDate"    column="created_date"    />
+    </resultMap>
+
+    <sql id="selectoutUndeterminedStandDetVo">
+        select undetermined_standard_detection_id, detect_unit, sample_code, veg_fru_name, sampling_location, det_pesticide_name, det_pesticide_value, remarks, created_date from out_undetermined_stand_det
+    </sql>
+
+    <select id="selectoutUndeterminedStandDetList" parameterType="outUndeterminedStandDet" resultMap="outUndeterminedStandDetResult">
+        <include refid="selectoutUndeterminedStandDetVo"/>
+        <where>  
+            <if test="detectUnit != null  and detectUnit != ''"> and detect_unit = #{detectUnit}</if>
+            <if test="sampleCode != null  and sampleCode != ''"> and sample_code = #{sampleCode}</if>
+            <if test="vegFruName != null  and vegFruName != ''"> and veg_fru_name like concat('%', #{vegFruName}, '%')</if>
+            <if test="samplingLocation != null  and samplingLocation != ''"> and sampling_location = #{samplingLocation}</if>
+            <if test="detPesticideName != null  and detPesticideName != ''"> and det_pesticide_name like concat('%', #{detPesticideName}, '%')</if>
+            <if test="detPesticideValue != null "> and det_pesticide_value = #{detPesticideValue}</if>
+            <if test="remarks != null  and remarks != ''"> and remarks = #{remarks}</if>
+            <if test="createdDate != null "> and created_date = #{createdDate}</if>
+        </where>
+    </select>
+    
+    <select id="selectoutUndeterminedStandDetByUndeterminedStandardDetectionId" parameterType="Long" resultMap="outUndeterminedStandDetResult">
+        <include refid="selectoutUndeterminedStandDetVo"/>
+        where undetermined_standard_detection_id = #{undeterminedStandardDetectionId}
+    </select>
+        
+    <insert id="insertoutUndeterminedStandDet" parameterType="outUndeterminedStandDet" useGeneratedKeys="true" keyProperty="undeterminedStandardDetectionId">
+        insert into out_undetermined_stand_det
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="detectUnit != null">detect_unit,</if>
+            <if test="sampleCode != null">sample_code,</if>
+            <if test="vegFruName != null">veg_fru_name,</if>
+            <if test="samplingLocation != null">sampling_location,</if>
+            <if test="detPesticideName != null">det_pesticide_name,</if>
+            <if test="detPesticideValue != null">det_pesticide_value,</if>
+            <if test="remarks != null">remarks,</if>
+            <if test="createdDate != null">created_date,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="detectUnit != null">#{detectUnit},</if>
+            <if test="sampleCode != null">#{sampleCode},</if>
+            <if test="vegFruName != null">#{vegFruName},</if>
+            <if test="samplingLocation != null">#{samplingLocation},</if>
+            <if test="detPesticideName != null">#{detPesticideName},</if>
+            <if test="detPesticideValue != null">#{detPesticideValue},</if>
+            <if test="remarks != null">#{remarks},</if>
+            <if test="createdDate != null">#{createdDate},</if>
+         </trim>
+    </insert>
+
+    <update id="updateoutUndeterminedStandDet" parameterType="outUndeterminedStandDet">
+        update out_undetermined_stand_det
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="detectUnit != null">detect_unit = #{detectUnit},</if>
+            <if test="sampleCode != null">sample_code = #{sampleCode},</if>
+            <if test="vegFruName != null">veg_fru_name = #{vegFruName},</if>
+            <if test="samplingLocation != null">sampling_location = #{samplingLocation},</if>
+            <if test="detPesticideName != null">det_pesticide_name = #{detPesticideName},</if>
+            <if test="detPesticideValue != null">det_pesticide_value = #{detPesticideValue},</if>
+            <if test="remarks != null">remarks = #{remarks},</if>
+            <if test="createdDate != null">created_date = #{createdDate},</if>
+        </trim>
+        where undetermined_standard_detection_id = #{undeterminedStandardDetectionId}
+    </update>
+
+    <delete id="deleteoutUndeterminedStandDetByUndeterminedStandardDetectionId" parameterType="Long">
+        delete from out_undetermined_stand_det where undetermined_standard_detection_id = #{undeterminedStandardDetectionId}
+    </delete>
+
+    <delete id="deleteoutUndeterminedStandDetByUndeterminedStandardDetectionIds" parameterType="String">
+        delete from out_undetermined_stand_det where undetermined_standard_detection_id in 
+        <foreach item="undeterminedStandardDetectionId" collection="array" open="(" separator="," close=")">
+            #{undeterminedStandardDetectionId}
+        </foreach>
+    </delete>
+</mapper>

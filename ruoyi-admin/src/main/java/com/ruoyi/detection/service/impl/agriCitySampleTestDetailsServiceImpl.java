@@ -143,7 +143,6 @@ public class agriCitySampleTestDetailsServiceImpl implements IagriCitySampleTest
 
                   }
 
-
                 successNum++;
                 successMsg.append("<br/>" +"第"+ successNum +"条"+ "数据导入成功");
 
@@ -171,7 +170,9 @@ public class agriCitySampleTestDetailsServiceImpl implements IagriCitySampleTest
         }
         int successNum = 0;
         int failureNum = 0;
+        //要用到的主表主键值
         long mainTableId =0;
+        //要丢弃的主表主键值
         long noUseTableId =0;
         StringBuilder successMsg = new StringBuilder();
         StringBuilder failureMsg = new StringBuilder();
