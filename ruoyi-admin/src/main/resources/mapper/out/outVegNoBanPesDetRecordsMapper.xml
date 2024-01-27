@@ -1,0 +1,246 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.out.mapper.outVegNoBanPesDetRecordsMapper">
+    
+    <resultMap type="outVegNoBanPesDetRecords" id="outVegNoBanPesDetRecordsResult">
+        <result property="vegNoBanPesDetRecordsId"    column="veg_no_ban_pes_det_records_id"    />
+        <result property="pesticideName"    column="pesticide_name"    />
+        <result property="bifenthrin"    column="bifenthrin"    />
+        <result property="chlorfluazuron"    column="chlorfluazuron"    />
+        <result property="flucycloxuron"    column="flucycloxuron"    />
+        <result property="lambdaCyhalothrin"    column="lambda_cyhalothrin"    />
+        <result property="fenvalerate"    column="fenvalerate"    />
+        <result property="deltamethrin"    column="deltamethrin"    />
+        <result property="triazolone"    column="triazolone"    />
+        <result property="carbendazim"    column="carbendazim"    />
+        <result property="metalaxyl"    column="metalaxyl"    />
+        <result property="profenofos"    column="profenofos"    />
+        <result property="carbaryl"    column="carbaryl"    />
+        <result property="imidacloprid"    column="imidacloprid"    />
+        <result property="myclobutanil"    column="myclobutanil"    />
+        <result property="abamectin"    column="abamectin"    />
+        <result property="emamectinBenzoate"    column="emamectin_benzoate"    />
+        <result property="fludioxonil"    column="fludioxonil"    />
+        <result property="diflubenzuron"    column="diflubenzuron"    />
+        <result property="cyromazine"    column="cyromazine"    />
+        <result property="thiamethoxam"    column="thiamethoxam"    />
+        <result property="mancozeb"    column="mancozeb"    />
+        <result property="metalaxylM"    column="metalaxyl_m"    />
+        <result property="pyraclostrobin"    column="pyraclostrobin"    />
+        <result property="chlorantraniliprole"    column="chlorantraniliprole"    />
+        <result property="azoxystrobin"    column="azoxystrobin"    />
+        <result property="imidaclothiz"    column="imidaclothiz"    />
+        <result property="flonicamid"    column="flonicamid"    />
+        <result property="lufenuron"    column="lufenuron"    />
+        <result property="phosalone"    column="phosalone"    />
+        <result property="difenoconazole"    column="difenoconazole"    />
+        <result property="deteNum"    column="dete_num"    />
+        <result property="exDetNum"    column="ex_det_num"    />
+        <result property="productionInspectCount"    column="production_inspect_count"    />
+        <result property="productionExceedCount"    column="production_exceed_count"    />
+        <result property="wholesaleInspectCount"    column="wholesale_inspect_count"    />
+        <result property="wholesaleExceedCount"    column="wholesale_exceed_count"    />
+        <result property="vehicleInspectCount"    column="vehicle_inspect_count"    />
+        <result property="vehicleExceedCount"    column="vehicle_exceed_count"    />
+        <result property="createdDate"    column="created_date"    />
+    </resultMap>
+
+    <sql id="selectoutVegNoBanPesDetRecordsVo">
+        select veg_no_ban_pes_det_records_id, pesticide_name, bifenthrin, chlorfluazuron, flucycloxuron, lambda_cyhalothrin, fenvalerate, deltamethrin, triazolone, carbendazim, metalaxyl, profenofos, carbaryl, imidacloprid, myclobutanil, abamectin, emamectin_benzoate, fludioxonil, diflubenzuron, cyromazine, thiamethoxam, mancozeb, metalaxyl_m, pyraclostrobin, chlorantraniliprole, azoxystrobin, imidaclothiz, flonicamid, lufenuron, phosalone, difenoconazole, dete_num, ex_det_num, production_inspect_count, production_exceed_count, wholesale_inspect_count, wholesale_exceed_count, vehicle_inspect_count, vehicle_exceed_count, created_date from out_veg_no_ban_pes_det_records
+    </sql>
+
+    <select id="selectoutVegNoBanPesDetRecordsList" parameterType="outVegNoBanPesDetRecords" resultMap="outVegNoBanPesDetRecordsResult">
+        <include refid="selectoutVegNoBanPesDetRecordsVo"/>
+        <where>  
+            <if test="pesticideName != null  and pesticideName != ''"> and pesticide_name like concat('%', #{pesticideName}, '%')</if>
+            <if test="bifenthrin != null  and bifenthrin != ''"> and bifenthrin = #{bifenthrin}</if>
+            <if test="chlorfluazuron != null  and chlorfluazuron != ''"> and chlorfluazuron = #{chlorfluazuron}</if>
+            <if test="flucycloxuron != null  and flucycloxuron != ''"> and flucycloxuron = #{flucycloxuron}</if>
+            <if test="lambdaCyhalothrin != null  and lambdaCyhalothrin != ''"> and lambda_cyhalothrin = #{lambdaCyhalothrin}</if>
+            <if test="fenvalerate != null  and fenvalerate != ''"> and fenvalerate = #{fenvalerate}</if>
+            <if test="deltamethrin != null  and deltamethrin != ''"> and deltamethrin = #{deltamethrin}</if>
+            <if test="triazolone != null  and triazolone != ''"> and triazolone = #{triazolone}</if>
+            <if test="carbendazim != null  and carbendazim != ''"> and carbendazim = #{carbendazim}</if>
+            <if test="metalaxyl != null  and metalaxyl != ''"> and metalaxyl = #{metalaxyl}</if>
+            <if test="profenofos != null  and profenofos != ''"> and profenofos = #{profenofos}</if>
+            <if test="carbaryl != null  and carbaryl != ''"> and carbaryl = #{carbaryl}</if>
+            <if test="imidacloprid != null  and imidacloprid != ''"> and imidacloprid = #{imidacloprid}</if>
+            <if test="myclobutanil != null  and myclobutanil != ''"> and myclobutanil = #{myclobutanil}</if>
+            <if test="abamectin != null  and abamectin != ''"> and abamectin = #{abamectin}</if>
+            <if test="emamectinBenzoate != null  and emamectinBenzoate != ''"> and emamectin_benzoate = #{emamectinBenzoate}</if>
+            <if test="fludioxonil != null  and fludioxonil != ''"> and fludioxonil = #{fludioxonil}</if>
+            <if test="diflubenzuron != null  and diflubenzuron != ''"> and diflubenzuron = #{diflubenzuron}</if>
+            <if test="cyromazine != null  and cyromazine != ''"> and cyromazine = #{cyromazine}</if>
+            <if test="thiamethoxam != null  and thiamethoxam != ''"> and thiamethoxam = #{thiamethoxam}</if>
+            <if test="mancozeb != null  and mancozeb != ''"> and mancozeb = #{mancozeb}</if>
+            <if test="metalaxylM != null  and metalaxylM != ''"> and metalaxyl_m = #{metalaxylM}</if>
+            <if test="pyraclostrobin != null  and pyraclostrobin != ''"> and pyraclostrobin = #{pyraclostrobin}</if>
+            <if test="chlorantraniliprole != null  and chlorantraniliprole != ''"> and chlorantraniliprole = #{chlorantraniliprole}</if>
+            <if test="azoxystrobin != null  and azoxystrobin != ''"> and azoxystrobin = #{azoxystrobin}</if>
+            <if test="imidaclothiz != null  and imidaclothiz != ''"> and imidaclothiz = #{imidaclothiz}</if>
+            <if test="flonicamid != null  and flonicamid != ''"> and flonicamid = #{flonicamid}</if>
+            <if test="lufenuron != null  and lufenuron != ''"> and lufenuron = #{lufenuron}</if>
+            <if test="phosalone != null  and phosalone != ''"> and phosalone = #{phosalone}</if>
+            <if test="difenoconazole != null  and difenoconazole != ''"> and difenoconazole = #{difenoconazole}</if>
+            <if test="deteNum != null "> and dete_num = #{deteNum}</if>
+            <if test="exDetNum != null "> and ex_det_num = #{exDetNum}</if>
+            <if test="productionInspectCount != null "> and production_inspect_count = #{productionInspectCount}</if>
+            <if test="productionExceedCount != null "> and production_exceed_count = #{productionExceedCount}</if>
+            <if test="wholesaleInspectCount != null "> and wholesale_inspect_count = #{wholesaleInspectCount}</if>
+            <if test="wholesaleExceedCount != null "> and wholesale_exceed_count = #{wholesaleExceedCount}</if>
+            <if test="vehicleInspectCount != null "> and vehicle_inspect_count = #{vehicleInspectCount}</if>
+            <if test="vehicleExceedCount != null "> and vehicle_exceed_count = #{vehicleExceedCount}</if>
+            <if test="createdDate != null "> and created_date = #{createdDate}</if>
+        </where>
+    </select>
+    
+    <select id="selectoutVegNoBanPesDetRecordsByVegNoBanPesDetRecordsId" parameterType="Long" resultMap="outVegNoBanPesDetRecordsResult">
+        <include refid="selectoutVegNoBanPesDetRecordsVo"/>
+        where veg_no_ban_pes_det_records_id = #{vegNoBanPesDetRecordsId}
+    </select>
+        
+    <insert id="insertoutVegNoBanPesDetRecords" parameterType="outVegNoBanPesDetRecords" useGeneratedKeys="true" keyProperty="vegNoBanPesDetRecordsId">
+        insert into out_veg_no_ban_pes_det_records
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="pesticideName != null">pesticide_name,</if>
+            <if test="bifenthrin != null">bifenthrin,</if>
+            <if test="chlorfluazuron != null">chlorfluazuron,</if>
+            <if test="flucycloxuron != null">flucycloxuron,</if>
+            <if test="lambdaCyhalothrin != null">lambda_cyhalothrin,</if>
+            <if test="fenvalerate != null">fenvalerate,</if>
+            <if test="deltamethrin != null">deltamethrin,</if>
+            <if test="triazolone != null">triazolone,</if>
+            <if test="carbendazim != null">carbendazim,</if>
+            <if test="metalaxyl != null">metalaxyl,</if>
+            <if test="profenofos != null">profenofos,</if>
+            <if test="carbaryl != null">carbaryl,</if>
+            <if test="imidacloprid != null">imidacloprid,</if>
+            <if test="myclobutanil != null">myclobutanil,</if>
+            <if test="abamectin != null">abamectin,</if>
+            <if test="emamectinBenzoate != null">emamectin_benzoate,</if>
+            <if test="fludioxonil != null">fludioxonil,</if>
+            <if test="diflubenzuron != null">diflubenzuron,</if>
+            <if test="cyromazine != null">cyromazine,</if>
+            <if test="thiamethoxam != null">thiamethoxam,</if>
+            <if test="mancozeb != null">mancozeb,</if>
+            <if test="metalaxylM != null">metalaxyl_m,</if>
+            <if test="pyraclostrobin != null">pyraclostrobin,</if>
+            <if test="chlorantraniliprole != null">chlorantraniliprole,</if>
+            <if test="azoxystrobin != null">azoxystrobin,</if>
+            <if test="imidaclothiz != null">imidaclothiz,</if>
+            <if test="flonicamid != null">flonicamid,</if>
+            <if test="lufenuron != null">lufenuron,</if>
+            <if test="phosalone != null">phosalone,</if>
+            <if test="difenoconazole != null">difenoconazole,</if>
+            <if test="deteNum != null">dete_num,</if>
+            <if test="exDetNum != null">ex_det_num,</if>
+            <if test="productionInspectCount != null">production_inspect_count,</if>
+            <if test="productionExceedCount != null">production_exceed_count,</if>
+            <if test="wholesaleInspectCount != null">wholesale_inspect_count,</if>
+            <if test="wholesaleExceedCount != null">wholesale_exceed_count,</if>
+            <if test="vehicleInspectCount != null">vehicle_inspect_count,</if>
+            <if test="vehicleExceedCount != null">vehicle_exceed_count,</if>
+            <if test="createdDate != null">created_date,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="pesticideName != null">#{pesticideName},</if>
+            <if test="bifenthrin != null">#{bifenthrin},</if>
+            <if test="chlorfluazuron != null">#{chlorfluazuron},</if>
+            <if test="flucycloxuron != null">#{flucycloxuron},</if>
+            <if test="lambdaCyhalothrin != null">#{lambdaCyhalothrin},</if>
+            <if test="fenvalerate != null">#{fenvalerate},</if>
+            <if test="deltamethrin != null">#{deltamethrin},</if>
+            <if test="triazolone != null">#{triazolone},</if>
+            <if test="carbendazim != null">#{carbendazim},</if>
+            <if test="metalaxyl != null">#{metalaxyl},</if>
+            <if test="profenofos != null">#{profenofos},</if>
+            <if test="carbaryl != null">#{carbaryl},</if>
+            <if test="imidacloprid != null">#{imidacloprid},</if>
+            <if test="myclobutanil != null">#{myclobutanil},</if>
+            <if test="abamectin != null">#{abamectin},</if>
+            <if test="emamectinBenzoate != null">#{emamectinBenzoate},</if>
+            <if test="fludioxonil != null">#{fludioxonil},</if>
+            <if test="diflubenzuron != null">#{diflubenzuron},</if>
+            <if test="cyromazine != null">#{cyromazine},</if>
+            <if test="thiamethoxam != null">#{thiamethoxam},</if>
+            <if test="mancozeb != null">#{mancozeb},</if>
+            <if test="metalaxylM != null">#{metalaxylM},</if>
+            <if test="pyraclostrobin != null">#{pyraclostrobin},</if>
+            <if test="chlorantraniliprole != null">#{chlorantraniliprole},</if>
+            <if test="azoxystrobin != null">#{azoxystrobin},</if>
+            <if test="imidaclothiz != null">#{imidaclothiz},</if>
+            <if test="flonicamid != null">#{flonicamid},</if>
+            <if test="lufenuron != null">#{lufenuron},</if>
+            <if test="phosalone != null">#{phosalone},</if>
+            <if test="difenoconazole != null">#{difenoconazole},</if>
+            <if test="deteNum != null">#{deteNum},</if>
+            <if test="exDetNum != null">#{exDetNum},</if>
+            <if test="productionInspectCount != null">#{productionInspectCount},</if>
+            <if test="productionExceedCount != null">#{productionExceedCount},</if>
+            <if test="wholesaleInspectCount != null">#{wholesaleInspectCount},</if>
+            <if test="wholesaleExceedCount != null">#{wholesaleExceedCount},</if>
+            <if test="vehicleInspectCount != null">#{vehicleInspectCount},</if>
+            <if test="vehicleExceedCount != null">#{vehicleExceedCount},</if>
+            <if test="createdDate != null">#{createdDate},</if>
+         </trim>
+    </insert>
+
+    <update id="updateoutVegNoBanPesDetRecords" parameterType="outVegNoBanPesDetRecords">
+        update out_veg_no_ban_pes_det_records
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="pesticideName != null">pesticide_name = #{pesticideName},</if>
+            <if test="bifenthrin != null">bifenthrin = #{bifenthrin},</if>
+            <if test="chlorfluazuron != null">chlorfluazuron = #{chlorfluazuron},</if>
+            <if test="flucycloxuron != null">flucycloxuron = #{flucycloxuron},</if>
+            <if test="lambdaCyhalothrin != null">lambda_cyhalothrin = #{lambdaCyhalothrin},</if>
+            <if test="fenvalerate != null">fenvalerate = #{fenvalerate},</if>
+            <if test="deltamethrin != null">deltamethrin = #{deltamethrin},</if>
+            <if test="triazolone != null">triazolone = #{triazolone},</if>
+            <if test="carbendazim != null">carbendazim = #{carbendazim},</if>
+            <if test="metalaxyl != null">metalaxyl = #{metalaxyl},</if>
+            <if test="profenofos != null">profenofos = #{profenofos},</if>
+            <if test="carbaryl != null">carbaryl = #{carbaryl},</if>
+            <if test="imidacloprid != null">imidacloprid = #{imidacloprid},</if>
+            <if test="myclobutanil != null">myclobutanil = #{myclobutanil},</if>
+            <if test="abamectin != null">abamectin = #{abamectin},</if>
+            <if test="emamectinBenzoate != null">emamectin_benzoate = #{emamectinBenzoate},</if>
+            <if test="fludioxonil != null">fludioxonil = #{fludioxonil},</if>
+            <if test="diflubenzuron != null">diflubenzuron = #{diflubenzuron},</if>
+            <if test="cyromazine != null">cyromazine = #{cyromazine},</if>
+            <if test="thiamethoxam != null">thiamethoxam = #{thiamethoxam},</if>
+            <if test="mancozeb != null">mancozeb = #{mancozeb},</if>
+            <if test="metalaxylM != null">metalaxyl_m = #{metalaxylM},</if>
+            <if test="pyraclostrobin != null">pyraclostrobin = #{pyraclostrobin},</if>
+            <if test="chlorantraniliprole != null">chlorantraniliprole = #{chlorantraniliprole},</if>
+            <if test="azoxystrobin != null">azoxystrobin = #{azoxystrobin},</if>
+            <if test="imidaclothiz != null">imidaclothiz = #{imidaclothiz},</if>
+            <if test="flonicamid != null">flonicamid = #{flonicamid},</if>
+            <if test="lufenuron != null">lufenuron = #{lufenuron},</if>
+            <if test="phosalone != null">phosalone = #{phosalone},</if>
+            <if test="difenoconazole != null">difenoconazole = #{difenoconazole},</if>
+            <if test="deteNum != null">dete_num = #{deteNum},</if>
+            <if test="exDetNum != null">ex_det_num = #{exDetNum},</if>
+            <if test="productionInspectCount != null">production_inspect_count = #{productionInspectCount},</if>
+            <if test="productionExceedCount != null">production_exceed_count = #{productionExceedCount},</if>
+            <if test="wholesaleInspectCount != null">wholesale_inspect_count = #{wholesaleInspectCount},</if>
+            <if test="wholesaleExceedCount != null">wholesale_exceed_count = #{wholesaleExceedCount},</if>
+            <if test="vehicleInspectCount != null">vehicle_inspect_count = #{vehicleInspectCount},</if>
+            <if test="vehicleExceedCount != null">vehicle_exceed_count = #{vehicleExceedCount},</if>
+            <if test="createdDate != null">created_date = #{createdDate},</if>
+        </trim>
+        where veg_no_ban_pes_det_records_id = #{vegNoBanPesDetRecordsId}
+    </update>
+
+    <delete id="deleteoutVegNoBanPesDetRecordsByVegNoBanPesDetRecordsId" parameterType="Long">
+        delete from out_veg_no_ban_pes_det_records where veg_no_ban_pes_det_records_id = #{vegNoBanPesDetRecordsId}
+    </delete>
+
+    <delete id="deleteoutVegNoBanPesDetRecordsByVegNoBanPesDetRecordsIds" parameterType="String">
+        delete from out_veg_no_ban_pes_det_records where veg_no_ban_pes_det_records_id in 
+        <foreach item="vegNoBanPesDetRecordsId" collection="array" open="(" separator="," close=")">
+            #{vegNoBanPesDetRecordsId}
+        </foreach>
+    </delete>
+</mapper>

@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.out.mapper.outFruBanPesDetRecordsMapper">
+    
+    <resultMap type="outFruBanPesDetRecords" id="outFruBanPesDetRecordsResult">
+        <result property="fruBanPesDetRecordsId"    column="fru_ban_pes_det_records_id"    />
+        <result property="pesticideName"    column="pesticide_name"    />
+        <result property="methamidophos"    column="methamidophos"    />
+        <result property="acephate"    column="acephate"    />
+        <result property="phorate"    column="phorate"    />
+        <result property="dimethoate"    column="dimethoate"    />
+        <result property="isocarbophos"    column="isocarbophos"    />
+        <result property="dichlorvos"    column="dichlorvos"    />
+        <result property="methylParathion"    column="methyl_parathion"    />
+        <result property="flucythrinate"    column="flucythrinate"    />
+        <result property="carbaryl"    column="carbaryl"    />
+        <result property="permethrin"    column="permethrin"    />
+        <result property="deteNum"    column="dete_num"    />
+        <result property="exDetNum"    column="ex_det_num"    />
+        <result property="productionInspectCount"    column="production_inspect_count"    />
+        <result property="productionExceedCount"    column="production_exceed_count"    />
+        <result property="wholesaleInspectCount"    column="wholesale_inspect_count"    />
+        <result property="wholesaleExceedCount"    column="wholesale_exceed_count"    />
+        <result property="vehicleInspectCount"    column="vehicle_inspect_count"    />
+        <result property="vehicleExceedCount"    column="vehicle_exceed_count"    />
+        <result property="createdDate"    column="created_date"    />
+    </resultMap>
+
+    <sql id="selectoutFruBanPesDetRecordsVo">
+        select fru_ban_pes_det_records_id, pesticide_name, methamidophos, acephate, phorate, dimethoate, isocarbophos, dichlorvos, methyl_parathion, flucythrinate, carbaryl, permethrin, dete_num, ex_det_num, production_inspect_count, production_exceed_count, wholesale_inspect_count, wholesale_exceed_count, vehicle_inspect_count, vehicle_exceed_count, created_date from out_fru_ban_pes_det_records
+    </sql>
+
+    <select id="selectoutFruBanPesDetRecordsList" parameterType="outFruBanPesDetRecords" resultMap="outFruBanPesDetRecordsResult">
+        <include refid="selectoutFruBanPesDetRecordsVo"/>
+        <where>  
+            <if test="pesticideName != null  and pesticideName != ''"> and pesticide_name like concat('%', #{pesticideName}, '%')</if>
+            <if test="methamidophos != null  and methamidophos != ''"> and methamidophos = #{methamidophos}</if>
+            <if test="acephate != null  and acephate != ''"> and acephate = #{acephate}</if>
+            <if test="phorate != null  and phorate != ''"> and phorate = #{phorate}</if>
+            <if test="dimethoate != null  and dimethoate != ''"> and dimethoate = #{dimethoate}</if>
+            <if test="isocarbophos != null  and isocarbophos != ''"> and isocarbophos = #{isocarbophos}</if>
+            <if test="dichlorvos != null  and dichlorvos != ''"> and dichlorvos = #{dichlorvos}</if>
+            <if test="methylParathion != null  and methylParathion != ''"> and methyl_parathion = #{methylParathion}</if>
+            <if test="flucythrinate != null  and flucythrinate != ''"> and flucythrinate = #{flucythrinate}</if>
+            <if test="carbaryl != null  and carbaryl != ''"> and carbaryl = #{carbaryl}</if>
+            <if test="permethrin != null  and permethrin != ''"> and permethrin = #{permethrin}</if>
+            <if test="deteNum != null "> and dete_num = #{deteNum}</if>
+            <if test="exDetNum != null "> and ex_det_num = #{exDetNum}</if>
+            <if test="productionInspectCount != null "> and production_inspect_count = #{productionInspectCount}</if>
+            <if test="productionExceedCount != null "> and production_exceed_count = #{productionExceedCount}</if>
+            <if test="wholesaleInspectCount != null "> and wholesale_inspect_count = #{wholesaleInspectCount}</if>
+            <if test="wholesaleExceedCount != null "> and wholesale_exceed_count = #{wholesaleExceedCount}</if>
+            <if test="vehicleInspectCount != null "> and vehicle_inspect_count = #{vehicleInspectCount}</if>
+            <if test="vehicleExceedCount != null "> and vehicle_exceed_count = #{vehicleExceedCount}</if>
+            <if test="createdDate != null "> and created_date = #{createdDate}</if>
+        </where>
+    </select>
+    
+    <select id="selectoutFruBanPesDetRecordsByFruBanPesDetRecordsId" parameterType="Long" resultMap="outFruBanPesDetRecordsResult">
+        <include refid="selectoutFruBanPesDetRecordsVo"/>
+        where fru_ban_pes_det_records_id = #{fruBanPesDetRecordsId}
+    </select>
+        
+    <insert id="insertoutFruBanPesDetRecords" parameterType="outFruBanPesDetRecords" useGeneratedKeys="true" keyProperty="fruBanPesDetRecordsId">
+        insert into out_fru_ban_pes_det_records
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="pesticideName != null">pesticide_name,</if>
+            <if test="methamidophos != null">methamidophos,</if>
+            <if test="acephate != null">acephate,</if>
+            <if test="phorate != null">phorate,</if>
+            <if test="dimethoate != null">dimethoate,</if>
+            <if test="isocarbophos != null">isocarbophos,</if>
+            <if test="dichlorvos != null">dichlorvos,</if>
+            <if test="methylParathion != null">methyl_parathion,</if>
+            <if test="flucythrinate != null">flucythrinate,</if>
+            <if test="carbaryl != null">carbaryl,</if>
+            <if test="permethrin != null">permethrin,</if>
+            <if test="deteNum != null">dete_num,</if>
+            <if test="exDetNum != null">ex_det_num,</if>
+            <if test="productionInspectCount != null">production_inspect_count,</if>
+            <if test="productionExceedCount != null">production_exceed_count,</if>
+            <if test="wholesaleInspectCount != null">wholesale_inspect_count,</if>
+            <if test="wholesaleExceedCount != null">wholesale_exceed_count,</if>
+            <if test="vehicleInspectCount != null">vehicle_inspect_count,</if>
+            <if test="vehicleExceedCount != null">vehicle_exceed_count,</if>
+            <if test="createdDate != null">created_date,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="pesticideName != null">#{pesticideName},</if>
+            <if test="methamidophos != null">#{methamidophos},</if>
+            <if test="acephate != null">#{acephate},</if>
+            <if test="phorate != null">#{phorate},</if>
+            <if test="dimethoate != null">#{dimethoate},</if>
+            <if test="isocarbophos != null">#{isocarbophos},</if>
+            <if test="dichlorvos != null">#{dichlorvos},</if>
+            <if test="methylParathion != null">#{methylParathion},</if>
+            <if test="flucythrinate != null">#{flucythrinate},</if>
+            <if test="carbaryl != null">#{carbaryl},</if>
+            <if test="permethrin != null">#{permethrin},</if>
+            <if test="deteNum != null">#{deteNum},</if>
+            <if test="exDetNum != null">#{exDetNum},</if>
+            <if test="productionInspectCount != null">#{productionInspectCount},</if>
+            <if test="productionExceedCount != null">#{productionExceedCount},</if>
+            <if test="wholesaleInspectCount != null">#{wholesaleInspectCount},</if>
+            <if test="wholesaleExceedCount != null">#{wholesaleExceedCount},</if>
+            <if test="vehicleInspectCount != null">#{vehicleInspectCount},</if>
+            <if test="vehicleExceedCount != null">#{vehicleExceedCount},</if>
+            <if test="createdDate != null">#{createdDate},</if>
+         </trim>
+    </insert>
+
+    <update id="updateoutFruBanPesDetRecords" parameterType="outFruBanPesDetRecords">
+        update out_fru_ban_pes_det_records
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="pesticideName != null">pesticide_name = #{pesticideName},</if>
+            <if test="methamidophos != null">methamidophos = #{methamidophos},</if>
+            <if test="acephate != null">acephate = #{acephate},</if>
+            <if test="phorate != null">phorate = #{phorate},</if>
+            <if test="dimethoate != null">dimethoate = #{dimethoate},</if>
+            <if test="isocarbophos != null">isocarbophos = #{isocarbophos},</if>
+            <if test="dichlorvos != null">dichlorvos = #{dichlorvos},</if>
+            <if test="methylParathion != null">methyl_parathion = #{methylParathion},</if>
+            <if test="flucythrinate != null">flucythrinate = #{flucythrinate},</if>
+            <if test="carbaryl != null">carbaryl = #{carbaryl},</if>
+            <if test="permethrin != null">permethrin = #{permethrin},</if>
+            <if test="deteNum != null">dete_num = #{deteNum},</if>
+            <if test="exDetNum != null">ex_det_num = #{exDetNum},</if>
+            <if test="productionInspectCount != null">production_inspect_count = #{productionInspectCount},</if>
+            <if test="productionExceedCount != null">production_exceed_count = #{productionExceedCount},</if>
+            <if test="wholesaleInspectCount != null">wholesale_inspect_count = #{wholesaleInspectCount},</if>
+            <if test="wholesaleExceedCount != null">wholesale_exceed_count = #{wholesaleExceedCount},</if>
+            <if test="vehicleInspectCount != null">vehicle_inspect_count = #{vehicleInspectCount},</if>
+            <if test="vehicleExceedCount != null">vehicle_exceed_count = #{vehicleExceedCount},</if>
+            <if test="createdDate != null">created_date = #{createdDate},</if>
+        </trim>
+        where fru_ban_pes_det_records_id = #{fruBanPesDetRecordsId}
+    </update>
+
+    <delete id="deleteoutFruBanPesDetRecordsByFruBanPesDetRecordsId" parameterType="Long">
+        delete from out_fru_ban_pes_det_records where fru_ban_pes_det_records_id = #{fruBanPesDetRecordsId}
+    </delete>
+
+    <delete id="deleteoutFruBanPesDetRecordsByFruBanPesDetRecordsIds" parameterType="String">
+        delete from out_fru_ban_pes_det_records where fru_ban_pes_det_records_id in 
+        <foreach item="fruBanPesDetRecordsId" collection="array" open="(" separator="," close=")">
+            #{fruBanPesDetRecordsId}
+        </foreach>
+    </delete>
+</mapper>

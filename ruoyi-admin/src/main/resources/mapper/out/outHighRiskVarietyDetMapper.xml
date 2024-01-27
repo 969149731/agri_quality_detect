@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.out.mapper.outHighRiskVarietyDetMapper">
+    
+    <resultMap type="outHighRiskVarietyDet" id="outHighRiskVarietyDetResult">
+        <result property="outHighRiskVarietyDetId"    column="out_high_risk_variety_det_id"    />
+        <result property="samplingLocation"    column="sampling_location"    />
+        <result property="detectLocation"    column="detect_location"    />
+        <result property="vegFruName"    column="veg_fru_name"    />
+        <result property="totalSamples"    column="total_samples"    />
+        <result property="qualifiedNumber"    column="qualified_number"    />
+        <result property="qualificationRate"    column="qualification_rate"    />
+        <result property="prohibitedPesticideDetection"    column="prohibited_pesticide_detection"    />
+        <result property="routinePesticideExceedance"    column="routine_pesticide_exceedance"    />
+        <result property="remarks"    column="remarks"    />
+        <result property="createdDate"    column="created_date"    />
+    </resultMap>
+
+    <sql id="selectoutHighRiskVarietyDetVo">
+        select out_high_risk_variety_det_id, sampling_location, detect_location, veg_fru_name, total_samples, qualified_number, qualification_rate, prohibited_pesticide_detection, routine_pesticide_exceedance, remarks, created_date from out_high_risk_variety_det
+    </sql>
+
+    <select id="selectoutHighRiskVarietyDetList" parameterType="outHighRiskVarietyDet" resultMap="outHighRiskVarietyDetResult">
+        <include refid="selectoutHighRiskVarietyDetVo"/>
+        <where>  
+            <if test="samplingLocation != null  and samplingLocation != ''"> and sampling_location = #{samplingLocation}</if>
+            <if test="detectLocation != null  and detectLocation != ''"> and detect_location = #{detectLocation}</if>
+            <if test="vegFruName != null  and vegFruName != ''"> and veg_fru_name like concat('%', #{vegFruName}, '%')</if>
+            <if test="totalSamples != null "> and total_samples = #{totalSamples}</if>
+            <if test="qualifiedNumber != null "> and qualified_number = #{qualifiedNumber}</if>
+            <if test="qualificationRate != null "> and qualification_rate = #{qualificationRate}</if>
+            <if test="prohibitedPesticideDetection != null  and prohibitedPesticideDetection != ''"> and prohibited_pesticide_detection = #{prohibitedPesticideDetection}</if>
+            <if test="routinePesticideExceedance != null  and routinePesticideExceedance != ''"> and routine_pesticide_exceedance = #{routinePesticideExceedance}</if>
+            <if test="remarks != null  and remarks != ''"> and remarks = #{remarks}</if>
+            <if test="createdDate != null "> and created_date = #{createdDate}</if>
+        </where>
+    </select>
+    
+    <select id="selectoutHighRiskVarietyDetByOutHighRiskVarietyDetId" parameterType="Long" resultMap="outHighRiskVarietyDetResult">
+        <include refid="selectoutHighRiskVarietyDetVo"/>
+        where out_high_risk_variety_det_id = #{outHighRiskVarietyDetId}
+    </select>
+        
+    <insert id="insertoutHighRiskVarietyDet" parameterType="outHighRiskVarietyDet" useGeneratedKeys="true" keyProperty="outHighRiskVarietyDetId">
+        insert into out_high_risk_variety_det
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="samplingLocation != null">sampling_location,</if>
+            <if test="detectLocation != null">detect_location,</if>
+            <if test="vegFruName != null">veg_fru_name,</if>
+            <if test="totalSamples != null">total_samples,</if>
+            <if test="qualifiedNumber != null">qualified_number,</if>
+            <if test="qualificationRate != null">qualification_rate,</if>
+            <if test="prohibitedPesticideDetection != null">prohibited_pesticide_detection,</if>
+            <if test="routinePesticideExceedance != null">routine_pesticide_exceedance,</if>
+            <if test="remarks != null">remarks,</if>
+            <if test="createdDate != null">created_date,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="samplingLocation != null">#{samplingLocation},</if>
+            <if test="detectLocation != null">#{detectLocation},</if>
+            <if test="vegFruName != null">#{vegFruName},</if>
+            <if test="totalSamples != null">#{totalSamples},</if>
+            <if test="qualifiedNumber != null">#{qualifiedNumber},</if>
+            <if test="qualificationRate != null">#{qualificationRate},</if>
+            <if test="prohibitedPesticideDetection != null">#{prohibitedPesticideDetection},</if>
+            <if test="routinePesticideExceedance != null">#{routinePesticideExceedance},</if>
+            <if test="remarks != null">#{remarks},</if>
+            <if test="createdDate != null">#{createdDate},</if>
+         </trim>
+    </insert>
+
+    <update id="updateoutHighRiskVarietyDet" parameterType="outHighRiskVarietyDet">
+        update out_high_risk_variety_det
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="samplingLocation != null">sampling_location = #{samplingLocation},</if>
+            <if test="detectLocation != null">detect_location = #{detectLocation},</if>
+            <if test="vegFruName != null">veg_fru_name = #{vegFruName},</if>
+            <if test="totalSamples != null">total_samples = #{totalSamples},</if>
+            <if test="qualifiedNumber != null">qualified_number = #{qualifiedNumber},</if>
+            <if test="qualificationRate != null">qualification_rate = #{qualificationRate},</if>
+            <if test="prohibitedPesticideDetection != null">prohibited_pesticide_detection = #{prohibitedPesticideDetection},</if>
+            <if test="routinePesticideExceedance != null">routine_pesticide_exceedance = #{routinePesticideExceedance},</if>
+            <if test="remarks != null">remarks = #{remarks},</if>
+            <if test="createdDate != null">created_date = #{createdDate},</if>
+        </trim>
+        where out_high_risk_variety_det_id = #{outHighRiskVarietyDetId}
+    </update>
+
+    <delete id="deleteoutHighRiskVarietyDetByOutHighRiskVarietyDetId" parameterType="Long">
+        delete from out_high_risk_variety_det where out_high_risk_variety_det_id = #{outHighRiskVarietyDetId}
+    </delete>
+
+    <delete id="deleteoutHighRiskVarietyDetByOutHighRiskVarietyDetIds" parameterType="String">
+        delete from out_high_risk_variety_det where out_high_risk_variety_det_id in 
+        <foreach item="outHighRiskVarietyDetId" collection="array" open="(" separator="," close=")">
+            #{outHighRiskVarietyDetId}
+        </foreach>
+    </delete>
+</mapper>

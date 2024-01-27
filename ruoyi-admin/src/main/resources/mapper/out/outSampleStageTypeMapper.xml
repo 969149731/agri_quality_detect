@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.out.mapper.outSampleStageTypeMapper">
+    
+    <resultMap type="outSampleStageType" id="outSampleStageTypeResult">
+        <result property="sampleQualityId"    column="sample_quality_id"    />
+        <result property="samplingStageType"    column="sampling_stage_type"    />
+        <result property="ollutionFreeBase"    column="ollution_free_base"    />
+        <result property="landmarkProductBase"    column="landmark_product_base"    />
+        <result property="greenProductBase"    column="green_product_base"    />
+        <result property="organicProductBase"    column="organic_product_base"    />
+        <result property="individualHousehold"    column="individual_household"    />
+        <result property="otherBase"    column="other_base"    />
+        <result property="wholesaleMarket"    column="wholesale_market"    />
+        <result property="transportVehicle"    column="transport_vehicle"    />
+        <result property="allCount"    column="all_count"    />
+        <result property="createdDate"    column="created_date"    />
+    </resultMap>
+
+    <sql id="selectoutSampleStageTypeVo">
+        select sample_quality_id, sampling_stage_type, ollution_free_base, landmark_product_base, green_product_base, organic_product_base, individual_household, other_base, wholesale_market, transport_vehicle, all_count, created_date from out_sample_stage_type
+    </sql>
+
+    <select id="selectoutSampleStageTypeList" parameterType="outSampleStageType" resultMap="outSampleStageTypeResult">
+        <include refid="selectoutSampleStageTypeVo"/>
+        <where>  
+            <if test="samplingStageType != null  and samplingStageType != ''"> and sampling_stage_type = #{samplingStageType}</if>
+            <if test="ollutionFreeBase != null "> and ollution_free_base = #{ollutionFreeBase}</if>
+            <if test="landmarkProductBase != null "> and landmark_product_base = #{landmarkProductBase}</if>
+            <if test="greenProductBase != null "> and green_product_base = #{greenProductBase}</if>
+            <if test="organicProductBase != null "> and organic_product_base = #{organicProductBase}</if>
+            <if test="individualHousehold != null "> and individual_household = #{individualHousehold}</if>
+            <if test="otherBase != null "> and other_base = #{otherBase}</if>
+            <if test="wholesaleMarket != null "> and wholesale_market = #{wholesaleMarket}</if>
+            <if test="transportVehicle != null "> and transport_vehicle = #{transportVehicle}</if>
+            <if test="allCount != null "> and all_count = #{allCount}</if>
+            <if test="createdDate != null "> and created_date = #{createdDate}</if>
+        </where>
+    </select>
+    
+    <select id="selectoutSampleStageTypeBySampleQualityId" parameterType="Long" resultMap="outSampleStageTypeResult">
+        <include refid="selectoutSampleStageTypeVo"/>
+        where sample_quality_id = #{sampleQualityId}
+    </select>
+        
+    <insert id="insertoutSampleStageType" parameterType="outSampleStageType" useGeneratedKeys="true" keyProperty="sampleQualityId">
+        insert into out_sample_stage_type
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="samplingStageType != null">sampling_stage_type,</if>
+            <if test="ollutionFreeBase != null">ollution_free_base,</if>
+            <if test="landmarkProductBase != null">landmark_product_base,</if>
+            <if test="greenProductBase != null">green_product_base,</if>
+            <if test="organicProductBase != null">organic_product_base,</if>
+            <if test="individualHousehold != null">individual_household,</if>
+            <if test="otherBase != null">other_base,</if>
+            <if test="wholesaleMarket != null">wholesale_market,</if>
+            <if test="transportVehicle != null">transport_vehicle,</if>
+            <if test="allCount != null">all_count,</if>
+            <if test="createdDate != null">created_date,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="samplingStageType != null">#{samplingStageType},</if>
+            <if test="ollutionFreeBase != null">#{ollutionFreeBase},</if>
+            <if test="landmarkProductBase != null">#{landmarkProductBase},</if>
+            <if test="greenProductBase != null">#{greenProductBase},</if>
+            <if test="organicProductBase != null">#{organicProductBase},</if>
+            <if test="individualHousehold != null">#{individualHousehold},</if>
+            <if test="otherBase != null">#{otherBase},</if>
+            <if test="wholesaleMarket != null">#{wholesaleMarket},</if>
+            <if test="transportVehicle != null">#{transportVehicle},</if>
+            <if test="allCount != null">#{allCount},</if>
+            <if test="createdDate != null">#{createdDate},</if>
+         </trim>
+    </insert>
+
+    <update id="updateoutSampleStageType" parameterType="outSampleStageType">
+        update out_sample_stage_type
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="samplingStageType != null">sampling_stage_type = #{samplingStageType},</if>
+            <if test="ollutionFreeBase != null">ollution_free_base = #{ollutionFreeBase},</if>
+            <if test="landmarkProductBase != null">landmark_product_base = #{landmarkProductBase},</if>
+            <if test="greenProductBase != null">green_product_base = #{greenProductBase},</if>
+            <if test="organicProductBase != null">organic_product_base = #{organicProductBase},</if>
+            <if test="individualHousehold != null">individual_household = #{individualHousehold},</if>
+            <if test="otherBase != null">other_base = #{otherBase},</if>
+            <if test="wholesaleMarket != null">wholesale_market = #{wholesaleMarket},</if>
+            <if test="transportVehicle != null">transport_vehicle = #{transportVehicle},</if>
+            <if test="allCount != null">all_count = #{allCount},</if>
+            <if test="createdDate != null">created_date = #{createdDate},</if>
+        </trim>
+        where sample_quality_id = #{sampleQualityId}
+    </update>
+
+    <delete id="deleteoutSampleStageTypeBySampleQualityId" parameterType="Long">
+        delete from out_sample_stage_type where sample_quality_id = #{sampleQualityId}
+    </delete>
+
+    <delete id="deleteoutSampleStageTypeBySampleQualityIds" parameterType="String">
+        delete from out_sample_stage_type where sample_quality_id in 
+        <foreach item="sampleQualityId" collection="array" open="(" separator="," close=")">
+            #{sampleQualityId}
+        </foreach>
+    </delete>
+</mapper>

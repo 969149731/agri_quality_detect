@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.out.mapper.outFruVegQualificationMapper">
+    
+    <resultMap type="outFruVegQualification" id="outFruVegQualificationResult">
+        <result property="fruVegQualificationId"    column="fru_veg_qualification_id"    />
+        <result property="vegFruType"    column="veg_fru_type"    />
+        <result property="samplingNumber"    column="sampling_number"    />
+        <result property="passNumber"    column="pass_number"    />
+        <result property="passRate"    column="pass_rate"    />
+        <result property="exceedingSamples"    column="exceeding_samples"    />
+        <result property="exceedingPesticides"    column="exceeding_pesticides"    />
+        <result property="createdDate"    column="created_date"    />
+    </resultMap>
+
+    <sql id="selectoutFruVegQualificationVo">
+        select fru_veg_qualification_id, veg_fru_type, sampling_number, pass_number, pass_rate, exceeding_samples, exceeding_pesticides, created_date from out_fru_veg_qualification
+    </sql>
+
+    <select id="selectoutFruVegQualificationList" parameterType="outFruVegQualification" resultMap="outFruVegQualificationResult">
+        <include refid="selectoutFruVegQualificationVo"/>
+        <where>  
+            <if test="vegFruType != null  and vegFruType != ''"> and veg_fru_type = #{vegFruType}</if>
+            <if test="samplingNumber != null "> and sampling_number = #{samplingNumber}</if>
+            <if test="passNumber != null "> and pass_number = #{passNumber}</if>
+            <if test="passRate != null "> and pass_rate = #{passRate}</if>
+            <if test="exceedingSamples != null  and exceedingSamples != ''"> and exceeding_samples = #{exceedingSamples}</if>
+            <if test="exceedingPesticides != null  and exceedingPesticides != ''"> and exceeding_pesticides = #{exceedingPesticides}</if>
+            <if test="createdDate != null "> and created_date = #{createdDate}</if>
+        </where>
+    </select>
+    
+    <select id="selectoutFruVegQualificationByFruVegQualificationId" parameterType="Long" resultMap="outFruVegQualificationResult">
+        <include refid="selectoutFruVegQualificationVo"/>
+        where fru_veg_qualification_id = #{fruVegQualificationId}
+    </select>
+        
+    <insert id="insertoutFruVegQualification" parameterType="outFruVegQualification" useGeneratedKeys="true" keyProperty="fruVegQualificationId">
+        insert into out_fru_veg_qualification
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="vegFruType != null">veg_fru_type,</if>
+            <if test="samplingNumber != null">sampling_number,</if>
+            <if test="passNumber != null">pass_number,</if>
+            <if test="passRate != null">pass_rate,</if>
+            <if test="exceedingSamples != null">exceeding_samples,</if>
+            <if test="exceedingPesticides != null">exceeding_pesticides,</if>
+            <if test="createdDate != null">created_date,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="vegFruType != null">#{vegFruType},</if>
+            <if test="samplingNumber != null">#{samplingNumber},</if>
+            <if test="passNumber != null">#{passNumber},</if>
+            <if test="passRate != null">#{passRate},</if>
+            <if test="exceedingSamples != null">#{exceedingSamples},</if>
+            <if test="exceedingPesticides != null">#{exceedingPesticides},</if>
+            <if test="createdDate != null">#{createdDate},</if>
+         </trim>
+    </insert>
+
+    <update id="updateoutFruVegQualification" parameterType="outFruVegQualification">
+        update out_fru_veg_qualification
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="vegFruType != null">veg_fru_type = #{vegFruType},</if>
+            <if test="samplingNumber != null">sampling_number = #{samplingNumber},</if>
+            <if test="passNumber != null">pass_number = #{passNumber},</if>
+            <if test="passRate != null">pass_rate = #{passRate},</if>
+            <if test="exceedingSamples != null">exceeding_samples = #{exceedingSamples},</if>
+            <if test="exceedingPesticides != null">exceeding_pesticides = #{exceedingPesticides},</if>
+            <if test="createdDate != null">created_date = #{createdDate},</if>
+        </trim>
+        where fru_veg_qualification_id = #{fruVegQualificationId}
+    </update>
+
+    <delete id="deleteoutFruVegQualificationByFruVegQualificationId" parameterType="Long">
+        delete from out_fru_veg_qualification where fru_veg_qualification_id = #{fruVegQualificationId}
+    </delete>
+
+    <delete id="deleteoutFruVegQualificationByFruVegQualificationIds" parameterType="String">
+        delete from out_fru_veg_qualification where fru_veg_qualification_id in 
+        <foreach item="fruVegQualificationId" collection="array" open="(" separator="," close=")">
+            #{fruVegQualificationId}
+        </foreach>
+    </delete>
+</mapper>

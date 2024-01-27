@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.out.mapper.outSampleQualityMapper">
+    
+    <resultMap type="outSampleQuality" id="outSampleQualityResult">
+        <result property="sampleQualityId"    column="sample_quality_id"    />
+        <result property="samplingStageType"    column="sampling_stage_type"    />
+        <result property="pollutionFreeBase"    column="pollution_free_base"    />
+        <result property="landmarkProductBase"    column="landmark_product_base"    />
+        <result property="greenProductBase"    column="green_product_base"    />
+        <result property="organicProductBase"    column="organic_product_base"    />
+        <result property="individualHousehold"    column="individual_household"    />
+        <result property="otherBase"    column="other_base"    />
+        <result property="wholesaleMarket"    column="wholesale_market"    />
+        <result property="transportVehicle"    column="transport_vehicle"    />
+        <result property="allCount"    column="all_count"    />
+        <result property="vegSamplingCount"    column="veg_sampling_count"    />
+        <result property="vegQualifiedCount"    column="veg_qualified_count"    />
+        <result property="vegQualificationRate"    column="veg_qualification_rate"    />
+        <result property="fruSamplingCount"    column="fru_sampling_count"    />
+        <result property="fruQualifiedCount"    column="fru_qualified_count"    />
+        <result property="fruQualificationRate"    column="fru_qualification_rate"    />
+        <result property="totalSamplingCount"    column="total_sampling_count"    />
+        <result property="totalQualifiedCount"    column="total_qualified_count"    />
+        <result property="totalQualificationRate"    column="total_qualification_rate"    />
+        <result property="createdDate"    column="created_date"    />
+    </resultMap>
+
+    <sql id="selectoutSampleQualityVo">
+        select sample_quality_id, sampling_stage_type, pollution_free_base, landmark_product_base, green_product_base, organic_product_base, individual_household, other_base, wholesale_market, transport_vehicle, all_count, veg_sampling_count, veg_qualified_count, veg_qualification_rate, fru_sampling_count, fru_qualified_count, fru_qualification_rate, total_sampling_count, total_qualified_count, total_qualification_rate, created_date from out_sample_quality
+    </sql>
+
+    <select id="selectoutSampleQualityList" parameterType="outSampleQuality" resultMap="outSampleQualityResult">
+        <include refid="selectoutSampleQualityVo"/>
+        <where>  
+            <if test="samplingStageType != null  and samplingStageType != ''"> and sampling_stage_type = #{samplingStageType}</if>
+            <if test="pollutionFreeBase != null  and pollutionFreeBase != ''"> and pollution_free_base = #{pollutionFreeBase}</if>
+            <if test="landmarkProductBase != null  and landmarkProductBase != ''"> and landmark_product_base = #{landmarkProductBase}</if>
+            <if test="greenProductBase != null  and greenProductBase != ''"> and green_product_base = #{greenProductBase}</if>
+            <if test="organicProductBase != null  and organicProductBase != ''"> and organic_product_base = #{organicProductBase}</if>
+            <if test="individualHousehold != null  and individualHousehold != ''"> and individual_household = #{individualHousehold}</if>
+            <if test="otherBase != null  and otherBase != ''"> and other_base = #{otherBase}</if>
+            <if test="wholesaleMarket != null  and wholesaleMarket != ''"> and wholesale_market = #{wholesaleMarket}</if>
+            <if test="transportVehicle != null  and transportVehicle != ''"> and transport_vehicle = #{transportVehicle}</if>
+            <if test="allCount != null "> and all_count = #{allCount}</if>
+            <if test="vegSamplingCount != null "> and veg_sampling_count = #{vegSamplingCount}</if>
+            <if test="vegQualifiedCount != null "> and veg_qualified_count = #{vegQualifiedCount}</if>
+            <if test="vegQualificationRate != null "> and veg_qualification_rate = #{vegQualificationRate}</if>
+            <if test="fruSamplingCount != null "> and fru_sampling_count = #{fruSamplingCount}</if>
+            <if test="fruQualifiedCount != null "> and fru_qualified_count = #{fruQualifiedCount}</if>
+            <if test="fruQualificationRate != null "> and fru_qualification_rate = #{fruQualificationRate}</if>
+            <if test="totalSamplingCount != null "> and total_sampling_count = #{totalSamplingCount}</if>
+            <if test="totalQualifiedCount != null "> and total_qualified_count = #{totalQualifiedCount}</if>
+            <if test="totalQualificationRate != null "> and total_qualification_rate = #{totalQualificationRate}</if>
+            <if test="createdDate != null "> and created_date = #{createdDate}</if>
+        </where>
+    </select>
+    
+    <select id="selectoutSampleQualityBySampleQualityId" parameterType="Long" resultMap="outSampleQualityResult">
+        <include refid="selectoutSampleQualityVo"/>
+        where sample_quality_id = #{sampleQualityId}
+    </select>
+        
+    <insert id="insertoutSampleQuality" parameterType="outSampleQuality" useGeneratedKeys="true" keyProperty="sampleQualityId">
+        insert into out_sample_quality
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="samplingStageType != null">sampling_stage_type,</if>
+            <if test="pollutionFreeBase != null">pollution_free_base,</if>
+            <if test="landmarkProductBase != null">landmark_product_base,</if>
+            <if test="greenProductBase != null">green_product_base,</if>
+            <if test="organicProductBase != null">organic_product_base,</if>
+            <if test="individualHousehold != null">individual_household,</if>
+            <if test="otherBase != null">other_base,</if>
+            <if test="wholesaleMarket != null">wholesale_market,</if>
+            <if test="transportVehicle != null">transport_vehicle,</if>
+            <if test="allCount != null">all_count,</if>
+            <if test="vegSamplingCount != null">veg_sampling_count,</if>
+            <if test="vegQualifiedCount != null">veg_qualified_count,</if>
+            <if test="vegQualificationRate != null">veg_qualification_rate,</if>
+            <if test="fruSamplingCount != null">fru_sampling_count,</if>
+            <if test="fruQualifiedCount != null">fru_qualified_count,</if>
+            <if test="fruQualificationRate != null">fru_qualification_rate,</if>
+            <if test="totalSamplingCount != null">total_sampling_count,</if>
+            <if test="totalQualifiedCount != null">total_qualified_count,</if>
+            <if test="totalQualificationRate != null">total_qualification_rate,</if>
+            <if test="createdDate != null">created_date,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="samplingStageType != null">#{samplingStageType},</if>
+            <if test="pollutionFreeBase != null">#{pollutionFreeBase},</if>
+            <if test="landmarkProductBase != null">#{landmarkProductBase},</if>
+            <if test="greenProductBase != null">#{greenProductBase},</if>
+            <if test="organicProductBase != null">#{organicProductBase},</if>
+            <if test="individualHousehold != null">#{individualHousehold},</if>
+            <if test="otherBase != null">#{otherBase},</if>
+            <if test="wholesaleMarket != null">#{wholesaleMarket},</if>
+            <if test="transportVehicle != null">#{transportVehicle},</if>
+            <if test="allCount != null">#{allCount},</if>
+            <if test="vegSamplingCount != null">#{vegSamplingCount},</if>
+            <if test="vegQualifiedCount != null">#{vegQualifiedCount},</if>
+            <if test="vegQualificationRate != null">#{vegQualificationRate},</if>
+            <if test="fruSamplingCount != null">#{fruSamplingCount},</if>
+            <if test="fruQualifiedCount != null">#{fruQualifiedCount},</if>
+            <if test="fruQualificationRate != null">#{fruQualificationRate},</if>
+            <if test="totalSamplingCount != null">#{totalSamplingCount},</if>
+            <if test="totalQualifiedCount != null">#{totalQualifiedCount},</if>
+            <if test="totalQualificationRate != null">#{totalQualificationRate},</if>
+            <if test="createdDate != null">#{createdDate},</if>
+         </trim>
+    </insert>
+
+    <update id="updateoutSampleQuality" parameterType="outSampleQuality">
+        update out_sample_quality
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="samplingStageType != null">sampling_stage_type = #{samplingStageType},</if>
+            <if test="pollutionFreeBase != null">pollution_free_base = #{pollutionFreeBase},</if>
+            <if test="landmarkProductBase != null">landmark_product_base = #{landmarkProductBase},</if>
+            <if test="greenProductBase != null">green_product_base = #{greenProductBase},</if>
+            <if test="organicProductBase != null">organic_product_base = #{organicProductBase},</if>
+            <if test="individualHousehold != null">individual_household = #{individualHousehold},</if>
+            <if test="otherBase != null">other_base = #{otherBase},</if>
+            <if test="wholesaleMarket != null">wholesale_market = #{wholesaleMarket},</if>
+            <if test="transportVehicle != null">transport_vehicle = #{transportVehicle},</if>
+            <if test="allCount != null">all_count = #{allCount},</if>
+            <if test="vegSamplingCount != null">veg_sampling_count = #{vegSamplingCount},</if>
+            <if test="vegQualifiedCount != null">veg_qualified_count = #{vegQualifiedCount},</if>
+            <if test="vegQualificationRate != null">veg_qualification_rate = #{vegQualificationRate},</if>
+            <if test="fruSamplingCount != null">fru_sampling_count = #{fruSamplingCount},</if>
+            <if test="fruQualifiedCount != null">fru_qualified_count = #{fruQualifiedCount},</if>
+            <if test="fruQualificationRate != null">fru_qualification_rate = #{fruQualificationRate},</if>
+            <if test="totalSamplingCount != null">total_sampling_count = #{totalSamplingCount},</if>
+            <if test="totalQualifiedCount != null">total_qualified_count = #{totalQualifiedCount},</if>
+            <if test="totalQualificationRate != null">total_qualification_rate = #{totalQualificationRate},</if>
+            <if test="createdDate != null">created_date = #{createdDate},</if>
+        </trim>
+        where sample_quality_id = #{sampleQualityId}
+    </update>
+
+    <delete id="deleteoutSampleQualityBySampleQualityId" parameterType="Long">
+        delete from out_sample_quality where sample_quality_id = #{sampleQualityId}
+    </delete>
+
+    <delete id="deleteoutSampleQualityBySampleQualityIds" parameterType="String">
+        delete from out_sample_quality where sample_quality_id in 
+        <foreach item="sampleQualityId" collection="array" open="(" separator="," close=")">
+            #{sampleQualityId}
+        </foreach>
+    </delete>
+</mapper>

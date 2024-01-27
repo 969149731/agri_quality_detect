@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.out.mapper.outBanPesticideDetectionMapper">
+    
+    <resultMap type="outBanPesticideDetection" id="outBanPesticideDetectionResult">
+        <result property="banPesticideDetectionId"    column="ban_pesticide_detection_id"    />
+        <result property="detectUnit"    column="detect_unit"    />
+        <result property="sampleCode"    column="sample_code"    />
+        <result property="vegFruName"    column="veg_fru_name"    />
+        <result property="samplingLocation"    column="sampling_location"    />
+        <result property="exceedPesticideName"    column="exceed_pesticide_name"    />
+        <result property="exceedPesticideValue"    column="exceed_pesticide_value"    />
+        <result property="limitValue"    column="limit_value"    />
+        <result property="remarks"    column="remarks"    />
+        <result property="createdDate"    column="created_date"    />
+    </resultMap>
+
+    <sql id="selectoutBanPesticideDetectionVo">
+        select ban_pesticide_detection_id, detect_unit, sample_code, veg_fru_name, sampling_location, exceed_pesticide_name, exceed_pesticide_value, limit_value, remarks, created_date from out_ban_pesticide_detection
+    </sql>
+
+    <select id="selectoutBanPesticideDetectionList" parameterType="outBanPesticideDetection" resultMap="outBanPesticideDetectionResult">
+        <include refid="selectoutBanPesticideDetectionVo"/>
+        <where>  
+            <if test="detectUnit != null  and detectUnit != ''"> and detect_unit = #{detectUnit}</if>
+            <if test="sampleCode != null  and sampleCode != ''"> and sample_code = #{sampleCode}</if>
+            <if test="vegFruName != null  and vegFruName != ''"> and veg_fru_name like concat('%', #{vegFruName}, '%')</if>
+            <if test="samplingLocation != null  and samplingLocation != ''"> and sampling_location = #{samplingLocation}</if>
+            <if test="exceedPesticideName != null  and exceedPesticideName != ''"> and exceed_pesticide_name like concat('%', #{exceedPesticideName}, '%')</if>
+            <if test="exceedPesticideValue != null "> and exceed_pesticide_value = #{exceedPesticideValue}</if>
+            <if test="limitValue != null "> and limit_value = #{limitValue}</if>
+            <if test="remarks != null  and remarks != ''"> and remarks = #{remarks}</if>
+            <if test="createdDate != null "> and created_date = #{createdDate}</if>
+        </where>
+    </select>
+    
+    <select id="selectoutBanPesticideDetectionByBanPesticideDetectionId" parameterType="Long" resultMap="outBanPesticideDetectionResult">
+        <include refid="selectoutBanPesticideDetectionVo"/>
+        where ban_pesticide_detection_id = #{banPesticideDetectionId}
+    </select>
+        
+    <insert id="insertoutBanPesticideDetection" parameterType="outBanPesticideDetection" useGeneratedKeys="true" keyProperty="banPesticideDetectionId">
+        insert into out_ban_pesticide_detection
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="detectUnit != null">detect_unit,</if>
+            <if test="sampleCode != null">sample_code,</if>
+            <if test="vegFruName != null">veg_fru_name,</if>
+            <if test="samplingLocation != null">sampling_location,</if>
+            <if test="exceedPesticideName != null">exceed_pesticide_name,</if>
+            <if test="exceedPesticideValue != null">exceed_pesticide_value,</if>
+            <if test="limitValue != null">limit_value,</if>
+            <if test="remarks != null">remarks,</if>
+            <if test="createdDate != null">created_date,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="detectUnit != null">#{detectUnit},</if>
+            <if test="sampleCode != null">#{sampleCode},</if>
+            <if test="vegFruName != null">#{vegFruName},</if>
+            <if test="samplingLocation != null">#{samplingLocation},</if>
+            <if test="exceedPesticideName != null">#{exceedPesticideName},</if>
+            <if test="exceedPesticideValue != null">#{exceedPesticideValue},</if>
+            <if test="limitValue != null">#{limitValue},</if>
+            <if test="remarks != null">#{remarks},</if>
+            <if test="createdDate != null">#{createdDate},</if>
+         </trim>
+    </insert>
+
+    <update id="updateoutBanPesticideDetection" parameterType="outBanPesticideDetection">
+        update out_ban_pesticide_detection
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="detectUnit != null">detect_unit = #{detectUnit},</if>
+            <if test="sampleCode != null">sample_code = #{sampleCode},</if>
+            <if test="vegFruName != null">veg_fru_name = #{vegFruName},</if>
+            <if test="samplingLocation != null">sampling_location = #{samplingLocation},</if>
+            <if test="exceedPesticideName != null">exceed_pesticide_name = #{exceedPesticideName},</if>
+            <if test="exceedPesticideValue != null">exceed_pesticide_value = #{exceedPesticideValue},</if>
+            <if test="limitValue != null">limit_value = #{limitValue},</if>
+            <if test="remarks != null">remarks = #{remarks},</if>
+            <if test="createdDate != null">created_date = #{createdDate},</if>
+        </trim>
+        where ban_pesticide_detection_id = #{banPesticideDetectionId}
+    </update>
+
+    <delete id="deleteoutBanPesticideDetectionByBanPesticideDetectionId" parameterType="Long">
+        delete from out_ban_pesticide_detection where ban_pesticide_detection_id = #{banPesticideDetectionId}
+    </delete>
+
+    <delete id="deleteoutBanPesticideDetectionByBanPesticideDetectionIds" parameterType="String">
+        delete from out_ban_pesticide_detection where ban_pesticide_detection_id in 
+        <foreach item="banPesticideDetectionId" collection="array" open="(" separator="," close=")">
+            #{banPesticideDetectionId}
+        </foreach>
+    </delete>
+</mapper>

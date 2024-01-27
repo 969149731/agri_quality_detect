@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.out.mapper.outDlDetectRecordsMapper">
+    
+    <resultMap type="outDlDetectRecords" id="outDlDetectRecordsResult">
+        <result property="recordDlId"    column="record_dl_id"    />
+        <result property="samplingLocation"    column="sampling_location"    />
+        <result property="samplingDate"    column="sampling_date"    />
+        <result property="samplingYear"    column="sampling_year"    />
+        <result property="samplingMonth"    column="sampling_month"    />
+        <result property="vegSamplingCount"    column="veg_sampling_count"    />
+        <result property="vegQualifiedCount"    column="veg_qualified_count"    />
+        <result property="vegPassRate"    column="veg_pass_rate"    />
+        <result property="fruSamplingCount"    column="fru_sampling_count"    />
+        <result property="fruQualifiedCount"    column="fru_qualified_count"    />
+        <result property="fruPassRate"    column="fru_pass_rate"    />
+        <result property="allSamplingCount"    column="all_sampling_count"    />
+        <result property="allQualifiedCount"    column="all_qualified_count"    />
+        <result property="allPassRate"    column="all_pass_rate"    />
+        <result property="createdDate"    column="created_date"    />
+    </resultMap>
+
+    <sql id="selectoutDlDetectRecordsVo">
+        select record_dl_id, sampling_location, sampling_date, sampling_year, sampling_month, veg_sampling_count, veg_qualified_count, veg_pass_rate, fru_sampling_count, fru_qualified_count, fru_pass_rate, all_sampling_count, all_qualified_count, all_pass_rate, created_date from out_dl_detect_records
+    </sql>
+
+    <select id="selectoutDlDetectRecordsList" parameterType="outDlDetectRecords" resultMap="outDlDetectRecordsResult">
+        <include refid="selectoutDlDetectRecordsVo"/>
+        <where>  
+            <if test="samplingLocation != null  and samplingLocation != ''"> and sampling_location = #{samplingLocation}</if>
+            <if test="samplingDate != null "> and sampling_date = #{samplingDate}</if>
+            <if test="samplingYear != null "> and sampling_year = #{samplingYear}</if>
+            <if test="samplingMonth != null "> and sampling_month = #{samplingMonth}</if>
+            <if test="vegSamplingCount != null "> and veg_sampling_count = #{vegSamplingCount}</if>
+            <if test="vegQualifiedCount != null "> and veg_qualified_count = #{vegQualifiedCount}</if>
+            <if test="vegPassRate != null "> and veg_pass_rate = #{vegPassRate}</if>
+            <if test="fruSamplingCount != null "> and fru_sampling_count = #{fruSamplingCount}</if>
+            <if test="fruQualifiedCount != null "> and fru_qualified_count = #{fruQualifiedCount}</if>
+            <if test="fruPassRate != null "> and fru_pass_rate = #{fruPassRate}</if>
+            <if test="allSamplingCount != null "> and all_sampling_count = #{allSamplingCount}</if>
+            <if test="allQualifiedCount != null "> and all_qualified_count = #{allQualifiedCount}</if>
+            <if test="allPassRate != null "> and all_pass_rate = #{allPassRate}</if>
+            <if test="createdDate != null "> and created_date = #{createdDate}</if>
+        </where>
+    </select>
+    
+    <select id="selectoutDlDetectRecordsByRecordDlId" parameterType="Long" resultMap="outDlDetectRecordsResult">
+        <include refid="selectoutDlDetectRecordsVo"/>
+        where record_dl_id = #{recordDlId}
+    </select>
+        
+    <insert id="insertoutDlDetectRecords" parameterType="outDlDetectRecords" useGeneratedKeys="true" keyProperty="recordDlId">
+        insert into out_dl_detect_records
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="samplingLocation != null">sampling_location,</if>
+            <if test="samplingDate != null">sampling_date,</if>
+            <if test="samplingYear != null">sampling_year,</if>
+            <if test="samplingMonth != null">sampling_month,</if>
+            <if test="vegSamplingCount != null">veg_sampling_count,</if>
+            <if test="vegQualifiedCount != null">veg_qualified_count,</if>
+            <if test="vegPassRate != null">veg_pass_rate,</if>
+            <if test="fruSamplingCount != null">fru_sampling_count,</if>
+            <if test="fruQualifiedCount != null">fru_qualified_count,</if>
+            <if test="fruPassRate != null">fru_pass_rate,</if>
+            <if test="allSamplingCount != null">all_sampling_count,</if>
+            <if test="allQualifiedCount != null">all_qualified_count,</if>
+            <if test="allPassRate != null">all_pass_rate,</if>
+            <if test="createdDate != null">created_date,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="samplingLocation != null">#{samplingLocation},</if>
+            <if test="samplingDate != null">#{samplingDate},</if>
+            <if test="samplingYear != null">#{samplingYear},</if>
+            <if test="samplingMonth != null">#{samplingMonth},</if>
+            <if test="vegSamplingCount != null">#{vegSamplingCount},</if>
+            <if test="vegQualifiedCount != null">#{vegQualifiedCount},</if>
+            <if test="vegPassRate != null">#{vegPassRate},</if>
+            <if test="fruSamplingCount != null">#{fruSamplingCount},</if>
+            <if test="fruQualifiedCount != null">#{fruQualifiedCount},</if>
+            <if test="fruPassRate != null">#{fruPassRate},</if>
+            <if test="allSamplingCount != null">#{allSamplingCount},</if>
+            <if test="allQualifiedCount != null">#{allQualifiedCount},</if>
+            <if test="allPassRate != null">#{allPassRate},</if>
+            <if test="createdDate != null">#{createdDate},</if>
+         </trim>
+    </insert>
+
+    <update id="updateoutDlDetectRecords" parameterType="outDlDetectRecords">
+        update out_dl_detect_records
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="samplingLocation != null">sampling_location = #{samplingLocation},</if>
+            <if test="samplingDate != null">sampling_date = #{samplingDate},</if>
+            <if test="samplingYear != null">sampling_year = #{samplingYear},</if>
+            <if test="samplingMonth != null">sampling_month = #{samplingMonth},</if>
+            <if test="vegSamplingCount != null">veg_sampling_count = #{vegSamplingCount},</if>
+            <if test="vegQualifiedCount != null">veg_qualified_count = #{vegQualifiedCount},</if>
+            <if test="vegPassRate != null">veg_pass_rate = #{vegPassRate},</if>
+            <if test="fruSamplingCount != null">fru_sampling_count = #{fruSamplingCount},</if>
+            <if test="fruQualifiedCount != null">fru_qualified_count = #{fruQualifiedCount},</if>
+            <if test="fruPassRate != null">fru_pass_rate = #{fruPassRate},</if>
+            <if test="allSamplingCount != null">all_sampling_count = #{allSamplingCount},</if>
+            <if test="allQualifiedCount != null">all_qualified_count = #{allQualifiedCount},</if>
+            <if test="allPassRate != null">all_pass_rate = #{allPassRate},</if>
+            <if test="createdDate != null">created_date = #{createdDate},</if>
+        </trim>
+        where record_dl_id = #{recordDlId}
+    </update>
+
+    <delete id="deleteoutDlDetectRecordsByRecordDlId" parameterType="Long">
+        delete from out_dl_detect_records where record_dl_id = #{recordDlId}
+    </delete>
+
+    <delete id="deleteoutDlDetectRecordsByRecordDlIds" parameterType="String">
+        delete from out_dl_detect_records where record_dl_id in 
+        <foreach item="recordDlId" collection="array" open="(" separator="," close=")">
+            #{recordDlId}
+        </foreach>
+    </delete>
+</mapper>
