@@ -2,6 +2,7 @@ package com.ruoyi.out.service;
 
 import java.util.List;
 import com.ruoyi.out.domain.outFruBanPesDetRecords;
+import com.ruoyi.out.domain.outReturnType;
 
 /**
  * 水果禁用农药检出及超标情况Service接口
@@ -58,4 +59,8 @@ public interface IoutFruBanPesDetRecordsService
      * @return 结果
      */
     public int deleteoutFruBanPesDetRecordsByFruBanPesDetRecordsId(Long fruBanPesDetRecordsId);
+
+    /*使用新方法获取列表
+    */
+    public List<outReturnType> selectoutFruBanPesDetRecordsList2(outReturnType outReturnTypeRecords);
 }

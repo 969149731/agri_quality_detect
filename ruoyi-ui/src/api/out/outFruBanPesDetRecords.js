@@ -42,3 +42,11 @@ export function delOutFruBanPesDetRecords(fruBanPesDetRecordsId) {
     method: 'delete'
   })
 }
+
+export function listOutFruBanPesDetRecords2(query) {
+  return request({
+    url: '/out/outFruBanPesDetRecords/listNew',
+    method: 'get',
+    params: query
+  })
+}

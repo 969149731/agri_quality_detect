@@ -3,6 +3,10 @@ package com.ruoyi.out.mapper;
 import java.util.List;
 import com.ruoyi.out.domain.outFruBanPesDetRecords;
 
+import com.ruoyi.detection.domain.agriPesticideDetResult;//农药详细表
+import com.ruoyi.out.domain.outFruVegSelectType;
+import com.ruoyi.out.domain.outReturnType;
+import com.ruoyi.out.domain.agriPesticideResidueStandard;
 /**
  * 水果禁用农药检出及超标情况Mapper接口
  * 
@@ -58,4 +62,17 @@ public interface outFruBanPesDetRecordsMapper
      * @return 结果
      */
     public int deleteoutFruBanPesDetRecordsByFruBanPesDetRecordsIds(Long[] fruBanPesDetRecordsIds);
+
+    public List<outReturnType> selectoutFruBanPesDetRecordsList2(outReturnType outReturnTypeRecords);
+
+    /*根据id获取蔬菜水果名称*/
+    public String getVegFruNameByCitySampleTestDetailsId(Long citySampleTestDetailsId);
+    /*获取生产环节名称*/
+    public String getStageNameByCitySampleTestDetailsId(Long citySampleTestDetailsId);
+
+    public List<agriPesticideDetResult> getagriPesticideDetResultListWithAllCity(agriPesticideDetResult agriPesticideDetResult);
+    public List<agriPesticideDetResult> selectAgriPesticideDetResultListByCityID(Long citySampleTestDetailsId);
+    public List<agriPesticideResidueStandard> getagriPesticideResidueStandard(String pesticideName, String vegFruName);
+
+    public List<outFruVegSelectType> getFruVegDetResultList();
 }

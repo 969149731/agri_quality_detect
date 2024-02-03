@@ -222,4 +222,17 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             ( #{item.pesticideDetResultId}, #{item.pesticideName}, #{item.pesticideDetValue}, #{item.citySampleTestDetailsId}, #{item.createdAt})
         </foreach>
     </insert>
+
+
+    <select id="getVegFruNameByCitySampleTestDetailsId" parameterType="Long">
+        select veg_fru_name
+        from agri_city_sample_test_details
+        where city_sample_test_details_id = #{arg0}
+    </select>
+    <select id="getStageNameByCitySampleTestDetailsId" parameterType="Long">
+        select sampling_stage_type
+        from agri_city_sample_test_details
+        where city_sample_test_details_id = #{arg0}
+    </select>
+
 </mapper>
