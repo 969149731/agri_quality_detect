@@ -96,7 +96,6 @@ public class outVegNoBanPesDetRecordsServiceImpl implements IoutVegNoBanPesDetRe
     }
     public List<outReturnType> selectoutVegNoBanPesDetRecordsList2(){
         List<outReturnType> returnResult = new ArrayList<outReturnType>();//生产原始返回值结果，农药名及全为0的其他值
-//        String[] pesticideList = {"甲胺磷", "乙酰甲胺磷","甲拌磷","氧乐果","水胺硫磷","乐果","甲基异柳磷","氟虫腈","克百威","涕灭威"};//可以在此处设置农药列表//也可查询获取列表
         List<String> pesticideList = outVegNoBanPesDetRecordsMapper.getVegNoBanPesticideList();//可以在此处设置农药列表//也可查询获取列表
         Map<String, outReturnType> pesticideResultMap = new TreeMap<String, outReturnType>();//使用字典存储
         for (String pesticideName : pesticideList) {//初始化

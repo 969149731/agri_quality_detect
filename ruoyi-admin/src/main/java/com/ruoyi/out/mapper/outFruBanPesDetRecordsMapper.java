@@ -65,14 +65,11 @@ public interface outFruBanPesDetRecordsMapper
 
     public List<outReturnType> selectoutFruBanPesDetRecordsList2(outReturnType outReturnTypeRecords);
 
-    /*根据id获取蔬菜水果名称*/
-    public String getVegFruNameByCitySampleTestDetailsId(Long citySampleTestDetailsId);
-    /*获取生产环节名称*/
-    public String getStageNameByCitySampleTestDetailsId(Long citySampleTestDetailsId);
+
+
     //获取禁用农药列表
     public List<String> getFruBanPesticideList();
-    public List<agriPesticideDetResult> getagriPesticideDetResultListWithAllCity(agriPesticideDetResult agriPesticideDetResult);
-    public List<agriPesticideDetResult> selectAgriPesticideDetResultListByCityID(Long citySampleTestDetailsId);
+
     public List<agriPesticideResidueStandard> getagriPesticideResidueStandard(String pesticideName, String vegFruName);
 
     public List<outFruVegSelectType> getFruVegDetResultList();

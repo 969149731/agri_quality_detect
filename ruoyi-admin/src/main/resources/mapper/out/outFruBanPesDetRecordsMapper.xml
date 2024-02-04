@@ -191,20 +191,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         from agri_pesticide
         where fru_pet_permit=0
     </select>
-    <select id="getAgriPesticideDetResultList" parameterType="Long" resultMap="outFruBanPesDetRecordsResult">
-        <include refid="selectoutFruBanPesDetRecordsVo"/>
-        where fru_ban_pes_det_records_id = #{fruBanPesDetRecordsId}
-    </select>
-
-    <select id="getagriPesticideDetResultListWithAllCity" parameterType="agriPesticideDetResult" resultMap="agriPesticideDetResultResult">
-        select * from agri_pesticide_det_result group by city_sample_test_details_id
-    </select>
 
     <select id="getagriPesticideResidueStandard" resultMap="agriPesticideResidueStandardType">
         select *
         from agri_pesticide_residue_standard
         where pesticide_name=#{arg0} and veg_fru_name=#{arg1}
     </select>
+
     <select id="getFruVegDetResultList" resultMap="outFruVegSelectType">
         select agric.city_sample_test_details_id,agric.sample_code,agric.veg_fru_name,agric.sampling_location,agric.detect_location,agric.sampling_stage_type,agric.sampling_date,
                agrip.pesticide_det_result_id,agrip.pesticide_name,agrip.pesticide_det_value
@@ -213,14 +206,4 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         on agric.city_sample_test_details_id = agrip.city_sample_test_details_id
     </select>
 
-    <select id="getVegFruNameByCitySampleTestDetailsId" parameterType="Long">
-        select veg_fru_name
-        from agri_city_sample_test_details
-        where city_sample_test_details_id = #{arg0}
-    </select>
-    <select id="getStageNameByCitySampleTestDetailsId" parameterType="Long">
-        select sampling_stage_type
-        from agri_city_sample_test_details
-        where city_sample_test_details_id = #{arg0}
-    </select>
 </mapper>
