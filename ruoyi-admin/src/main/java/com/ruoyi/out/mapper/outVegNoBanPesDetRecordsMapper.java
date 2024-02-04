@@ -1,6 +1,9 @@
 package com.ruoyi.out.mapper;
 
 import java.util.List;
+
+import com.ruoyi.out.domain.agriPesticideResidueStandard;
+import com.ruoyi.out.domain.outFruVegSelectType;
 import com.ruoyi.out.domain.outVegNoBanPesDetRecords;
 
 /**
@@ -58,4 +61,11 @@ public interface outVegNoBanPesDetRecordsMapper
      * @return 结果
      */
     public int deleteoutVegNoBanPesDetRecordsByVegNoBanPesDetRecordsIds(Long[] vegNoBanPesDetRecordsIds);
+
+    //数据库查询 业务
+    List<String> getVegNoBanPesticideList();
+
+    public List<outFruVegSelectType> getFruVegDetResultList();
+    public List<agriPesticideResidueStandard> getagriPesticideResidueStandard(String pesticidName, String vegFruName);
+
 }

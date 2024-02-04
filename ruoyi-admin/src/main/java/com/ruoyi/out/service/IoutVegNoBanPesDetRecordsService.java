@@ -1,6 +1,8 @@
 package com.ruoyi.out.service;
 
 import java.util.List;
+
+import com.ruoyi.out.domain.outReturnType;
 import com.ruoyi.out.domain.outVegNoBanPesDetRecords;
 
 /**
@@ -58,4 +60,6 @@ public interface IoutVegNoBanPesDetRecordsService
      * @return 结果
      */
     public int deleteoutVegNoBanPesDetRecordsByVegNoBanPesDetRecordsId(Long vegNoBanPesDetRecordsId);
+
+    public List<outReturnType> selectoutVegNoBanPesDetRecordsList2();
 }

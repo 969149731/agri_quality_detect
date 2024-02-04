@@ -21,6 +21,8 @@ import com.ruoyi.out.service.IoutFruBanPesDetRecordsService;
 import com.ruoyi.common.utils.poi.ExcelUtil;
 import com.ruoyi.common.core.page.TableDataInfo;
 
+import com.ruoyi.out.domain.outReturnType;
+
 /**
  * 水果禁用农药检出及超标情况Controller
  * 
@@ -100,5 +102,14 @@ public class outFruBanPesDetRecordsController extends BaseController
     public AjaxResult remove(@PathVariable Long[] fruBanPesDetRecordsIds)
     {
         return toAjax(outFruBanPesDetRecordsService.deleteoutFruBanPesDetRecordsByFruBanPesDetRecordsIds(fruBanPesDetRecordsIds));
+    }
+
+    @PreAuthorize("@ss.hasPermi('out:outFruBanPesDetRecords:list')")
+    @GetMapping("/listNew")
+    public TableDataInfo listNew(outReturnType outReturnTypeRecords)
+    {//水果禁用表新表的接口
+        startPage();
+        List<outReturnType> list = outFruBanPesDetRecordsService.selectoutFruBanPesDetRecordsList2(outReturnTypeRecords);
+        return getDataTable(list);
     }
 }

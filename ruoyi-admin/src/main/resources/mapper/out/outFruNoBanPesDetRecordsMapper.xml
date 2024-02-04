@@ -50,6 +50,35 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="createdDate"    column="created_date"    />
     </resultMap>
 
+    <resultMap type="agriPesticideResidueStandard" id="agriPesticideResidueStandardType">
+        <result property="standardID"    column="id"    />
+        <result property="pesticideName"    column="pesticide_name"    />
+        <result property="vegFruName"    column="veg_fru_name"    />
+        <result property="standardCategory"    column="standard_category"    />
+        <result property="standardValue"    column="standard_value"    />
+    </resultMap>
+
+    <resultMap type="agriPesticideDetResult" id="agriPesticideDetResultResult">
+        <result property="pesticideDetResultId"    column="sub_pesticide_det_result_id"    />
+        <result property="pesticideName"    column="sub_pesticide_name"    />
+        <result property="pesticideDetValue"    column="sub_pesticide_det_value"    />
+        <result property="citySampleTestDetailsId"    column="sub_city_sample_test_details_id"    />
+        <result property="createdAt"    column="sub_created_at"    />
+    </resultMap>
+
+    <resultMap type="outFruVegSelectType" id="outFruVegSelectType">
+        <result property="citySampleTestDetailsId"    column="city_sample_test_details_id"    />
+        <result property="sampleCode"    column="sample_code"    />
+        <result property="vegFruName"    column="veg_fru_name"    />
+        <result property="samplingLocation"    column="sampling_location"    />
+        <result property="detectLocation"    column="detect_location"    />
+        <result property="samplingStageType"    column="sampling_stage_type"    />
+        <result property="samplingDate"    column="sampling_date"    />
+        <result property="pesticideDetResultId"    column="pesticide_det_result_id"    />
+        <result property="pesticideName"    column="pesticide_name"    />
+        <result property="pesticideDetValue"    column="pesticide_det_value"    />
+    </resultMap>
+
     <sql id="selectoutFruNoBanPesDetRecordsVo">
         select fru_no_ban_pes_det_records_id, pesticide_name, chlorpyrifos, ddvp, triazophos, profenofos, methyl_chlorpyrifos, lambda_cyhalothrin, cypermethrin, fenvalerate, chlorfluazuron, deltamethrin, bifenthrin, fluopicolide, metalaxyl, abamectin, emamectin_benzoate, imidacloprid, oxamyl, pyraclostrobin, fenpyroximate, tebuconazole, azoxystrobin, thiamethoxam, thiacloprid, propiconazole, spirotetramat, spiromesifen, myclobutanil, spirodiclofen, acetamiprid, phosalone, Imazalil, ametoctradin, dete_num, ex_det_num, production_inspect_count, production_exceed_count, wholesale_inspect_count, wholesale_exceed_count, vehicle_inspect_count, vehicle_exceed_count, created_date from out_fru_no_ban_pes_det_records
     </sql>
@@ -258,4 +287,29 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             #{fruNoBanPesDetRecordsId}
         </foreach>
     </delete>
+
+
+
+
+    <select id="getFruNoBanPesticideList">
+        select pesticide_name
+        from agri_pesticide
+        where fru_pet_permit=1
+    </select>
+
+    <select id="getFruVegDetResultList" resultMap="outFruVegSelectType">
+        select agric.city_sample_test_details_id,agric.sample_code,agric.veg_fru_name,agric.sampling_location,agric.detect_location,agric.sampling_stage_type,agric.sampling_date,
+               agrip.pesticide_det_result_id,agrip.pesticide_name,agrip.pesticide_det_value
+        from agri_city_sample_test_details agric
+                 left join agri_pesticide_det_result agrip
+                           on agric.city_sample_test_details_id = agrip.city_sample_test_details_id
+    </select>
+
+    <select id="getagriPesticideResidueStandard" resultMap="agriPesticideResidueStandardType">
+        select *
+        from agri_pesticide_residue_standard
+        where pesticide_name=#{arg0} and veg_fru_name=#{arg1}
+    </select>
+
+
 </mapper>
