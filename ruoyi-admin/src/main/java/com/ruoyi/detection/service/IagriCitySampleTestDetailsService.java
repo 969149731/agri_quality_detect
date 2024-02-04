@@ -2,6 +2,7 @@ package com.ruoyi.detection.service;
 
 import java.util.List;
 import com.ruoyi.detection.domain.agriCitySampleTestDetails;
+import com.ruoyi.detection.domain.agriOut2CitySampleTestDetails;
 import com.ruoyi.detection.domain.agriOutCitySampleTestDetails;
 
 /**
@@ -63,4 +64,6 @@ public interface IagriCitySampleTestDetailsService
     String importAgriCitySampleTestDetails(List<agriCitySampleTestDetails> agriCitySampleTestDetailsList, boolean updateSupport, String operName);
 
     String importAgriOutCitySampleTestDetailsList(List<agriOutCitySampleTestDetails> agriOutCitySampleTestDetailsList, boolean updateSupport, String operName);
+
+    String importAgriOut2CitySampleTestDetailsList(List<agriOut2CitySampleTestDetails> agriOut2CitySampleTestDetailsList, boolean updateSupport, String operName);
 }

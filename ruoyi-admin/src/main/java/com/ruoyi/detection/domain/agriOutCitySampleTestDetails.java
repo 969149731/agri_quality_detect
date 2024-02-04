@@ -2,12 +2,11 @@ package com.ruoyi.detection.domain;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.ruoyi.common.annotation.Excel;
-
 import java.util.Date;
 
 /*
 *
-* excel导入的实体
+* excel导入的实体,动态农药name和value
 * */
 public class agriOutCitySampleTestDetails {
 
@@ -17,6 +16,7 @@ public class agriOutCitySampleTestDetails {
     /** 样品编号 */
     @Excel(name = "样品编号")
     private String sampleCode;
+
 
     /** 样品名称 */
     @Excel(name = "样品名称")
@@ -36,7 +36,7 @@ public class agriOutCitySampleTestDetails {
 
     /** 抽样基数 */
     @Excel(name = "抽样基数")
-    private Long samplingBase;
+    private String samplingBase;
 
     /** 抽样环节 */
     @Excel(name = "抽样环节")
@@ -126,11 +126,11 @@ public class agriOutCitySampleTestDetails {
         this.samplingQuantity = samplingQuantity;
     }
 
-    public Long getSamplingBase() {
+    public String getSamplingBase() {
         return samplingBase;
     }
 
-    public void setSamplingBase(Long samplingBase) {
+    public void setSamplingBase(String samplingBase) {
         this.samplingBase = samplingBase;
     }
 

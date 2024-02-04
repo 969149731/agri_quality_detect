@@ -86,4 +86,8 @@ public interface agriCitySampleTestDetailsMapper
      * @return 结果
      */
     public int deleteagriPesticideDetResultByCitySampleTestDetailsId(Long citySampleTestDetailsId);
+
+    //通过当前用户的id查询当前用户所在的部门
+    public String selectUserDepByUserName(String userName);
+
 }

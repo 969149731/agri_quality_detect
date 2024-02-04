@@ -133,7 +133,14 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         left join agri_pesticide_det_result b on b.city_sample_test_details_id = a.city_sample_test_details_id
         where a.city_sample_test_details_id = #{citySampleTestDetailsId}
     </select>
-        
+
+    <select id="selectUserDepByUserName" resultType="java.lang.String">
+
+        SELECT dept_name FROM sys_user
+        JOIN sys_dept ON sys_dept.`dept_id`=sys_user.`dept_id`
+        WHERE user_name=#{userName}
+    </select>
+
     <insert id="insertagriCitySampleTestDetails" parameterType="agriCitySampleTestDetails" useGeneratedKeys="true" keyProperty="citySampleTestDetailsId">
         insert into agri_city_sample_test_details
         <trim prefix="(" suffix=")" suffixOverrides=",">

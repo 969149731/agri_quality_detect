@@ -185,7 +185,7 @@
       <el-table-column label="样品名称" align="center" prop="vegFruName" />
       <el-table-column label="抽样地点" align="center" prop="samplingLocation" />
       <el-table-column label="检测单位" align="center" prop="detectLocation" />
-      <el-table-column label="抽样数量" align="center" prop="samplingQuantity" />
+      <el-table-column label="抽样数量（kg/个数）" align="center" prop="samplingQuantity" />
       <el-table-column label="抽样基数" align="center" prop="samplingBase" />
       <el-table-column label="抽样环节" align="center" prop="samplingStageType" />
       <el-table-column label="抽样日期" align="center" prop="samplingDate" width="180">
@@ -199,7 +199,7 @@
           <el-table  :data="props.row.agriPesticideDetResultList">
             <el-table-column  label="农药名" align="center" prop="pesticideName">
             </el-table-column>
-            <el-table-column  label="检测值" align="center" prop="pesticideDetValue">
+            <el-table-column  label="检测值 mg/kg" align="center" prop="pesticideDetValue">
             </el-table-column>
           </el-table>
         </template>
@@ -282,7 +282,7 @@
           <el-input v-model="form.detectLocation" placeholder="请输入检测单位" />
         </el-form-item>
         <el-form-item label="抽样数量" prop="samplingQuantity">
-          <el-input v-model="form.samplingQuantity" placeholder="请输入抽样数量" />
+          <el-input v-model="form.samplingQuantity" placeholder="请输入抽样数量（kg/个数）" />
         </el-form-item>
         <el-form-item label="抽样基数" prop="samplingBase">
           <el-input v-model="form.samplingBase" placeholder="请输入抽样基数" />
@@ -376,9 +376,9 @@
               <el-input v-model="scope.row.pesticideName" placeholder="请输入农药名" />
             </template>
           </el-table-column>
-          <el-table-column label="检测值" prop="pesticideDetValue" width="150">
+          <el-table-column label="检测值 mg/kg" prop="pesticideDetValue" width="150">
             <template slot-scope="scope">
-              <el-input v-model="scope.row.pesticideDetValue" placeholder="请输入检测值" />
+              <el-input v-model="scope.row.pesticideDetValue" placeholder="请输入检测值 mg/kg" />
             </template>
           </el-table-column>
         </el-table>

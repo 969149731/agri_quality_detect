@@ -45,7 +45,7 @@ public class agriCitySampleTestDetails extends BaseEntity
 
     /** 抽样基数 */
     @Excel(name = "抽样基数")
-    private Long samplingBase;
+    private String samplingBase;
 
     /** 抽样环节 */
     @Excel(name = "抽样环节")
@@ -141,12 +141,12 @@ public class agriCitySampleTestDetails extends BaseEntity
     {
         return samplingQuantity;
     }
-    public void setSamplingBase(Long samplingBase) 
+    public void setSamplingBase(String samplingBase)
     {
         this.samplingBase = samplingBase;
     }
 
-    public Long getSamplingBase() 
+    public String getSamplingBase()
     {
         return samplingBase;
     }
