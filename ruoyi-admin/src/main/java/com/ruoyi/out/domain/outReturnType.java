@@ -133,7 +133,18 @@ public class outReturnType extends BaseEntity {
             case "散户Ex":this.retailEx+=1;break;
         }
     }
-
+    public void addToTotal(outReturnType onePesticide){
+        this.totalDet+=onePesticide.totalDet;
+        this.totalEx+=onePesticide.totalEx;
+        this.productBase+=onePesticide.productBase;
+        this.productBaseEx+=onePesticide.productBaseEx;
+        this.market+=onePesticide.market;
+        this.marketEx+=onePesticide.marketEx;
+        this.vehicle+=onePesticide.vehicle;
+        this.vehicleEx+=onePesticide.vehicleEx;
+        this.retail+=onePesticide.retail;
+        this.retailEx+=onePesticide.retailEx;
+    }
 
     @Override
     public String toString() {

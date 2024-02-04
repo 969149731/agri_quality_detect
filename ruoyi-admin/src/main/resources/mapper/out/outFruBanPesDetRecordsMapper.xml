@@ -185,6 +185,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 
 
+
+    <select id="getFruBanPesticideList">
+        select pesticide_name
+        from agri_pesticide
+        where fru_pet_permit=0
+    </select>
     <select id="getAgriPesticideDetResultList" parameterType="Long" resultMap="outFruBanPesDetRecordsResult">
         <include refid="selectoutFruBanPesDetRecordsVo"/>
         where fru_ban_pes_det_records_id = #{fruBanPesDetRecordsId}

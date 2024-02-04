@@ -1,7 +1,10 @@
 package com.ruoyi.out.mapper;
 
 import java.util.List;
+
+import com.ruoyi.out.domain.agriPesticideResidueStandard;
 import com.ruoyi.out.domain.outFruNoBanPesDetRecords;
+import com.ruoyi.out.domain.outFruVegSelectType;
 
 /**
  * 水果非禁止使用农药检出及超标情况Mapper接口
@@ -58,4 +61,11 @@ public interface outFruNoBanPesDetRecordsMapper
      * @return 结果
      */
     public int deleteoutFruNoBanPesDetRecordsByFruNoBanPesDetRecordsIds(Long[] fruNoBanPesDetRecordsIds);
+
+
+    //数据库查询业务
+    public List<String>  getFruNoBanPesticideList();
+
+    List<outFruVegSelectType> getFruVegDetResultList();
+    List<agriPesticideResidueStandard> getagriPesticideResidueStandard(String pesticidName,String vegFruName);
 }

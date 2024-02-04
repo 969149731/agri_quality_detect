@@ -2,6 +2,8 @@ package com.ruoyi.out.controller;
 
 import java.util.List;
 import javax.servlet.http.HttpServletResponse;
+
+import com.ruoyi.out.domain.outReturnType;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -100,5 +102,14 @@ public class outVegBanPesDetRecordsController extends BaseController
     public AjaxResult remove(@PathVariable Long[] vegBanPesDetRecordsIds)
     {
         return toAjax(outVegBanPesDetRecordsService.deleteoutVegBanPesDetRecordsByVegBanPesDetRecordsIds(vegBanPesDetRecordsIds));
+    }
+
+    @PreAuthorize("@ss.hasPermi('out:outVegBanPesDetRecords:list')")
+    @GetMapping("/listNew")
+    public TableDataInfo listNew(outVegBanPesDetRecords outVegBanPesDetRecords)
+    {
+        startPage();
+        List<outReturnType> list = outVegBanPesDetRecordsService.selectoutVegBanPesDetRecordsList2();
+        return getDataTable(list);
     }
 }

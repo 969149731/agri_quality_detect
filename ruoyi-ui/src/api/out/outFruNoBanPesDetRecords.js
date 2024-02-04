@@ -42,3 +42,12 @@ export function delOutFruNoBanPesDetRecords(fruNoBanPesDetRecordsId) {
     method: 'delete'
   })
 }
+// 查询水果非禁止使用农药检出及超标情况列表,新方法
+export function listOutFruNoBanPesDetRecords2(query) {
+  return request({
+    url: '/out/outFruNoBanPesDetRecords/listNew',
+    method: 'get',
+    params: query
+  })
+}
+

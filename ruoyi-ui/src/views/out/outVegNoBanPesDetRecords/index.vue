@@ -1,6 +1,6 @@
 <template>
   <div class="app-container">
-    <el-form :model="queryParams" ref="queryForm" size="small" :inline="true" v-show="showSearch" label-width="68px">
+    <el-form :model="queryParams" ref="queryForm" size="small" :inline="true" v-show="showSearch" label-width="100px">
       <el-form-item label="农药名称" prop="pesticideName">
         <el-input
           v-model="queryParams.pesticideName"
@@ -9,303 +9,7 @@
           @keyup.enter.native="handleQuery"
         />
       </el-form-item>
-      <el-form-item label="联苯菊酯" prop="bifenthrin">
-        <el-input
-          v-model="queryParams.bifenthrin"
-          placeholder="请输入联苯菊酯"
-          clearable
-          @keyup.enter.native="handleQuery"
-        />
-      </el-form-item>
-      <el-form-item label="氯氟氰菊酯" prop="chlorfluazuron">
-        <el-input
-          v-model="queryParams.chlorfluazuron"
-          placeholder="请输入氯氟氰菊酯"
-          clearable
-          @keyup.enter.native="handleQuery"
-        />
-      </el-form-item>
-      <el-form-item label="氟氯氰菊酯" prop="flucycloxuron">
-        <el-input
-          v-model="queryParams.flucycloxuron"
-          placeholder="请输入氟氯氰菊酯"
-          clearable
-          @keyup.enter.native="handleQuery"
-        />
-      </el-form-item>
-      <el-form-item label="氯氰菊酯" prop="lambdaCyhalothrin">
-        <el-input
-          v-model="queryParams.lambdaCyhalothrin"
-          placeholder="请输入氯氰菊酯"
-          clearable
-          @keyup.enter.native="handleQuery"
-        />
-      </el-form-item>
-      <el-form-item label="甲氰菊酯" prop="fenvalerate">
-        <el-input
-          v-model="queryParams.fenvalerate"
-          placeholder="请输入甲氰菊酯"
-          clearable
-          @keyup.enter.native="handleQuery"
-        />
-      </el-form-item>
-      <el-form-item label="溴氰菊酯" prop="deltamethrin">
-        <el-input
-          v-model="queryParams.deltamethrin"
-          placeholder="请输入溴氰菊酯"
-          clearable
-          @keyup.enter.native="handleQuery"
-        />
-      </el-form-item>
-      <el-form-item label="三唑酮" prop="triazolone">
-        <el-input
-          v-model="queryParams.triazolone"
-          placeholder="请输入三唑酮"
-          clearable
-          @keyup.enter.native="handleQuery"
-        />
-      </el-form-item>
-      <el-form-item label="百菌清" prop="carbendazim">
-        <el-input
-          v-model="queryParams.carbendazim"
-          placeholder="请输入百菌清"
-          clearable
-          @keyup.enter.native="handleQuery"
-        />
-      </el-form-item>
-      <el-form-item label="腐霉利" prop="metalaxyl">
-        <el-input
-          v-model="queryParams.metalaxyl"
-          placeholder="请输入腐霉利"
-          clearable
-          @keyup.enter.native="handleQuery"
-        />
-      </el-form-item>
-      <el-form-item label="丙溴磷" prop="profenofos">
-        <el-input
-          v-model="queryParams.profenofos"
-          placeholder="请输入丙溴磷"
-          clearable
-          @keyup.enter.native="handleQuery"
-        />
-      </el-form-item>
-      <el-form-item label="多菌灵" prop="carbaryl">
-        <el-input
-          v-model="queryParams.carbaryl"
-          placeholder="请输入多菌灵"
-          clearable
-          @keyup.enter.native="handleQuery"
-        />
-      </el-form-item>
-      <el-form-item label="啶虫脒" prop="imidacloprid">
-        <el-input
-          v-model="queryParams.imidacloprid"
-          placeholder="请输入啶虫脒"
-          clearable
-          @keyup.enter.native="handleQuery"
-        />
-      </el-form-item>
-      <el-form-item label="苯醚甲环唑" prop="myclobutanil">
-        <el-input
-          v-model="queryParams.myclobutanil"
-          placeholder="请输入苯醚甲环唑"
-          clearable
-          @keyup.enter.native="handleQuery"
-        />
-      </el-form-item>
-      <el-form-item label="阿维菌素" prop="abamectin">
-        <el-input
-          v-model="queryParams.abamectin"
-          placeholder="请输入阿维菌素"
-          clearable
-          @keyup.enter.native="handleQuery"
-        />
-      </el-form-item>
-      <el-form-item label="甲氨基阿维菌素苯甲酸盐" prop="emamectinBenzoate">
-        <el-input
-          v-model="queryParams.emamectinBenzoate"
-          placeholder="请输入甲氨基阿维菌素苯甲酸盐"
-          clearable
-          @keyup.enter.native="handleQuery"
-        />
-      </el-form-item>
-      <el-form-item label="氟啶脲" prop="fludioxonil">
-        <el-input
-          v-model="queryParams.fludioxonil"
-          placeholder="请输入氟啶脲"
-          clearable
-          @keyup.enter.native="handleQuery"
-        />
-      </el-form-item>
-      <el-form-item label="灭幼脲" prop="diflubenzuron">
-        <el-input
-          v-model="queryParams.diflubenzuron"
-          placeholder="请输入灭幼脲"
-          clearable
-          @keyup.enter.native="handleQuery"
-        />
-      </el-form-item>
-      <el-form-item label="灭蝇胺" prop="cyromazine">
-        <el-input
-          v-model="queryParams.cyromazine"
-          placeholder="请输入灭蝇胺"
-          clearable
-          @keyup.enter.native="handleQuery"
-        />
-      </el-form-item>
-      <el-form-item label="噻虫嗪" prop="thiamethoxam">
-        <el-input
-          v-model="queryParams.thiamethoxam"
-          placeholder="请输入噻虫嗪"
-          clearable
-          @keyup.enter.native="handleQuery"
-        />
-      </el-form-item>
-      <el-form-item label="甲霜灵" prop="mancozeb">
-        <el-input
-          v-model="queryParams.mancozeb"
-          placeholder="请输入甲霜灵"
-          clearable
-          @keyup.enter.native="handleQuery"
-        />
-      </el-form-item>
-      <el-form-item label="霜霉威" prop="metalaxylM">
-        <el-input
-          v-model="queryParams.metalaxylM"
-          placeholder="请输入霜霉威"
-          clearable
-          @keyup.enter.native="handleQuery"
-        />
-      </el-form-item>
-      <el-form-item label="吡唑醚菌酯" prop="pyraclostrobin">
-        <el-input
-          v-model="queryParams.pyraclostrobin"
-          placeholder="请输入吡唑醚菌酯"
-          clearable
-          @keyup.enter.native="handleQuery"
-        />
-      </el-form-item>
-      <el-form-item label="氯吡脲" prop="chlorantraniliprole">
-        <el-input
-          v-model="queryParams.chlorantraniliprole"
-          placeholder="请输入氯吡脲"
-          clearable
-          @keyup.enter.native="handleQuery"
-        />
-      </el-form-item>
-      <el-form-item label="嘧霉胺" prop="azoxystrobin">
-        <el-input
-          v-model="queryParams.azoxystrobin"
-          placeholder="请输入嘧霉胺"
-          clearable
-          @keyup.enter.native="handleQuery"
-        />
-      </el-form-item>
-      <el-form-item label="吡虫啉" prop="imidaclothiz">
-        <el-input
-          v-model="queryParams.imidaclothiz"
-          placeholder="请输入吡虫啉"
-          clearable
-          @keyup.enter.native="handleQuery"
-        />
-      </el-form-item>
-      <el-form-item label="呋虫胺" prop="flonicamid">
-        <el-input
-          v-model="queryParams.flonicamid"
-          placeholder="请输入呋虫胺"
-          clearable
-          @keyup.enter.native="handleQuery"
-        />
-      </el-form-item>
-      <el-form-item label="虱螨脲" prop="lufenuron">
-        <el-input
-          v-model="queryParams.lufenuron"
-          placeholder="请输入虱螨脲"
-          clearable
-          @keyup.enter.native="handleQuery"
-        />
-      </el-form-item>
-      <el-form-item label="倍硫磷" prop="phosalone">
-        <el-input
-          v-model="queryParams.phosalone"
-          placeholder="请输入倍硫磷"
-          clearable
-          @keyup.enter.native="handleQuery"
-        />
-      </el-form-item>
-      <el-form-item label="抑霉唑" prop="difenoconazole">
-        <el-input
-          v-model="queryParams.difenoconazole"
-          placeholder="请输入抑霉唑"
-          clearable
-          @keyup.enter.native="handleQuery"
-        />
-      </el-form-item>
-      <el-form-item label="检出次数" prop="deteNum">
-        <el-input
-          v-model="queryParams.deteNum"
-          placeholder="请输入检出次数"
-          clearable
-          @keyup.enter.native="handleQuery"
-        />
-      </el-form-item>
-      <el-form-item label="超标次数" prop="exDetNum">
-        <el-input
-          v-model="queryParams.exDetNum"
-          placeholder="请输入超标次数"
-          clearable
-          @keyup.enter.native="handleQuery"
-        />
-      </el-form-item>
-      <el-form-item label="记录生产基地的检查次数" prop="productionInspectCount">
-        <el-input
-          v-model="queryParams.productionInspectCount"
-          placeholder="请输入记录生产基地的检查次数"
-          clearable
-          @keyup.enter.native="handleQuery"
-        />
-      </el-form-item>
-      <el-form-item label="记录生产基地的超标次数" prop="productionExceedCount">
-        <el-input
-          v-model="queryParams.productionExceedCount"
-          placeholder="请输入记录生产基地的超标次数"
-          clearable
-          @keyup.enter.native="handleQuery"
-        />
-      </el-form-item>
-      <el-form-item label="记录批发市场的检查次数" prop="wholesaleInspectCount">
-        <el-input
-          v-model="queryParams.wholesaleInspectCount"
-          placeholder="请输入记录批发市场的检查次数"
-          clearable
-          @keyup.enter.native="handleQuery"
-        />
-      </el-form-item>
-      <el-form-item label="记录批发市场的超标次数" prop="wholesaleExceedCount">
-        <el-input
-          v-model="queryParams.wholesaleExceedCount"
-          placeholder="请输入记录批发市场的超标次数"
-          clearable
-          @keyup.enter.native="handleQuery"
-        />
-      </el-form-item>
-      <el-form-item label="记录运输车的检查次数" prop="vehicleInspectCount">
-        <el-input
-          v-model="queryParams.vehicleInspectCount"
-          placeholder="请输入记录运输车的检查次数"
-          clearable
-          @keyup.enter.native="handleQuery"
-        />
-      </el-form-item>
-      <el-form-item label="记录运输车的超标次数" prop="vehicleExceedCount">
-        <el-input
-          v-model="queryParams.vehicleExceedCount"
-          placeholder="请输入记录运输车的超标次数"
-          clearable
-          @keyup.enter.native="handleQuery"
-        />
-      </el-form-item>
-      <el-form-item label="记录创建的时间" prop="createdDate">
+      <el-form-item label="记录创建时间" prop="createdDate">
         <el-date-picker clearable
           v-model="queryParams.createdDate"
           type="date"
@@ -365,72 +69,31 @@
       <right-toolbar :showSearch.sync="showSearch" @queryTable="getList"></right-toolbar>
     </el-row>
 
-    <el-table v-loading="loading" :data="outVegNoBanPesDetRecordsList" @selection-change="handleSelectionChange">
-      <el-table-column type="selection" width="55" align="center" />
-      <el-table-column label="唯一标识每条检测记录" align="center" prop="vegNoBanPesDetRecordsId" />
-      <el-table-column label="农药名称" align="center" prop="pesticideName" />
-      <el-table-column label="联苯菊酯" align="center" prop="bifenthrin" />
-      <el-table-column label="氯氟氰菊酯" align="center" prop="chlorfluazuron" />
-      <el-table-column label="氟氯氰菊酯" align="center" prop="flucycloxuron" />
-      <el-table-column label="氯氰菊酯" align="center" prop="lambdaCyhalothrin" />
-      <el-table-column label="甲氰菊酯" align="center" prop="fenvalerate" />
-      <el-table-column label="溴氰菊酯" align="center" prop="deltamethrin" />
-      <el-table-column label="三唑酮" align="center" prop="triazolone" />
-      <el-table-column label="百菌清" align="center" prop="carbendazim" />
-      <el-table-column label="腐霉利" align="center" prop="metalaxyl" />
-      <el-table-column label="丙溴磷" align="center" prop="profenofos" />
-      <el-table-column label="多菌灵" align="center" prop="carbaryl" />
-      <el-table-column label="啶虫脒" align="center" prop="imidacloprid" />
-      <el-table-column label="苯醚甲环唑" align="center" prop="myclobutanil" />
-      <el-table-column label="阿维菌素" align="center" prop="abamectin" />
-      <el-table-column label="甲氨基阿维菌素苯甲酸盐" align="center" prop="emamectinBenzoate" />
-      <el-table-column label="氟啶脲" align="center" prop="fludioxonil" />
-      <el-table-column label="灭幼脲" align="center" prop="diflubenzuron" />
-      <el-table-column label="灭蝇胺" align="center" prop="cyromazine" />
-      <el-table-column label="噻虫嗪" align="center" prop="thiamethoxam" />
-      <el-table-column label="甲霜灵" align="center" prop="mancozeb" />
-      <el-table-column label="霜霉威" align="center" prop="metalaxylM" />
-      <el-table-column label="吡唑醚菌酯" align="center" prop="pyraclostrobin" />
-      <el-table-column label="氯吡脲" align="center" prop="chlorantraniliprole" />
-      <el-table-column label="嘧霉胺" align="center" prop="azoxystrobin" />
-      <el-table-column label="吡虫啉" align="center" prop="imidaclothiz" />
-      <el-table-column label="呋虫胺" align="center" prop="flonicamid" />
-      <el-table-column label="虱螨脲" align="center" prop="lufenuron" />
-      <el-table-column label="倍硫磷" align="center" prop="phosalone" />
-      <el-table-column label="抑霉唑" align="center" prop="difenoconazole" />
-      <el-table-column label="检出次数" align="center" prop="deteNum" />
-      <el-table-column label="超标次数" align="center" prop="exDetNum" />
-      <el-table-column label="记录生产基地的检查次数" align="center" prop="productionInspectCount" />
-      <el-table-column label="记录生产基地的超标次数" align="center" prop="productionExceedCount" />
-      <el-table-column label="记录批发市场的检查次数" align="center" prop="wholesaleInspectCount" />
-      <el-table-column label="记录批发市场的超标次数" align="center" prop="wholesaleExceedCount" />
-      <el-table-column label="记录运输车的检查次数" align="center" prop="vehicleInspectCount" />
-      <el-table-column label="记录运输车的超标次数" align="center" prop="vehicleExceedCount" />
-      <el-table-column label="记录创建的时间" align="center" prop="createdDate" width="180">
+
+    <el-table
+      v-if="!peopleTagNumLoading"
+      ref="refreshTable"
+      :header-cell-style="headerStyle"
+      :span-method="spanMethod"
+      :data="StageList"
+      style="width: 100%;"
+      align='center'
+    >
+      <el-table-column label="农药名称->" prop="IncludeLable"></el-table-column>
+      <el-table-column label="农药名称" align="center" prop="StageName"></el-table-column>
+      <el-table-column
+        v-for="item in pesticideNameList"
+        align="center"
+        :label="item.pesticideName"
+        :key="item.StageId"
+        prop="value"
+      >
         <template slot-scope="scope">
-          <span>{{ parseTime(scope.row.createdDate, '{y}-{m}-{d}') }}</span>
-        </template>
-      </el-table-column>
-      <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
-        <template slot-scope="scope">
-          <el-button
-            size="mini"
-            type="text"
-            icon="el-icon-edit"
-            @click="handleUpdate(scope.row)"
-            v-hasPermi="['out:outVegNoBanPesDetRecords:edit']"
-          >修改</el-button>
-          <el-button
-            size="mini"
-            type="text"
-            icon="el-icon-delete"
-            @click="handleDelete(scope.row)"
-            v-hasPermi="['out:outVegNoBanPesDetRecords:remove']"
-          >删除</el-button>
+          <div>{{ item[scope.row['StageId']] }}</div>
         </template>
       </el-table-column>
     </el-table>
-    
+
     <pagination
       v-show="total>0"
       :total="total"
@@ -556,7 +219,7 @@
         <el-form-item label="记录运输车的超标次数" prop="vehicleExceedCount">
           <el-input v-model="form.vehicleExceedCount" placeholder="请输入记录运输车的超标次数" />
         </el-form-item>
-        <el-form-item label="记录创建的时间" prop="createdDate">
+        <el-form-item label="记录创建时间" prop="createdDate">
           <el-date-picker clearable
             v-model="form.createdDate"
             type="date"
@@ -574,7 +237,7 @@
 </template>
 
 <script>
-import { listOutVegNoBanPesDetRecords, getOutVegNoBanPesDetRecords, delOutVegNoBanPesDetRecords, addOutVegNoBanPesDetRecords, updateOutVegNoBanPesDetRecords } from "@/api/out/outVegNoBanPesDetRecords";
+import { listOutVegNoBanPesDetRecords2,listOutVegNoBanPesDetRecords, getOutVegNoBanPesDetRecords, delOutVegNoBanPesDetRecords, addOutVegNoBanPesDetRecords, updateOutVegNoBanPesDetRecords } from "@/api/out/outVegNoBanPesDetRecords";
 
 export default {
   name: "OutVegNoBanPesDetRecords",
@@ -646,7 +309,44 @@ export default {
       form: {},
       // 表单校验
       rules: {
-      }
+      },
+      StageList: [
+        {
+          StageName: '检出次数',
+          StageId: 'totalDet'
+
+        },
+        {
+          StageName: '超标次数',
+          StageId: 'totalEx'
+        },
+        {
+          IncludeLable:"其中",
+          StageName: '生产基地检出次数',
+          StageId: 'productBase'
+        },
+        {
+          StageName: '生产基地超标次数',
+          StageId: 'productBaseEx'
+        },
+        {
+          StageName: '各类市场检出',
+          StageId: 'market'
+        },
+        {
+          StageName: '各类市场超标',
+          StageId: 'marketEx'
+        },
+        {
+          StageName: '运输车检出',
+          StageId: 'vehicle'
+        },
+        {
+          StageName: '运输车超标',
+          StageId: 'vehicleEx'
+        },
+      ],
+      pesticideNameList: [],
     };
   },
   created() {
@@ -659,6 +359,10 @@ export default {
       listOutVegNoBanPesDetRecords(this.queryParams).then(response => {
         this.outVegNoBanPesDetRecordsList = response.rows;
         this.total = response.total;
+        this.loading = false;
+      });
+      listOutVegNoBanPesDetRecords2(this.queryParams).then(response => {//二维表使用的列表获取
+        this.pesticideNameList = response.rows;
         this.loading = false;
       });
     },
@@ -780,7 +484,43 @@ export default {
       this.download('out/outVegNoBanPesDetRecords/export', {
         ...this.queryParams
       }, `outVegNoBanPesDetRecords_${new Date().getTime()}.xlsx`)
-    }
+    },
+    /*表头行的合并*/
+    headerStyle({ row, column, rowIndex, columnIndex }) {
+      const comStyle = {
+        backgroundColor: "#428fd7",
+        color: "#fff",
+        fontSize: "500",
+      };
+      if (rowIndex === 0) {//第一行
+        row[0].colSpan = 0; // 将表头第一列和第二列合并，内容展示为第二列的内容
+        row[1].colSpan = 2;
+        if (columnIndex === 0) { // 将表头第一列隐藏
+          return {
+            display: "none",
+            ...comStyle,
+          };
+        }
+      }
+      return comStyle;
+    },
+    /*表头列的合并*/
+    spanMethod({ row, column, rowIndex, columnIndex }) {
+      if (rowIndex=== 2)
+      {
+        if (columnIndex === 0) {
+          return {rowspan: 6, colspan: 1} // 隐藏表头下面第一行的第一列
+        }
+      }
+      if(rowIndex> 2){//”其中“包含的行
+        if (columnIndex === 0) {
+          return {rowspan: 1, colspan: 0} // 隐藏表头下面第一行的第一列
+        }
+        if (columnIndex === 1) {
+          return {rowspan: 1, colspan: 1} // 将表头下面第一行的第一列和第二列合并
+        }
+      }
+    },
   }
 };
 </script>

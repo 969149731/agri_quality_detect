@@ -42,3 +42,12 @@ export function delOutVegBanPesDetRecords(vegBanPesDetRecordsId) {
     method: 'delete'
   })
 }
+// 查询蔬菜禁用农药检出及超标情况列表新方法
+export function listOutVegBanPesDetRecords2(query) {
+  return request({
+    url: '/out/outVegBanPesDetRecords/listNew',
+    method: 'get',
+    params: query
+  })
+}
+
