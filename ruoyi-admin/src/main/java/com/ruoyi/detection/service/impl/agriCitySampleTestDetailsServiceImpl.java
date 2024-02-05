@@ -320,7 +320,6 @@ public class agriCitySampleTestDetailsServiceImpl implements IagriCitySampleTest
                 agriCitySampleTestDetails.setEuStandard(euStandard);
                 agriCitySampleTestDetails.setUsStandard(usStandard);
                 agriCitySampleTestDetails.setKoreaStandard(koreaStandard);
-
                 //插入主表部分
                 agriCitySampleTestDetailsMapper.insertagriCitySampleTestDetails(agriCitySampleTestDetails);
 //                System.out.println("-----------------------------"+agriCitySampleTestDetails.getCitySampleTestDetailsId()+"---------------------------------------------------");

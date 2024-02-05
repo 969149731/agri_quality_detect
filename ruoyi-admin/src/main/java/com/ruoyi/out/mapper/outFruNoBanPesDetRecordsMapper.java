@@ -5,6 +5,7 @@ import java.util.List;
 import com.ruoyi.out.domain.agriPesticideResidueStandard;
 import com.ruoyi.out.domain.outFruNoBanPesDetRecords;
 import com.ruoyi.out.domain.outFruVegSelectType;
+import org.springframework.stereotype.Repository;
 
 /**
  * 水果非禁止使用农药检出及超标情况Mapper接口
@@ -12,6 +13,7 @@ import com.ruoyi.out.domain.outFruVegSelectType;
  * @author chenjie
  * @date 2024-01-27
  */
+@Repository
 public interface outFruNoBanPesDetRecordsMapper 
 {
     /**

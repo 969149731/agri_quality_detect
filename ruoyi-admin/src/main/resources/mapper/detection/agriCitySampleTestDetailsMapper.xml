@@ -87,7 +87,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
     <select id="selectagriCitySampleTestDetailsList" resultMap="myMapToRetunAllDetInf">
         SELECT * FROM agri_city_sample_test_details
-        JOIN agri_pesticide_det_result ON agri_city_sample_test_details.city_sample_test_details_id=agri_pesticide_det_result.city_sample_test_details_id
+        LEFT JOIN agri_pesticide_det_result ON agri_city_sample_test_details.city_sample_test_details_id=agri_pesticide_det_result.city_sample_test_details_id
         <where>
             <if test="sampleCode != null  and sampleCode != ''"> and sample_code = #{sampleCode}</if>
             <if test="vegFruName != null  and vegFruName != ''"> and veg_fru_name like concat('%', #{vegFruName}, '%')</if>

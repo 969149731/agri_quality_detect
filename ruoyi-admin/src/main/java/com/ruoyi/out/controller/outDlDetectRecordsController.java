@@ -36,15 +36,29 @@ public class outDlDetectRecordsController extends BaseController
 
     /**
      * 查询定量监测结果汇总列表
+     * 这边注释掉的代码是原来的写法
      */
+//    @PreAuthorize("@ss.hasPermi('out:outDlDetectRecords:list')")
+//    @GetMapping("/list")
+//    public TableDataInfo list(outDlDetectRecords outDlDetectRecords)
+//    {
+//        startPage();
+//        List<outDlDetectRecords> list = outDlDetectRecordsService.selectoutDlDetectRecordsList(outDlDetectRecords);
+//        return getDataTable(list);
+//    }
+
+
     @PreAuthorize("@ss.hasPermi('out:outDlDetectRecords:list')")
     @GetMapping("/list")
     public TableDataInfo list(outDlDetectRecords outDlDetectRecords)
     {
         startPage();
         List<outDlDetectRecords> list = outDlDetectRecordsService.selectoutDlDetectRecordsList(outDlDetectRecords);
+
+        
         return getDataTable(list);
     }
+
 
     /**
      * 导出定量监测结果汇总列表

@@ -7,12 +7,15 @@ import com.ruoyi.detection.domain.agriPesticideDetResult;//农药详细表
 import com.ruoyi.out.domain.outFruVegSelectType;
 import com.ruoyi.out.domain.outReturnType;
 import com.ruoyi.out.domain.agriPesticideResidueStandard;
+import org.springframework.stereotype.Repository;
+
 /**
  * 水果禁用农药检出及超标情况Mapper接口
  * 
  * @author chenjie
  * @date 2024-01-27
  */
+@Repository
 public interface outFruBanPesDetRecordsMapper 
 {
     /**
