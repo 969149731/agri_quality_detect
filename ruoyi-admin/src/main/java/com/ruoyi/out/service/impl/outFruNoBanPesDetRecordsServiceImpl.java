@@ -2,6 +2,7 @@ package com.ruoyi.out.service.impl;
 
 import java.util.*;
 
+import com.github.pagehelper.PageHelper;
 import com.ruoyi.out.domain.agriPesticideResidueStandard;
 import com.ruoyi.out.domain.outFruVegSelectType;
 import com.ruoyi.out.domain.outReturnType;
@@ -97,11 +98,13 @@ public class outFruNoBanPesDetRecordsServiceImpl implements IoutFruNoBanPesDetRe
 
     public List<outReturnType> selectoutFruNoBanPesDetRecordsList2(){
         List<outReturnType> returnResult = new ArrayList<outReturnType>();//生产原始返回值结果，农药名及全为0的其他值
+        PageHelper.startPage(0,0,false,false,true);//分页方法，仅对之后第一个查询生效
         List<String> pesticideList = outFruNoBanPesDetRecordsMapper.getFruNoBanPesticideList();//可以在此处设置农药列表//也可查询获取列表
         Map<String, outReturnType> pesticideResultMap = new TreeMap<String, outReturnType>();//使用字典存储
         for (String pesticideName : pesticideList) {//初始化
             pesticideResultMap.put(pesticideName, new outReturnType(pesticideName));
         }
+        PageHelper.startPage(0,0,false,false,true);//分页方法，仅对之后第一个查询生效
         List<outFruVegSelectType> SelectList = outFruNoBanPesDetRecordsMapper.getFruVegDetResultList();//获取农药检测结果表
 
         //先遍历所有获取到的结果
@@ -121,6 +124,7 @@ public class outFruNoBanPesDetRecordsServiceImpl implements IoutFruNoBanPesDetRe
             String stageName = item.samplingStageType;
             agriPesticideResidueStandard firstStandard;
             //获取对应标准//在这里可以获取多种标准
+            PageHelper.startPage(0,0,false,false,true);//分页方法，仅对之后第一个查询生效
             List<agriPesticideResidueStandard> standardslist = outFruNoBanPesDetRecordsMapper.getagriPesticideResidueStandard(pesticidName, vegFruName);
             if(!standardslist.isEmpty()){
                 firstStandard = standardslist.get(0);

@@ -17,6 +17,9 @@ public class outFruVegSelectType {
     public String pesticideName;
     public String standardCategory;
     public Double pesticideDetValue;
+    public Long vegFruId;
+    public String vegFruType;
+    public String detailType;
 
     @Override
     public String toString() {
@@ -32,6 +35,9 @@ public class outFruVegSelectType {
                 .append("pesticideName", this.pesticideName)
                 .append("standard_category", this.standardCategory)
                 .append("pesticideDetValue", this.pesticideDetValue)
+                .append("vegFruId", this.vegFruId)
+                .append("vegFruType", this.vegFruType)
+                .append("detailType", this.detailType)
                 .toString();
     }
 }
