@@ -2,6 +2,7 @@ package com.ruoyi.out.service.impl;
 
 import java.util.*;
 
+import com.github.pagehelper.PageHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.ruoyi.out.mapper.outFruBanPesDetRecordsMapper;
@@ -106,11 +107,13 @@ public class outFruBanPesDetRecordsServiceImpl implements IoutFruBanPesDetRecord
     @Override
     public List<outReturnType> selectoutFruBanPesDetRecordsList2(outReturnType outReturnTypeRecords) {
         List<outReturnType> returnResult = new ArrayList<outReturnType>();//生产原始返回值结果，农药名及全为0的其他值
+        PageHelper.startPage(0,0,false,false,true);//分页方法，仅对之后第一个查询生效
         List<String> pesticideList = outFruBanPesDetRecordsMapper.getFruBanPesticideList();//可以在此处设置农药列表//也可查询获取列表
         Map<String, outReturnType> pesticideResultMap = new TreeMap<String, outReturnType>();//使用字典存储
         for (String pesticideName : pesticideList) {//初始化
             pesticideResultMap.put(pesticideName, new outReturnType(pesticideName));
         }
+        PageHelper.startPage(0,0,false,false,true);//分页方法，仅对之后第一个查询生效
         List<outFruVegSelectType> SelectList = outFruBanPesDetRecordsMapper.getFruVegDetResultList();//获取农药检测结果表
 
         //先遍历所有获取到的结果
@@ -123,14 +126,14 @@ public class outFruBanPesDetRecordsServiceImpl implements IoutFruBanPesDetRecord
               citySampleTestDetailsId=1
               createdAt=<null>
             */
-            System.out.println("当前检测条目");
-            System.out.println(item);
+
             //获取蔬菜名//用于获取标准
             String vegFruName = item.vegFruName;
             String pesticidName = item.pesticideName;
             String stageName = item.samplingStageType;
             agriPesticideResidueStandard firstStandard;
             //获取对应标准//在这里可以获取多种标准
+            PageHelper.startPage(0,0,false,false,true);//分页方法，仅对之后第一个查询生效
             List<agriPesticideResidueStandard> standardslist = outFruBanPesDetRecordsMapper.getagriPesticideResidueStandard(pesticidName, vegFruName);
             if(!standardslist.isEmpty()){
                  firstStandard = standardslist.get(0);
@@ -148,7 +151,6 @@ public class outFruBanPesDetRecordsServiceImpl implements IoutFruBanPesDetRecord
                     pesticideResultMap.get(pesticidName).addOneToStageName(stageName + "Ex");//超标
                 }
             }
-
         }
 
         //把Map里的东西装进去
