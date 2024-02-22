@@ -82,4 +82,14 @@ public class TableDataInfo implements Serializable
     {
         this.msg = msg;
     }
+
+    @Override
+    public String toString() {
+        return "TableDataInfo{" +
+                "total=" + total +
+                ", rows=" + rows +
+                ", code=" + code +
+                ", msg='" + msg + '\'' +
+                '}';
+    }
 }
