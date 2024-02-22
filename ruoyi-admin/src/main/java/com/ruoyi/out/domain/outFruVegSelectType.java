@@ -21,6 +21,118 @@ public class outFruVegSelectType {
     public String vegFruType;
     public String detailType;
 
+    public Long getCitySampleTestDetailsId() {
+        return citySampleTestDetailsId;
+    }
+
+    public void setCitySampleTestDetailsId(Long citySampleTestDetailsId) {
+        this.citySampleTestDetailsId = citySampleTestDetailsId;
+    }
+
+    public String getSampleCode() {
+        return sampleCode;
+    }
+
+    public void setSampleCode(String sampleCode) {
+        this.sampleCode = sampleCode;
+    }
+
+    public String getVegFruName() {
+        return vegFruName;
+    }
+
+    public void setVegFruName(String vegFruName) {
+        this.vegFruName = vegFruName;
+    }
+
+    public String getSamplingLocation() {
+        return samplingLocation;
+    }
+
+    public void setSamplingLocation(String samplingLocation) {
+        this.samplingLocation = samplingLocation;
+    }
+
+    public String getDetectLocation() {
+        return detectLocation;
+    }
+
+    public void setDetectLocation(String detectLocation) {
+        this.detectLocation = detectLocation;
+    }
+
+    public String getSamplingStageType() {
+        return samplingStageType;
+    }
+
+    public void setSamplingStageType(String samplingStageType) {
+        this.samplingStageType = samplingStageType;
+    }
+
+    public Date getSamplingDate() {
+        return samplingDate;
+    }
+
+    public void setSamplingDate(Date samplingDate) {
+        this.samplingDate = samplingDate;
+    }
+
+    public Long getPesticideDetResultId() {
+        return pesticideDetResultId;
+    }
+
+    public void setPesticideDetResultId(Long pesticideDetResultId) {
+        this.pesticideDetResultId = pesticideDetResultId;
+    }
+
+    public String getPesticideName() {
+        return pesticideName;
+    }
+
+    public void setPesticideName(String pesticideName) {
+        this.pesticideName = pesticideName;
+    }
+
+    public String getStandardCategory() {
+        return standardCategory;
+    }
+
+    public void setStandardCategory(String standardCategory) {
+        this.standardCategory = standardCategory;
+    }
+
+    public Double getPesticideDetValue() {
+        return pesticideDetValue;
+    }
+
+    public void setPesticideDetValue(Double pesticideDetValue) {
+        this.pesticideDetValue = pesticideDetValue;
+    }
+
+    public Long getVegFruId() {
+        return vegFruId;
+    }
+
+    public void setVegFruId(Long vegFruId) {
+        this.vegFruId = vegFruId;
+    }
+
+    public String getVegFruType() {
+        return vegFruType;
+    }
+
+    public void setVegFruType(String vegFruType) {
+        this.vegFruType = vegFruType;
+    }
+
+    public String getDetailType() {
+        return detailType;
+    }
+
+    public void setDetailType(String detailType) {
+        this.detailType = detailType;
+    }
+
     @Override
     public String toString() {
         return new ToStringBuilder(this, ToStringStyle.MULTI_LINE_STYLE)
