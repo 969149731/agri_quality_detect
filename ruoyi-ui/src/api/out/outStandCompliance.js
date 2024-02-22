@@ -42,3 +42,12 @@ export function delOutStandCompliance(interStandId) {
     method: 'delete'
   })
 }
+
+// 查询参照国际组织或国家标准合格率情况列表
+export function listOutStandCompliance2(query) {
+  return request({
+    url: '/out/outStandCompliance/listNew',
+    method: 'get',
+    params: query
+  })
+}

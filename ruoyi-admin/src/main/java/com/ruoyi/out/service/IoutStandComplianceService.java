@@ -2,6 +2,7 @@ package com.ruoyi.out.service;
 
 import java.util.List;
 import com.ruoyi.out.domain.outStandCompliance;
+import com.ruoyi.out.domain.outStandardReturnType;
 
 /**
  * 参照国际组织或国家标准合格率情况Service接口
@@ -58,4 +59,7 @@ public interface IoutStandComplianceService
      * @return 结果
      */
     public int deleteoutStandComplianceByInterStandId(Long interStandId);
+
+
+    public List<outStandardReturnType> selectoutStandComplianceList2(outStandardReturnType outStandardReturnType);
 }

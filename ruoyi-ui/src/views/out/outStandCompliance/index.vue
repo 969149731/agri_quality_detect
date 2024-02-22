@@ -65,494 +65,6 @@
           @keyup.enter.native="handleQuery"
         />
       </el-form-item>
-      <el-form-item label="甲胺磷超标数" prop="methamidophos">
-        <el-input
-          v-model="queryParams.methamidophos"
-          placeholder="请输入甲胺磷超标数"
-          clearable
-          @keyup.enter.native="handleQuery"
-        />
-      </el-form-item>
-      <el-form-item label="乙酰甲胺磷超标数" prop="acephate">
-        <el-input
-          v-model="queryParams.acephate"
-          placeholder="请输入乙酰甲胺磷超标数"
-          clearable
-          @keyup.enter.native="handleQuery"
-        />
-      </el-form-item>
-      <el-form-item label="甲拌磷超标数" prop="Phorate">
-        <el-input
-          v-model="queryParams.Phorate"
-          placeholder="请输入甲拌磷超标数"
-          clearable
-          @keyup.enter.native="handleQuery"
-        />
-      </el-form-item>
-      <el-form-item label="氧乐果超标数" prop="oxamyl">
-        <el-input
-          v-model="queryParams.oxamyl"
-          placeholder="请输入氧乐果超标数"
-          clearable
-          @keyup.enter.native="handleQuery"
-        />
-      </el-form-item>
-      <el-form-item label="毒死蜱超标数" prop="chlorpyrifos">
-        <el-input
-          v-model="queryParams.chlorpyrifos"
-          placeholder="请输入毒死蜱超标数"
-          clearable
-          @keyup.enter.native="handleQuery"
-        />
-      </el-form-item>
-      <el-form-item label="特丁硫磷超标数" prop="fenitrothion">
-        <el-input
-          v-model="queryParams.fenitrothion"
-          placeholder="请输入特丁硫磷超标数"
-          clearable
-          @keyup.enter.native="handleQuery"
-        />
-      </el-form-item>
-      <el-form-item label="三唑磷超标数" prop="triazophos">
-        <el-input
-          v-model="queryParams.triazophos"
-          placeholder="请输入三唑磷超标数"
-          clearable
-          @keyup.enter.native="handleQuery"
-        />
-      </el-form-item>
-      <el-form-item label="水胺硫磷超标数" prop="fenthion">
-        <el-input
-          v-model="queryParams.fenthion"
-          placeholder="请输入水胺硫磷超标数"
-          clearable
-          @keyup.enter.native="handleQuery"
-        />
-      </el-form-item>
-      <el-form-item label="治螟磷超标数" prop="isocarbophos">
-        <el-input
-          v-model="queryParams.isocarbophos"
-          placeholder="请输入治螟磷超标数"
-          clearable
-          @keyup.enter.native="handleQuery"
-        />
-      </el-form-item>
-      <el-form-item label="乐果超标数" prop="leGuo">
-        <el-input
-          v-model="queryParams.leGuo"
-          placeholder="请输入乐果超标数"
-          clearable
-          @keyup.enter.native="handleQuery"
-        />
-      </el-form-item>
-      <el-form-item label="甲基异柳磷超标数" prop="isofenphosMethyl">
-        <el-input
-          v-model="queryParams.isofenphosMethyl"
-          placeholder="请输入甲基异柳磷超标数"
-          clearable
-          @keyup.enter.native="handleQuery"
-        />
-      </el-form-item>
-      <el-form-item label="氟虫腈超标数" prop="flucythrinate">
-        <el-input
-          v-model="queryParams.flucythrinate"
-          placeholder="请输入氟虫腈超标数"
-          clearable
-          @keyup.enter.native="handleQuery"
-        />
-      </el-form-item>
-      <el-form-item label="克百威超标数" prop="kebaiwei">
-        <el-input
-          v-model="queryParams.kebaiwei"
-          placeholder="请输入克百威超标数"
-          clearable
-          @keyup.enter.native="handleQuery"
-        />
-      </el-form-item>
-      <el-form-item label="联苯菊酯超标数" prop="Bifenthrin">
-        <el-input
-          v-model="queryParams.Bifenthrin"
-          placeholder="请输入联苯菊酯超标数"
-          clearable
-          @keyup.enter.native="handleQuery"
-        />
-      </el-form-item>
-      <el-form-item label="氯氟氰菊酯超标数" prop="chlorfluazuron">
-        <el-input
-          v-model="queryParams.chlorfluazuron"
-          placeholder="请输入氯氟氰菊酯超标数"
-          clearable
-          @keyup.enter.native="handleQuery"
-        />
-      </el-form-item>
-      <el-form-item label="氟氯氰菊酯超标数" prop="fluorochloridone">
-        <el-input
-          v-model="queryParams.fluorochloridone"
-          placeholder="请输入氟氯氰菊酯超标数"
-          clearable
-          @keyup.enter.native="handleQuery"
-        />
-      </el-form-item>
-      <el-form-item label="氯氰菊酯超标数" prop="cypermethrin">
-        <el-input
-          v-model="queryParams.cypermethrin"
-          placeholder="请输入氯氰菊酯超标数"
-          clearable
-          @keyup.enter.native="handleQuery"
-        />
-      </el-form-item>
-      <el-form-item label="甲氰菊酯超标数" prop="fenpyroximate">
-        <el-input
-          v-model="queryParams.fenpyroximate"
-          placeholder="请输入甲氰菊酯超标数"
-          clearable
-          @keyup.enter.native="handleQuery"
-        />
-      </el-form-item>
-      <el-form-item label="溴氰菊酯超标数" prop="bromfenac">
-        <el-input
-          v-model="queryParams.bromfenac"
-          placeholder="请输入溴氰菊酯超标数"
-          clearable
-          @keyup.enter.native="handleQuery"
-        />
-      </el-form-item>
-      <el-form-item label="三唑酮超标数" prop="triazolone">
-        <el-input
-          v-model="queryParams.triazolone"
-          placeholder="请输入三唑酮超标数"
-          clearable
-          @keyup.enter.native="handleQuery"
-        />
-      </el-form-item>
-      <el-form-item label="百菌清超标数" prop="pyrimethanil">
-        <el-input
-          v-model="queryParams.pyrimethanil"
-          placeholder="请输入百菌清超标数"
-          clearable
-          @keyup.enter.native="handleQuery"
-        />
-      </el-form-item>
-      <el-form-item label="腐霉利超标数" prop="furalaxyl">
-        <el-input
-          v-model="queryParams.furalaxyl"
-          placeholder="请输入腐霉利超标数"
-          clearable
-          @keyup.enter.native="handleQuery"
-        />
-      </el-form-item>
-      <el-form-item label="丙溴磷超标数" prop="profenofos">
-        <el-input
-          v-model="queryParams.profenofos"
-          placeholder="请输入丙溴磷超标数"
-          clearable
-          @keyup.enter.native="handleQuery"
-        />
-      </el-form-item>
-      <el-form-item label="多菌灵超标数" prop="carbendazim">
-        <el-input
-          v-model="queryParams.carbendazim"
-          placeholder="请输入多菌灵超标数"
-          clearable
-          @keyup.enter.native="handleQuery"
-        />
-      </el-form-item>
-      <el-form-item label="啶虫脒超标数" prop="imidacloprid">
-        <el-input
-          v-model="queryParams.imidacloprid"
-          placeholder="请输入啶虫脒超标数"
-          clearable
-          @keyup.enter.native="handleQuery"
-        />
-      </el-form-item>
-      <el-form-item label="苯醚甲环唑超标数" prop="epoxiconazole">
-        <el-input
-          v-model="queryParams.epoxiconazole"
-          placeholder="请输入苯醚甲环唑超标数"
-          clearable
-          @keyup.enter.native="handleQuery"
-        />
-      </el-form-item>
-      <el-form-item label="阿维菌素超标数" prop="abamectin">
-        <el-input
-          v-model="queryParams.abamectin"
-          placeholder="请输入阿维菌素超标数"
-          clearable
-          @keyup.enter.native="handleQuery"
-        />
-      </el-form-item>
-      <el-form-item label="甲氨基阿维菌素苯甲酸盐超标数" prop="emamectinBenzoate">
-        <el-input
-          v-model="queryParams.emamectinBenzoate"
-          placeholder="请输入甲氨基阿维菌素苯甲酸盐超标数"
-          clearable
-          @keyup.enter.native="handleQuery"
-        />
-      </el-form-item>
-      <el-form-item label="氟啶脲超标数" prop="fludioxonil">
-        <el-input
-          v-model="queryParams.fludioxonil"
-          placeholder="请输入氟啶脲超标数"
-          clearable
-          @keyup.enter.native="handleQuery"
-        />
-      </el-form-item>
-      <el-form-item label="灭幼脲超标数" prop="methomyl">
-        <el-input
-          v-model="queryParams.methomyl"
-          placeholder="请输入灭幼脲超标数"
-          clearable
-          @keyup.enter.native="handleQuery"
-        />
-      </el-form-item>
-      <el-form-item label="灭蝇胺超标数" prop="fipronil">
-        <el-input
-          v-model="queryParams.fipronil"
-          placeholder="请输入灭蝇胺超标数"
-          clearable
-          @keyup.enter.native="handleQuery"
-        />
-      </el-form-item>
-      <el-form-item label="噻虫嗪超标数" prop="thiamethoxam">
-        <el-input
-          v-model="queryParams.thiamethoxam"
-          placeholder="请输入噻虫嗪超标数"
-          clearable
-          @keyup.enter.native="handleQuery"
-        />
-      </el-form-item>
-      <el-form-item label="甲霜灵超标数" prop="metalaxyl">
-        <el-input
-          v-model="queryParams.metalaxyl"
-          placeholder="请输入甲霜灵超标数"
-          clearable
-          @keyup.enter.native="handleQuery"
-        />
-      </el-form-item>
-      <el-form-item label="霜霉威超标数" prop="mefenoxam">
-        <el-input
-          v-model="queryParams.mefenoxam"
-          placeholder="请输入霜霉威超标数"
-          clearable
-          @keyup.enter.native="handleQuery"
-        />
-      </el-form-item>
-      <el-form-item label="吡唑醚菌酯超标数" prop="prochloraz">
-        <el-input
-          v-model="queryParams.prochloraz"
-          placeholder="请输入吡唑醚菌酯超标数"
-          clearable
-          @keyup.enter.native="handleQuery"
-        />
-      </el-form-item>
-      <el-form-item label="氯吡脲超标数" prop="linuron">
-        <el-input
-          v-model="queryParams.linuron"
-          placeholder="请输入氯吡脲超标数"
-          clearable
-          @keyup.enter.native="handleQuery"
-        />
-      </el-form-item>
-      <el-form-item label="嘧霉胺超标数" prop="azoxystrobin">
-        <el-input
-          v-model="queryParams.azoxystrobin"
-          placeholder="请输入嘧霉胺超标数"
-          clearable
-          @keyup.enter.native="handleQuery"
-        />
-      </el-form-item>
-      <el-form-item label="吡虫啉超标数" prop="imidaclothiz">
-        <el-input
-          v-model="queryParams.imidaclothiz"
-          placeholder="请输入吡虫啉超标数"
-          clearable
-          @keyup.enter.native="handleQuery"
-        />
-      </el-form-item>
-      <el-form-item label="呋虫胺超标数" prop="furametpyr">
-        <el-input
-          v-model="queryParams.furametpyr"
-          placeholder="请输入呋虫胺超标数"
-          clearable
-          @keyup.enter.native="handleQuery"
-        />
-      </el-form-item>
-      <el-form-item label="虱螨脲超标数" prop="lufenuron">
-        <el-input
-          v-model="queryParams.lufenuron"
-          placeholder="请输入虱螨脲超标数"
-          clearable
-          @keyup.enter.native="handleQuery"
-        />
-      </el-form-item>
-      <el-form-item label="倍硫磷超标数" prop="sulfotep">
-        <el-input
-          v-model="queryParams.sulfotep"
-          placeholder="请输入倍硫磷超标数"
-          clearable
-          @keyup.enter.native="handleQuery"
-        />
-      </el-form-item>
-      <el-form-item label="抑霉唑超标数" prop="propiconazole">
-        <el-input
-          v-model="queryParams.propiconazole"
-          placeholder="请输入抑霉唑超标数"
-          clearable
-          @keyup.enter.native="handleQuery"
-        />
-      </el-form-item>
-      <el-form-item label="敌敌畏超标数" prop="dichlorvos">
-        <el-input
-          v-model="queryParams.dichlorvos"
-          placeholder="请输入敌敌畏超标数"
-          clearable
-          @keyup.enter.native="handleQuery"
-        />
-      </el-form-item>
-      <el-form-item label="甲基毒死蜱超标数" prop="chlorpyrifosMethyl">
-        <el-input
-          v-model="queryParams.chlorpyrifosMethyl"
-          placeholder="请输入甲基毒死蜱超标数"
-          clearable
-          @keyup.enter.native="handleQuery"
-        />
-      </el-form-item>
-      <el-form-item label="氰戊菊酯超标数" prop="fenvalerate">
-        <el-input
-          v-model="queryParams.fenvalerate"
-          placeholder="请输入氰戊菊酯超标数"
-          clearable
-          @keyup.enter.native="handleQuery"
-        />
-      </el-form-item>
-      <el-form-item label="异菌脲超标数" prop="fluopicolide">
-        <el-input
-          v-model="queryParams.fluopicolide"
-          placeholder="请输入异菌脲超标数"
-          clearable
-          @keyup.enter.native="handleQuery"
-        />
-      </el-form-item>
-      <el-form-item label="涕灭威超标数" prop="spirodiclofen">
-        <el-input
-          v-model="queryParams.spirodiclofen"
-          placeholder="请输入涕灭威超标数"
-          clearable
-          @keyup.enter.native="handleQuery"
-        />
-      </el-form-item>
-      <el-form-item label="烯酰吗啉超标数" prop="fenpyrazamine">
-        <el-input
-          v-model="queryParams.fenpyrazamine"
-          placeholder="请输入烯酰吗啉超标数"
-          clearable
-          @keyup.enter.native="handleQuery"
-        />
-      </el-form-item>
-      <el-form-item label="炔螨特超标数" prop="propargite">
-        <el-input
-          v-model="queryParams.propargite"
-          placeholder="请输入炔螨特超标数"
-          clearable
-          @keyup.enter.native="handleQuery"
-        />
-      </el-form-item>
-      <el-form-item label="乙螨唑超标数" prop="etoxazole">
-        <el-input
-          v-model="queryParams.etoxazole"
-          placeholder="请输入乙螨唑超标数"
-          clearable
-          @keyup.enter.native="handleQuery"
-        />
-      </el-form-item>
-      <el-form-item label="嘧菌酯超标数" prop="pyraclostrobin">
-        <el-input
-          v-model="queryParams.pyraclostrobin"
-          placeholder="请输入嘧菌酯超标数"
-          clearable
-          @keyup.enter.native="handleQuery"
-        />
-      </el-form-item>
-      <el-form-item label="噻虫胺超标数" prop="thiacloprid">
-        <el-input
-          v-model="queryParams.thiacloprid"
-          placeholder="请输入噻虫胺超标数"
-          clearable
-          @keyup.enter.native="handleQuery"
-        />
-      </el-form-item>
-      <el-form-item label="螺虫乙酯超标数" prop="spinetoram">
-        <el-input
-          v-model="queryParams.spinetoram"
-          placeholder="请输入螺虫乙酯超标数"
-          clearable
-          @keyup.enter.native="handleQuery"
-        />
-      </el-form-item>
-      <el-form-item label="哒螨灵超标数" prop="pyridaben">
-        <el-input
-          v-model="queryParams.pyridaben"
-          placeholder="请输入哒螨灵超标数"
-          clearable
-          @keyup.enter.native="handleQuery"
-        />
-      </el-form-item>
-      <el-form-item label="四螨嗪超标数" prop="clofentezine">
-        <el-input
-          v-model="queryParams.clofentezine"
-          placeholder="请输入四螨嗪超标数"
-          clearable
-          @keyup.enter.native="handleQuery"
-        />
-      </el-form-item>
-      <el-form-item label="虫螨腈超标数" prop="chlorfenapyr">
-        <el-input
-          v-model="queryParams.chlorfenapyr"
-          placeholder="请输入虫螨腈超标数"
-          clearable
-          @keyup.enter.native="handleQuery"
-        />
-      </el-form-item>
-      <el-form-item label="咪鲜胺超标数" prop="milbemectin">
-        <el-input
-          v-model="queryParams.milbemectin"
-          placeholder="请输入咪鲜胺超标数"
-          clearable
-          @keyup.enter.native="handleQuery"
-        />
-      </el-form-item>
-      <el-form-item label="双甲脒超标数" prop="dimethomorph">
-        <el-input
-          v-model="queryParams.dimethomorph"
-          placeholder="请输入双甲脒超标数"
-          clearable
-          @keyup.enter.native="handleQuery"
-        />
-      </el-form-item>
-      <el-form-item label="抽检数量" prop="samplingQuantity">
-        <el-input
-          v-model="queryParams.samplingQuantity"
-          placeholder="请输入抽检数量"
-          clearable
-          @keyup.enter.native="handleQuery"
-        />
-      </el-form-item>
-      <el-form-item label="合格数" prop="qualifiedNumber">
-        <el-input
-          v-model="queryParams.qualifiedNumber"
-          placeholder="请输入合格数"
-          clearable
-          @keyup.enter.native="handleQuery"
-        />
-      </el-form-item>
-      <el-form-item label="合格率" prop="qualificationRate">
-        <el-input
-          v-model="queryParams.qualificationRate"
-          placeholder="请输入合格率"
-          clearable
-          @keyup.enter.native="handleQuery"
-        />
-      </el-form-item>
       <el-form-item label="记录创建的时间" prop="createdDate">
         <el-date-picker clearable
           v-model="queryParams.createdDate"
@@ -612,6 +124,35 @@
       </el-col>
       <right-toolbar :showSearch.sync="showSearch" @queryTable="getList"></right-toolbar>
     </el-row>
+
+    <el-table
+      v-if="!peopleTagNumLoading"
+      ref="refreshTable"
+      :header-cell-style="headerStyle"
+      :span-method="spanMethod"
+      :data="StandardList"
+      style="width: 100%;"
+      align='center'
+      id="table1"
+    >
+      <el-table-column label="项目" prop="StandardLable" width="100px" align="center">
+      </el-table-column>
+      <el-table-column label="农药超标数" align="left">
+        <el-table-column
+          v-for="item in pesticideNameList"
+          align="center"
+          :label="item.pesticideName"
+          :key="item.StageId"
+          prop="value"
+        >
+          <template slot-scope="scope">
+            <div>{{ item[scope.row['StageId']] }}</div>
+          </template>
+        </el-table-column>
+      </el-table-column>
+
+
+    </el-table>
 
     <el-table v-loading="loading" :data="outStandComplianceList" @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="55" align="center" />
@@ -709,7 +250,7 @@
         </template>
       </el-table-column>
     </el-table>
-    
+
     <pagination
       v-show="total>0"
       :total="total"
@@ -946,7 +487,7 @@
 </template>
 
 <script>
-import { listOutStandCompliance, getOutStandCompliance, delOutStandCompliance, addOutStandCompliance, updateOutStandCompliance } from "@/api/out/outStandCompliance";
+import { listOutStandCompliance2,listOutStandCompliance, getOutStandCompliance, delOutStandCompliance, addOutStandCompliance, updateOutStandCompliance } from "@/api/out/outStandCompliance";
 
 export default {
   name: "OutStandCompliance",
@@ -1049,7 +590,35 @@ export default {
       form: {},
       // 表单校验
       rules: {
-      }
+      },
+      StandardList: [
+        {
+          StandardLable: '参照我国标准',
+          StageId: 'CN'
+
+        },
+        {
+          StandardLable: '参照CAC标准',
+          StageId: 'CAC'
+        },
+        {
+          StandardLable: '参照美国标准',
+          StageId: 'US'
+        },
+        {
+          StandardLable: '参照欧盟标准',
+          StageId: 'EU'
+        },
+        {
+          StandardLable: '参照日本标准',
+          StageId: 'JPN'
+        },
+        {
+          StandardLable: '参照韩国标准',
+          StageId: 'KR'
+        },
+      ],
+      pesticideNameList: [],
     };
   },
   created() {
@@ -1062,6 +631,12 @@ export default {
       listOutStandCompliance(this.queryParams).then(response => {
         this.outStandComplianceList = response.rows;
         this.total = response.total;
+        this.loading = false;
+      });
+      listOutStandCompliance2(this.queryParams).then(response => {//二维表使用的列表获取
+        this.pesticideNameList = response.rows;
+        let newList=Object.assign({},response.rows[0]);
+        const newObj = newList.pesticideName;
         this.loading = false;
       });
     },

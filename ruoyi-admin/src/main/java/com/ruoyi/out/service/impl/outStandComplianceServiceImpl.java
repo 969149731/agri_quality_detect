@@ -1,6 +1,11 @@
 package com.ruoyi.out.service.impl;
 
+import java.util.ArrayList;
 import java.util.List;
+
+import com.github.pagehelper.PageHelper;
+import com.ruoyi.out.domain.outReturnType;
+import com.ruoyi.out.domain.outStandardReturnType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.ruoyi.out.mapper.outStandComplianceMapper;
@@ -89,5 +94,17 @@ public class outStandComplianceServiceImpl implements IoutStandComplianceService
     public int deleteoutStandComplianceByInterStandId(Long interStandId)
     {
         return outStandComplianceMapper.deleteoutStandComplianceByInterStandId(interStandId);
+    }
+
+    public List<outStandardReturnType> selectoutStandComplianceList2(outStandardReturnType outStandardReturnType)
+    {
+        List<outStandardReturnType> returnResult = new ArrayList<outStandardReturnType>();//生产原始返回值结果，农药名及全为0的其他值
+        //获取所有农药列表
+        PageHelper.startPage(0,0,false,false,true);//解除分页方法，仅对之后第一个查询生效
+        List<String> pesticideList = outStandComplianceMapper.getAllPesticideList();//可以在此处设置农药列表//也可查询获取列表
+        for (String pesticideName : pesticideList) {//初始化
+            returnResult.add(new outStandardReturnType(pesticideName));
+        }
+        return returnResult;
     }
 }

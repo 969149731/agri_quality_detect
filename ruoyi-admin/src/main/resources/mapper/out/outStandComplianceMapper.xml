@@ -398,4 +398,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             #{interStandId}
         </foreach>
     </delete>
+
+    <select id="getAllPesticideList">
+        select pesticide_name
+        from agri_pesticide
+    </select>
 </mapper>

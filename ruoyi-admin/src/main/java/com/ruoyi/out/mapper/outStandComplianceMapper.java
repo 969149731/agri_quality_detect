@@ -2,6 +2,7 @@ package com.ruoyi.out.mapper;
 
 import java.util.List;
 import com.ruoyi.out.domain.outStandCompliance;
+import com.ruoyi.out.domain.outStandardReturnType;
 
 /**
  * 参照国际组织或国家标准合格率情况Mapper接口
@@ -58,4 +59,7 @@ public interface outStandComplianceMapper
      * @return 结果
      */
     public int deleteoutStandComplianceByInterStandIds(Long[] interStandIds);
+
+
+    public List<String> getAllPesticideList();
 }

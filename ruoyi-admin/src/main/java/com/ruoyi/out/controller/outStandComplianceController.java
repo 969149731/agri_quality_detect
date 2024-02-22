@@ -2,6 +2,8 @@ package com.ruoyi.out.controller;
 
 import java.util.List;
 import javax.servlet.http.HttpServletResponse;
+
+import com.ruoyi.out.domain.outStandardReturnType;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -100,5 +102,14 @@ public class outStandComplianceController extends BaseController
     public AjaxResult remove(@PathVariable Long[] interStandIds)
     {
         return toAjax(outStandComplianceService.deleteoutStandComplianceByInterStandIds(interStandIds));
+    }
+
+    @PreAuthorize("@ss.hasPermi('out:outStandCompliance:list')")
+    @GetMapping("/listNew")
+    public TableDataInfo listNew(outStandardReturnType outStandardReturnType)
+    {
+        startPage();
+        List<outStandardReturnType> list = outStandComplianceService.selectoutStandComplianceList2(outStandardReturnType);
+        return getDataTable(list);
     }
 }
