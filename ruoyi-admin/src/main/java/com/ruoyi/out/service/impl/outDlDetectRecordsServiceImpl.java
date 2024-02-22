@@ -63,6 +63,7 @@ public class outDlDetectRecordsServiceImpl implements IoutDlDetectRecordsService
     }
 
 
+    //判断样品是蔬菜还是水果函数
     public int check_type(String sampleName) {
         String type = outDlDetectRecordsMapper.checkSampleType(sampleName);
         if ("蔬菜".equals(type)) {
@@ -98,6 +99,7 @@ public class outDlDetectRecordsServiceImpl implements IoutDlDetectRecordsService
         }
     }
 
+    //判断某样品对应某标准的某农药是否超标函数
     public boolean checkPesticideIsPass(agriCitySampleTestDetails sample) {
         // 超标和不超标的标识，刚刚开始超标和不超标都是为0
         int flagPass = 0;
@@ -146,7 +148,7 @@ public class outDlDetectRecordsServiceImpl implements IoutDlDetectRecordsService
         return true;
     }
 
-    //我写的
+    //定量检测汇总表List
     @Override
     public Map<String, List<dlDetRecordSampleRes>> selectOutDlDetectRecordsList(agriCitySampleTestDetails agriCitySampleTestDetails) throws ParseException {
 //        agriCitySampleTestDetails agriCitySampleTestDetail = new agriCitySampleTestDetails();
