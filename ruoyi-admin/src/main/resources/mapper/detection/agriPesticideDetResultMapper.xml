@@ -66,4 +66,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             #{pesticideDetResultId}
         </foreach>
     </delete>
+
+    <select id="selectagriPesticideDetResultByCitySampleTestDetailsId" resultType="agriPesticideDetResult">
+        select * from agri_pesticide_det_result
+        where city_sample_test_details_id = #{CitySampleTestDetailsId}
+    </select>
+
+
 </mapper>

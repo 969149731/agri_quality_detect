@@ -22,20 +22,20 @@ public class outDlDetectRecords extends BaseEntity
     private Long recordDlId;
 
     /** 抽样地点（被检单位） */
-    @Excel(name = "抽样地点", readConverterExp = "被=检单位")
+    @Excel(name = "抽样地点")
     private String samplingLocation;
 
     /** 抽样日期 */
     @JsonFormat(pattern = "yyyy-MM-dd")
-    @Excel(name = "抽样日期", width = 30, dateFormat = "yyyy-MM-dd")
+//    @Excel(name = "抽样日期", width = 30, dateFormat = "yyyy-MM-dd")
     private Date samplingDate;
 
     /** 抽样年份 */
-    @Excel(name = "抽样年份")
+//    @Excel(name = "抽样年份")
     private Long samplingYear;
 
     /** 抽样月份 */
-    @Excel(name = "抽样月份")
+//    @Excel(name = "抽样月份")
     private Long samplingMonth;
 
     /** 蔬菜抽样数 */
@@ -72,11 +72,11 @@ public class outDlDetectRecords extends BaseEntity
 
     /** 总合格率，百分比 */
     @Excel(name = "总合格率，百分比")
-    private BigDecimal allPassRate;
+    private Double allPassRate;
 
     /** 记录创建的时间 */
     @JsonFormat(pattern = "yyyy-MM-dd")
-    @Excel(name = "记录创建的时间", width = 30, dateFormat = "yyyy-MM-dd")
+//    @Excel(name = "记录创建的时间", width = 30, dateFormat = "yyyy-MM-dd")
     private Date createdDate;
 
     public void setRecordDlId(Long recordDlId) 
@@ -196,12 +196,12 @@ public class outDlDetectRecords extends BaseEntity
     {
         return allQualifiedCount;
     }
-    public void setAllPassRate(BigDecimal allPassRate) 
+    public void setAllPassRate(Double allPassRate)
     {
         this.allPassRate = allPassRate;
     }
 
-    public BigDecimal getAllPassRate() 
+    public Double getAllPassRate()
     {
         return allPassRate;
     }

@@ -60,4 +60,8 @@ public interface agriPesticideDetResultMapper
      * @return 结果
      */
     public int deleteagriPesticideDetResultByPesticideDetResultIds(Long[] pesticideDetResultIds);
+
+
+
+    public List<agriPesticideDetResult> selectagriPesticideDetResultByCitySampleTestDetailsId(Long CitySampleTestDetailsId);
 }

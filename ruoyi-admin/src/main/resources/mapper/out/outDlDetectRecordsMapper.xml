@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper
-PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
-"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.ruoyi.out.mapper.outDlDetectRecordsMapper">
-    
+
     <resultMap type="outDlDetectRecords" id="outDlDetectRecordsResult">
         <result property="recordDlId"    column="record_dl_id"    />
         <result property="samplingLocation"    column="sampling_location"    />
@@ -28,7 +28,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
     <select id="selectoutDlDetectRecordsList" parameterType="outDlDetectRecords" resultMap="outDlDetectRecordsResult">
         <include refid="selectoutDlDetectRecordsVo"/>
-        <where>  
+        <where>
             <if test="samplingLocation != null  and samplingLocation != ''"> and sampling_location = #{samplingLocation}</if>
             <if test="samplingDate != null "> and sampling_date = #{samplingDate}</if>
             <if test="samplingYear != null "> and sampling_year = #{samplingYear}</if>
@@ -45,12 +45,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="createdDate != null "> and created_date = #{createdDate}</if>
         </where>
     </select>
-    
+
     <select id="selectoutDlDetectRecordsByRecordDlId" parameterType="Long" resultMap="outDlDetectRecordsResult">
         <include refid="selectoutDlDetectRecordsVo"/>
         where record_dl_id = #{recordDlId}
     </select>
-        
+
     <insert id="insertoutDlDetectRecords" parameterType="outDlDetectRecords" useGeneratedKeys="true" keyProperty="recordDlId">
         insert into out_dl_detect_records
         <trim prefix="(" suffix=")" suffixOverrides=",">
@@ -68,7 +68,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="allQualifiedCount != null">all_qualified_count,</if>
             <if test="allPassRate != null">all_pass_rate,</if>
             <if test="createdDate != null">created_date,</if>
-         </trim>
+        </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="samplingLocation != null">#{samplingLocation},</if>
             <if test="samplingDate != null">#{samplingDate},</if>
@@ -84,7 +84,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="allQualifiedCount != null">#{allQualifiedCount},</if>
             <if test="allPassRate != null">#{allPassRate},</if>
             <if test="createdDate != null">#{createdDate},</if>
-         </trim>
+        </trim>
     </insert>
 
     <update id="updateoutDlDetectRecords" parameterType="outDlDetectRecords">
@@ -113,9 +113,25 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </delete>
 
     <delete id="deleteoutDlDetectRecordsByRecordDlIds" parameterType="String">
-        delete from out_dl_detect_records where record_dl_id in 
+        delete from out_dl_detect_records where record_dl_id in
         <foreach item="recordDlId" collection="array" open="(" separator="," close=")">
             #{recordDlId}
         </foreach>
     </delete>
+
+    <select id="checkSampleType" parameterType="String" resultType="java.lang.String">
+        select veg_fru_type from agri_vegetable_fruit where veg_fru_name=#{veg_fru_name}
+    </select>
+
+    <select id="checkSampleDetResult" parameterType="String" >
+        select * from agri_pesticide_det_result where city_sample_test_details_id=#{city_sample_test_details_id}
+    </select>
+
+
+    <select id="selectLimitValueByPesticideName"  resultType="java.lang.Double" >
+        select standard_value from agri_pesticide_residue_standard
+        where pesticide_name=#{pesticideName} AND veg_fru_name=#{vegFruName}
+        AND standard_category=#{standardCategory}
+    </select>
+
 </mapper>
