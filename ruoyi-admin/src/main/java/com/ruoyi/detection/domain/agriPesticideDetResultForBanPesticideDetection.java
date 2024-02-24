@@ -2,15 +2,11 @@ package com.ruoyi.detection.domain;
 
 import com.ruoyi.common.annotation.Excel;
 import com.ruoyi.common.core.domain.BaseEntity;
-import org.apache.commons.lang3.builder.ToStringBuilder;
-import org.apache.commons.lang3.builder.ToStringStyle;
-
-import java.util.Date;
 
 /**
-   这个类是为out2ExceedSampleDetail中的超标农药品种及超标值泛型设计的
+   这个类是为out2BanPesticideDetection类中的超标农药品种及超标值泛型设计的
  */
-public class agriPesticideDetResultForOutExceedSampleDetail extends BaseEntity
+public class agriPesticideDetResultForBanPesticideDetection extends BaseEntity
 {
 
     /** 农药名 */

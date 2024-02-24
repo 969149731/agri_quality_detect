@@ -5,11 +5,14 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 import javax.servlet.http.HttpServletResponse;
 
 import cn.afterturn.easypoi.excel.ExcelExportUtil;
 import cn.afterturn.easypoi.excel.entity.TemplateExportParams;
 import com.ruoyi.detection.domain.agriCitySampleTestDetails;
+import com.ruoyi.detection.domain.agriPesticideDetResultForBanPesticideDetection;
+import com.ruoyi.detection.domain.agriPesticideDetResultForOutExceedSampleDetail;
 import com.ruoyi.out.domain.out2ExceedSampleDetail;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -63,7 +66,6 @@ public class outExceedSampleDetailController extends BaseController
     {
 //        List<outExceedSampleDetail> list = outExceedSampleDetailService.selectoutExceedSampleDetailList(agriCitySampleTestDetails);
         List<out2ExceedSampleDetail> list = outExceedSampleDetailService.selectOutExceedSampleDetailList(agriCitySampleTestDetails);
-//        System.out.println("1111111111111111111"+list);
         return getDataTable(list);
     }
 
@@ -75,7 +77,7 @@ public class outExceedSampleDetailController extends BaseController
     @Log(title = "超标蔬菜水果样品明细", businessType = BusinessType.EXPORT)
     @PostMapping("/export")
     public void export(HttpServletResponse response, agriCitySampleTestDetails agriCitySampleTestDetails) throws IOException {
-        //从out2ExceedSampleDetail里面获取值放到从outExceedSampleDetail里面获取值放到中，out2ExceedSampleDetail用来前端展示，outExceedSampleDetail用来导出
+        //从out2ExceedSampleDetail里面获取值放到从outExceedSampleDetail中，out2ExceedSampleDetail用来前端展示，outExceedSampleDetail用来导出
         List<out2ExceedSampleDetail> out2ExceedSampleDetaiLlist = outExceedSampleDetailService.selectOutExceedSampleDetailList(agriCitySampleTestDetails);
         TemplateExportParams params = new TemplateExportParams("ruoyi-admin/src/main/java/com/ruoyi/excelOutTemplate/outExceedSampleDetailExcelTemplate.xlsx");
         List<outExceedSampleDetail> outExceedSampleDetaiLlist = new ArrayList<>();
@@ -85,10 +87,16 @@ public class outExceedSampleDetailController extends BaseController
             outExceedSampleDetail.setSampleCode(out2ExceedSampleDetai.getSampleCode());
             outExceedSampleDetail.setVegFruName(out2ExceedSampleDetai.getVegFruName());
             outExceedSampleDetail.setSamplingLocation(out2ExceedSampleDetai.getSamplingLocation());
-            outExceedSampleDetail.setExceedPesticideName(out2ExceedSampleDetai.getExceedPesticideNameAndPesticideValueAndlimitValue().toString());
+
+            List<agriPesticideDetResultForOutExceedSampleDetail> exceedPesticideNameAndPesticideValueAndlimitValue = out2ExceedSampleDetai.getExceedPesticideNameAndPesticideValueAndlimitValue();
+            //一个list中如果还有list中的话，包含的那个list要换行
+            String result = exceedPesticideNameAndPesticideValueAndlimitValue.stream()
+                    .map(Object::toString) // 将每个元素转换成字符串
+                    .collect(Collectors.joining("\n")); // 使用换行符作为分隔符
+
+            outExceedSampleDetail.setExceedPesticideName(result);
             outExceedSampleDetaiLlist.add(outExceedSampleDetail);
         }
-
         Map<String, Object> map = new HashMap<>();
 //        map.put("date", System.currentTimeMillis());
         map.put("maplist", outExceedSampleDetaiLlist);

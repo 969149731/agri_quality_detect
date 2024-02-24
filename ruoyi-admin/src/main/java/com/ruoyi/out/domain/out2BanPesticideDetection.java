@@ -3,7 +3,7 @@ package com.ruoyi.out.domain;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.ruoyi.common.annotation.Excel;
 import com.ruoyi.common.core.domain.BaseEntity;
-import com.ruoyi.detection.domain.agriPesticideDetResult;
+import com.ruoyi.detection.domain.agriPesticideDetResultForBanPesticideDetection;
 import com.ruoyi.detection.domain.agriPesticideDetResultForOutExceedSampleDetail;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
@@ -12,17 +12,17 @@ import java.util.Date;
 import java.util.List;
 
 /**
- * 超标蔬菜水果样品明细对象  这个实体类用来该模块前端的页面展示
+ * 蔬菜水果禁用农药检出样品明细对象  这个实体类用来该模块前端的页面展示
  * 
  * @author chenjie
  * @date 2024-01-27
  */
-public class out2ExceedSampleDetail extends BaseEntity
+public class out2BanPesticideDetection extends BaseEntity
 {
     private static final long serialVersionUID = 1L;
 
     /** 唯一标识符，自增 */
-    private Long exceedSampleDetailId;
+    private Long banPesticideDetectionId;
 
     /** 检测单位 */
     @Excel(name = "检测单位")
@@ -46,22 +46,14 @@ public class out2ExceedSampleDetail extends BaseEntity
 //
 //    /** 超标农药超标值 */
 //    @Excel(name = "超标农药超标值")
-//    private Double exceedPesticideValue;
-
-    @Excel(name = "超标农药品种及超标值 限量值")
-    private List<agriPesticideDetResultForOutExceedSampleDetail> exceedPesticideNameAndPesticideValueAndlimitValue;
-
+//    private Long exceedPesticideValue;
+//
 //    /** 限量值（GB2763-2021） */
 //    @Excel(name = "限量值", readConverterExp = "G=B2763-2021")
-//        private Double limitValue;
+//    private Long limitValue;
 
-    /** 查处情况 */
-    @Excel(name = "查处情况")
-    private String actionTaken;
-
-    /** 查处人 */
-    @Excel(name = "查处人")
-    private String investigator;
+    @Excel(name = "超标农药品种及超标值")
+    private List<agriPesticideDetResultForBanPesticideDetection> exceedPesticideNameAndPesticideValueAndlimitValue;
 
     /** 备注 */
     @Excel(name = "备注")
@@ -72,12 +64,12 @@ public class out2ExceedSampleDetail extends BaseEntity
     @Excel(name = "记录创建的时间", width = 30, dateFormat = "yyyy-MM-dd")
     private Date createdDate;
 
-    public Long getExceedSampleDetailId() {
-        return exceedSampleDetailId;
+    public Long getBanPesticideDetectionId() {
+        return banPesticideDetectionId;
     }
 
-    public void setExceedSampleDetailId(Long exceedSampleDetailId) {
-        this.exceedSampleDetailId = exceedSampleDetailId;
+    public void setBanPesticideDetectionId(Long banPesticideDetectionId) {
+        this.banPesticideDetectionId = banPesticideDetectionId;
     }
 
     public String getDetectUnit() {
@@ -112,28 +104,12 @@ public class out2ExceedSampleDetail extends BaseEntity
         this.samplingLocation = samplingLocation;
     }
 
-    public List<agriPesticideDetResultForOutExceedSampleDetail> getExceedPesticideNameAndPesticideValueAndlimitValue() {
+    public List<agriPesticideDetResultForBanPesticideDetection> getExceedPesticideNameAndPesticideValueAndlimitValue() {
         return exceedPesticideNameAndPesticideValueAndlimitValue;
     }
 
-    public void setExceedPesticideNameAndPesticideValueAndlimitValue(List<agriPesticideDetResultForOutExceedSampleDetail> exceedPesticideNameAndPesticideValueAndlimitValue) {
+    public void setExceedPesticideNameAndPesticideValueAndlimitValue(List<agriPesticideDetResultForBanPesticideDetection> exceedPesticideNameAndPesticideValueAndlimitValue) {
         this.exceedPesticideNameAndPesticideValueAndlimitValue = exceedPesticideNameAndPesticideValueAndlimitValue;
-    }
-
-    public String getActionTaken() {
-        return actionTaken;
-    }
-
-    public void setActionTaken(String actionTaken) {
-        this.actionTaken = actionTaken;
-    }
-
-    public String getInvestigator() {
-        return investigator;
-    }
-
-    public void setInvestigator(String investigator) {
-        this.investigator = investigator;
     }
 
     public String getRemarks() {
@@ -152,17 +128,16 @@ public class out2ExceedSampleDetail extends BaseEntity
         this.createdDate = createdDate;
     }
 
+
     @Override
     public String toString() {
-        return "out2ExceedSampleDetail{" +
-                "exceedSampleDetailId=" + exceedSampleDetailId +
+        return "out2BanPesticideDetection{" +
+                "banPesticideDetectionId=" + banPesticideDetectionId +
                 ", detectUnit='" + detectUnit + '\'' +
                 ", sampleCode='" + sampleCode + '\'' +
                 ", vegFruName='" + vegFruName + '\'' +
                 ", samplingLocation='" + samplingLocation + '\'' +
                 ", exceedPesticideNameAndPesticideValueAndlimitValue=" + exceedPesticideNameAndPesticideValueAndlimitValue +
-                ", actionTaken='" + actionTaken + '\'' +
-                ", investigator='" + investigator + '\'' +
                 ", remarks='" + remarks + '\'' +
                 ", createdDate=" + createdDate +
                 '}';

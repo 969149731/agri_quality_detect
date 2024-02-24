@@ -140,12 +140,12 @@
       <el-table-column label="样品编号" align="center" prop="sampleCode" />
       <el-table-column label="样品名称" align="center" prop="vegFruName" />
       <el-table-column label="抽样地点" align="center" prop="samplingLocation" />
-      <el-table-column label="超标情况" align="center" prop="result" width="350">
+      <el-table-column label="超标农药品种 | 超标值 | 限量值" align="center" prop="result" width="350">
         <template slot-scope="props" >
           <el-table  :data="props.row.exceedPesticideNameAndPesticideValueAndlimitValue">
             <el-table-column  label="农药名" align="center" prop="pesticideName"  width="110">
             </el-table-column>
-            <el-table-column  label="检测值 mg/kg" align="center" prop="pesticideDetValue" width="110">
+            <el-table-column  label="超标值 mg/kg" align="center" prop="pesticideDetValue" width="110">
             </el-table-column>
             <el-table-column  label="限量值 mg/kg" align="center" prop="limitValue" width="110">
             </el-table-column>
