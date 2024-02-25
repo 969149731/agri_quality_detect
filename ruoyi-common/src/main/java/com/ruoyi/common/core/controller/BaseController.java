@@ -55,6 +55,11 @@ public class BaseController
         PageUtils.startPage();
     }
 
+    protected void myStartPage()
+    {
+        PageUtils.myStartPage();
+    }
+
     /**
      * 设置请求排序数据
      */

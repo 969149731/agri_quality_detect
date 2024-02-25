@@ -22,6 +22,10 @@ import org.springframework.stereotype.Service;
 import com.ruoyi.out.mapper.outBanPesticideDetectionMapper;
 import com.ruoyi.out.domain.outBanPesticideDetection;
 import com.ruoyi.out.service.IoutBanPesticideDetectionService;
+import com.ruoyi.detection.mapper.agriCitySampleTestDetailsMapper;
+import com.ruoyi.out.mapper.outDlDetectRecordsMapper;
+import com.ruoyi.detection.mapper.agriPesticideDetResultMapper;
+
 
 /**
  * 蔬菜水果禁用农药检出样品明细Service业务层处理
@@ -35,11 +39,11 @@ public class outBanPesticideDetectionServiceImpl implements IoutBanPesticideDete
     @Autowired
     private outBanPesticideDetectionMapper outBanPesticideDetectionMapper;
     @Autowired
-    private com.ruoyi.detection.mapper.agriCitySampleTestDetailsMapper agriCitySampleTestDetailsMapper;
+    private agriCitySampleTestDetailsMapper agriCitySampleTestDetailsMapper;
     @Autowired
-    private com.ruoyi.out.mapper.outDlDetectRecordsMapper outDlDetectRecordsMapper;
+    private outDlDetectRecordsMapper outDlDetectRecordsMapper;
     @Autowired
-    private com.ruoyi.detection.mapper.agriPesticideDetResultMapper agriPesticideDetResultMapper;
+    private agriPesticideDetResultMapper agriPesticideDetResultMapper;
 
     /**
      * 查询蔬菜水果禁用农药检出样品明细
