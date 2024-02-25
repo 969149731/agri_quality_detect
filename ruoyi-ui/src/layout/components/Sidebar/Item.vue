@@ -21,11 +21,13 @@ export default {
     }
 
     if (title) {
-      if (title.length > 5) {
-        vnodes.push(<span slot='title' title={(title)}>{(title)}</span>)
-      } else {
-        vnodes.push(<span slot='title'>{(title)}</span>)
-      }
+      //这边是取消官方的停留显示左侧菜单标题  参考https://blog.csdn.net/weixin_44506660/article/details/129425290
+      // if (title.length > 5) {
+      //   vnodes.push(<span slot='title' title={(title)}>{(title)}</span>)
+      // } else {
+      //   vnodes.push(<span slot='title'>{(title)}</span>)
+      // }
+      vnodes.push(<span slot='title'>{(title)}</span>)
     }
     return vnodes
   }

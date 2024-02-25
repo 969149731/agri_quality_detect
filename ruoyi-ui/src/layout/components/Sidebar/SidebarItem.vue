@@ -3,7 +3,18 @@
     <template v-if="hasOneShowingChild(item.children,item) && (!onlyOneChild.children||onlyOneChild.noShowingChildren)&&!item.alwaysShow">
       <app-link v-if="onlyOneChild.meta" :to="resolvePath(onlyOneChild.path, onlyOneChild.query)">
         <el-menu-item :index="resolvePath(onlyOneChild.path)" :class="{'submenu-title-noDropdown':!isNest}">
-          <item :icon="onlyOneChild.meta.icon||(item.meta&&item.meta.icon)" :title="onlyOneChild.meta.title" />
+
+
+          <el-tooltip class="item" effect="dark" :content="onlyOneChild.meta.title" placement="right-start">
+       <span v-if="onlyOneChild.meta">
+
+     <item :icon="onlyOneChild.meta.icon||(item.meta&&item.meta.icon)":title="onlyOneChild.meta.title" />
+
+    </span>
+          </el-tooltip>
+
+
+<!--    这边是被我注释掉的  上面</el-tooltip>内的是我添加的https://blog.csdn.net/weixin_44506660/article/details/129425290    <item :icon="onlyOneChild.meta.icon||(item.meta&&item.meta.icon)" :title="onlyOneChild.meta.title" />-->
         </el-menu-item>
       </app-link>
     </template>
