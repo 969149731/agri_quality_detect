@@ -206,6 +206,11 @@ public class outBanPesticideDetectionServiceImpl implements IoutBanPesticideDete
                 for (agriPesticideDetResult agriPesticideDetResult : agriPesticideDetResults) {
                     String pesticideName = agriPesticideDetResult.getPesticideName();
                     //如果是水果禁用农药
+                    //也可以这么写  简单
+                    // Set<String> pesticides = new HashSet<>(Arrays.asList("甲胺磷", "乙酰甲胺磷", "甲拌磷", "氧乐果", "毒死蜱", "特丁硫磷", "三唑磷", "水胺硫磷", "治螟磷", "乐果", "甲基异柳磷", "氟虫腈", "克百威"));
+                    //if (pesticides.contains(pesticideName)) {
+                    // 你的逻辑代码
+                    //}
                     if("甲胺磷".equals(pesticideName)||"乙酰甲胺磷".equals(pesticideName)||"甲拌磷".equals(pesticideName)||"氧乐果".equals(pesticideName)||"水胺硫磷".equals(pesticideName)||"乐果".equals(pesticideName)||"甲基异柳磷".equals(pesticideName)||"氟虫腈".equals(pesticideName)||"克百威".equals(pesticideName)||"涕灭威".equals(pesticideName)){
                         agriPesticideDetResultForBanPesticideDetection agriPesticideDetResultForBanPesticideDetection = new agriPesticideDetResultForBanPesticideDetection();
                         agriPesticideDetResultForBanPesticideDetection.setPesticideName(pesticideName);
