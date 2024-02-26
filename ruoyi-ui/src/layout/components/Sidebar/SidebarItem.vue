@@ -14,7 +14,7 @@
           </el-tooltip>
 
 
-<!--    这边是被我注释掉的  上面</el-tooltip>内的是我添加的https://blog.csdn.net/weixin_44506660/article/details/129425290    <item :icon="onlyOneChild.meta.icon||(item.meta&&item.meta.icon)" :title="onlyOneChild.meta.title" />-->
+<!--    这边是被我注释掉的，原来是有这行代码的  上面</el-tooltip>内的是我添加的，增加左侧导航栏的回显https://blog.csdn.net/weixin_44506660/article/details/129425290    <item :icon="onlyOneChild.meta.icon||(item.meta&&item.meta.icon)" :title="onlyOneChild.meta.title" />-->
         </el-menu-item>
       </app-link>
     </template>
