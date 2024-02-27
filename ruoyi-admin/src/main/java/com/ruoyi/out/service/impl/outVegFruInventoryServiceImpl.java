@@ -1,6 +1,8 @@
 package com.ruoyi.out.service.impl;
 
 import java.util.List;
+
+import com.ruoyi.out.domain.VegFruStatistic;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.ruoyi.out.mapper.outVegFruInventoryMapper;
@@ -89,5 +91,10 @@ public class outVegFruInventoryServiceImpl implements IoutVegFruInventoryService
     public int deleteoutVegFruInventoryByVegFruInventoryId(Long vegFruInventoryId)
     {
         return outVegFruInventoryMapper.deleteoutVegFruInventoryByVegFruInventoryId(vegFruInventoryId);
+    }
+
+    @Override
+    public List<VegFruStatistic> selectVegFruStatistic() {
+        return outVegFruInventoryMapper.selectVegFruStatistic();
     }
 }

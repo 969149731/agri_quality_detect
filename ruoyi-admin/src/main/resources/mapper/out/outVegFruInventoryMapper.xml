@@ -83,4 +83,43 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             #{vegFruInventoryId}
         </foreach>
     </delete>
+
+    <resultMap id="VegFruStatisticMap" type="VegFruStatistic">
+        <result property="name" column="NAME"/>
+        <result property="type" column="TYPE"/>
+        <result property="quantity" column="Quantity"/>
+    </resultMap>
+
+    <select id="selectVegFruStatistic" resultMap="VegFruStatisticMap">
+        SELECT
+            avf.veg_fru_name AS NAME,
+            '蔬菜' AS TYPE,
+            COUNT(acstd.city_sample_test_details_id) AS Quantity
+        FROM
+            agri_city_sample_test_details acstd
+                JOIN
+            agri_vegetable_fruit avf ON acstd.veg_fru_name = avf.veg_fru_name
+        WHERE
+            avf.veg_fru_type = '蔬菜'
+        GROUP BY
+            avf.veg_fru_name
+
+        UNION ALL
+
+        SELECT
+            avf.veg_fru_name AS NAME,
+            '水果' AS TYPE,
+            COUNT(acstd.city_sample_test_details_id) AS Quantity
+        FROM
+            agri_city_sample_test_details acstd
+                JOIN
+            agri_vegetable_fruit avf ON acstd.veg_fru_name = avf.veg_fru_name
+        WHERE
+            avf.veg_fru_type = '水果'
+        GROUP BY
+            avf.veg_fru_name
+    </select>
+
+
+
 </mapper>

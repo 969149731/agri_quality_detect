@@ -1,7 +1,16 @@
 package com.ruoyi.out.controller;
 
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import javax.servlet.http.HttpServletResponse;
+
+import cn.afterturn.easypoi.excel.ExcelExportUtil;
+import cn.afterturn.easypoi.excel.entity.TemplateExportParams;
+import com.ruoyi.out.domain.VegFruStatistic;
+import org.apache.poi.ss.usermodel.Workbook;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -41,8 +50,10 @@ public class outVegFruInventoryController extends BaseController
     @GetMapping("/list")
     public TableDataInfo list(outVegFruInventory outVegFruInventory)
     {
-        startPage();
-        List<outVegFruInventory> list = outVegFruInventoryService.selectoutVegFruInventoryList(outVegFruInventory);
+//        startPage();
+//        List<outVegFruInventory> list = outVegFruInventoryService.selectoutVegFruInventoryList(outVegFruInventory);
+        List<VegFruStatistic> list = outVegFruInventoryService.selectVegFruStatistic();
+
         return getDataTable(list);
     }
 
@@ -52,11 +63,37 @@ public class outVegFruInventoryController extends BaseController
     @PreAuthorize("@ss.hasPermi('out:outVegFruInventory:export')")
     @Log(title = "蔬菜水果种类及数量", businessType = BusinessType.EXPORT)
     @PostMapping("/export")
-    public void export(HttpServletResponse response, outVegFruInventory outVegFruInventory)
-    {
-        List<outVegFruInventory> list = outVegFruInventoryService.selectoutVegFruInventoryList(outVegFruInventory);
-        ExcelUtil<outVegFruInventory> util = new ExcelUtil<outVegFruInventory>(outVegFruInventory.class);
-        util.exportExcel(response, list, "蔬菜水果种类及数量数据");
+    public void export(HttpServletResponse response, outVegFruInventory outVegFruInventory) throws IOException {
+//        List<outVegFruInventory> list = outVegFruInventoryService.selectoutVegFruInventoryList(outVegFruInventory);
+//        ExcelUtil<outVegFruInventory> util = new ExcelUtil<outVegFruInventory>(outVegFruInventory.class);
+//        util.exportExcel(response, list, "蔬菜水果种类及数量数据");
+        TemplateExportParams params = new TemplateExportParams("ruoyi-admin/src/main/java/com/ruoyi/excelOutTemplate/outVegFruInventoryExcelTemplate.xlsx");
+        Map<String, Object> map = new HashMap<>();
+        List<VegFruStatistic> list = outVegFruInventoryService.selectVegFruStatistic();
+        List<VegFruStatistic> listVeg = new ArrayList<>();
+        int index=1;
+        for (VegFruStatistic statistic : list) {
+            if ("蔬菜".equals(statistic.getType())) {
+                statistic.setVegetableSeqNo(index++);
+                listVeg.add(statistic);
+            }
+        }
+        List<VegFruStatistic> listFru = new ArrayList<>();
+        for (VegFruStatistic statistic : list) {
+            if ("水果".equals(statistic.getType())) {
+                listFru.add(statistic);
+            }
+        }
+
+
+        map.put("index",index);
+        map.put("maplistVeg", listVeg);
+//        map.put("maplistFru", listFru);
+        Workbook workbook = ExcelExportUtil.exportExcel(params, map);
+        workbook.write(response.getOutputStream());
+        workbook.close();
+
+
     }
 
     /**

@@ -1,6 +1,8 @@
 package com.ruoyi.out.service;
 
 import java.util.List;
+
+import com.ruoyi.out.domain.VegFruStatistic;
 import com.ruoyi.out.domain.outVegFruInventory;
 
 /**
@@ -58,4 +60,6 @@ public interface IoutVegFruInventoryService
      * @return 结果
      */
     public int deleteoutVegFruInventoryByVegFruInventoryId(Long vegFruInventoryId);
+
+    List<VegFruStatistic> selectVegFruStatistic();
 }
