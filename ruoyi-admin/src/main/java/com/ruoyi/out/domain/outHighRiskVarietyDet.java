@@ -18,8 +18,8 @@ public class outHighRiskVarietyDet extends BaseEntity
 {
     private static final long serialVersionUID = 1L;
 
-    /** 唯一标识符，自增 */
-    private Long outHighRiskVarietyDetId;
+//    /** 唯一标识符，自增 */
+//    private Long outHighRiskVarietyDetId;
 
     /** 抽样地点（被检单位） */
     @Excel(name = "抽样地点", readConverterExp = "被=检单位")
@@ -45,6 +45,8 @@ public class outHighRiskVarietyDet extends BaseEntity
     @Excel(name = "合格率", readConverterExp = "%=")
     private BigDecimal qualificationRate;
 
+    private String det_res;
+
     /** 禁用农药检出（可选字段） */
     @Excel(name = "禁用农药检出", readConverterExp = "可=选字段")
     private String prohibitedPesticideDetection;
@@ -62,15 +64,15 @@ public class outHighRiskVarietyDet extends BaseEntity
     @Excel(name = "记录创建的时间", width = 30, dateFormat = "yyyy-MM-dd")
     private Date createdDate;
 
-    public void setOutHighRiskVarietyDetId(Long outHighRiskVarietyDetId) 
-    {
-        this.outHighRiskVarietyDetId = outHighRiskVarietyDetId;
-    }
-
-    public Long getOutHighRiskVarietyDetId() 
-    {
-        return outHighRiskVarietyDetId;
-    }
+//    public void setOutHighRiskVarietyDetId(Long outHighRiskVarietyDetId)
+//    {
+//        this.outHighRiskVarietyDetId = outHighRiskVarietyDetId;
+//    }
+//
+//    public Long getOutHighRiskVarietyDetId()
+//    {
+//        return outHighRiskVarietyDetId;
+//    }
     public void setSamplingLocation(String samplingLocation) 
     {
         this.samplingLocation = samplingLocation;
@@ -134,12 +136,20 @@ public class outHighRiskVarietyDet extends BaseEntity
     {
         return prohibitedPesticideDetection;
     }
-    public void setRoutinePesticideExceedance(String routinePesticideExceedance) 
+    public void setRoutinePesticideExceedance(String routinePesticideExceedance)
     {
         this.routinePesticideExceedance = routinePesticideExceedance;
     }
 
-    public String getRoutinePesticideExceedance() 
+    public String getDet_res() {
+        return det_res;
+    }
+
+    public void setDet_res(String det_res) {
+        this.det_res = det_res;
+    }
+
+    public String getRoutinePesticideExceedance()
     {
         return routinePesticideExceedance;
     }
@@ -165,7 +175,7 @@ public class outHighRiskVarietyDet extends BaseEntity
     @Override
     public String toString() {
         return new ToStringBuilder(this,ToStringStyle.MULTI_LINE_STYLE)
-            .append("outHighRiskVarietyDetId", getOutHighRiskVarietyDetId())
+//            .append("outHighRiskVarietyDetId", getOutHighRiskVarietyDetId())
             .append("samplingLocation", getSamplingLocation())
             .append("detectLocation", getDetectLocation())
             .append("vegFruName", getVegFruName())
@@ -173,7 +183,7 @@ public class outHighRiskVarietyDet extends BaseEntity
             .append("qualifiedNumber", getQualifiedNumber())
             .append("qualificationRate", getQualificationRate())
             .append("prohibitedPesticideDetection", getProhibitedPesticideDetection())
-            .append("routinePesticideExceedance", getRoutinePesticideExceedance())
+//            .append("routinePesticideExceedance", getRoutinePesticideExceedance())
             .append("remarks", getRemarks())
             .append("createdDate", getCreatedDate())
             .toString();
