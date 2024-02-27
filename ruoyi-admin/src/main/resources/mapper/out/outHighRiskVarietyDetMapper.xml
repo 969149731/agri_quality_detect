@@ -98,4 +98,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             #{outHighRiskVarietyDetId}
         </foreach>
     </delete>
+
+
+    <select id="selectHighRiskSampleByVegFruName" parameterType="String" resultType="java.lang.String">
+        select high_risk_sample from agri_vegetable_fruit where veg_fru_name=#{vegFruName}
+    </select>
+
 </mapper>

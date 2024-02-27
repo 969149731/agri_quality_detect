@@ -1,7 +1,10 @@
 package com.ruoyi.out.mapper;
 
 import java.util.List;
+
+import com.ruoyi.out.domain.VegFruStatistic;
 import com.ruoyi.out.domain.outVegFruInventory;
+import org.springframework.stereotype.Repository;
 
 /**
  * 蔬菜水果种类及数量Mapper接口
@@ -9,6 +12,8 @@ import com.ruoyi.out.domain.outVegFruInventory;
  * @author chenjie
  * @date 2024-01-27
  */
+
+@Repository
 public interface outVegFruInventoryMapper 
 {
     /**
@@ -58,4 +63,6 @@ public interface outVegFruInventoryMapper
      * @return 结果
      */
     public int deleteoutVegFruInventoryByVegFruInventoryIds(Long[] vegFruInventoryIds);
+
+    List<VegFruStatistic> selectVegFruStatistic();
 }

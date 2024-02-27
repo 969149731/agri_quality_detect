@@ -1,6 +1,9 @@
 package com.ruoyi.out.service;
 
 import java.util.List;
+import java.util.Map;
+
+import com.ruoyi.detection.domain.agriCitySampleTestDetails;
 import com.ruoyi.out.domain.outHighRiskVarietyDet;
 
 /**
@@ -58,4 +61,6 @@ public interface IoutHighRiskVarietyDetService
      * @return 结果
      */
     public int deleteoutHighRiskVarietyDetByOutHighRiskVarietyDetId(Long outHighRiskVarietyDetId);
+
+    Map<String, List<outHighRiskVarietyDet>> selectOutHighRiskVarietyDetList(agriCitySampleTestDetails agriCitySampleTestDetails);
 }
