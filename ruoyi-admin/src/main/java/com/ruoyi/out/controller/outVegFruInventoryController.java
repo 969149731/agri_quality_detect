@@ -67,33 +67,55 @@ public class outVegFruInventoryController extends BaseController
 //        List<outVegFruInventory> list = outVegFruInventoryService.selectoutVegFruInventoryList(outVegFruInventory);
 //        ExcelUtil<outVegFruInventory> util = new ExcelUtil<outVegFruInventory>(outVegFruInventory.class);
 //        util.exportExcel(response, list, "蔬菜水果种类及数量数据");
+        Long index=1L;
         TemplateExportParams params = new TemplateExportParams("ruoyi-admin/src/main/java/com/ruoyi/excelOutTemplate/outVegFruInventoryExcelTemplate.xlsx");
         Map<String, Object> map = new HashMap<>();
         List<VegFruStatistic> list = outVegFruInventoryService.selectVegFruStatistic();
+        //这边开到
+        List<outVegFruInventory> mergedList = new ArrayList<>();
+
         List<VegFruStatistic> listVeg = new ArrayList<>();
-        int index=1;
+        List<VegFruStatistic> listFru = new ArrayList<>();
+
         for (VegFruStatistic statistic : list) {
             if ("蔬菜".equals(statistic.getType())) {
-                statistic.setVegetableSeqNo(index++);
                 listVeg.add(statistic);
             }
         }
-        List<VegFruStatistic> listFru = new ArrayList<>();
+
         for (VegFruStatistic statistic : list) {
             if ("水果".equals(statistic.getType())) {
                 listFru.add(statistic);
             }
         }
+        listVeg.addAll(listFru);
 
 
-        map.put("index",index);
+        for (VegFruStatistic vegFruStatistic : listVeg) {
+            // 在这里处理每个vegFruStatistic item
+            outVegFruInventory VegFruInventory = new outVegFruInventory();
+            VegFruInventory.setVegFruInventoryId(index++);
+            if("蔬菜".equals(vegFruStatistic.getType())){
+                VegFruInventory.setVegetableDetailName(vegFruStatistic.getName());
+                VegFruInventory.setVegetableQuantity((long) vegFruStatistic.getQuantity());
+            }
+
+            if("水果".equals(vegFruStatistic.getType())){
+                VegFruInventory.setFruitDetailName(vegFruStatistic.getName());
+                VegFruInventory.setFruitQuantity((long) vegFruStatistic.getQuantity());
+            }
+            if (VegFruInventory.getFruitDetailName()!=null &&VegFruInventory.getVegetableDetailName()!=null ){
+                mergedList.add(VegFruInventory);
+            }
+        }
+
+//        map.put("maplist",mergedList);
+//        map.put("index",index);
+        map.put("maplistFru", listFru);
         map.put("maplistVeg", listVeg);
-//        map.put("maplistFru", listFru);
         Workbook workbook = ExcelExportUtil.exportExcel(params, map);
         workbook.write(response.getOutputStream());
         workbook.close();
-
-
     }
 
     /**

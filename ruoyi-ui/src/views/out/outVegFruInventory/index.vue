@@ -92,17 +92,31 @@
         >删除
         </el-button>
       </el-col>
+
+<!--      <el-col :span="1.5">-->
+<!--        <el-button-->
+<!--          type="warning"-->
+<!--          plain-->
+<!--          icon="el-icon-download"-->
+<!--          size="mini"-->
+<!--          @click="handleExport"-->
+<!--          v-hasPermi="['out:outVegFruInventory:export']"-->
+<!--        >导出-->
+<!--        </el-button>-->
+<!--      </el-col>-->
+
       <el-col :span="1.5">
         <el-button
           type="warning"
           plain
           icon="el-icon-download"
           size="mini"
-          @click="handleExport"
-          v-hasPermi="['out:outVegFruInventory:export']"
+          @click="exportTableToExcel"
         >导出
         </el-button>
       </el-col>
+
+
       <right-toolbar :showSearch.sync="showSearch" @queryTable="getList"></right-toolbar>
     </el-row>
 
@@ -139,6 +153,120 @@
     </el-row>
 
 
+
+    <!-- 假设的隐藏表格，用于导出 -->
+<!--    <div style="display: none;">-->
+<!--      <table id="export-table1">-->
+<!--        <thead>-->
+<!--        <tr>-->
+<!--          <th>序号</th>-->
+<!--          <th>种类</th>-->
+<!--          <th>数量</th>-->
+<!--          <th>类型</th>-->
+<!--        </tr>-->
+<!--        </thead>-->
+<!--        <tbody>-->
+<!--        &lt;!&ndash; 填充数据 &ndash;&gt;-->
+<!--        <tr v-for="(item, index) in filteredVegFruInventoryListFilteVeg" :key="'veg-' + index">-->
+<!--          <td>{{ index + 1 }}</td>-->
+<!--          <td>{{ item.name }}</td>-->
+<!--          <td>{{ item.quantity }}</td>-->
+<!--          <td>蔬菜</td>-->
+<!--        </tr>-->
+
+<!--        <tr v-for="(item, index) in filteredVegFruInventoryListFilteFru" :key="'fru-' + index">-->
+<!--          <td>{{ index + 1 }}</td>-->
+<!--          <td>{{ item.name }}</td>-->
+<!--          <td>{{ item.quantity }}</td>-->
+<!--          <td>水果</td>-->
+<!--        </tr>-->
+<!--        </tbody>-->
+<!--      </table>-->
+<!--    </div>-->
+
+
+
+    <div style="display: none;" id="export-table">
+      <div>
+        <table>
+          <thead>
+          <tr>
+            <th>蔬菜水果种类及数量</th>
+            <th>   </th>
+            <th>   </th>
+          </tr>
+          <tr>
+            <th>   </th>
+            <th>   </th>
+            <th>   </th>
+          </tr>
+          <tr>
+            <th>   </th>
+            <th>蔬菜类 </th>
+            <th>   </th>
+          </tr>
+          <tr>
+            <th>序号</th>
+            <th>蔬菜种类</th>
+            <th>数量</th>
+          </tr>
+          </thead>
+          <tbody>
+          <!-- 填充蔬菜数据 -->
+          <tr v-for="(item, index) in filteredVegFruInventoryListFilteVeg" :key="'veg-' + index">
+            <td>{{ index + 1 }}</td>
+            <td>{{ item.name }}</td>
+            <td>{{ item.quantity }}</td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div>
+        <table >
+          <thead>
+          <tr>
+            <th>   </th>
+            <th>   </th>
+            <th>   </th>
+          </tr>
+          <tr>
+            <th>   </th>
+            <th>   </th>
+            <th>   </th>
+          </tr>
+          <tr>
+            <th>   </th>
+            <th>水果类</th>
+            <th>   </th>
+          </tr>
+          <tr>
+            <th>序号</th>
+            <th>水果种类</th>
+            <th>数量</th>
+          </tr>
+          </thead>
+          <tbody>
+          <!-- 填充水果数据 -->
+          <tr v-for="(item, index) in filteredVegFruInventoryListFilteFru" :key="'fru-' + index">
+            <td>{{ index + 1 }}</td>
+            <td>{{ item.name }}</td>
+            <td>{{ item.quantity }}</td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+
+
+
+
+
+
+
+
+
     <pagination
       v-show="total>0"
       :total="total"
@@ -157,6 +285,7 @@ import {
   addOutVegFruInventory,
   updateOutVegFruInventory
 } from "@/api/out/outVegFruInventory";
+import * as XLSX from 'xlsx';
 
 export default {
   name: "OutVegFruInventory",
@@ -312,6 +441,42 @@ export default {
       this.download('out/outVegFruInventory/export', {
         ...this.queryParams
       }, `outVegFruInventory_${new Date().getTime()}.xlsx`)
+    },
+    exportTableToExcel() {
+      // 使用SheetJS读取隐藏的HTML表格
+      let table = document.getElementById('export-table');
+      let workbook = XLSX.utils.table_to_book(table);
+
+      // // 假设我们要设置第一个Sheet的所有列宽
+      let firstSheetName = workbook.SheetNames[0];
+      let firstSheet = workbook.Sheets[firstSheetName];
+      //
+      // // 设置列宽，这里以字符宽度为单位
+      // // 例如，设置所有列的宽度为20字符宽
+      // const desiredWidth = 13;
+      // firstSheet['!cols'] = Array(10).fill({wch:desiredWidth}); // 假设有10列
+
+
+      // 设置B列的宽度，这里以字符宽度为单位
+      const desiredWidthB = 14; // 假设我们想要将B列的宽度设置为20个字符宽
+      // 确保!cols属性存在
+      if(!firstSheet['!cols']) firstSheet['!cols'] = [];
+      // 设置B列的宽度 0是A列 1是b列 2是c列
+      firstSheet['!cols'][1] = {wch: desiredWidthB};
+      firstSheet['!cols'][0] = {wch: 5};
+      firstSheet['!cols'][2] = {wch: 5};
+
+      // 设置A1单元格的样式
+      if (!firstSheet['A1'].s) firstSheet['A1'].s = {};
+
+      // 尝试设置字体加粗和颜色   这边没效果 不知道为什么
+      firstSheet['A1'].s.font = {
+        bold: true, // 加粗
+        color: { rgb: "FF0000" } // 字体颜色为红色
+      };
+
+      // 使用SheetJS导出工作簿到Excel文件
+      XLSX.writeFile(workbook, 'exported_data.xlsx');
     }
 
 
