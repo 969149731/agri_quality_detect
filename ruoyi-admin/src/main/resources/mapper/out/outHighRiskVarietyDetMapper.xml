@@ -19,7 +19,16 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </resultMap>
 
     <sql id="selectoutHighRiskVarietyDetVo">
-        select out_high_risk_variety_det_id, sampling_location, detect_location, veg_fru_name, total_samples, qualified_number, qualification_rate, prohibited_pesticide_detection, routine_pesticide_exceedance, remarks, created_date from out_high_risk_variety_det
+--         select out_high_risk_variety_det_id, sampling_location, detect_location, veg_fru_name, total_samples, qualified_number, qualification_rate, prohibited_pesticide_detection, routine_pesticide_exceedance, remarks, created_date from out_high_risk_variety_det
+        select a.detect_location as detectLocation,a.veg_fru_name as vegFruName,
+               GROUP_CONCAT(a.sample_code,'-',b.pesticide_name,':',b.pesticide_det_value) as det_res,
+               sum(1) as totalSamples, 0 as qualifiedNumber, 0 as qualificationRate,
+               '' as prohibitedPesticideDetection, '' as routinePesticideExceedance
+        from agri_city_sample_test_details a, agri_pesticide_det_result b, agri_vegetable_fruit c
+        where a.city_sample_test_details_id=b.city_sample_test_details_id
+          and a.veg_fru_name=c.veg_fru_name and c.high_risk_sample='高风险'
+        group by a.detect_location,a.veg_fru_name
+        order by a.detect_location,a.veg_fru_name
     </sql>
 
     <select id="selectoutHighRiskVarietyDetList" parameterType="outHighRiskVarietyDet" resultMap="outHighRiskVarietyDetResult">
@@ -98,4 +107,42 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             #{outHighRiskVarietyDetId}
         </foreach>
     </delete>
+
+
+    <select id="selectHighRiskSampleByVegFruName" parameterType="String" resultType="java.lang.String">
+        select high_risk_sample from agri_vegetable_fruit where veg_fru_name=#{vegFruName}
+    </select>
+
+    <resultMap id="SampleTestDetailResultMap" type="outHighRiskVarietyDet">
+        <result column="detectLocation" property="detectLocation" />
+        <result column="vegFruName" property="vegFruName" />
+        <result column="det_res" property="det_res" />
+        <result column="totalSamples" property="totalSamples" />
+        <result column="qualifiedNumber" property="qualifiedNumber" />
+        <result column="qualificationRate" property="qualificationRate" />
+        <result column="prohibitedPesticideDetection" property="prohibitedPesticideDetection" />
+        <result column="routinePesticideExceedance" property="routinePesticideExceedance" />
+    </resultMap>
+
+    <select id="selectHighRiskSampleList" resultMap="SampleTestDetailResultMap">
+        SELECT a.detect_location AS detectLocation,
+               a.veg_fru_name AS vegFruName,
+               GROUP_CONCAT(IFNULL(CONCAT(a.sample_code, '-', COALESCE(b.pesticide_name, CONCAT(a.city_sample_test_details_id, '-没有检测到啊农药')), ':', b.pesticide_det_value), CONCAT(a.sample_code, '-没有检测到农药:null'))) AS det_res,
+               (SELECT COUNT(*) FROM agri_city_sample_test_details WHERE veg_fru_name = a.veg_fru_name AND detect_location = a.detect_location) AS totalSamples,
+               0 AS qualifiedNumber,
+               0 AS qualificationRate,
+               '' AS prohibitedPesticideDetection,
+               '' AS routinePesticideExceedance
+        FROM agri_city_sample_test_details a
+                 LEFT JOIN agri_pesticide_det_result b ON a.city_sample_test_details_id = b.city_sample_test_details_id
+                 JOIN agri_vegetable_fruit c ON a.veg_fru_name = c.veg_fru_name
+        WHERE c.high_risk_sample = '高风险'
+        GROUP BY a.detect_location, a.veg_fru_name
+        ORDER BY a.detect_location, a.veg_fru_name;
+
+
+    </select>
+
+
+
 </mapper>

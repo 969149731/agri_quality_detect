@@ -33,38 +33,38 @@
           @keyup.enter.native="handleQuery"
         />
       </el-form-item>
-      <el-form-item label="超标农药品种" prop="exceedPesticideName">
-        <el-input
-          v-model="queryParams.exceedPesticideName"
-          placeholder="请输入超标农药品种"
-          clearable
-          @keyup.enter.native="handleQuery"
-        />
-      </el-form-item>
-      <el-form-item label="超标农药超标值" prop="exceedPesticideValue">
-        <el-input
-          v-model="queryParams.exceedPesticideValue"
-          placeholder="请输入超标农药超标值"
-          clearable
-          @keyup.enter.native="handleQuery"
-        />
-      </el-form-item>
-      <el-form-item label="限量值" prop="limitValue">
-        <el-input
-          v-model="queryParams.limitValue"
-          placeholder="请输入限量值"
-          clearable
-          @keyup.enter.native="handleQuery"
-        />
-      </el-form-item>
-      <el-form-item label="记录创建的时间" prop="createdDate">
-        <el-date-picker clearable
-          v-model="queryParams.createdDate"
-          type="date"
-          value-format="yyyy-MM-dd"
-          placeholder="请选择记录创建的时间">
-        </el-date-picker>
-      </el-form-item>
+<!--      <el-form-item label="超标农药品种" prop="exceedPesticideName">-->
+<!--        <el-input-->
+<!--          v-model="queryParams.exceedPesticideName"-->
+<!--          placeholder="请输入超标农药品种"-->
+<!--          clearable-->
+<!--          @keyup.enter.native="handleQuery"-->
+<!--        />-->
+<!--      </el-form-item>-->
+<!--      <el-form-item label="超标农药超标值" prop="exceedPesticideValue">-->
+<!--        <el-input-->
+<!--          v-model="queryParams.exceedPesticideValue"-->
+<!--          placeholder="请输入超标农药超标值"-->
+<!--          clearable-->
+<!--          @keyup.enter.native="handleQuery"-->
+<!--        />-->
+<!--      </el-form-item>-->
+<!--      <el-form-item label="限量值" prop="limitValue">-->
+<!--        <el-input-->
+<!--          v-model="queryParams.limitValue"-->
+<!--          placeholder="请输入限量值"-->
+<!--          clearable-->
+<!--          @keyup.enter.native="handleQuery"-->
+<!--        />-->
+<!--      </el-form-item>-->
+<!--      <el-form-item label="记录创建的时间" prop="createdDate">-->
+<!--        <el-date-picker clearable-->
+<!--          v-model="queryParams.createdDate"-->
+<!--          type="date"-->
+<!--          value-format="yyyy-MM-dd"-->
+<!--          placeholder="请选择记录创建的时间">-->
+<!--        </el-date-picker>-->
+<!--      </el-form-item>-->
       <el-form-item>
         <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery">搜索</el-button>
         <el-button icon="el-icon-refresh" size="mini" @click="resetQuery">重置</el-button>
@@ -72,38 +72,38 @@
     </el-form>
 
     <el-row :gutter="10" class="mb8">
-      <el-col :span="1.5">
-        <el-button
-          type="primary"
-          plain
-          icon="el-icon-plus"
-          size="mini"
-          @click="handleAdd"
-          v-hasPermi="['out:outBanPesticideDetection:add']"
-        >新增</el-button>
-      </el-col>
-      <el-col :span="1.5">
-        <el-button
-          type="success"
-          plain
-          icon="el-icon-edit"
-          size="mini"
-          :disabled="single"
-          @click="handleUpdate"
-          v-hasPermi="['out:outBanPesticideDetection:edit']"
-        >修改</el-button>
-      </el-col>
-      <el-col :span="1.5">
-        <el-button
-          type="danger"
-          plain
-          icon="el-icon-delete"
-          size="mini"
-          :disabled="multiple"
-          @click="handleDelete"
-          v-hasPermi="['out:outBanPesticideDetection:remove']"
-        >删除</el-button>
-      </el-col>
+<!--      <el-col :span="1.5">-->
+<!--        <el-button-->
+<!--          type="primary"-->
+<!--          plain-->
+<!--          icon="el-icon-plus"-->
+<!--          size="mini"-->
+<!--          @click="handleAdd"-->
+<!--          v-hasPermi="['out:outBanPesticideDetection:add']"-->
+<!--        >新增</el-button>-->
+<!--      </el-col>-->
+<!--      <el-col :span="1.5">-->
+<!--        <el-button-->
+<!--          type="success"-->
+<!--          plain-->
+<!--          icon="el-icon-edit"-->
+<!--          size="mini"-->
+<!--          :disabled="single"-->
+<!--          @click="handleUpdate"-->
+<!--          v-hasPermi="['out:outBanPesticideDetection:edit']"-->
+<!--        >修改</el-button>-->
+<!--      </el-col>-->
+<!--      <el-col :span="1.5">-->
+<!--        <el-button-->
+<!--          type="danger"-->
+<!--          plain-->
+<!--          icon="el-icon-delete"-->
+<!--          size="mini"-->
+<!--          :disabled="multiple"-->
+<!--          @click="handleDelete"-->
+<!--          v-hasPermi="['out:outBanPesticideDetection:remove']"-->
+<!--        >删除</el-button>-->
+<!--      </el-col>-->
       <el-col :span="1.5">
         <el-button
           type="warning"
@@ -119,40 +119,53 @@
 
     <el-table v-loading="loading" :data="outBanPesticideDetectionList" @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="55" align="center" />
-      <el-table-column label="唯一标识符，自增" align="center" prop="banPesticideDetectionId" />
+<!--      <el-table-column label="唯一标识符，自增" align="center" prop="banPesticideDetectionId" />-->
       <el-table-column label="检测单位" align="center" prop="detectUnit" />
       <el-table-column label="样品编号" align="center" prop="sampleCode" />
       <el-table-column label="样品名称" align="center" prop="vegFruName" />
       <el-table-column label="抽样地点" align="center" prop="samplingLocation" />
-      <el-table-column label="超标农药品种" align="center" prop="exceedPesticideName" />
-      <el-table-column label="超标农药超标值" align="center" prop="exceedPesticideValue" />
-      <el-table-column label="限量值" align="center" prop="limitValue" />
+      <el-table-column label="超标农药品种 | 检出值 | 限量值" align="center" prop="result" width="350">
+        <template slot-scope="props" >
+          <el-table  :data="props.row.exceedPesticideNameAndPesticideValueAndlimitValue">
+            <el-table-column  label="农药名" align="center" prop="pesticideName"  width="110">
+            </el-table-column>
+            <el-table-column  label="检出值 mg/kg" align="center" prop="pesticideDetValue" width="110">
+            </el-table-column>
+            <el-table-column  label="限量值 mg/kg" align="center" prop="limitValue" width="110">
+            </el-table-column>
+          </el-table>
+        </template>
+      </el-table-column>
+
+<!--      <el-table-column label="超标农药品种" align="center" prop="exceedPesticideName" />-->
+<!--      <el-table-column label="超标农药超标值" align="center" prop="exceedPesticideValue" />-->
+<!--      <el-table-column label="限量值" align="center" prop="limitValue" />-->
       <el-table-column label="备注" align="center" prop="remarks" />
-      <el-table-column label="记录创建的时间" align="center" prop="createdDate" width="180">
-        <template slot-scope="scope">
-          <span>{{ parseTime(scope.row.createdDate, '{y}-{m}-{d}') }}</span>
-        </template>
-      </el-table-column>
-      <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
-        <template slot-scope="scope">
-          <el-button
-            size="mini"
-            type="text"
-            icon="el-icon-edit"
-            @click="handleUpdate(scope.row)"
-            v-hasPermi="['out:outBanPesticideDetection:edit']"
-          >修改</el-button>
-          <el-button
-            size="mini"
-            type="text"
-            icon="el-icon-delete"
-            @click="handleDelete(scope.row)"
-            v-hasPermi="['out:outBanPesticideDetection:remove']"
-          >删除</el-button>
-        </template>
-      </el-table-column>
+<!--      <el-table-column label="记录创建的时间" align="center" prop="createdDate" width="180">-->
+<!--        <template slot-scope="scope">-->
+<!--          <span>{{ parseTime(scope.row.createdDate, '{y}-{m}-{d}') }}</span>-->
+<!--        </template>-->
+<!--      </el-table-column>-->
+<!--      <el-table-column label="操作" align="center" class-name="small-padding fixed-width">-->
+<!--        <template slot-scope="scope">-->
+<!--          <el-button-->
+<!--            size="mini"-->
+<!--            type="text"-->
+<!--            icon="el-icon-edit"-->
+<!--            @click="handleUpdate(scope.row)"-->
+<!--            v-hasPermi="['out:outBanPesticideDetection:edit']"-->
+<!--          >修改</el-button>-->
+<!--          <el-button-->
+<!--            size="mini"-->
+<!--            type="text"-->
+<!--            icon="el-icon-delete"-->
+<!--            @click="handleDelete(scope.row)"-->
+<!--            v-hasPermi="['out:outBanPesticideDetection:remove']"-->
+<!--          >删除</el-button>-->
+<!--        </template>-->
+<!--      </el-table-column>-->
     </el-table>
-    
+
     <pagination
       v-show="total>0"
       :total="total"
@@ -162,46 +175,46 @@
     />
 
     <!-- 添加或修改蔬菜水果禁用农药检出样品明细对话框 -->
-    <el-dialog :title="title" :visible.sync="open" width="500px" append-to-body>
-      <el-form ref="form" :model="form" :rules="rules" label-width="80px">
-        <el-form-item label="检测单位" prop="detectUnit">
-          <el-input v-model="form.detectUnit" placeholder="请输入检测单位" />
-        </el-form-item>
-        <el-form-item label="样品编号" prop="sampleCode">
-          <el-input v-model="form.sampleCode" placeholder="请输入样品编号" />
-        </el-form-item>
-        <el-form-item label="样品名称" prop="vegFruName">
-          <el-input v-model="form.vegFruName" placeholder="请输入样品名称" />
-        </el-form-item>
-        <el-form-item label="抽样地点" prop="samplingLocation">
-          <el-input v-model="form.samplingLocation" placeholder="请输入抽样地点" />
-        </el-form-item>
-        <el-form-item label="超标农药品种" prop="exceedPesticideName">
-          <el-input v-model="form.exceedPesticideName" placeholder="请输入超标农药品种" />
-        </el-form-item>
-        <el-form-item label="超标农药超标值" prop="exceedPesticideValue">
-          <el-input v-model="form.exceedPesticideValue" placeholder="请输入超标农药超标值" />
-        </el-form-item>
-        <el-form-item label="限量值" prop="limitValue">
-          <el-input v-model="form.limitValue" placeholder="请输入限量值" />
-        </el-form-item>
-        <el-form-item label="备注" prop="remarks">
-          <el-input v-model="form.remarks" type="textarea" placeholder="请输入内容" />
-        </el-form-item>
-        <el-form-item label="记录创建的时间" prop="createdDate">
-          <el-date-picker clearable
-            v-model="form.createdDate"
-            type="date"
-            value-format="yyyy-MM-dd"
-            placeholder="请选择记录创建的时间">
-          </el-date-picker>
-        </el-form-item>
-      </el-form>
-      <div slot="footer" class="dialog-footer">
-        <el-button type="primary" @click="submitForm">确 定</el-button>
-        <el-button @click="cancel">取 消</el-button>
-      </div>
-    </el-dialog>
+<!--    <el-dialog :title="title" :visible.sync="open" width="500px" append-to-body>-->
+<!--      <el-form ref="form" :model="form" :rules="rules" label-width="80px">-->
+<!--        <el-form-item label="检测单位" prop="detectUnit">-->
+<!--          <el-input v-model="form.detectUnit" placeholder="请输入检测单位" />-->
+<!--        </el-form-item>-->
+<!--        <el-form-item label="样品编号" prop="sampleCode">-->
+<!--          <el-input v-model="form.sampleCode" placeholder="请输入样品编号" />-->
+<!--        </el-form-item>-->
+<!--        <el-form-item label="样品名称" prop="vegFruName">-->
+<!--          <el-input v-model="form.vegFruName" placeholder="请输入样品名称" />-->
+<!--        </el-form-item>-->
+<!--        <el-form-item label="抽样地点" prop="samplingLocation">-->
+<!--          <el-input v-model="form.samplingLocation" placeholder="请输入抽样地点" />-->
+<!--        </el-form-item>-->
+<!--        <el-form-item label="超标农药品种" prop="exceedPesticideName">-->
+<!--          <el-input v-model="form.exceedPesticideName" placeholder="请输入超标农药品种" />-->
+<!--        </el-form-item>-->
+<!--        <el-form-item label="超标农药超标值" prop="exceedPesticideValue">-->
+<!--          <el-input v-model="form.exceedPesticideValue" placeholder="请输入超标农药超标值" />-->
+<!--        </el-form-item>-->
+<!--        <el-form-item label="限量值" prop="limitValue">-->
+<!--          <el-input v-model="form.limitValue" placeholder="请输入限量值" />-->
+<!--        </el-form-item>-->
+<!--        <el-form-item label="备注" prop="remarks">-->
+<!--          <el-input v-model="form.remarks" type="textarea" placeholder="请输入内容" />-->
+<!--        </el-form-item>-->
+<!--        <el-form-item label="记录创建的时间" prop="createdDate">-->
+<!--          <el-date-picker clearable-->
+<!--            v-model="form.createdDate"-->
+<!--            type="date"-->
+<!--            value-format="yyyy-MM-dd"-->
+<!--            placeholder="请选择记录创建的时间">-->
+<!--          </el-date-picker>-->
+<!--        </el-form-item>-->
+<!--      </el-form>-->
+<!--      <div slot="footer" class="dialog-footer">-->
+<!--        <el-button type="primary" @click="submitForm">确 定</el-button>-->
+<!--        <el-button @click="cancel">取 消</el-button>-->
+<!--      </div>-->
+<!--    </el-dialog>-->
   </div>
 </template>
 

@@ -1,7 +1,22 @@
 package com.ruoyi.out.controller;
 
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 import javax.servlet.http.HttpServletResponse;
+
+import cn.afterturn.easypoi.excel.ExcelExportUtil;
+import cn.afterturn.easypoi.excel.entity.TemplateExportParams;
+import com.ruoyi.detection.domain.agriCitySampleTestDetails;
+import com.ruoyi.detection.domain.agriPesticideDetResultForBanPesticideDetection;
+import com.ruoyi.detection.domain.agriPesticideDetResultForUndeterminedStandDet;
+import com.ruoyi.out.domain.out2BanPesticideDetection;
+import com.ruoyi.out.domain.out2UndeterminedStandDet;
+import com.ruoyi.out.domain.outBanPesticideDetection;
+import org.apache.poi.ss.usermodel.Workbook;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -37,27 +52,67 @@ public class outUndeterminedStandDetController extends BaseController
     /**
      * 查询无判定标准检出值详细列表
      */
+//    @PreAuthorize("@ss.hasPermi('out:outUndeterminedStandDet:list')")
+//    @GetMapping("/list")
+//    public TableDataInfo list(outUndeterminedStandDet outUndeterminedStandDet)
+//    {
+//        startPage();
+//        List<outUndeterminedStandDet> list = outUndeterminedStandDetService.selectoutUndeterminedStandDetList(outUndeterminedStandDet);
+//        return getDataTable(list);
+//    }
     @PreAuthorize("@ss.hasPermi('out:outUndeterminedStandDet:list')")
     @GetMapping("/list")
-    public TableDataInfo list(outUndeterminedStandDet outUndeterminedStandDet)
+    public TableDataInfo list(agriCitySampleTestDetails agriCitySampleTestDetails)
     {
-        startPage();
-        List<outUndeterminedStandDet> list = outUndeterminedStandDetService.selectoutUndeterminedStandDetList(outUndeterminedStandDet);
-        return getDataTable(list);
+//        startPage();
+        List<out2UndeterminedStandDet> out2UndeterminedStandDeList = outUndeterminedStandDetService.selectOutUndeterminedStandDetList(agriCitySampleTestDetails);
+        return getDataTable(out2UndeterminedStandDeList);
     }
 
     /**
      * 导出无判定标准检出值详细列表
      */
+//    @PreAuthorize("@ss.hasPermi('out:outUndeterminedStandDet:export')")
+//    @Log(title = "无判定标准检出值详细", businessType = BusinessType.EXPORT)
+//    @PostMapping("/export")
+//    public void export(HttpServletResponse response, outUndeterminedStandDet outUndeterminedStandDet)
+//    {
+//        List<outUndeterminedStandDet> list = outUndeterminedStandDetService.selectoutUndeterminedStandDetList(outUndeterminedStandDet);
+//        ExcelUtil<outUndeterminedStandDet> util = new ExcelUtil<outUndeterminedStandDet>(outUndeterminedStandDet.class);
+//        util.exportExcel(response, list, "无判定标准检出值详细数据");
+//    }
+
     @PreAuthorize("@ss.hasPermi('out:outUndeterminedStandDet:export')")
     @Log(title = "无判定标准检出值详细", businessType = BusinessType.EXPORT)
     @PostMapping("/export")
-    public void export(HttpServletResponse response, outUndeterminedStandDet outUndeterminedStandDet)
-    {
-        List<outUndeterminedStandDet> list = outUndeterminedStandDetService.selectoutUndeterminedStandDetList(outUndeterminedStandDet);
-        ExcelUtil<outUndeterminedStandDet> util = new ExcelUtil<outUndeterminedStandDet>(outUndeterminedStandDet.class);
-        util.exportExcel(response, list, "无判定标准检出值详细数据");
+    public void export(HttpServletResponse response, agriCitySampleTestDetails agriCitySampleTestDetails) throws IOException {
+        List<out2UndeterminedStandDet> out2UndeterminedStandDeList = outUndeterminedStandDetService.selectOutUndeterminedStandDetList(agriCitySampleTestDetails);
+        TemplateExportParams params = new TemplateExportParams("ruoyi-admin/src/main/java/com/ruoyi/excelOutTemplate/outUndeterminedStandDetExcelTemplate.xlsx");
+        List<outUndeterminedStandDet> outUndeterminedStandDetlist = new ArrayList<>();
+        for (out2UndeterminedStandDet out2UndeterminedStandDet:out2UndeterminedStandDeList){
+            outUndeterminedStandDet outUndeterminedStandDet = new outUndeterminedStandDet();
+            outUndeterminedStandDet.setDetectUnit(out2UndeterminedStandDet.getDetectUnit());
+            outUndeterminedStandDet.setSampleCode(out2UndeterminedStandDet.getSampleCode());
+            outUndeterminedStandDet.setVegFruName(out2UndeterminedStandDet.getVegFruName());
+            outUndeterminedStandDet.setSamplingLocation(out2UndeterminedStandDet.getSamplingLocation());
+
+            List<agriPesticideDetResultForUndeterminedStandDet> detPesticideNameAndValue = out2UndeterminedStandDet.getDetPesticideNameAndValue();
+            //一个list中如果还有list中的话，包含的那个list要换行
+            String result = detPesticideNameAndValue.stream()
+                    .map(Object::toString) // 将每个元素转换成字符串
+                    .collect(Collectors.joining("\n")); // 使用换行符作为分隔符
+
+            outUndeterminedStandDet.setDetPesticideName(result);
+            outUndeterminedStandDetlist.add(outUndeterminedStandDet);
+        }
+        Map<String, Object> map = new HashMap<>();
+//        map.put("date", System.currentTimeMillis());
+        map.put("maplist", outUndeterminedStandDetlist);
+        Workbook workbook = ExcelExportUtil.exportExcel(params, map);
+        workbook.write(response.getOutputStream());
+        workbook.close();
     }
+
 
     /**
      * 获取无判定标准检出值详细详细信息

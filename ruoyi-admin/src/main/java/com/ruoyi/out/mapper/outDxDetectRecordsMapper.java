@@ -2,6 +2,7 @@ package com.ruoyi.out.mapper;
 
 import java.util.List;
 import com.ruoyi.out.domain.outDxDetectRecords;
+import org.springframework.stereotype.Repository;
 
 /**
  * 定性监测结果汇总Mapper接口
@@ -9,6 +10,7 @@ import com.ruoyi.out.domain.outDxDetectRecords;
  * @author chenjie
  * @date 2024-01-27
  */
+@Repository
 public interface outDxDetectRecordsMapper 
 {
     /**

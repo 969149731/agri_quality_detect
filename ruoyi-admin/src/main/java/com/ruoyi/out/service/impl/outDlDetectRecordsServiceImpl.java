@@ -63,6 +63,7 @@ public class outDlDetectRecordsServiceImpl implements IoutDlDetectRecordsService
     }
 
 
+    //判断样品是蔬菜还是水果函数
     public int check_type(String sampleName) {
         String type = outDlDetectRecordsMapper.checkSampleType(sampleName);
         if ("蔬菜".equals(type)) {
@@ -98,6 +99,7 @@ public class outDlDetectRecordsServiceImpl implements IoutDlDetectRecordsService
         }
     }
 
+    //判断某样品对应某标准的某农药是否超标函数
     public boolean checkPesticideIsPass(agriCitySampleTestDetails sample) {
         // 超标和不超标的标识，刚刚开始超标和不超标都是为0
         int flagPass = 0;
@@ -146,7 +148,7 @@ public class outDlDetectRecordsServiceImpl implements IoutDlDetectRecordsService
         return true;
     }
 
-    //我写的
+    //定量检测汇总表List
     @Override
     public Map<String, List<dlDetRecordSampleRes>> selectOutDlDetectRecordsList(agriCitySampleTestDetails agriCitySampleTestDetails) throws ParseException {
 //        agriCitySampleTestDetails agriCitySampleTestDetail = new agriCitySampleTestDetails();
@@ -189,8 +191,8 @@ public class outDlDetectRecordsServiceImpl implements IoutDlDetectRecordsService
                 vegOrFruRes.setAllPassCount(vegOrFruRes.getFruPassCount()+ vegOrFruRes.getVegPassCount());
                 vegOrFruRes.setAllPassRate((double) (vegOrFruRes.getAllPassCount()/vegOrFruRes.getAllSamplingCount()));
                 current_res.add(vegOrFruRes);
-                System.out.println("current_res的list里面的值："+current_res);
-                System.out.println("current_res.get(0)的值："+current_res.get(0));
+//                System.out.println("current_res的list里面的值："+current_res);
+//                System.out.println("current_res.get(0)的值："+current_res.get(0));
                 res.put(CitySampleTestDetail.getSamplingLocation(),current_res);
             }
             //如果检测单位名称已经存在
@@ -198,6 +200,7 @@ public class outDlDetectRecordsServiceImpl implements IoutDlDetectRecordsService
                 // 从结果集中获取当前检测单位的结果列表
                 List<dlDetRecordSampleRes> existingRes = res.get(CitySampleTestDetail.getSamplingLocation());
                 dlDetRecordSampleRes vegOrFruRes = existingRes.get(0); // 假设每个检测单位只有一个结果对象
+                System.out.println("dlDetRecordSampleRes vegOrFruRes = existingRes.get(0)"+vegOrFruRes);
                 // 计算蔬菜或水果的结果
                 if(0 == check_type(CitySampleTestDetail.getVegFruName())){
                     // 更新蔬菜采样数和总采样数

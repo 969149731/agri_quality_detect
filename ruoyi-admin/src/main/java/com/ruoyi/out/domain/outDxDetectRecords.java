@@ -22,7 +22,7 @@ public class outDxDetectRecords extends BaseEntity
     private Long recordDxId;
 
     /** 检测单位（承检单位） */
-    @Excel(name = "检测单位", readConverterExp = "承=检单位")
+    @Excel(name = "检测单位")
     private String detectLocation;
 
     /** 抽样日期 */
@@ -31,11 +31,11 @@ public class outDxDetectRecords extends BaseEntity
     private Date samplingDate;
 
     /** 抽样年份 */
-    @Excel(name = "抽样年份")
+//    @Excel(name = "抽样年份")
     private Long samplingYear;
 
     /** 抽样月份 */
-    @Excel(name = "抽样月份")
+//    @Excel(name = "抽样月份")
     private Long samplingMonth;
 
     /** 抽样数 */
@@ -52,7 +52,7 @@ public class outDxDetectRecords extends BaseEntity
 
     /** 记录创建的时间 */
     @JsonFormat(pattern = "yyyy-MM-dd")
-    @Excel(name = "记录创建的时间", width = 30, dateFormat = "yyyy-MM-dd")
+//    @Excel(name = "记录创建的时间", width = 30, dateFormat = "yyyy-MM-dd")
     private Date createdDate;
 
     public void setRecordDxId(Long recordDxId) 

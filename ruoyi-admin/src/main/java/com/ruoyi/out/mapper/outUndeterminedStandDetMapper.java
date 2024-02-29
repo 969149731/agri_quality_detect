@@ -2,6 +2,7 @@ package com.ruoyi.out.mapper;
 
 import java.util.List;
 import com.ruoyi.out.domain.outUndeterminedStandDet;
+import org.springframework.stereotype.Repository;
 
 /**
  * 无判定标准检出值详细Mapper接口
@@ -9,6 +10,7 @@ import com.ruoyi.out.domain.outUndeterminedStandDet;
  * @author chenjie
  * @date 2024-01-27
  */
+@Repository
 public interface outUndeterminedStandDetMapper 
 {
     /**

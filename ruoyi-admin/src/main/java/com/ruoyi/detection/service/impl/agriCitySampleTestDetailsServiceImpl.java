@@ -306,9 +306,7 @@ public class agriCitySampleTestDetailsServiceImpl implements IagriCitySampleTest
                 String deptName = agriCitySampleTestDetailsMapper.selectUserDepByUserName(username);
                 agriCitySampleTestDetails.setDetectLocation(deptName);
 
-
-                System.out.println("---------"+username);
-
+//                System.out.println("---------"+username);
 
                 agriCitySampleTestDetails.setSamplingQuantity(samplingQuantity);
                 agriCitySampleTestDetails.setSamplingBase(samplingBase);

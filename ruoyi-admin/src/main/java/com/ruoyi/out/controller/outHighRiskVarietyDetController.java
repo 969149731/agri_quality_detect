@@ -1,7 +1,11 @@
 package com.ruoyi.out.controller;
 
 import java.util.List;
+import java.util.Map;
 import javax.servlet.http.HttpServletResponse;
+
+import com.ruoyi.detection.domain.agriCitySampleTestDetails;
+import com.ruoyi.out.domain.dlDetRecordSampleRes;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -37,13 +41,22 @@ public class outHighRiskVarietyDetController extends BaseController
     /**
      * 查询高风险品种样品检出情况列表
      */
+//    @PreAuthorize("@ss.hasPermi('out:outHighRiskVarietyDet:list')")
+//    @GetMapping("/list")
+//    public TableDataInfo list(outHighRiskVarietyDet outHighRiskVarietyDet)
+//    {
+//        startPage();
+//        List<outHighRiskVarietyDet> list = outHighRiskVarietyDetService.selectoutHighRiskVarietyDetList(outHighRiskVarietyDet);
+//        return getDataTable(list);
+//    }
+
     @PreAuthorize("@ss.hasPermi('out:outHighRiskVarietyDet:list')")
     @GetMapping("/list")
-    public TableDataInfo list(outHighRiskVarietyDet outHighRiskVarietyDet)
+    public TableDataInfo list(agriCitySampleTestDetails agriCitySampleTestDetails)
     {
-        startPage();
-        List<outHighRiskVarietyDet> list = outHighRiskVarietyDetService.selectoutHighRiskVarietyDetList(outHighRiskVarietyDet);
-        return getDataTable(list);
+        Map<String, List<outHighRiskVarietyDet>> stringHighRiskVarietyDetMap = outHighRiskVarietyDetService.selectOutHighRiskVarietyDetList(agriCitySampleTestDetails);
+        return null;
+//        return getDataTable(list);
     }
 
     /**
@@ -55,8 +68,8 @@ public class outHighRiskVarietyDetController extends BaseController
     public void export(HttpServletResponse response, outHighRiskVarietyDet outHighRiskVarietyDet)
     {
         List<outHighRiskVarietyDet> list = outHighRiskVarietyDetService.selectoutHighRiskVarietyDetList(outHighRiskVarietyDet);
-        ExcelUtil<outHighRiskVarietyDet> util = new ExcelUtil<outHighRiskVarietyDet>(outHighRiskVarietyDet.class);
-        util.exportExcel(response, list, "高风险品种样品检出情况数据");
+//        ExcelUtil<outHighRiskVarietyDet> util = new ExcelUtil<outHighRiskVarietyDet>(outHighRiskVarietyDet.class);
+//        util.exportExcel(response, list, "高风险品种样品检出情况数据");
     }
 
     /**

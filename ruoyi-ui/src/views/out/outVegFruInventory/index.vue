@@ -1,62 +1,55 @@
 <template>
   <div class="app-container">
     <el-form :model="queryParams" ref="queryForm" size="small" :inline="true" v-show="showSearch" label-width="68px">
-      <el-form-item label="蔬菜类序号，用于标识蔬菜类别" prop="vegetableSeqNo">
-        <el-input
-          v-model="queryParams.vegetableSeqNo"
-          placeholder="请输入蔬菜类序号，用于标识蔬菜类别"
-          clearable
-          @keyup.enter.native="handleQuery"
-        />
-      </el-form-item>
-      <el-form-item label="蔬菜类详细名" prop="vegetableDetailName">
-        <el-input
-          v-model="queryParams.vegetableDetailName"
-          placeholder="请输入蔬菜类详细名"
-          clearable
-          @keyup.enter.native="handleQuery"
-        />
-      </el-form-item>
-      <el-form-item label="蔬菜类数量" prop="vegetableQuantity">
-        <el-input
-          v-model="queryParams.vegetableQuantity"
-          placeholder="请输入蔬菜类数量"
-          clearable
-          @keyup.enter.native="handleQuery"
-        />
-      </el-form-item>
-      <el-form-item label="水果类序号，用于标识水果类别" prop="fruitSeqNo">
-        <el-input
-          v-model="queryParams.fruitSeqNo"
-          placeholder="请输入水果类序号，用于标识水果类别"
-          clearable
-          @keyup.enter.native="handleQuery"
-        />
-      </el-form-item>
-      <el-form-item label="水果类详细名" prop="fruitDetailName">
-        <el-input
-          v-model="queryParams.fruitDetailName"
-          placeholder="请输入水果类详细名"
-          clearable
-          @keyup.enter.native="handleQuery"
-        />
-      </el-form-item>
-      <el-form-item label="水果类数量" prop="fruitQuantity">
-        <el-input
-          v-model="queryParams.fruitQuantity"
-          placeholder="请输入水果类数量"
-          clearable
-          @keyup.enter.native="handleQuery"
-        />
-      </el-form-item>
-      <el-form-item label="记录创建的时间" prop="createdDate">
-        <el-date-picker clearable
-          v-model="queryParams.createdDate"
-          type="date"
-          value-format="yyyy-MM-dd"
-          placeholder="请选择记录创建的时间">
-        </el-date-picker>
-      </el-form-item>
+<!--      <el-form-item label="蔬菜类序号，用于标识蔬菜类别" prop="vegetableSeqNo">-->
+<!--        <el-input-->
+<!--          v-model="queryParams.vegetableSeqNo"-->
+<!--          placeholder="请输入蔬菜类序号，用于标识蔬菜类别"-->
+<!--          clearable-->
+<!--          @keyup.enter.native="handleQuery"-->
+<!--        />-->
+<!--      </el-form-item>-->
+<!--      <el-form-item label="蔬菜类详细名" prop="vegetableDetailName">-->
+<!--        <el-input-->
+<!--          v-model="queryParams.vegetableDetailName"-->
+<!--          placeholder="请输入蔬菜类详细名"-->
+<!--          clearable-->
+<!--          @keyup.enter.native="handleQuery"-->
+<!--        />-->
+<!--      </el-form-item>-->
+<!--      <el-form-item label="蔬菜类数量" prop="vegetableQuantity">-->
+<!--        <el-input-->
+<!--          v-model="queryParams.vegetableQuantity"-->
+<!--          placeholder="请输入蔬菜类数量"-->
+<!--          clearable-->
+<!--          @keyup.enter.native="handleQuery"-->
+<!--        />-->
+<!--      </el-form-item>-->
+<!--      <el-form-item label="水果类序号，用于标识水果类别" prop="fruitSeqNo">-->
+<!--        <el-input-->
+<!--          v-model="queryParams.fruitSeqNo"-->
+<!--          placeholder="请输入水果类序号，用于标识水果类别"-->
+<!--          clearable-->
+<!--          @keyup.enter.native="handleQuery"-->
+<!--        />-->
+<!--      </el-form-item>-->
+<!--      <el-form-item label="水果类详细名" prop="fruitDetailName">-->
+<!--        <el-input-->
+<!--          v-model="queryParams.fruitDetailName"-->
+<!--          placeholder="请输入水果类详细名"-->
+<!--          clearable-->
+<!--          @keyup.enter.native="handleQuery"-->
+<!--        />-->
+<!--      </el-form-item>-->
+<!--      <el-form-item label="水果类数量" prop="fruitQuantity">-->
+<!--        <el-input-->
+<!--          v-model="queryParams.fruitQuantity"-->
+<!--          placeholder="请输入水果类数量"-->
+<!--          clearable-->
+<!--          @keyup.enter.native="handleQuery"-->
+<!--        />-->
+<!--      </el-form-item>-->
+
       <el-form-item>
         <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery">搜索</el-button>
         <el-button icon="el-icon-refresh" size="mini" @click="resetQuery">重置</el-button>
@@ -72,7 +65,8 @@
           size="mini"
           @click="handleAdd"
           v-hasPermi="['out:outVegFruInventory:add']"
-        >新增</el-button>
+        >新增
+        </el-button>
       </el-col>
       <el-col :span="1.5">
         <el-button
@@ -83,7 +77,8 @@
           :disabled="single"
           @click="handleUpdate"
           v-hasPermi="['out:outVegFruInventory:edit']"
-        >修改</el-button>
+        >修改
+        </el-button>
       </el-col>
       <el-col :span="1.5">
         <el-button
@@ -94,55 +89,184 @@
           :disabled="multiple"
           @click="handleDelete"
           v-hasPermi="['out:outVegFruInventory:remove']"
-        >删除</el-button>
+        >删除
+        </el-button>
       </el-col>
+
+<!--      <el-col :span="1.5">-->
+<!--        <el-button-->
+<!--          type="warning"-->
+<!--          plain-->
+<!--          icon="el-icon-download"-->
+<!--          size="mini"-->
+<!--          @click="handleExport"-->
+<!--          v-hasPermi="['out:outVegFruInventory:export']"-->
+<!--        >导出-->
+<!--        </el-button>-->
+<!--      </el-col>-->
+
       <el-col :span="1.5">
         <el-button
           type="warning"
           plain
           icon="el-icon-download"
           size="mini"
-          @click="handleExport"
-          v-hasPermi="['out:outVegFruInventory:export']"
-        >导出</el-button>
+          @click="exportTableToExcel"
+        >导出
+        </el-button>
       </el-col>
+
+
       <right-toolbar :showSearch.sync="showSearch" @queryTable="getList"></right-toolbar>
     </el-row>
 
-    <el-table v-loading="loading" :data="outVegFruInventoryList" @selection-change="handleSelectionChange">
-      <el-table-column type="selection" width="55" align="center" />
-      <el-table-column label="唯一标识符" align="center" prop="vegFruInventoryId" />
-      <el-table-column label="蔬菜类序号，用于标识蔬菜类别" align="center" prop="vegetableSeqNo" />
-      <el-table-column label="蔬菜类详细名" align="center" prop="vegetableDetailName" />
-      <el-table-column label="蔬菜类数量" align="center" prop="vegetableQuantity" />
-      <el-table-column label="水果类序号，用于标识水果类别" align="center" prop="fruitSeqNo" />
-      <el-table-column label="水果类详细名" align="center" prop="fruitDetailName" />
-      <el-table-column label="水果类数量" align="center" prop="fruitQuantity" />
-      <el-table-column label="记录创建的时间" align="center" prop="createdDate" width="180">
-        <template slot-scope="scope">
-          <span>{{ parseTime(scope.row.createdDate, '{y}-{m}-{d}') }}</span>
-        </template>
-      </el-table-column>
-      <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
-        <template slot-scope="scope">
-          <el-button
-            size="mini"
-            type="text"
-            icon="el-icon-edit"
-            @click="handleUpdate(scope.row)"
-            v-hasPermi="['out:outVegFruInventory:edit']"
-          >修改</el-button>
-          <el-button
-            size="mini"
-            type="text"
-            icon="el-icon-delete"
-            @click="handleDelete(scope.row)"
-            v-hasPermi="['out:outVegFruInventory:remove']"
-          >删除</el-button>
-        </template>
-      </el-table-column>
-    </el-table>
-    
+<!--    <el-table v-loading="loading" :data="filteredVegFruInventoryListFilteFru" @selection-change="handleSelectionChange">-->
+<!--      <el-table-column type="selection" width="55" align="center"/>-->
+<!--      <el-table-column label="种类" align="center" prop="name"/>-->
+<!--      <el-table-column label="蔬果类型" align="center" prop="type"/>-->
+<!--      <el-table-column label="数量" align="center" prop="quantity"/>-->
+<!--    </el-table>-->
+
+    <el-row>
+      <el-col :span="12">
+
+        <el-table v-loading="loading" :data="filteredVegFruInventoryListFilteVeg"
+                  @selection-change="handleSelectionChange">
+<!--          <el-table-column type="selection" width="55" align="center"/>-->
+          <el-table-column type="index" label="序号" width="200" align="center"/> <!-- 添加序号列 -->
+          <el-table-column label="水果种类" align="center" width="200" prop="name"/>
+<!--          <el-table-column label="蔬果类型" align="center" prop="type"/>-->
+          <el-table-column label="数量" align="center" width="200" prop="quantity"/>
+        </el-table>
+      </el-col>
+
+      <el-col :span="12">
+        <el-table v-loading="loading" :data="filteredVegFruInventoryListFilteFru" @selection-change="handleSelectionChange">
+<!--          <el-table-column type="selection" width="55" align="center"/>-->
+          <el-table-column type="index" label="序号" width="200" align="center"/> <!-- 添加序号列 -->
+          <el-table-column label="蔬菜种类" align="center" width="200" prop="name"/>
+<!--          <el-table-column label="蔬果类型" align="center" prop="type"/>-->
+          <el-table-column label="数量" align="center" width="200" prop="quantity"/>
+        </el-table>
+      </el-col>
+
+    </el-row>
+
+
+
+    <!-- 假设的隐藏表格，用于导出 -->
+<!--    <div style="display: none;">-->
+<!--      <table id="export-table1">-->
+<!--        <thead>-->
+<!--        <tr>-->
+<!--          <th>序号</th>-->
+<!--          <th>种类</th>-->
+<!--          <th>数量</th>-->
+<!--          <th>类型</th>-->
+<!--        </tr>-->
+<!--        </thead>-->
+<!--        <tbody>-->
+<!--        &lt;!&ndash; 填充数据 &ndash;&gt;-->
+<!--        <tr v-for="(item, index) in filteredVegFruInventoryListFilteVeg" :key="'veg-' + index">-->
+<!--          <td>{{ index + 1 }}</td>-->
+<!--          <td>{{ item.name }}</td>-->
+<!--          <td>{{ item.quantity }}</td>-->
+<!--          <td>蔬菜</td>-->
+<!--        </tr>-->
+
+<!--        <tr v-for="(item, index) in filteredVegFruInventoryListFilteFru" :key="'fru-' + index">-->
+<!--          <td>{{ index + 1 }}</td>-->
+<!--          <td>{{ item.name }}</td>-->
+<!--          <td>{{ item.quantity }}</td>-->
+<!--          <td>水果</td>-->
+<!--        </tr>-->
+<!--        </tbody>-->
+<!--      </table>-->
+<!--    </div>-->
+
+
+
+    <div style="display: none;" id="export-table">
+      <div>
+        <table>
+          <thead>
+          <tr>
+            <th>蔬菜水果种类及数量</th>
+            <th>   </th>
+            <th>   </th>
+          </tr>
+          <tr>
+            <th>   </th>
+            <th>   </th>
+            <th>   </th>
+          </tr>
+          <tr>
+            <th>   </th>
+            <th>蔬菜类 </th>
+            <th>   </th>
+          </tr>
+          <tr>
+            <th>序号</th>
+            <th>蔬菜种类</th>
+            <th>数量</th>
+          </tr>
+          </thead>
+          <tbody>
+          <!-- 填充蔬菜数据 -->
+          <tr v-for="(item, index) in filteredVegFruInventoryListFilteVeg" :key="'veg-' + index">
+            <td>{{ index + 1 }}</td>
+            <td>{{ item.name }}</td>
+            <td>{{ item.quantity }}</td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div>
+        <table >
+          <thead>
+          <tr>
+            <th>   </th>
+            <th>   </th>
+            <th>   </th>
+          </tr>
+          <tr>
+            <th>   </th>
+            <th>   </th>
+            <th>   </th>
+          </tr>
+          <tr>
+            <th>   </th>
+            <th>水果类</th>
+            <th>   </th>
+          </tr>
+          <tr>
+            <th>序号</th>
+            <th>水果种类</th>
+            <th>数量</th>
+          </tr>
+          </thead>
+          <tbody>
+          <!-- 填充水果数据 -->
+          <tr v-for="(item, index) in filteredVegFruInventoryListFilteFru" :key="'fru-' + index">
+            <td>{{ index + 1 }}</td>
+            <td>{{ item.name }}</td>
+            <td>{{ item.quantity }}</td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+
+
+
+
+
+
+
+
+
     <pagination
       v-show="total>0"
       :total="total"
@@ -150,47 +274,18 @@
       :limit.sync="queryParams.pageSize"
       @pagination="getList"
     />
-
-    <!-- 添加或修改蔬菜水果种类及数量对话框 -->
-    <el-dialog :title="title" :visible.sync="open" width="500px" append-to-body>
-      <el-form ref="form" :model="form" :rules="rules" label-width="80px">
-        <el-form-item label="蔬菜类序号，用于标识蔬菜类别" prop="vegetableSeqNo">
-          <el-input v-model="form.vegetableSeqNo" placeholder="请输入蔬菜类序号，用于标识蔬菜类别" />
-        </el-form-item>
-        <el-form-item label="蔬菜类详细名" prop="vegetableDetailName">
-          <el-input v-model="form.vegetableDetailName" placeholder="请输入蔬菜类详细名" />
-        </el-form-item>
-        <el-form-item label="蔬菜类数量" prop="vegetableQuantity">
-          <el-input v-model="form.vegetableQuantity" placeholder="请输入蔬菜类数量" />
-        </el-form-item>
-        <el-form-item label="水果类序号，用于标识水果类别" prop="fruitSeqNo">
-          <el-input v-model="form.fruitSeqNo" placeholder="请输入水果类序号，用于标识水果类别" />
-        </el-form-item>
-        <el-form-item label="水果类详细名" prop="fruitDetailName">
-          <el-input v-model="form.fruitDetailName" placeholder="请输入水果类详细名" />
-        </el-form-item>
-        <el-form-item label="水果类数量" prop="fruitQuantity">
-          <el-input v-model="form.fruitQuantity" placeholder="请输入水果类数量" />
-        </el-form-item>
-        <el-form-item label="记录创建的时间" prop="createdDate">
-          <el-date-picker clearable
-            v-model="form.createdDate"
-            type="date"
-            value-format="yyyy-MM-dd"
-            placeholder="请选择记录创建的时间">
-          </el-date-picker>
-        </el-form-item>
-      </el-form>
-      <div slot="footer" class="dialog-footer">
-        <el-button type="primary" @click="submitForm">确 定</el-button>
-        <el-button @click="cancel">取 消</el-button>
-      </div>
-    </el-dialog>
   </div>
 </template>
 
 <script>
-import { listOutVegFruInventory, getOutVegFruInventory, delOutVegFruInventory, addOutVegFruInventory, updateOutVegFruInventory } from "@/api/out/outVegFruInventory";
+import {
+  listOutVegFruInventory,
+  getOutVegFruInventory,
+  delOutVegFruInventory,
+  addOutVegFruInventory,
+  updateOutVegFruInventory
+} from "@/api/out/outVegFruInventory";
+import * as XLSX from 'xlsx';
 
 export default {
   name: "OutVegFruInventory",
@@ -210,6 +305,9 @@ export default {
       total: 0,
       // 蔬菜水果种类及数量表格数据
       outVegFruInventoryList: [],
+
+      allList: [],
+
       // 弹出层标题
       title: "",
       // 是否显示弹出层
@@ -229,10 +327,20 @@ export default {
       // 表单参数
       form: {},
       // 表单校验
-      rules: {
-      }
+      rules: {}
     };
   },
+  computed: {
+    filteredVegFruInventoryListFilteFru() {
+      return this.outVegFruInventoryList.filter(item => item.type === '蔬菜');
+    },
+    filteredVegFruInventoryListFilteVeg() {
+      return this.outVegFruInventoryList.filter(item => item.type === '水果');
+    }
+
+  },
+
+
   created() {
     this.getList();
   },
@@ -278,7 +386,7 @@ export default {
     // 多选框选中数据
     handleSelectionChange(selection) {
       this.ids = selection.map(item => item.vegFruInventoryId)
-      this.single = selection.length!==1
+      this.single = selection.length !== 1
       this.multiple = !selection.length
     },
     /** 新增按钮操作 */
@@ -320,19 +428,58 @@ export default {
     /** 删除按钮操作 */
     handleDelete(row) {
       const vegFruInventoryIds = row.vegFruInventoryId || this.ids;
-      this.$modal.confirm('是否确认删除蔬菜水果种类及数量编号为"' + vegFruInventoryIds + '"的数据项？').then(function() {
+      this.$modal.confirm('是否确认删除蔬菜水果种类及数量编号为"' + vegFruInventoryIds + '"的数据项？').then(function () {
         return delOutVegFruInventory(vegFruInventoryIds);
       }).then(() => {
         this.getList();
         this.$modal.msgSuccess("删除成功");
-      }).catch(() => {});
+      }).catch(() => {
+      });
     },
     /** 导出按钮操作 */
     handleExport() {
       this.download('out/outVegFruInventory/export', {
         ...this.queryParams
       }, `outVegFruInventory_${new Date().getTime()}.xlsx`)
+    },
+    exportTableToExcel() {
+      // 使用SheetJS读取隐藏的HTML表格
+      let table = document.getElementById('export-table');
+      let workbook = XLSX.utils.table_to_book(table);
+
+      // // 假设我们要设置第一个Sheet的所有列宽
+      let firstSheetName = workbook.SheetNames[0];
+      let firstSheet = workbook.Sheets[firstSheetName];
+      //
+      // // 设置列宽，这里以字符宽度为单位
+      // // 例如，设置所有列的宽度为20字符宽
+      // const desiredWidth = 13;
+      // firstSheet['!cols'] = Array(10).fill({wch:desiredWidth}); // 假设有10列
+
+
+      // 设置B列的宽度，这里以字符宽度为单位
+      const desiredWidthB = 14; // 假设我们想要将B列的宽度设置为20个字符宽
+      // 确保!cols属性存在
+      if(!firstSheet['!cols']) firstSheet['!cols'] = [];
+      // 设置B列的宽度 0是A列 1是b列 2是c列
+      firstSheet['!cols'][1] = {wch: desiredWidthB};
+      firstSheet['!cols'][0] = {wch: 5};
+      firstSheet['!cols'][2] = {wch: 5};
+
+      // 设置A1单元格的样式
+      if (!firstSheet['A1'].s) firstSheet['A1'].s = {};
+
+      // 尝试设置字体加粗和颜色   这边没效果 不知道为什么
+      firstSheet['A1'].s.font = {
+        bold: true, // 加粗
+        color: { rgb: "FF0000" } // 字体颜色为红色
+      };
+
+      // 使用SheetJS导出工作簿到Excel文件
+      XLSX.writeFile(workbook, 'exported_data.xlsx');
     }
+
+
   }
 };
 </script>

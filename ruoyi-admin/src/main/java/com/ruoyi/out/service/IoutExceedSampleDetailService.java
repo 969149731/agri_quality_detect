@@ -1,6 +1,9 @@
 package com.ruoyi.out.service;
 
 import java.util.List;
+
+import com.ruoyi.detection.domain.agriCitySampleTestDetails;
+import com.ruoyi.out.domain.out2ExceedSampleDetail;
 import com.ruoyi.out.domain.outExceedSampleDetail;
 
 /**
@@ -58,4 +61,6 @@ public interface IoutExceedSampleDetailService
      * @return 结果
      */
     public int deleteoutExceedSampleDetailByExceedSampleDetailId(Long exceedSampleDetailId);
+
+    List<out2ExceedSampleDetail> selectOutExceedSampleDetailList(agriCitySampleTestDetails agriCitySampleTestDetails);
 }

@@ -2,6 +2,7 @@ package com.ruoyi.out.mapper;
 
 import java.util.List;
 import com.ruoyi.out.domain.outExceedSampleDetail;
+import org.springframework.stereotype.Repository;
 
 /**
  * 超标蔬菜水果样品明细Mapper接口
@@ -9,6 +10,7 @@ import com.ruoyi.out.domain.outExceedSampleDetail;
  * @author chenjie
  * @date 2024-01-27
  */
+@Repository
 public interface outExceedSampleDetailMapper 
 {
     /**

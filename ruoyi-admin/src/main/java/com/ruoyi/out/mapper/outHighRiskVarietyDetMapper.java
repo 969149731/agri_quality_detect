@@ -2,6 +2,7 @@ package com.ruoyi.out.mapper;
 
 import java.util.List;
 import com.ruoyi.out.domain.outHighRiskVarietyDet;
+import org.springframework.stereotype.Repository;
 
 /**
  * 高风险品种样品检出情况Mapper接口
@@ -9,6 +10,7 @@ import com.ruoyi.out.domain.outHighRiskVarietyDet;
  * @author chenjie
  * @date 2024-01-27
  */
+@Repository
 public interface outHighRiskVarietyDetMapper 
 {
     /**
@@ -58,4 +60,10 @@ public interface outHighRiskVarietyDetMapper
      * @return 结果
      */
     public int deleteoutHighRiskVarietyDetByOutHighRiskVarietyDetIds(Long[] outHighRiskVarietyDetIds);
+
+
+    public String selectHighRiskSampleByVegFruName(String vegFruName);
+
+
+    public List<outHighRiskVarietyDet> selectHighRiskSampleList();
 }

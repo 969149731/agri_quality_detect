@@ -1,6 +1,9 @@
 package com.ruoyi.out.service;
 
 import java.util.List;
+
+import com.ruoyi.detection.domain.agriCitySampleTestDetails;
+import com.ruoyi.out.domain.out2BanPesticideDetection;
 import com.ruoyi.out.domain.outBanPesticideDetection;
 
 /**
@@ -58,4 +61,6 @@ public interface IoutBanPesticideDetectionService
      * @return 结果
      */
     public int deleteoutBanPesticideDetectionByBanPesticideDetectionId(Long banPesticideDetectionId);
+
+    List<out2BanPesticideDetection> selectOutBanPesticideDetectionList(agriCitySampleTestDetails agriCitySampleTestDetails);
 }
