@@ -59,9 +59,21 @@ public class outHighRiskVarietyDet extends BaseEntity
     @Excel(name = "备注", readConverterExp = "可=选字段")
     private String remarks;
 
+    public outHighRiskVarietyDet(String samplingLocation, String detectLocation, String vegFruName, Long totalSamples, Long qualifiedNumber, BigDecimal qualificationRate, String prohibitedPesticideDetection, String routinePesticideExceedance) {
+        this.samplingLocation = samplingLocation;
+        this.detectLocation = detectLocation;
+        this.vegFruName = vegFruName;
+        this.totalSamples = totalSamples;
+        this.qualifiedNumber = qualifiedNumber;
+        this.qualificationRate = qualificationRate;
+        this.prohibitedPesticideDetection = prohibitedPesticideDetection;
+        this.routinePesticideExceedance = routinePesticideExceedance;
+    }
+
     /** 记录创建的时间 */
     @JsonFormat(pattern = "yyyy-MM-dd")
     @Excel(name = "记录创建的时间", width = 30, dateFormat = "yyyy-MM-dd")
+
     private Date createdDate;
 
     public String getSamplingLocation() {

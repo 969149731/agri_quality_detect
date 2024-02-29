@@ -413,6 +413,9 @@ public class outHighRiskVarietyDetServiceImpl implements IoutHighRiskVarietyDetS
                 boolean is2 = true;
                 for (Map<String, Double> pesticide : entry.getValue()) {
                     for (Map.Entry<String, Double> item : pesticide.entrySet()) {
+                        if("没有检测到农药".equals(item.getKey())){
+                            break;
+                        }
                         System.out.println("农药名称: " + item.getKey() + ", 农药值: " + item.getValue());
                         //判断是否是禁用农药
                         if(checkPesticideIsBan(item.getKey(), highRiskVarietyDet.getVegFruName())){
