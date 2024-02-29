@@ -290,7 +290,67 @@ public class outHighRiskVarietyDetServiceImpl implements IoutHighRiskVarietyDetS
         List<outHighRiskVarietyDet> outHighRiskVarietyDets = outHighRiskVarietyDetMapper.selectHighRiskSampleList();
         //开始遍历获取到的outHighRiskVarietyDets
         for (outHighRiskVarietyDet highRiskVarietyDet : outHighRiskVarietyDets) {
+            //从det_res中获取信息进行禁用农药和农药超标的判断
+            // 按逗号分割数据
+            String[] entries = highRiskVarietyDet.getDet_res().split(",");
+            Map<String, List<Map<String, Double>>> formattedData = new HashMap<>();
+            for (String entry : entries) {
 
+                // 分割每个数据项，得到编号、农药名称和农药值
+                String[] parts = entry.split("-");
+                String id = parts[0];
+                String[] pesticideData = parts[1].split(":");
+                String pesticideName = pesticideData[0];
+                double pesticideValue = Double.parseDouble(pesticideData[1]);
+
+                // 创建一个新的农药数据 map
+                Map<String, Double> pesticideMap = new HashMap<>();
+                pesticideMap.put(pesticideName, pesticideValue);
+                // 将该农药数据 map 放入相应的编号列表中
+                List<Map<String, Double>> pesticideList = formattedData.getOrDefault(id, new ArrayList<>());
+                pesticideList.add(pesticideMap);
+                formattedData.put(id, pesticideList);
+            }
+
+            //判断是否合格
+            StringBuffer jinyong = new StringBuffer();
+            StringBuffer chaobiao = new StringBuffer();
+            int hege = formattedData.entrySet().size();
+            for (Map.Entry<String, List<Map<String, Double>>> entry : formattedData.entrySet()) {
+                System.out.println("编号: " + entry.getKey());
+                boolean is1 = true;
+                boolean is2 = true;
+                for (Map<String, Double> pesticide : entry.getValue()) {
+                    for (Map.Entry<String, Double> item : pesticide.entrySet()) {
+                        System.out.println("农药名称: " + item.getKey() + ", 农药值: " + item.getValue());
+                        //判断是否是禁用农药
+                        if(true){
+                            //是禁用农药
+                            is1=false;
+                            jinyong.append(item.getKey());
+                            jinyong.append("\n");
+                        }
+                        //判断农药是否超标
+                        if(true){
+                            is2=false;
+                            chaobiao.append(item.getKey());
+                            chaobiao.append(" : ");
+                            chaobiao.append(item.getValue());
+                            chaobiao.append("\n");
+                        }
+                    }
+                }
+                if(!is1 || !is2){
+                    //说明不合格
+                    hege = hege - 1;
+                }
+            }
+            //更新总数，合格数，合格率，检测结果
+            highRiskVarietyDet.setTotalSamples(Long.valueOf(formattedData.entrySet().size()));
+            highRiskVarietyDet.setQualifiedNumber(Long.valueOf(hege));
+            highRiskVarietyDet.setQualificationRate(new BigDecimal(highRiskVarietyDet.getQualifiedNumber()/highRiskVarietyDet.getTotalSamples()));
+            highRiskVarietyDet.setProhibitedPesticideDetection(jinyong.toString());
+            highRiskVarietyDet.setRoutinePesticideExceedance(chaobiao.toString());
         }
         System.out.println("得到的list"+outHighRiskVarietyDets);
         return null;
