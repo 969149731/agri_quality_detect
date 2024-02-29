@@ -1,61 +1,6 @@
 <template>
   <div class="app-container">
     <el-form :model="queryParams" ref="queryForm" size="small" :inline="true" v-show="showSearch" label-width="68px">
-      <el-form-item label="参照的标准" prop="standard">
-        <el-input
-          v-model="queryParams.standard"
-          placeholder="请输入参照的标准"
-          clearable
-          @keyup.enter.native="handleQuery"
-        />
-      </el-form-item>
-      <el-form-item label="国家标准" prop="chinaStandard">
-        <el-input
-          v-model="queryParams.chinaStandard"
-          placeholder="请输入国家标准"
-          clearable
-          @keyup.enter.native="handleQuery"
-        />
-      </el-form-item>
-      <el-form-item label="CAC标准" prop="cacStandard">
-        <el-input
-          v-model="queryParams.cacStandard"
-          placeholder="请输入CAC标准"
-          clearable
-          @keyup.enter.native="handleQuery"
-        />
-      </el-form-item>
-      <el-form-item label="日本标准" prop="japanStandard">
-        <el-input
-          v-model="queryParams.japanStandard"
-          placeholder="请输入日本标准"
-          clearable
-          @keyup.enter.native="handleQuery"
-        />
-      </el-form-item>
-      <el-form-item label="欧盟标准" prop="euStandard">
-        <el-input
-          v-model="queryParams.euStandard"
-          placeholder="请输入欧盟标准"
-          clearable
-          @keyup.enter.native="handleQuery"
-        />
-      </el-form-item>
-      <el-form-item label="美国标准" prop="usStandard">
-        <el-input
-          v-model="queryParams.usStandard"
-          placeholder="请输入美国标准"
-          clearable
-          @keyup.enter.native="handleQuery"
-        />
-      </el-form-item>
-      <el-form-item label="韩国标准" prop="koreaStandard">
-        <el-input
-          v-model="queryParams.koreaStandard"
-          placeholder="请输入韩国标准"
-          clearable
-          @keyup.enter.native="handleQuery"
-        />
       </el-form-item>
       <el-form-item label="数据源于哪个市区县" prop="sourceArea">
         <el-input
@@ -135,7 +80,7 @@
       align='center'
       id="table1"
     >
-      <el-table-column label="项目" prop="StandardLable" width="100px" align="center">
+      <el-table-column label="项目" prop="StandardLable" width="110px" align="center">
       </el-table-column>
       <el-table-column label="农药超标数" align="left">
         <el-table-column
@@ -149,6 +94,12 @@
             <div>{{ item[scope.row['StageId']] }}</div>
           </template>
         </el-table-column>
+      </el-table-column>
+      <el-table-column label="抽检数量" prop="sampleNum" width="100px" align="center">
+      </el-table-column>
+      <el-table-column label="合格数" prop="passNum" width="100px" align="center">
+      </el-table-column>
+      <el-table-column label="合格率" prop="passRate" width="100px" align="center">
       </el-table-column>
 
 
@@ -488,7 +439,9 @@
 
 <script>
 import { listOutStandCompliance2,listOutStandCompliance, getOutStandCompliance, delOutStandCompliance, addOutStandCompliance, updateOutStandCompliance } from "@/api/out/outStandCompliance";
-
+import * as XLSX from "xlsx";
+import * as XLSXS from "xlsx-style";
+import FileSaver from 'file-saver';
 export default {
   name: "OutStandCompliance",
   data() {
@@ -594,28 +547,52 @@ export default {
       StandardList: [
         {
           StandardLable: '参照我国标准',
-          StageId: 'CN'
+          StageId: 'CN',
+          sampleNum:0,
+          passNum:0,
+          passRate:0,
+          totalEx:0,
 
         },
         {
           StandardLable: '参照CAC标准',
-          StageId: 'CAC'
+          StageId: 'CAC',
+          sampleNum:0,
+          passNum:0,
+          passRate:0,
+          totalEx:0,
         },
         {
           StandardLable: '参照美国标准',
-          StageId: 'US'
+          StageId: 'US',
+          sampleNum:0,
+          passNum:0,
+          passRate:0,
+          totalEx:0,
         },
         {
           StandardLable: '参照欧盟标准',
-          StageId: 'EU'
+          StageId: 'EU',
+          sampleNum:0,
+          passNum:0,
+          passRate:0,
+          totalEx:0,
         },
         {
           StandardLable: '参照日本标准',
-          StageId: 'JPN'
+          StageId: 'JPN',
+          sampleNum:0,
+          passNum:0,
+          passRate:0,
+          totalEx:0,
         },
         {
           StandardLable: '参照韩国标准',
-          StageId: 'KR'
+          StageId: 'KR',
+          sampleNum:0,
+          passNum:0,
+          passRate:0,
+          totalEx:0,
         },
       ],
       pesticideNameList: [],
@@ -632,11 +609,34 @@ export default {
         this.outStandComplianceList = response.rows;
         this.total = response.total;
         this.loading = false;
+
       });
       listOutStandCompliance2(this.queryParams).then(response => {//二维表使用的列表获取
         this.pesticideNameList = response.rows;
-        let newList=Object.assign({},response.rows[0]);
-        const newObj = newList.pesticideName;
+        this.total = response.total;
+
+
+        let length=this.pesticideNameList.length
+        //抽样数
+        this.StandardList[0].sampleNum+=this.pesticideNameList[length-2].CN;
+        this.StandardList[1].sampleNum+=this.pesticideNameList[length-2].CAC;
+        this.StandardList[2].sampleNum+=this.pesticideNameList[length-2].US;
+        this.StandardList[3].sampleNum+=this.pesticideNameList[length-2].EU;
+        this.StandardList[4].sampleNum+=this.pesticideNameList[length-2].JPN;
+        this.StandardList[5].sampleNum+=this.pesticideNameList[length-2].KR;
+        //合格数
+        this.StandardList[0].passNum+=this.pesticideNameList[length-1].CN;
+        this.StandardList[1].passNum+=this.pesticideNameList[length-1].CAC;
+        this.StandardList[2].passNum+=this.pesticideNameList[length-1].US;
+        this.StandardList[3].passNum+=this.pesticideNameList[length-1].EU;
+        this.StandardList[4].passNum+=this.pesticideNameList[length-1].JPN;
+        this.StandardList[5].passNum+=this.pesticideNameList[length-1].KR;
+        for(let standard of this.StandardList){//计算Rate
+          standard.passRate=standard.passNum/standard.sampleNum*100
+          standard.passRate=standard.passRate.toFixed(2)//注意会将类型改为字符串类型
+          console.log("standard合格率",standard.passRate)
+        }
+        this.pesticideNameList.splice(this.pesticideNameList.length-2, 2);//将多出的两列除去
         this.loading = false;
       });
     },
@@ -786,10 +786,77 @@ export default {
     },
     /** 导出按钮操作 */
     handleExport() {
-      this.download('out/outStandCompliance/export', {
-        ...this.queryParams
-      }, `outStandCompliance_${new Date().getTime()}.xlsx`)
-    }
+      let workSheet = XLSX.utils.table_to_sheet(document.querySelector("#table1"));
+      let bookNew = XLSX.utils.book_new();
+      let header=[];
+
+      // 在这里添加样式代码
+      for (const key in workSheet) {
+        if (workSheet[key] instanceof Object) {
+          workSheet[key].s = {
+            alignment: {
+              vertical: 'center',
+              horizontal: 'center',
+              indent: 0,
+              wrapText: true
+            },
+            font: {
+              name: '宋体',
+              sz: 10,
+              color: { rgb: '#FF000000' },
+              bold: false,
+              italic: false,
+              underline: false
+            },
+            border: {
+              top: { style: 'thin' },
+              bottom: { style: 'thin' },
+              left: { style: 'thin' },
+              right: { style: 'thin' }
+            }
+          }
+        }
+      }
+
+      //默认表头合并
+      header.push({ s: { r: 0, c: 0 }, e: { r: 1, c: 1 } })
+      header.push({ s: { r: 2, c: 0 }, e: { r: 2, c: 1 } })
+      header.push({ s: { r: 3, c: 0 }, e: { r: 3, c: 1 } })
+      header.push({ s: { r: 4, c: 0 }, e: { r: 9, c: 0 } })
+
+      console.log("打印长度",this.pesticideNameList.length)
+      //农药表表头合并
+      for(let i=2;i<this.pesticideNameList.length+2;i++){
+        header.push({s:{r:0,c:i},e:{r:1,c:i}});
+      }
+      workSheet['!merges'] = header;
+      XLSX.utils.book_append_sheet(bookNew, workSheet, '水果禁用农药检出及超标情况表簿') // 工作簿名称
+      let name = '参照国际组织或国家标准合格率情况表' + '.xlsx'
+      var wopts = {
+        bookType: "xlsx", // 要生成的文件类型
+        bookSST: false, // 是否生成Shared String Table，官方解释是，如果开启生成速度会下降，但在低版本IOS设备上有更好的兼容性
+        type: "binary",
+      };
+      let wbout = XLSXS.write(bookNew, {
+        bookType: 'xlsx',
+        bookSST: false,
+        type: 'binary',
+      })
+      // XLSXS.writeFile(bookNew, '水果禁用表', wopts);
+      FileSaver.saveAs(
+        new Blob([s2ab(wbout)], {
+          type: 'application/octet-stream'
+        }),
+        '水果禁用农药检出及超标情况表.xlsx' // 保存的文件名
+      )
+      // 工具方法
+      function s2ab(s) {
+        var buf = new ArrayBuffer(s.length)
+        var view = new Uint8Array(buf)
+        for (var i = 0; i != s.length; ++i) view[i] = s.charCodeAt(i) & 0xff
+        return buf
+      }
+    },
   }
 };
 </script>

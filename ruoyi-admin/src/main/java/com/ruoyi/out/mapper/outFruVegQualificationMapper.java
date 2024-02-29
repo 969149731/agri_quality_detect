@@ -1,7 +1,11 @@
 package com.ruoyi.out.mapper;
 
 import java.util.List;
+
+import com.ruoyi.out.domain.agriPesticideResidueStandard;
 import com.ruoyi.out.domain.outFruVegQualification;
+import com.ruoyi.out.domain.outFruVegSelectType;
+import com.ruoyi.out.domain.outReturnType;
 
 /**
  * 各类蔬菜水果合格率情况Mapper接口
@@ -58,4 +62,8 @@ public interface outFruVegQualificationMapper
      * @return 结果
      */
     public int deleteoutFruVegQualificationByFruVegQualificationIds(Long[] fruVegQualificationIds);
+
+    public List<outFruVegSelectType> getFruVegDetResultList();
+
+    public List<agriPesticideResidueStandard> getagriPesticideResidueStandard(String pesticideName, String vegFruName);
 }

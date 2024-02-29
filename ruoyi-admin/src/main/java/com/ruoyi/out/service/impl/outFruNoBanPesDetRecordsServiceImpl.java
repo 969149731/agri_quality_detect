@@ -123,6 +123,9 @@ public class outFruNoBanPesDetRecordsServiceImpl implements IoutFruNoBanPesDetRe
             String pesticidName = item.pesticideName;
             String stageName = item.samplingStageType;
             agriPesticideResidueStandard firstStandard;
+            if (!item.checkIsUseful()){
+                continue;//没通过数据可用审查，跳过当前的检测条目
+            }
             //获取对应标准//在这里可以获取多种标准
             PageHelper.startPage(0,0,false,false,true);//分页方法，仅对之后第一个查询生效
             List<agriPesticideResidueStandard> standardslist = outFruNoBanPesDetRecordsMapper.getagriPesticideResidueStandard(pesticidName, vegFruName);

@@ -77,6 +77,7 @@
       :data="StageList"
       style="width: 100%;"
       align='center'
+      id="table1"
     >
       <el-table-column label="农药名称->" prop="IncludeLable"></el-table-column>
       <el-table-column label="农药名称" align="center" prop="StageName"></el-table-column>
@@ -246,6 +247,9 @@
 
 <script>
 import { listOutFruNoBanPesDetRecords2,listOutFruNoBanPesDetRecords, getOutFruNoBanPesDetRecords, delOutFruNoBanPesDetRecords, addOutFruNoBanPesDetRecords, updateOutFruNoBanPesDetRecords } from "@/api/out/outFruNoBanPesDetRecords";
+import * as XLSX from "xlsx";
+import * as XLSXS from "xlsx-style";
+import FileSaver from 'file-saver'
 
 export default {
   name: "OutFruNoBanPesDetRecords",
@@ -495,9 +499,76 @@ export default {
     },
     /** 导出按钮操作 */
     handleExport() {
-      this.download('out/outFruNoBanPesDetRecords/export', {
-        ...this.queryParams
-      }, `outFruNoBanPesDetRecords_${new Date().getTime()}.xlsx`)
+      let workSheet = XLSX.utils.table_to_sheet(document.querySelector("#table1"));
+      let bookNew = XLSX.utils.book_new();
+      let header=[];
+
+      // 在这里添加样式代码
+      for (const key in workSheet) {
+        if (workSheet[key] instanceof Object) {
+          workSheet[key].s = {
+            alignment: {
+              vertical: 'center',
+              horizontal: 'center',
+              indent: 0,
+              wrapText: true
+            },
+            font: {
+              name: '宋体',
+              sz: 10,
+              color: { rgb: '#FF000000' },
+              bold: false,
+              italic: false,
+              underline: false
+            },
+            border: {
+              top: { style: 'thin' },
+              bottom: { style: 'thin' },
+              left: { style: 'thin' },
+              right: { style: 'thin' }
+            }
+          }
+        }
+      }
+
+      //默认表头合并
+      header.push({ s: { r: 0, c: 0 }, e: { r: 1, c: 1 } })
+      header.push({ s: { r: 2, c: 0 }, e: { r: 2, c: 1 } })
+      header.push({ s: { r: 3, c: 0 }, e: { r: 3, c: 1 } })
+      header.push({ s: { r: 4, c: 0 }, e: { r: 9, c: 0 } })
+
+      console.log("打印长度",this.pesticideNameList.length)
+      //农药表表头合并
+      for(let i=2;i<this.pesticideNameList.length+2;i++){
+        header.push({s:{r:0,c:i},e:{r:1,c:i}});
+      }
+      workSheet['!merges'] = header;
+      XLSX.utils.book_append_sheet(bookNew, workSheet, '水果禁用农药检出及超标情况表簿') // 工作簿名称
+      let name = '水果非禁用农药检出及超标情况表' + '.xlsx'
+      var wopts = {
+        bookType: "xlsx", // 要生成的文件类型
+        bookSST: false, // 是否生成Shared String Table，官方解释是，如果开启生成速度会下降，但在低版本IOS设备上有更好的兼容性
+        type: "binary",
+      };
+      let wbout = XLSXS.write(bookNew, {
+        bookType: 'xlsx',
+        bookSST: false,
+        type: 'binary',
+      })
+      // XLSXS.writeFile(bookNew, '水果禁用表', wopts);
+      FileSaver.saveAs(
+        new Blob([s2ab(wbout)], {
+          type: 'application/octet-stream'
+        }),
+        name // 保存的文件名
+      )
+      // 工具方法
+      function s2ab(s) {
+        var buf = new ArrayBuffer(s.length)
+        var view = new Uint8Array(buf)
+        for (var i = 0; i != s.length; ++i) view[i] = s.charCodeAt(i) & 0xff
+        return buf
+      }
     },
     /*表头行的合并*/
     headerStyle({ row, column, rowIndex, columnIndex }) {
