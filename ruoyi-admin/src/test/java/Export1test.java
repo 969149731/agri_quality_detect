@@ -4,8 +4,6 @@ import com.ruoyi.out.domain.outHighRiskVarietyDet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.ss.util.CellRangeAddress;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
 
 import java.io.FileOutputStream;
 import java.math.BigDecimal;
@@ -100,7 +98,6 @@ public class Export1test {
                 "农药A:12,\n农药B:444"));
         Map<String, Object> map = new HashMap<>();
         map.put("maplist", res);
-//        Workbook workbook = ExcelExportUtil.exportExcel(params, map);
         try {
             // 生成 Excel 数据
             ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
@@ -114,8 +111,8 @@ public class Export1test {
 
             // 获取单元格内容，并将相同内容的单元格合并
             mergeCells(sheet);
-//            mergeCells(sheet, 1);
 
+            //workbook.write(response.getOutputStream());
             // 保存修改后的 Excel 数据
             ByteArrayOutputStream modifiedOutputStream = new ByteArrayOutputStream();
             workbook.write(modifiedOutputStream);
@@ -136,8 +133,6 @@ public class Export1test {
     }
 
     private static void mergeCells(Sheet sheet) {
-//        int lastNum = sheet.getLastRowNum();
-//        int rowIndex = 3;
         // 遍历每一行
         int rowStartA = 3;
         int endRowA = rowStartA;
