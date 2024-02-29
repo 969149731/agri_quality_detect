@@ -285,6 +285,7 @@ public class outHighRiskVarietyDetServiceImpl implements IoutHighRiskVarietyDetS
 //    }
 
 
+    //孙帅开始写的代码   方法返回值和参数可以先不管
     public Map<String, List<outHighRiskVarietyDet>> selectOutHighRiskVarietyDetList(agriCitySampleTestDetails agriCitySampleTestDetails) {
         List<outHighRiskVarietyDet> outHighRiskVarietyDets = outHighRiskVarietyDetMapper.selectHighRiskSampleList();
         //开始遍历获取到的outHighRiskVarietyDets
