@@ -441,8 +441,11 @@ public class outHighRiskVarietyDetServiceImpl implements IoutHighRiskVarietyDetS
             highRiskVarietyDet.setQualificationRate(new BigDecimal(highRiskVarietyDet.getQualifiedNumber()/highRiskVarietyDet.getTotalSamples()));
             highRiskVarietyDet.setProhibitedPesticideDetection(jinyong.toString());
             highRiskVarietyDet.setRoutinePesticideExceedance(chaobiao.toString());
+
+            System.out.println("我要看的"+highRiskVarietyDet);
         }
-        System.out.println("得到的list" + outHighRiskVarietyDets);
+
+//        System.out.println("得到的list" + outHighRiskVarietyDets);
         return null;
     }
 
