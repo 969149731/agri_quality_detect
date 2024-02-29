@@ -64,7 +64,18 @@ public class outHighRiskVarietyDet extends BaseEntity
     @Excel(name = "记录创建的时间", width = 30, dateFormat = "yyyy-MM-dd")
     private Date createdDate;
 
-//    public void setOutHighRiskVarietyDetId(Long outHighRiskVarietyDetId)
+    public outHighRiskVarietyDet(String samplingLocation, String detectLocation, String vegFruName, Long totalSamples, Long qualifiedNumber, BigDecimal qualificationRate, String prohibitedPesticideDetection, String routinePesticideExceedance) {
+        this.samplingLocation = samplingLocation;
+        this.detectLocation = detectLocation;
+        this.vegFruName = vegFruName;
+        this.totalSamples = totalSamples;
+        this.qualifiedNumber = qualifiedNumber;
+        this.qualificationRate = qualificationRate;
+        this.prohibitedPesticideDetection = prohibitedPesticideDetection;
+        this.routinePesticideExceedance = routinePesticideExceedance;
+    }
+
+    //    public void setOutHighRiskVarietyDetId(Long outHighRiskVarietyDetId)
 //    {
 //        this.outHighRiskVarietyDetId = outHighRiskVarietyDetId;
 //    }
@@ -183,7 +194,7 @@ public class outHighRiskVarietyDet extends BaseEntity
             .append("qualifiedNumber", getQualifiedNumber())
             .append("qualificationRate", getQualificationRate())
             .append("prohibitedPesticideDetection", getProhibitedPesticideDetection())
-//            .append("routinePesticideExceedance", getRoutinePesticideExceedance())
+            .append("routinePesticideExceedance", getRoutinePesticideExceedance())
             .append("remarks", getRemarks())
             .append("createdDate", getCreatedDate())
             .toString();

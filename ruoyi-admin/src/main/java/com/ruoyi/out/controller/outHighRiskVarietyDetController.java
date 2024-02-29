@@ -68,8 +68,8 @@ public class outHighRiskVarietyDetController extends BaseController
     public void export(HttpServletResponse response, outHighRiskVarietyDet outHighRiskVarietyDet)
     {
         List<outHighRiskVarietyDet> list = outHighRiskVarietyDetService.selectoutHighRiskVarietyDetList(outHighRiskVarietyDet);
-        ExcelUtil<outHighRiskVarietyDet> util = new ExcelUtil<outHighRiskVarietyDet>(outHighRiskVarietyDet.class);
-        util.exportExcel(response, list, "高风险品种样品检出情况数据");
+//        ExcelUtil<outHighRiskVarietyDet> util = new ExcelUtil<outHighRiskVarietyDet>(outHighRiskVarietyDet.class);
+//        util.exportExcel(response, list, "高风险品种样品检出情况数据");
     }
 
     /**
