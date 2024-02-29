@@ -414,14 +414,14 @@ public class outHighRiskVarietyDetServiceImpl implements IoutHighRiskVarietyDetS
                     for (Map.Entry<String, Double> item : pesticide.entrySet()) {
                         System.out.println("农药名称: " + item.getKey() + ", 农药值: " + item.getValue());
                         //判断是否是禁用农药
-                        if(true){
+                        if(checkPesticideIsBan(item.getKey(), highRiskVarietyDet.getVegFruName())){
                             //是禁用农药
                             is1=false;
                             jinyong.append(item.getKey());
                             jinyong.append("\n");
                         }
                         //判断农药是否超标
-                        if(true){
+                        if(checkPesticideIsPass(item.getKey(), item.getValue(), highRiskVarietyDet.getVegFruName())){
                             is2=false;
                             chaobiao.append(item.getKey());
                             chaobiao.append(" : ");
