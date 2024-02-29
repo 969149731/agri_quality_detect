@@ -4,6 +4,7 @@ import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -438,7 +439,11 @@ public class outHighRiskVarietyDetServiceImpl implements IoutHighRiskVarietyDetS
             //更新总数，合格数，合格率，检测结果
             highRiskVarietyDet.setTotalSamples(Long.valueOf(formattedData.entrySet().size()));
             highRiskVarietyDet.setQualifiedNumber(Long.valueOf(hege));
-            highRiskVarietyDet.setQualificationRate(new BigDecimal(highRiskVarietyDet.getQualifiedNumber()/highRiskVarietyDet.getTotalSamples()));
+
+            BigDecimal qualificationRate = BigDecimal.valueOf((double)highRiskVarietyDet.getQualifiedNumber()/highRiskVarietyDet.getTotalSamples());
+            BigDecimal qualificationRateUse = qualificationRate.setScale(3, RoundingMode.HALF_UP);
+
+            highRiskVarietyDet.setQualificationRate(qualificationRateUse);
             highRiskVarietyDet.setProhibitedPesticideDetection(jinyong.toString());
             highRiskVarietyDet.setRoutinePesticideExceedance(chaobiao.toString());
 
