@@ -127,18 +127,19 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     <select id="selectHighRiskSampleList" resultMap="SampleTestDetailResultMap">
         SELECT a.detect_location AS detectLocation,
                a.veg_fru_name AS vegFruName,
-               GROUP_CONCAT(a.sample_code, '-', b.pesticide_name, ':', b.pesticide_det_value) AS det_res,
+               GROUP_CONCAT(IFNULL(CONCAT(a.sample_code, '-', COALESCE(b.pesticide_name, CONCAT(a.city_sample_test_details_id, '-没有检测到农药')), ':', b.pesticide_det_value), CONCAT(a.sample_code, '-没有检测到农药'))) AS det_res,
                (SELECT COUNT(*) FROM agri_city_sample_test_details WHERE veg_fru_name = a.veg_fru_name AND detect_location = a.detect_location) AS totalSamples,
                0 AS qualifiedNumber,
                0 AS qualificationRate,
                '' AS prohibitedPesticideDetection,
                '' AS routinePesticideExceedance
         FROM agri_city_sample_test_details a
-                 JOIN agri_pesticide_det_result b ON a.city_sample_test_details_id = b.city_sample_test_details_id
+                 LEFT JOIN agri_pesticide_det_result b ON a.city_sample_test_details_id = b.city_sample_test_details_id
                  JOIN agri_vegetable_fruit c ON a.veg_fru_name = c.veg_fru_name
         WHERE c.high_risk_sample = '高风险'
         GROUP BY a.detect_location, a.veg_fru_name
-        ORDER BY a.detect_location, a.veg_fru_name
+        ORDER BY a.detect_location, a.veg_fru_name;
+
     </select>
 
 
