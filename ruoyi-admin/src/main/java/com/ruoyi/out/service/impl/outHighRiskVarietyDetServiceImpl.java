@@ -4,6 +4,7 @@ import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -417,7 +418,11 @@ public class outHighRiskVarietyDetServiceImpl implements IoutHighRiskVarietyDetS
                         if(checkPesticideIsBan(item.getKey(), highRiskVarietyDet.getVegFruName())){
                             //是禁用农药
                             is1=false;
+//                            jinyong.append(item.getKey());
+//                            jinyong.append("\n");
                             jinyong.append(item.getKey());
+                            jinyong.append(" : ");
+                            jinyong.append(item.getValue());
                             jinyong.append("\n");
                         }
                         //判断农药是否超标
@@ -436,13 +441,24 @@ public class outHighRiskVarietyDetServiceImpl implements IoutHighRiskVarietyDetS
                 }
             }
             //更新总数，合格数，合格率，检测结果
-            highRiskVarietyDet.setTotalSamples(Long.valueOf(formattedData.entrySet().size()));
+//            highRiskVarietyDet.setTotalSamples(Long.valueOf(formattedData.entrySet().size()));
             highRiskVarietyDet.setQualifiedNumber(Long.valueOf(hege));
-            highRiskVarietyDet.setQualificationRate(new BigDecimal(highRiskVarietyDet.getQualifiedNumber()/highRiskVarietyDet.getTotalSamples()));
+
+            BigDecimal qualificationRate = BigDecimal.valueOf((double)highRiskVarietyDet.getQualifiedNumber()/highRiskVarietyDet.getTotalSamples());
+            BigDecimal qualificationRateUse = qualificationRate.setScale(3, RoundingMode.HALF_UP);
+
+            highRiskVarietyDet.setQualificationRate(qualificationRateUse);
             highRiskVarietyDet.setProhibitedPesticideDetection(jinyong.toString());
             highRiskVarietyDet.setRoutinePesticideExceedance(chaobiao.toString());
+
+            String detectLocation = highRiskVarietyDet.getDetectLocation();
+            String city = detectLocation.substring(0, 3);
+            highRiskVarietyDet.setSamplingLocation(city);
+
+            System.out.println("我要看的"+highRiskVarietyDet);
         }
-        System.out.println("得到的list" + outHighRiskVarietyDets);
+
+//        System.out.println("得到的list" + outHighRiskVarietyDets);
         return null;
     }
 

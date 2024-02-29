@@ -64,92 +64,52 @@ public class outHighRiskVarietyDet extends BaseEntity
     @Excel(name = "记录创建的时间", width = 30, dateFormat = "yyyy-MM-dd")
     private Date createdDate;
 
-    public outHighRiskVarietyDet(String samplingLocation, String detectLocation, String vegFruName, Long totalSamples, Long qualifiedNumber, BigDecimal qualificationRate, String prohibitedPesticideDetection, String routinePesticideExceedance) {
-        this.samplingLocation = samplingLocation;
-        this.detectLocation = detectLocation;
-        this.vegFruName = vegFruName;
-        this.totalSamples = totalSamples;
-        this.qualifiedNumber = qualifiedNumber;
-        this.qualificationRate = qualificationRate;
-        this.prohibitedPesticideDetection = prohibitedPesticideDetection;
-        this.routinePesticideExceedance = routinePesticideExceedance;
-    }
-
-    //    public void setOutHighRiskVarietyDetId(Long outHighRiskVarietyDetId)
-//    {
-//        this.outHighRiskVarietyDetId = outHighRiskVarietyDetId;
-//    }
-//
-//    public Long getOutHighRiskVarietyDetId()
-//    {
-//        return outHighRiskVarietyDetId;
-//    }
-    public void setSamplingLocation(String samplingLocation) 
-    {
-        this.samplingLocation = samplingLocation;
-    }
-
-    public String getSamplingLocation() 
-    {
+    public String getSamplingLocation() {
         return samplingLocation;
     }
-    public void setDetectLocation(String detectLocation) 
-    {
+
+    public void setSamplingLocation(String samplingLocation) {
+        this.samplingLocation = samplingLocation;
+    }
+
+    public String getDetectLocation() {
+        return detectLocation;
+    }
+
+    public void setDetectLocation(String detectLocation) {
         this.detectLocation = detectLocation;
     }
 
-    public String getDetectLocation() 
-    {
-        return detectLocation;
+    public String getVegFruName() {
+        return vegFruName;
     }
-    public void setVegFruName(String vegFruName) 
-    {
+
+    public void setVegFruName(String vegFruName) {
         this.vegFruName = vegFruName;
     }
 
-    public String getVegFruName() 
-    {
-        return vegFruName;
+    public Long getTotalSamples() {
+        return totalSamples;
     }
-    public void setTotalSamples(Long totalSamples) 
-    {
+
+    public void setTotalSamples(Long totalSamples) {
         this.totalSamples = totalSamples;
     }
 
-    public Long getTotalSamples() 
-    {
-        return totalSamples;
+    public Long getQualifiedNumber() {
+        return qualifiedNumber;
     }
-    public void setQualifiedNumber(Long qualifiedNumber) 
-    {
+
+    public void setQualifiedNumber(Long qualifiedNumber) {
         this.qualifiedNumber = qualifiedNumber;
     }
 
-    public Long getQualifiedNumber() 
-    {
-        return qualifiedNumber;
-    }
-    public void setQualificationRate(BigDecimal qualificationRate) 
-    {
-        this.qualificationRate = qualificationRate;
-    }
-
-    public BigDecimal getQualificationRate() 
-    {
+    public BigDecimal getQualificationRate() {
         return qualificationRate;
     }
-    public void setProhibitedPesticideDetection(String prohibitedPesticideDetection) 
-    {
-        this.prohibitedPesticideDetection = prohibitedPesticideDetection;
-    }
 
-    public String getProhibitedPesticideDetection() 
-    {
-        return prohibitedPesticideDetection;
-    }
-    public void setRoutinePesticideExceedance(String routinePesticideExceedance)
-    {
-        this.routinePesticideExceedance = routinePesticideExceedance;
+    public void setQualificationRate(BigDecimal qualificationRate) {
+        this.qualificationRate = qualificationRate;
     }
 
     public String getDet_res() {
@@ -160,43 +120,52 @@ public class outHighRiskVarietyDet extends BaseEntity
         this.det_res = det_res;
     }
 
-    public String getRoutinePesticideExceedance()
-    {
+    public String getProhibitedPesticideDetection() {
+        return prohibitedPesticideDetection;
+    }
+
+    public void setProhibitedPesticideDetection(String prohibitedPesticideDetection) {
+        this.prohibitedPesticideDetection = prohibitedPesticideDetection;
+    }
+
+    public String getRoutinePesticideExceedance() {
         return routinePesticideExceedance;
     }
-    public void setRemarks(String remarks) 
-    {
+
+    public void setRoutinePesticideExceedance(String routinePesticideExceedance) {
+        this.routinePesticideExceedance = routinePesticideExceedance;
+    }
+
+    public String getRemarks() {
+        return remarks;
+    }
+
+    public void setRemarks(String remarks) {
         this.remarks = remarks;
     }
 
-    public String getRemarks() 
-    {
-        return remarks;
-    }
-    public void setCreatedDate(Date createdDate) 
-    {
-        this.createdDate = createdDate;
+    public Date getCreatedDate() {
+        return createdDate;
     }
 
-    public Date getCreatedDate() 
-    {
-        return createdDate;
+    public void setCreatedDate(Date createdDate) {
+        this.createdDate = createdDate;
     }
 
     @Override
     public String toString() {
-        return new ToStringBuilder(this,ToStringStyle.MULTI_LINE_STYLE)
-//            .append("outHighRiskVarietyDetId", getOutHighRiskVarietyDetId())
-            .append("samplingLocation", getSamplingLocation())
-            .append("detectLocation", getDetectLocation())
-            .append("vegFruName", getVegFruName())
-            .append("totalSamples", getTotalSamples())
-            .append("qualifiedNumber", getQualifiedNumber())
-            .append("qualificationRate", getQualificationRate())
-            .append("prohibitedPesticideDetection", getProhibitedPesticideDetection())
-            .append("routinePesticideExceedance", getRoutinePesticideExceedance())
-            .append("remarks", getRemarks())
-            .append("createdDate", getCreatedDate())
-            .toString();
+        return "outHighRiskVarietyDet{" +
+                "samplingLocation='" + samplingLocation + '\'' +
+                ", detectLocation='" + detectLocation + '\'' +
+                ", vegFruName='" + vegFruName + '\'' +
+                ", totalSamples=" + totalSamples +
+                ", qualifiedNumber=" + qualifiedNumber +
+                ", qualificationRate=" + qualificationRate +
+                ", det_res='" + det_res + '\'' +
+                ", prohibitedPesticideDetection='" + prohibitedPesticideDetection + '\'' +
+                ", routinePesticideExceedance='" + routinePesticideExceedance + '\'' +
+                ", remarks='" + remarks + '\'' +
+                ", createdDate=" + createdDate +
+                '}';
     }
 }
