@@ -235,54 +235,64 @@ public class outHighRiskVarietyDetServiceImpl implements IoutHighRiskVarietyDetS
 
 
 
-    @Override
+//    @Override
+//    public Map<String, List<outHighRiskVarietyDet>> selectOutHighRiskVarietyDetList(agriCitySampleTestDetails agriCitySampleTestDetails) {
+//
+//        List<agriCitySampleTestDetails> agriCitySampleTestDetailsList = agriCitySampleTestDetailsMapper.selectagriCitySampleTestDetailsList(agriCitySampleTestDetails);
+//        Map<String, Map<String,List<outHighRiskVarietyDet>>> resMap = new HashMap<>();
+//        Map<String, List<outHighRiskVarietyDet>> internalMap = new HashMap<>();
+//        //开始遍历每一条导入表中的详细记录
+//        for (agriCitySampleTestDetails CitySampleTestDetail : agriCitySampleTestDetailsList) {
+//            List<outHighRiskVarietyDet> highRiskVarietyDetList = new ArrayList<>();
+//            //如果承检单位是第一次出现
+//            if(!resMap.containsKey(CitySampleTestDetail.getDetectLocation())){
+//                //通过样品名称查看该样品是否为高风险样品
+//                String highRiskSample = outHighRiskVarietyDetMapper.selectHighRiskSampleByVegFruName(CitySampleTestDetail.getVegFruName());
+//                //判断该样品是否为高风险样品
+//                if("高风险".equals(highRiskSample)){
+//                    System.out.println(CitySampleTestDetail.getVegFruName()+"是高风险的");
+//                    internalMap.put(CitySampleTestDetail.getVegFruName(),highRiskVarietyDetList);
+//                    resMap.put(CitySampleTestDetail.getDetectLocation(),internalMap);
+//                    // 检查键是否存在于任何一个内层Map中
+//                    boolean keyExists = resMap.values().stream() // 获取外层Map的所有值（即内层Maps）
+//                            .anyMatch(innerMap -> innerMap.containsKey(CitySampleTestDetail.getVegFruName())); // 检查内层Map是否包含指定的键
+//                    if(keyExists){
+//                        System.out.println("qqqqqqqqqqq"+CitySampleTestDetail.getVegFruName());
+//                    }
+//                }
+//            }else {
+//                //通过样品名称查看该样品是否为高风险样品
+//                String highRiskSample = outHighRiskVarietyDetMapper.selectHighRiskSampleByVegFruName(CitySampleTestDetail.getVegFruName());
+//                //判断该样品是否为高风险样品
+//                if("高风险".equals(highRiskSample)){
+//                    System.out.println(CitySampleTestDetail.getVegFruName()+"是高风险的");
+//                    internalMap.put(CitySampleTestDetail.getVegFruName(),highRiskVarietyDetList);
+//                    resMap.put(CitySampleTestDetail.getDetectLocation(),internalMap);
+//                    // 检查键是否存在于任何一个内层Map中
+//                    boolean keyExists = resMap.values().stream() // 获取外层Map的所有值（即内层Maps）
+//                            .anyMatch(innerMap -> innerMap.containsKey(CitySampleTestDetail.getVegFruName())); // 检查内层Map是否包含指定的键
+//                    if(keyExists){
+//                        System.out.println("qqqqqqqqqqq"+CitySampleTestDetail.getVegFruName());
+//                    }
+//                }
+//            }
+//
+//
+//        }
+//
+//
+//        return null;
+//    }
+
+
     public Map<String, List<outHighRiskVarietyDet>> selectOutHighRiskVarietyDetList(agriCitySampleTestDetails agriCitySampleTestDetails) {
-
-        List<agriCitySampleTestDetails> agriCitySampleTestDetailsList = agriCitySampleTestDetailsMapper.selectagriCitySampleTestDetailsList(agriCitySampleTestDetails);
-        Map<String, Map<String,List<outHighRiskVarietyDet>>> resMap = new HashMap<>();
-        Map<String, List<outHighRiskVarietyDet>> internalMap = new HashMap<>();
-        //开始遍历每一条导入表中的详细记录
-        for (agriCitySampleTestDetails CitySampleTestDetail : agriCitySampleTestDetailsList) {
-            List<outHighRiskVarietyDet> highRiskVarietyDetList = new ArrayList<>();
-            //如果承检单位是第一次出现
-            if(!resMap.containsKey(CitySampleTestDetail.getDetectLocation())){
-                //通过样品名称查看该样品是否为高风险样品
-                String highRiskSample = outHighRiskVarietyDetMapper.selectHighRiskSampleByVegFruName(CitySampleTestDetail.getVegFruName());
-                //判断该样品是否为高风险样品
-                if("高风险".equals(highRiskSample)){
-                    System.out.println(CitySampleTestDetail.getVegFruName()+"是高风险的");
-                    internalMap.put(CitySampleTestDetail.getVegFruName(),highRiskVarietyDetList);
-                    resMap.put(CitySampleTestDetail.getDetectLocation(),internalMap);
-                    // 检查键是否存在于任何一个内层Map中
-                    boolean keyExists = resMap.values().stream() // 获取外层Map的所有值（即内层Maps）
-                            .anyMatch(innerMap -> innerMap.containsKey(CitySampleTestDetail.getVegFruName())); // 检查内层Map是否包含指定的键
-                    if(keyExists){
-                        System.out.println("qqqqqqqqqqq"+CitySampleTestDetail.getVegFruName());
-                    }
-                }
-            }else {
-                //通过样品名称查看该样品是否为高风险样品
-                String highRiskSample = outHighRiskVarietyDetMapper.selectHighRiskSampleByVegFruName(CitySampleTestDetail.getVegFruName());
-                //判断该样品是否为高风险样品
-                if("高风险".equals(highRiskSample)){
-                    System.out.println(CitySampleTestDetail.getVegFruName()+"是高风险的");
-                    internalMap.put(CitySampleTestDetail.getVegFruName(),highRiskVarietyDetList);
-                    resMap.put(CitySampleTestDetail.getDetectLocation(),internalMap);
-                    // 检查键是否存在于任何一个内层Map中
-                    boolean keyExists = resMap.values().stream() // 获取外层Map的所有值（即内层Maps）
-                            .anyMatch(innerMap -> innerMap.containsKey(CitySampleTestDetail.getVegFruName())); // 检查内层Map是否包含指定的键
-                    if(keyExists){
-                        System.out.println("qqqqqqqqqqq"+CitySampleTestDetail.getVegFruName());
-                    }
-                }
-            }
-
+        List<outHighRiskVarietyDet> outHighRiskVarietyDets = outHighRiskVarietyDetMapper.selectHighRiskSampleList();
+        //开始遍历获取到的outHighRiskVarietyDets
+        for (outHighRiskVarietyDet highRiskVarietyDet : outHighRiskVarietyDets) {
 
         }
-
-
+        System.out.println("得到的list"+outHighRiskVarietyDets);
         return null;
     }
 
-
-}
+    }

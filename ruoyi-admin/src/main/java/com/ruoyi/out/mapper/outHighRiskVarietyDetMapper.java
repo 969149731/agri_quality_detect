@@ -63,4 +63,7 @@ public interface outHighRiskVarietyDetMapper
 
 
     public String selectHighRiskSampleByVegFruName(String vegFruName);
+
+
+    public List<outHighRiskVarietyDet> selectHighRiskSampleList();
 }

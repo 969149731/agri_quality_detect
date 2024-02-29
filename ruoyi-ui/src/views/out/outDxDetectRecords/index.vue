@@ -9,30 +9,43 @@
           @keyup.enter.native="handleQuery"
         />
       </el-form-item>
-      <el-form-item label="抽样日期" prop="samplingDate">
-        <el-date-picker clearable
-          v-model="queryParams.samplingDate"
-          type="date"
+<!--      <el-form-item label="抽样日期" prop="samplingDate">-->
+<!--        <el-date-picker clearable-->
+<!--          v-model="queryParams.samplingDate"-->
+<!--          type="date"-->
+<!--          value-format="yyyy-MM-dd"-->
+<!--          placeholder="请选择抽样日期">-->
+<!--        </el-date-picker>-->
+<!--      </el-form-item>-->
+
+      <el-form-item label="抽样日期">
+        <el-date-picker
+          v-model="dateRange"
+          style="width: 240px"
           value-format="yyyy-MM-dd"
-          placeholder="请选择抽样日期">
-        </el-date-picker>
+          type="daterange"
+          range-separator="-"
+          start-placeholder="开始日期"
+          end-placeholder="结束日期"
+        ></el-date-picker>
       </el-form-item>
-      <el-form-item label="抽样年份" prop="samplingYear">
-        <el-input
-          v-model="queryParams.samplingYear"
-          placeholder="请输入抽样年份"
-          clearable
-          @keyup.enter.native="handleQuery"
-        />
-      </el-form-item>
-      <el-form-item label="抽样月份" prop="samplingMonth">
-        <el-input
-          v-model="queryParams.samplingMonth"
-          placeholder="请输入抽样月份"
-          clearable
-          @keyup.enter.native="handleQuery"
-        />
-      </el-form-item>
+
+<!--      <el-form-item label="抽样年份" prop="samplingYear">-->
+<!--        <el-input-->
+<!--          v-model="queryParams.samplingYear"-->
+<!--          placeholder="请输入抽样年份"-->
+<!--          clearable-->
+<!--          @keyup.enter.native="handleQuery"-->
+<!--        />-->
+<!--      </el-form-item>-->
+<!--      <el-form-item label="抽样月份" prop="samplingMonth">-->
+<!--        <el-input-->
+<!--          v-model="queryParams.samplingMonth"-->
+<!--          placeholder="请输入抽样月份"-->
+<!--          clearable-->
+<!--          @keyup.enter.native="handleQuery"-->
+<!--        />-->
+<!--      </el-form-item>-->
       <el-form-item label="抽样数" prop="samplingCount">
         <el-input
           v-model="queryParams.samplingCount"
@@ -57,14 +70,14 @@
           @keyup.enter.native="handleQuery"
         />
       </el-form-item>
-      <el-form-item label="记录创建的时间" prop="createdDate">
-        <el-date-picker clearable
-          v-model="queryParams.createdDate"
-          type="date"
-          value-format="yyyy-MM-dd"
-          placeholder="请选择记录创建的时间">
-        </el-date-picker>
-      </el-form-item>
+<!--      <el-form-item label="记录创建的时间" prop="createdDate">-->
+<!--        <el-date-picker clearable-->
+<!--          v-model="queryParams.createdDate"-->
+<!--          type="date"-->
+<!--          value-format="yyyy-MM-dd"-->
+<!--          placeholder="请选择记录创建的时间">-->
+<!--        </el-date-picker>-->
+<!--      </el-form-item>-->
       <el-form-item>
         <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery">搜索</el-button>
         <el-button icon="el-icon-refresh" size="mini" @click="resetQuery">重置</el-button>
@@ -118,24 +131,25 @@
     </el-row>
 
     <el-table v-loading="loading" :data="outDxDetectRecordsList" @selection-change="handleSelectionChange">
-      <el-table-column type="selection" width="55" align="center" />
-      <el-table-column label="唯一标识符，自增" align="center" prop="recordDxId" />
+<!--      <el-table-column type="selection" width="55" align="center" />-->
+<!--      <el-table-column label="唯一标识符，自增" align="center" prop="recordDxId" />-->
+      <el-table-column type="index" label="序号" width="55" align="center" />
       <el-table-column label="检测单位" align="center" prop="detectLocation" />
       <el-table-column label="抽样日期" align="center" prop="samplingDate" width="180">
         <template slot-scope="scope">
           <span>{{ parseTime(scope.row.samplingDate, '{y}-{m}-{d}') }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="抽样年份" align="center" prop="samplingYear" />
-      <el-table-column label="抽样月份" align="center" prop="samplingMonth" />
+<!--      <el-table-column label="抽样年份" align="center" prop="samplingYear" />-->
+<!--      <el-table-column label="抽样月份" align="center" prop="samplingMonth" />-->
       <el-table-column label="抽样数" align="center" prop="samplingCount" />
       <el-table-column label="合格数" align="center" prop="qualifiedCount" />
       <el-table-column label="合格率" align="center" prop="passRate" />
-      <el-table-column label="记录创建的时间" align="center" prop="createdDate" width="180">
-        <template slot-scope="scope">
-          <span>{{ parseTime(scope.row.createdDate, '{y}-{m}-{d}') }}</span>
-        </template>
-      </el-table-column>
+<!--      <el-table-column label="记录创建的时间" align="center" prop="createdDate" width="180">-->
+<!--        <template slot-scope="scope">-->
+<!--          <span>{{ parseTime(scope.row.createdDate, '{y}-{m}-{d}') }}</span>-->
+<!--        </template>-->
+<!--      </el-table-column>-->
       <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
         <template slot-scope="scope">
           <el-button
@@ -178,12 +192,12 @@
             placeholder="请选择抽样日期">
           </el-date-picker>
         </el-form-item>
-        <el-form-item label="抽样年份" prop="samplingYear">
-          <el-input v-model="form.samplingYear" placeholder="请输入抽样年份" />
-        </el-form-item>
-        <el-form-item label="抽样月份" prop="samplingMonth">
-          <el-input v-model="form.samplingMonth" placeholder="请输入抽样月份" />
-        </el-form-item>
+<!--        <el-form-item label="抽样年份" prop="samplingYear">-->
+<!--          <el-input v-model="form.samplingYear" placeholder="请输入抽样年份" />-->
+<!--        </el-form-item>-->
+<!--        <el-form-item label="抽样月份" prop="samplingMonth">-->
+<!--          <el-input v-model="form.samplingMonth" placeholder="请输入抽样月份" />-->
+<!--        </el-form-item>-->
         <el-form-item label="抽样数" prop="samplingCount">
           <el-input v-model="form.samplingCount" placeholder="请输入抽样数" />
         </el-form-item>
@@ -193,14 +207,14 @@
         <el-form-item label="合格率" prop="passRate">
           <el-input v-model="form.passRate" placeholder="请输入合格率" />
         </el-form-item>
-        <el-form-item label="记录创建的时间" prop="createdDate">
-          <el-date-picker clearable
-            v-model="form.createdDate"
-            type="date"
-            value-format="yyyy-MM-dd"
-            placeholder="请选择记录创建的时间">
-          </el-date-picker>
-        </el-form-item>
+<!--        <el-form-item label="记录创建的时间" prop="createdDate">-->
+<!--          <el-date-picker clearable-->
+<!--            v-model="form.createdDate"-->
+<!--            type="date"-->
+<!--            value-format="yyyy-MM-dd"-->
+<!--            placeholder="请选择记录创建的时间">-->
+<!--          </el-date-picker>-->
+<!--        </el-form-item>-->
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button type="primary" @click="submitForm">确 定</el-button>
@@ -212,6 +226,7 @@
 
 <script>
 import { listOutDxDetectRecords, getOutDxDetectRecords, delOutDxDetectRecords, addOutDxDetectRecords, updateOutDxDetectRecords } from "@/api/out/outDxDetectRecords";
+import {listOutDlDetectRecords} from "@/api/out/outDlDetectRecords";
 
 export default {
   name: "OutDxDetectRecords",
@@ -235,6 +250,8 @@ export default {
       title: "",
       // 是否显示弹出层
       open: false,
+      // 日期范围
+      dateRange: [],
       // 查询参数
       queryParams: {
         pageNum: 1,
@@ -262,7 +279,8 @@ export default {
     /** 查询定性监测结果汇总列表 */
     getList() {
       this.loading = true;
-      listOutDxDetectRecords(this.queryParams).then(response => {
+      // listOutDxDetectRecords(this.queryParams).then(response => {
+      listOutDxDetectRecords(this.addDateRange(this.queryParams, this.dateRange)).then(response => {
         this.outDxDetectRecordsList = response.rows;
         this.total = response.total;
         this.loading = false;
@@ -295,6 +313,7 @@ export default {
     },
     /** 重置按钮操作 */
     resetQuery() {
+      this.dateRange = [];
       this.resetForm("queryForm");
       this.handleQuery();
     },
