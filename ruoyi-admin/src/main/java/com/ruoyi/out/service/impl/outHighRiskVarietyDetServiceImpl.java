@@ -418,7 +418,11 @@ public class outHighRiskVarietyDetServiceImpl implements IoutHighRiskVarietyDetS
                         if(checkPesticideIsBan(item.getKey(), highRiskVarietyDet.getVegFruName())){
                             //是禁用农药
                             is1=false;
+//                            jinyong.append(item.getKey());
+//                            jinyong.append("\n");
                             jinyong.append(item.getKey());
+                            jinyong.append(" : ");
+                            jinyong.append(item.getValue());
                             jinyong.append("\n");
                         }
                         //判断农药是否超标
@@ -437,7 +441,7 @@ public class outHighRiskVarietyDetServiceImpl implements IoutHighRiskVarietyDetS
                 }
             }
             //更新总数，合格数，合格率，检测结果
-            highRiskVarietyDet.setTotalSamples(Long.valueOf(formattedData.entrySet().size()));
+//            highRiskVarietyDet.setTotalSamples(Long.valueOf(formattedData.entrySet().size()));
             highRiskVarietyDet.setQualifiedNumber(Long.valueOf(hege));
 
             BigDecimal qualificationRate = BigDecimal.valueOf((double)highRiskVarietyDet.getQualifiedNumber()/highRiskVarietyDet.getTotalSamples());
