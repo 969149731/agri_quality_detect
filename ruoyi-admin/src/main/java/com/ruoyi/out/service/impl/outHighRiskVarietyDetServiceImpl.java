@@ -1,15 +1,19 @@
 package com.ruoyi.out.service.impl;
 
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.*;
 
 import com.ruoyi.detection.domain.agriCitySampleTestDetails;
 import com.ruoyi.detection.mapper.agriCitySampleTestDetailsMapper;
 import com.ruoyi.detection.mapper.agriPesticideDetResultMapper;
 import com.ruoyi.out.domain.dlDetRecordSampleRes;
+import com.ruoyi.out.mapper.outDlDetectRecordsMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.ruoyi.out.mapper.outHighRiskVarietyDetMapper;
@@ -30,6 +34,9 @@ public class outHighRiskVarietyDetServiceImpl implements IoutHighRiskVarietyDetS
     private com.ruoyi.detection.mapper.agriPesticideDetResultMapper agriPesticideDetResultMapper;
     @Autowired
     private com.ruoyi.detection.mapper.agriCitySampleTestDetailsMapper agriCitySampleTestDetailsMapper;
+    @Autowired
+    private com.ruoyi.out.mapper.outDlDetectRecordsMapper outDlDetectRecordsMapper;
+
 
     /**
      * 查询高风险品种样品检出情况
@@ -234,7 +241,6 @@ public class outHighRiskVarietyDetServiceImpl implements IoutHighRiskVarietyDetS
 //    }
 
 
-
 //    @Override
 //    public Map<String, List<outHighRiskVarietyDet>> selectOutHighRiskVarietyDetList(agriCitySampleTestDetails agriCitySampleTestDetails) {
 //
@@ -285,15 +291,99 @@ public class outHighRiskVarietyDetServiceImpl implements IoutHighRiskVarietyDetS
 //    }
 
 
-    //孙帅开始写的代码   方法返回值和参数可以先不管
+    //判断某样品对应某标准的某农药是否超标函数   true-超标       false-不超标    输入农药名称，残留值，样品名称
+    public boolean checkPesticideIsPass(String pesticideName, double pesticideDetValue, String vegFruName) {
+        // 超标和不超标的标识，刚刚开始超标和不超标都是为0
+        int flagPass = 0;
+        int flagNoPass = 0;
+        String standardCategory = "国家标准";
+        //根据上传的数据中有检测出有值的【农药名】和具体的【蔬菜水果名】获取农药标准表中的中国标准的该农药限量值
+        Double limitValue = outDlDetectRecordsMapper.selectLimitValueByPesticideName(pesticideName, vegFruName, standardCategory);
+        if (limitValue == null) {
+            // 如果limitValue结果是null，就将其设置为0，并提醒用户添加农药限量值表中的数据
+            // 这边设为999是因为不超标的比较多，在用户没有更新字典时候就默认农药不超标先运行程序
+            limitValue = 999.0;
+            System.out.println("注意！请在农药残留字典表中添加如下字典。【农药名字：["
+                    + pesticideName + "],蔬菜名字：[" + vegFruName + "],标准：[" + standardCategory + "]】");
+            //因为limitValue是==null的，说明没有该字典，先尝试用 用户上传的中国标准的数据进行农药是否超标的判断
+        }
+        //如果传的数据中有检测出有值的农药值 大于 该农药限量值 ,说明超标了
+        if (pesticideDetValue > limitValue) {
+            flagNoPass = flagNoPass + 1;
+        }
+        //没有通过的数量大于0，说明超标了 返回true
+        if (flagNoPass > 0) {
+            return true;
+        }
+        return false;
+    }
+
+
+    //判断样品是蔬菜还是水果函数   返回0是蔬菜   1是水果
+    public int check_type(String sampleName) {
+        String type = outDlDetectRecordsMapper.checkSampleType(sampleName);
+        if ("蔬菜".equals(type)) {
+            return 0;
+        } else if ("水果".equals(type)) {
+            return 1;
+        } else {
+            System.out.println("样品：" + sampleName + "，未知是蔬菜还是水果，请在蔬果字典中添加该样品是属于蔬菜还是水果。");
+            // 下面的代码是把不知道是水果还是蔬菜的样本输出到C盘中，方便查看添加。
+            List<String> messages = new ArrayList<>();
+            messages.add("样品（veg_fru_name）：" + sampleName + "，种类（veg_fru_type）：未知，请分析出该样品是蔬菜还是水果");
+            // 指定输出文件的路径
+            String filePath = "C:\\check_fru_or_veg.txt";
+            // 读取文件内容到集合中，以便后续检查
+            Set<String> existingLines = new HashSet<>();
+            try {
+                existingLines.addAll(Files.readAllLines(Paths.get(filePath), StandardCharsets.UTF_8));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath, true))) {
+                for (String message : messages) {
+                    if (!existingLines.contains(message)) { // 如果文件中不存在该消息，则追加
+                        writer.write(message);
+                        writer.newLine();
+                    }
+                }
+                System.out.println("文件写入成功，重复数据已去除！");
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return 1;
+        }
+    }
+
+    //判断是不是禁用农药：输入农药名称 ，样品名称，输出true-是禁用农药 false-不是禁用农药，为常规农药
+    public boolean checkPesticideIsBan(String pesticideName, String vegFruName) {
+        //看看当前输入的样品是蔬菜还是水果     返回0是蔬菜   1是水果
+        int i = check_type(vegFruName);
+        //如果是蔬菜
+        if (i == 0) {
+            if ("甲胺磷".equals(pesticideName) || "乙酰甲胺磷".equals(pesticideName) || "甲拌磷".equals(pesticideName) || "氧乐果".equals(pesticideName) || "毒死蜱".equals(pesticideName) || "特丁硫磷".equals(pesticideName) || "三唑磷".equals(pesticideName) || "水胺硫磷".equals(pesticideName) || "治螟磷".equals(pesticideName) || "乐果".equals(pesticideName) || "甲基异柳磷".equals(pesticideName) || "氟虫腈".equals(pesticideName) || "克百威".equals(pesticideName)) {
+                return true;
+            }
+        }
+        //如果是水果
+        if (i == 1) {
+            if ("甲胺磷".equals(pesticideName) || "乙酰甲胺磷".equals(pesticideName) || "甲拌磷".equals(pesticideName) || "氧乐果".equals(pesticideName) || "水胺硫磷".equals(pesticideName) || "乐果".equals(pesticideName) || "甲基异柳磷".equals(pesticideName) || "氟虫腈".equals(pesticideName) || "克百威".equals(pesticideName) || "涕灭威".equals(pesticideName)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+
+    //孙帅开始写的代码   方法返回值和参数可以先不管1
     public Map<String, List<outHighRiskVarietyDet>> selectOutHighRiskVarietyDetList(agriCitySampleTestDetails agriCitySampleTestDetails) {
         List<outHighRiskVarietyDet> outHighRiskVarietyDets = outHighRiskVarietyDetMapper.selectHighRiskSampleList();
         //开始遍历获取到的outHighRiskVarietyDets
         for (outHighRiskVarietyDet highRiskVarietyDet : outHighRiskVarietyDets) {
 
         }
-        System.out.println("得到的list"+outHighRiskVarietyDets);
+        System.out.println("得到的list" + outHighRiskVarietyDets);
         return null;
     }
 
-    }
+}
