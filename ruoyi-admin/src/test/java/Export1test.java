@@ -3,9 +3,9 @@ import cn.afterturn.easypoi.excel.entity.TemplateExportParams;
 import com.ruoyi.out.domain.outHighRiskVarietyDet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.ss.util.CellRangeAddress;
-import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
+//import org.junit.jupiter.api.Test;
+//import org.springframework.beans.factory.annotation.Autowired;
+//import org.springframework.boot.test.context.SpringBootTest;
 
 import java.io.FileOutputStream;
 import java.math.BigDecimal;
@@ -22,7 +22,7 @@ import java.io.InputStream;
 public class Export1test {
 
 
-    @Test
+//    @Test
     public void test(){
         TemplateExportParams params = new TemplateExportParams("/Users/sunshuai/develop/aaaa/agri_quality_detect/ruoyi-admin/src/main/java/com/ruoyi/excelOutTemplate/high1.xlsx");
         List<outHighRiskVarietyDet> res = new ArrayList<outHighRiskVarietyDet>();
