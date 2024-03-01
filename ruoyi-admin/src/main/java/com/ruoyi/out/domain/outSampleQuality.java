@@ -1,6 +1,8 @@
 package com.ruoyi.out.domain;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
+import java.text.DecimalFormat;
 import java.util.Date;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import org.apache.commons.lang3.builder.ToStringBuilder;
@@ -26,6 +28,7 @@ public class outSampleQuality extends BaseEntity
     @Excel(name = "样品来源， 抽样环节")
     private String samplingStageType;
 
+    private String stageIncludeType;//子类
     /** 无公害产品基地的描述或标识 */
     @Excel(name = "无公害产品基地的描述或标识")
     private String pollutionFreeBase;
@@ -103,6 +106,23 @@ public class outSampleQuality extends BaseEntity
     @Excel(name = "记录创建的时间", width = 30, dateFormat = "yyyy-MM-dd")
     private Date createdDate;
 
+    public outSampleQuality(){
+        super();
+    };
+    public outSampleQuality(String typeName){
+        super();
+        this.samplingStageType=typeName;
+        this.stageIncludeType="";
+        this.vegSamplingCount=0L;
+        this.vegQualifiedCount=0L;
+        this.vegQualificationRate=new BigDecimal("0.0");;
+        this.fruSamplingCount=0L;
+        this.fruQualifiedCount=0L;
+        this.fruQualificationRate=new BigDecimal("0.0");;
+        this.totalSamplingCount=0L;
+        this.totalQualifiedCount=0L;
+        this.totalQualificationRate=new BigDecimal("0.0");;
+    };
     public void setSampleQualityId(Long sampleQualityId) 
     {
         this.sampleQualityId = sampleQualityId;
@@ -293,6 +313,61 @@ public class outSampleQuality extends BaseEntity
         return createdDate;
     }
 
+    public String getStageIncludeType() {
+        return stageIncludeType;
+    }
+
+    public void setStageIncludeType(String stageIncludeType) {
+        this.stageIncludeType = stageIncludeType;
+    }
+
+    //自加接口
+    public void vegSamplingCountAddOne(){
+        this.vegSamplingCount+=1;
+    }
+    public void vegQualifiedCountAddOne(){
+        this.vegQualifiedCount+=1;
+    }
+    public void fruSamplingCountAddOne(){
+        this.fruSamplingCount+=1;
+    }
+    public void fruQualifiedCountAddOne(){
+        this.fruQualifiedCount+=1;
+    }
+    public void totalSamplingCountAddOne(){
+        this.totalSamplingCount+=1;
+    }
+    public void totalQualifiedCountAddOne(){
+        this.totalQualifiedCount+=1;
+    }
+    public void addToTotal(outSampleQuality otherOne){
+        this.vegSamplingCount+=otherOne.vegSamplingCount;
+        this.fruSamplingCount+=otherOne.fruSamplingCount;
+        this.vegQualifiedCount+=otherOne.vegQualifiedCount;
+        this.fruQualifiedCount+=otherOne.fruQualifiedCount;
+        this.totalSamplingCount+=otherOne.totalSamplingCount;
+        this.totalQualifiedCount+=otherOne.totalQualifiedCount;
+    }
+    public void addToSelfTotal(){
+        this.totalSamplingCount=this.fruSamplingCount+this.vegSamplingCount;
+        this.totalQualifiedCount=this.fruQualifiedCount+this.vegQualifiedCount;
+    }
+    public void computeQualificationRate(){
+        DecimalFormat decimalFormat = new DecimalFormat("0.00");
+        if(this.vegSamplingCount >0){
+            Double percentage=(double)((double)this.vegQualifiedCount/(double)this.vegSamplingCount)*100;
+            this.vegQualificationRate= new BigDecimal(decimalFormat.format(percentage).toString());
+        }
+        if(this.fruSamplingCount !=0) {
+            Double percentage=(double)((double)this.fruQualifiedCount/(double)this.fruSamplingCount)*100;
+            this.fruQualificationRate = new BigDecimal(decimalFormat.format(percentage).toString());
+        }
+        if(this.totalSamplingCount !=0) {
+            Double percentage=(double)((double)this.totalQualifiedCount/(double)this.totalSamplingCount)*100;
+            this.totalQualificationRate= new BigDecimal(decimalFormat.format(percentage).toString());
+        }
+
+    }
     @Override
     public String toString() {
         return new ToStringBuilder(this,ToStringStyle.MULTI_LINE_STYLE)
@@ -317,6 +392,7 @@ public class outSampleQuality extends BaseEntity
             .append("totalQualifiedCount", getTotalQualifiedCount())
             .append("totalQualificationRate", getTotalQualificationRate())
             .append("createdDate", getCreatedDate())
+            .append("stageIncludeType", getStageIncludeType())
             .toString();
     }
 }

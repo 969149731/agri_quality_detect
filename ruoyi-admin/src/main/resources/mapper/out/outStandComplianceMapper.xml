@@ -78,6 +78,49 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="createdDate"    column="created_date"    />
     </resultMap>
 
+    <resultMap type="agriPesticideResidueStandard" id="agriPesticideResidueStandardType">
+        <result property="standardID"    column="id"    />
+        <result property="pesticideName"    column="pesticide_name"    />
+        <result property="vegFruName"    column="veg_fru_name"    />
+        <result property="standardCategory"    column="standard_category"    />
+        <result property="standardValue"    column="standard_value"    />
+    </resultMap>
+
+    <resultMap type="outFruVegSelectType" id="outFruVegSelectType">
+        <result property="citySampleTestDetailsId"    column="city_sample_test_details_id"    />
+        <result property="sampleCode"    column="sample_code"    />
+        <result property="vegFruName"    column="veg_fru_name"    />
+        <result property="samplingLocation"    column="sampling_location"    />
+        <result property="detectLocation"    column="detect_location"    />
+        <result property="samplingStageType"    column="sampling_stage_type"    />
+        <result property="samplingDate"    column="sampling_date"    />
+        <result property="pesticideDetResultId"    column="pesticide_det_result_id"    />
+        <result property="pesticideName"    column="pesticide_name"    />
+        <result property="pesticideDetValue"    column="pesticide_det_value"    />
+        <result property="vegFruId"    column="id"    />
+        <result property="vegFruType"    column="veg_fru_type"    />
+        <result property="detailType"    column="detail_type"    />
+    </resultMap>
+
+    <resultMap type="agriCitySampleTestDetails" id="agriCitySampleTestDetailsResult">
+        <result property="citySampleTestDetailsId"    column="city_sample_test_details_id"    />
+        <result property="sampleCode"    column="sample_code"    />
+        <result property="vegFruName"    column="veg_fru_name"    />
+        <result property="samplingLocation"    column="sampling_location"    />
+        <result property="detectLocation"    column="detect_location"    />
+        <result property="samplingQuantity"    column="sampling_quantity"    />
+        <result property="samplingBase"    column="sampling_base"    />
+        <result property="samplingStageType"    column="sampling_stage_type"    />
+        <result property="samplingDate"    column="sampling_date"    />
+        <result property="chinaStandard"    column="china_standard"    />
+        <result property="cacStandard"    column="cac_standard"    />
+        <result property="japanStandard"    column="japan_standard"    />
+        <result property="euStandard"    column="eu_standard"    />
+        <result property="usStandard"    column="us_standard"    />
+        <result property="koreaStandard"    column="korea_standard"    />
+        <result property="createdAt"    column="created_at"    />
+    </resultMap>
+
     <sql id="selectoutStandComplianceVo">
         select inter_stand_id, standard, china_standard, cac_standard, japan_standard, eu_standard, us_standard, korea_standard, source_area, methamidophos, acephate, Phorate, oxamyl, chlorpyrifos, fenitrothion, triazophos, fenthion, isocarbophos, le_guo, isofenphos_methyl, flucythrinate, kebaiwei, Bifenthrin, chlorfluazuron, fluorochloridone, cypermethrin, fenpyroximate, bromfenac, triazolone, pyrimethanil, furalaxyl, profenofos, carbendazim, imidacloprid, epoxiconazole, abamectin, emamectin_benzoate, fludioxonil, methomyl, fipronil, thiamethoxam, metalaxyl, mefenoxam, prochloraz, linuron, azoxystrobin, imidaclothiz, furametpyr, lufenuron, sulfotep, propiconazole, dichlorvos, chlorpyrifos_methyl, fenvalerate, fluopicolide, spirodiclofen, fenpyrazamine, propargite, etoxazole, pyraclostrobin, thiacloprid, spinetoram, pyridaben, clofentezine, chlorfenapyr, milbemectin, dimethomorph, sampling_quantity, qualified_number, qualification_rate, created_date from out_stand_compliance
     </sql>
@@ -399,8 +442,35 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         </foreach>
     </delete>
 
+
+
+
     <select id="getAllPesticideList">
         select pesticide_name
         from agri_pesticide
     </select>
+
+    <select id="getagriPesticideResidueStandard" resultMap="agriPesticideResidueStandardType">
+        select *
+        from agri_pesticide_residue_standard
+        where pesticide_name=#{arg0} and veg_fru_name=#{arg1}
+    </select>
+
+    <select id="getFruVegDetResultList" resultMap="outFruVegSelectType">
+        select agric.city_sample_test_details_id,agric.sample_code,agric.veg_fru_name,agric.sampling_location,agric.detect_location,agric.sampling_stage_type,agric.sampling_date,
+               agrip.pesticide_det_result_id,agrip.pesticide_name,agrip.pesticide_det_value,
+               agriv.vegetable_fruit_id,agriv.veg_fru_type,agriv.detail_type
+        from agri_city_sample_test_details agric
+                 left join agri_pesticide_det_result agrip
+                           on agric.city_sample_test_details_id = agrip.city_sample_test_details_id
+                 left join agri_vegetable_fruit agriv
+                           on agric.veg_fru_name = agriv.veg_fru_name
+        where sample_code=#{arg0}
+    </select>
+
+    <select id="getFruVegDetSample" resultMap="agriCitySampleTestDetailsResult">
+        select *
+        from agri_city_sample_test_details agric
+    </select>
+
 </mapper>

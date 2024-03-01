@@ -1,6 +1,10 @@
 package com.ruoyi.out.mapper;
 
 import java.util.List;
+
+import com.ruoyi.detection.domain.agriCitySampleTestDetails;
+import com.ruoyi.out.domain.agriPesticideResidueStandard;
+import com.ruoyi.out.domain.outFruVegSelectType;
 import com.ruoyi.out.domain.outStandCompliance;
 import com.ruoyi.out.domain.outStandardReturnType;
 
@@ -62,4 +66,9 @@ public interface outStandComplianceMapper
 
 
     public List<String> getAllPesticideList();
+
+    public List<outFruVegSelectType> getFruVegDetResultList(String sampleCode);
+    List<agriCitySampleTestDetails> getFruVegDetSample();
+    public List<agriPesticideResidueStandard> getagriPesticideResidueStandard(String pesticideName, String vegFruName);
+
 }

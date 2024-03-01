@@ -1,46 +1,6 @@
 <template>
   <div class="app-container">
     <el-form :model="queryParams" ref="queryForm" size="small" :inline="true" v-show="showSearch" label-width="68px">
-      <el-form-item label="抽样的总数" prop="samplingNumber">
-        <el-input
-          v-model="queryParams.samplingNumber"
-          placeholder="请输入抽样的总数"
-          clearable
-          @keyup.enter.native="handleQuery"
-        />
-      </el-form-item>
-      <el-form-item label="合格的样本数" prop="passNumber">
-        <el-input
-          v-model="queryParams.passNumber"
-          placeholder="请输入合格的样本数"
-          clearable
-          @keyup.enter.native="handleQuery"
-        />
-      </el-form-item>
-      <el-form-item label="总合格率，百分比" prop="passRate">
-        <el-input
-          v-model="queryParams.passRate"
-          placeholder="请输入总合格率，百分比"
-          clearable
-          @keyup.enter.native="handleQuery"
-        />
-      </el-form-item>
-      <el-form-item label="超标的样品名称" prop="exceedingSamples">
-        <el-input
-          v-model="queryParams.exceedingSamples"
-          placeholder="请输入超标的样品名称"
-          clearable
-          @keyup.enter.native="handleQuery"
-        />
-      </el-form-item>
-      <el-form-item label="超标的农药名称" prop="exceedingPesticides">
-        <el-input
-          v-model="queryParams.exceedingPesticides"
-          placeholder="请输入超标的农药名称"
-          clearable
-          @keyup.enter.native="handleQuery"
-        />
-      </el-form-item>
       <el-form-item label="记录创建的时间" prop="createdDate">
         <el-date-picker clearable
           v-model="queryParams.createdDate"
@@ -101,47 +61,15 @@
       <right-toolbar :showSearch.sync="showSearch" @queryTable="getList"></right-toolbar>
     </el-row>
 
-    <el-table v-loading="loading" :data="outFruVegQualificationList" @selection-change="handleSelectionChange">
-      <el-table-column type="selection" width="55" align="center" />
-      <el-table-column label="唯一标识每条记录" align="center" prop="fruVegQualificationId" />
-      <el-table-column label="蔬菜水果的种类" align="center" prop="vegFruType" />
-      <el-table-column label="抽样的总数" align="center" prop="samplingNumber" />
-      <el-table-column label="合格的样本数" align="center" prop="passNumber" />
-      <el-table-column label="总合格率，百分比" align="center" prop="passRate" />
-      <el-table-column label="超标的样品名称" align="center" prop="exceedingSamples" />
-      <el-table-column label="超标的农药名称" align="center" prop="exceedingPesticides" />
-      <el-table-column label="记录创建的时间" align="center" prop="createdDate" width="180">
-        <template slot-scope="scope">
-          <span>{{ parseTime(scope.row.createdDate, '{y}-{m}-{d}') }}</span>
-        </template>
-      </el-table-column>
-      <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
-        <template slot-scope="scope">
-          <el-button
-            size="mini"
-            type="text"
-            icon="el-icon-edit"
-            @click="handleUpdate(scope.row)"
-            v-hasPermi="['out:outFruVegQualification:edit']"
-          >修改</el-button>
-          <el-button
-            size="mini"
-            type="text"
-            icon="el-icon-delete"
-            @click="handleDelete(scope.row)"
-            v-hasPermi="['out:outFruVegQualification:remove']"
-          >删除</el-button>
-        </template>
-      </el-table-column>
+    <el-table v-loading="loading" :data="outFruVegQualificationList" id="table1">
+      <el-table-column label="蔬菜水果种类" prop="vegFruType" align="center"/>
+      <el-table-column label="抽样数" prop="samplingNumber" align="center"/>
+      <el-table-column label="合格数" prop="passNumber" align="center"/>
+      <el-table-column label="合格率" prop="passRate" align="center"/>
+      <el-table-column label="超标样品" prop="exceedingSamples" align="center"/>
+      <el-table-column label="超标农药" prop="exceedingPesticides" align="center"/>
     </el-table>
 
-    <pagination
-      v-show="total>0"
-      :total="total"
-      :page.sync="queryParams.pageNum"
-      :limit.sync="queryParams.pageSize"
-      @pagination="getList"
-    />
 
     <!-- 添加或修改各类蔬菜水果合格率情况对话框 -->
     <el-dialog :title="title" :visible.sync="open" width="500px" append-to-body>
@@ -180,7 +108,9 @@
 
 <script>
 import { listOutFruVegQualification, getOutFruVegQualification, delOutFruVegQualification, addOutFruVegQualification, updateOutFruVegQualification } from "@/api/out/outFruVegQualification";
-
+import * as XLSX from "xlsx";
+import * as XLSXS from "xlsx-style";
+import FileSaver from 'file-saver'
 export default {
   name: "OutFruVegQualification",
   data() {
@@ -219,7 +149,45 @@ export default {
       form: {},
       // 表单校验
       rules: {
-      }
+      },
+      StageList: [
+        {
+          IncludeLable:'检出次数',
+          StageName: '检出次数',
+          StageId: 'totalDet'
+
+        },
+        {
+          IncludeLable:'超标次数',
+          StageName: '超标次数',
+          StageId: 'totalEx'
+        },
+        {
+          IncludeLable:"其中",
+          StageName: '生产基地检出次数',
+          StageId: 'productBase'
+        },
+        {
+          StageName: '生产基地超标次数',
+          StageId: 'productBaseEx'
+        },
+        {
+          StageName: '各类市场检出',
+          StageId: 'market'
+        },
+        {
+          StageName: '各类市场超标',
+          StageId: 'marketEx'
+        },
+        {
+          StageName: '运输车检出',
+          StageId: 'vehicle'
+        },
+        {
+          StageName: '运输车超标',
+          StageId: 'vehicleEx'
+        },
+      ],
     };
   },
   created() {
@@ -318,10 +286,126 @@ export default {
     },
     /** 导出按钮操作 */
     handleExport() {
-      this.download('out/outFruVegQualification/export', {
-        ...this.queryParams
-      }, `outFruVegQualification_${new Date().getTime()}.xlsx`)
-    }
+      let workSheet = XLSX.utils.table_to_sheet(document.querySelector("#table1"));
+      let bookNew = XLSX.utils.book_new();
+      let header=[];
+
+      // 在这里添加样式代码
+      for (const key in workSheet) {
+        if (workSheet[key] instanceof Object) {
+          workSheet[key].s = {
+            alignment: {
+              vertical: 'center',
+              horizontal: 'center',
+              indent: 0,
+              wrapText: true
+            },
+            font: {
+              name: '宋体',
+              sz: 10,
+              color: { rgb: '#FF000000' },
+              bold: false,
+              italic: false,
+              underline: false
+            },
+            border: {
+              top: { style: 'thin' },
+              bottom: { style: 'thin' },
+              left: { style: 'thin' },
+              right: { style: 'thin' }
+            }
+          }
+        }
+      }
+
+      console.log("打印长度",this.outFruVegQualificationList.length)
+      let name = '各类蔬菜水果合格率情况表' + '.xlsx'
+      workSheet['!merges'] = header;
+      XLSX.utils.book_append_sheet(bookNew, workSheet, name+"簿") // 工作簿名称
+
+      var wopts = {
+        bookType: "xlsx", // 要生成的文件类型
+        bookSST: false, // 是否生成Shared String Table，官方解释是，如果开启生成速度会下降，但在低版本IOS设备上有更好的兼容性
+        type: "binary",
+      };
+      let wbout = XLSXS.write(bookNew, {
+        bookType: 'xlsx',
+        bookSST: false,
+        type: 'binary',
+      })
+      // XLSXS.writeFile(bookNew, '水果禁用表', wopts);
+      FileSaver.saveAs(
+        new Blob([s2ab(wbout)], {
+          type: 'application/octet-stream'
+        }),
+        name // 保存的文件名
+      )
+      // 工具方法
+      function s2ab(s) {
+        var buf = new ArrayBuffer(s.length)
+        var view = new Uint8Array(buf)
+        for (var i = 0; i != s.length; ++i) view[i] = s.charCodeAt(i) & 0xff
+        return buf
+      }
+    },
+    /*表头行的合并*/
+    headerStyle({ row, column, rowIndex, columnIndex }) {
+      const comStyle = {
+        backgroundColor: "#428fd7",
+        color: "#fff",
+        fontSize: "500",
+      };
+      if(rowIndex===0){
+        row[0].rowspan=2;
+      }
+      if(rowIndex===1) {
+        if (columnIndex === 0 || columnIndex === 1) { // 将表头第一列隐藏
+          return {
+            display: "none",
+            ...comStyle,
+          };
+        }
+      }
+      return comStyle;
+    },
+    /*表头列的合并*/
+    spanMethod({ row, column, rowIndex, columnIndex }) {
+      if(rowIndex=== 0 || rowIndex=== 1){
+        if(columnIndex ===1){
+          return {rowspan: 1, colspan: 0}
+        }
+        if(columnIndex ===0){
+          return {rowspan: 1, colspan: 2}
+        }
+      }
+
+      if (rowIndex=== 2)
+      {//其中的那一行
+        if (columnIndex === 0) {
+          return {rowspan: 6, colspan: 1} // 隐藏表头下面第一行的第一列
+        }
+      }
+      if(rowIndex> 2){//”其中“包含的行
+        if (columnIndex === 0) {
+          return {rowspan: 1, colspan: 0} // 隐藏表头下面第一行的第一列
+        }
+        if (columnIndex === 1) {
+          return {rowspan: 1, colspan: 1} // 将表头下面第一行的第一列和第二列合并
+        }
+      }
+
+    },
   }
 };
 </script>
+<style scoped lang="scss">
+
+//.el-table .cell {
+//  white-space: pre-wrap;   /*这是重点。文本换行*/
+//}
+
+::v-deep .el-table .cell {
+  white-space: pre-line;
+}
+
+</style>
