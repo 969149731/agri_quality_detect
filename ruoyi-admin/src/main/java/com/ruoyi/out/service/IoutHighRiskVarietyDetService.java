@@ -62,5 +62,5 @@ public interface IoutHighRiskVarietyDetService
      */
     public int deleteoutHighRiskVarietyDetByOutHighRiskVarietyDetId(Long outHighRiskVarietyDetId);
 
-    Map<String, List<outHighRiskVarietyDet>> selectOutHighRiskVarietyDetList(agriCitySampleTestDetails agriCitySampleTestDetails);
+    List<outHighRiskVarietyDet> selectOutHighRiskVarietyDetList(agriCitySampleTestDetails agriCitySampleTestDetails);
 }

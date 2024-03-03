@@ -3,7 +3,9 @@ import cn.afterturn.easypoi.excel.entity.TemplateExportParams;
 import com.ruoyi.out.domain.outHighRiskVarietyDet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.ss.util.CellRangeAddress;
-import org.junit.jupiter.api.Test;
+//import org.junit.jupiter.api.Test;
+//import org.springframework.beans.factory.annotation.Autowired;
+//import org.springframework.boot.test.context.SpringBootTest;
 
 import java.io.FileOutputStream;
 import java.math.BigDecimal;
@@ -20,7 +22,7 @@ import java.io.InputStream;
 public class Export1test {
 
 
-    @Test
+//    @Test
     public void test(){
         TemplateExportParams params = new TemplateExportParams("/Users/sunshuai/develop/aaaa/agri_quality_detect/ruoyi-admin/src/main/java/com/ruoyi/excelOutTemplate/high1.xlsx");
         List<outHighRiskVarietyDet> res = new ArrayList<outHighRiskVarietyDet>();
@@ -98,6 +100,7 @@ public class Export1test {
                 "农药A:12,\n农药B:444"));
         Map<String, Object> map = new HashMap<>();
         map.put("maplist", res);
+//        Workbook workbook = ExcelExportUtil.exportExcel(params, map);
         try {
             // 生成 Excel 数据
             ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
@@ -111,8 +114,8 @@ public class Export1test {
 
             // 获取单元格内容，并将相同内容的单元格合并
             mergeCells(sheet);
+//            mergeCells(sheet, 1);
 
-            //workbook.write(response.getOutputStream());
             // 保存修改后的 Excel 数据
             ByteArrayOutputStream modifiedOutputStream = new ByteArrayOutputStream();
             workbook.write(modifiedOutputStream);
@@ -133,6 +136,8 @@ public class Export1test {
     }
 
     private static void mergeCells(Sheet sheet) {
+//        int lastNum = sheet.getLastRowNum();
+//        int rowIndex = 3;
         // 遍历每一行
         int rowStartA = 3;
         int endRowA = rowStartA;

@@ -377,8 +377,9 @@ public class outHighRiskVarietyDetServiceImpl implements IoutHighRiskVarietyDetS
 
 
     //孙帅开始写的代码   方法返回值和参数可以先不管1
-    public Map<String, List<outHighRiskVarietyDet>> selectOutHighRiskVarietyDetList(agriCitySampleTestDetails agriCitySampleTestDetails) {
+    public List<outHighRiskVarietyDet> selectOutHighRiskVarietyDetList(agriCitySampleTestDetails agriCitySampleTestDetails) {
         List<outHighRiskVarietyDet> outHighRiskVarietyDets = outHighRiskVarietyDetMapper.selectHighRiskSampleList();
+        List<outHighRiskVarietyDet> finalRes = new ArrayList<>();
         //开始遍历获取到的outHighRiskVarietyDets
         for (outHighRiskVarietyDet highRiskVarietyDet : outHighRiskVarietyDets) {
             //从det_res中获取信息进行禁用农药和农药超标的判断
@@ -447,8 +448,8 @@ public class outHighRiskVarietyDetServiceImpl implements IoutHighRiskVarietyDetS
 //            highRiskVarietyDet.setTotalSamples(Long.valueOf(formattedData.entrySet().size()));
             highRiskVarietyDet.setQualifiedNumber(Long.valueOf(hege));
 
-            BigDecimal qualificationRate = BigDecimal.valueOf((double)highRiskVarietyDet.getQualifiedNumber()/highRiskVarietyDet.getTotalSamples());
-            BigDecimal qualificationRateUse = qualificationRate.setScale(3, RoundingMode.HALF_UP);
+            BigDecimal qualificationRate = BigDecimal.valueOf((double)highRiskVarietyDet.getQualifiedNumber()/highRiskVarietyDet.getTotalSamples()*100);
+            BigDecimal qualificationRateUse = qualificationRate.setScale(2, RoundingMode.HALF_UP);
 
             highRiskVarietyDet.setQualificationRate(qualificationRateUse);
             highRiskVarietyDet.setProhibitedPesticideDetection(jinyong.toString());
@@ -458,11 +459,12 @@ public class outHighRiskVarietyDetServiceImpl implements IoutHighRiskVarietyDetS
             String city = detectLocation.substring(0, 3);
             highRiskVarietyDet.setSamplingLocation(city);
 
-            System.out.println("我要看的"+highRiskVarietyDet);
+            finalRes.add(highRiskVarietyDet);
+//            System.out.println("我要看的"+highRiskVarietyDet);
         }
 
 //        System.out.println("得到的list" + outHighRiskVarietyDets);
-        return null;
+        return finalRes;
     }
 
 }
