@@ -19,6 +19,25 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="createdDate"    column="created_date"    />
     </resultMap>
 
+    <resultMap type="agriCitySampleTestDetails" id="agriCitySampleTestDetailsResult">
+        <result property="citySampleTestDetailsId"    column="city_sample_test_details_id"    />
+        <result property="sampleCode"    column="sample_code"    />
+        <result property="vegFruName"    column="veg_fru_name"    />
+        <result property="samplingLocation"    column="sampling_location"    />
+        <result property="detectLocation"    column="detect_location"    />
+        <result property="samplingQuantity"    column="sampling_quantity"    />
+        <result property="samplingBase"    column="sampling_base"    />
+        <result property="samplingStageType"    column="sampling_stage_type"    />
+        <result property="samplingDate"    column="sampling_date"    />
+        <result property="chinaStandard"    column="china_standard"    />
+        <result property="cacStandard"    column="cac_standard"    />
+        <result property="japanStandard"    column="japan_standard"    />
+        <result property="euStandard"    column="eu_standard"    />
+        <result property="usStandard"    column="us_standard"    />
+        <result property="koreaStandard"    column="korea_standard"    />
+        <result property="createdAt"    column="created_at"    />
+    </resultMap>
+
     <sql id="selectoutSampleStageTypeVo">
         select sample_quality_id, sampling_stage_type, ollution_free_base, landmark_product_base, green_product_base, organic_product_base, individual_household, other_base, wholesale_market, transport_vehicle, all_count, created_date from out_sample_stage_type
     </sql>
@@ -103,4 +122,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             #{sampleQualityId}
         </foreach>
     </delete>
+
+
+
+    <select id="getCitySampleResultList" resultMap="agriCitySampleTestDetailsResult">
+        select *
+        from agri_city_sample_test_details
+
+    </select>
+
 </mapper>

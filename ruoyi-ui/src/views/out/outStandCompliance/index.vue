@@ -831,7 +831,7 @@ export default {
       }
       workSheet['!merges'] = header;
       XLSX.utils.book_append_sheet(bookNew, workSheet, '水果禁用农药检出及超标情况表簿') // 工作簿名称
-      let name = '参照国际组织或国家标准合格率情况表' + '.xlsx'
+      let name = '参照国际组织或国家标准合格率情况表'
       var wopts = {
         bookType: "xlsx", // 要生成的文件类型
         bookSST: false, // 是否生成Shared String Table，官方解释是，如果开启生成速度会下降，但在低版本IOS设备上有更好的兼容性
@@ -847,7 +847,7 @@ export default {
         new Blob([s2ab(wbout)], {
           type: 'application/octet-stream'
         }),
-        '水果禁用农药检出及超标情况表.xlsx' // 保存的文件名
+        name+ '.xlsx' // 保存的文件名
       )
       // 工具方法
       function s2ab(s) {

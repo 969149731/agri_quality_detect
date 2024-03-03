@@ -1,6 +1,9 @@
 package com.ruoyi.out.mapper;
 
 import java.util.List;
+
+import com.ruoyi.detection.domain.agriCitySampleTestDetails;
+import com.ruoyi.out.domain.outFruVegSelectType;
 import com.ruoyi.out.domain.outSampleStageType;
 
 /**
@@ -58,4 +61,6 @@ public interface outSampleStageTypeMapper
      * @return 结果
      */
     public int deleteoutSampleStageTypeBySampleQualityIds(Long[] sampleQualityIds);
+
+    public List<agriCitySampleTestDetails> getCitySampleResultList();
 }

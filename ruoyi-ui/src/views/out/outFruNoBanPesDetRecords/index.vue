@@ -79,8 +79,12 @@
       align='center'
       id="table1"
     >
-      <el-table-column label="农药名称->" prop="IncludeLable"></el-table-column>
-      <el-table-column label="农药名称" align="center" prop="StageName"></el-table-column>
+      <el-table-column label="农药名称" align="center">
+        <el-table-column prop="IncludeLable"></el-table-column>
+        <el-table-column  align="center" prop="StageName">
+        </el-table-column>
+      </el-table-column>
+
       <el-table-column
         v-for="item in pesticideNameList"
         align="center"
@@ -327,11 +331,13 @@ export default {
       },
       StageList: [
         {
+          IncludeLable:'检出次数',
           StageName: '检出次数',
           StageId: 'totalDet'
 
         },
         {
+          IncludeLable:'超标次数',
           StageName: '超标次数',
           StageId: 'totalEx'
         },
@@ -543,8 +549,8 @@ export default {
         header.push({s:{r:0,c:i},e:{r:1,c:i}});
       }
       workSheet['!merges'] = header;
-      XLSX.utils.book_append_sheet(bookNew, workSheet, '水果禁用农药检出及超标情况表簿') // 工作簿名称
-      let name = '水果非禁用农药检出及超标情况表' + '.xlsx'
+      XLSX.utils.book_append_sheet(bookNew, workSheet, '水果禁用农药检出及超标情况表') // 工作表名称
+      let name = '水果非禁用农药检出及超标情况表'
       var wopts = {
         bookType: "xlsx", // 要生成的文件类型
         bookSST: false, // 是否生成Shared String Table，官方解释是，如果开启生成速度会下降，但在低版本IOS设备上有更好的兼容性
@@ -560,7 +566,7 @@ export default {
         new Blob([s2ab(wbout)], {
           type: 'application/octet-stream'
         }),
-        name // 保存的文件名
+        name+ '.xlsx' // 保存的文件名
       )
       // 工具方法
       function s2ab(s) {
@@ -573,14 +579,15 @@ export default {
     /*表头行的合并*/
     headerStyle({ row, column, rowIndex, columnIndex }) {
       const comStyle = {
-        backgroundColor: "#428fd7",
+        backgroundColor: "#3D589B",
         color: "#fff",
         fontSize: "500",
       };
-      if (rowIndex === 0) {//第一行
-        row[0].colSpan = 0; // 将表头第一列和第二列合并，内容展示为第二列的内容
-        row[1].colSpan = 2;
-        if (columnIndex === 0) { // 将表头第一列隐藏
+      if(rowIndex===0){
+        row[0].rowspan=2;
+      }
+      if(rowIndex===1) {
+        if (columnIndex === 0 || columnIndex === 1) { // 将表头第一列隐藏
           return {
             display: "none",
             ...comStyle,
@@ -591,8 +598,17 @@ export default {
     },
     /*表头列的合并*/
     spanMethod({ row, column, rowIndex, columnIndex }) {
+      if(rowIndex=== 0 || rowIndex=== 1){
+        if(columnIndex ===1){
+          return {rowspan: 1, colspan: 0}
+        }
+        if(columnIndex ===0){
+          return {rowspan: 1, colspan: 2}
+        }
+      }
+
       if (rowIndex=== 2)
-      {
+      {//其中的那一行
         if (columnIndex === 0) {
           return {rowspan: 6, colspan: 1} // 隐藏表头下面第一行的第一列
         }

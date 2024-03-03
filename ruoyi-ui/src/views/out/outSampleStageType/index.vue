@@ -1,78 +1,6 @@
 <template>
   <div class="app-container">
     <el-form :model="queryParams" ref="queryForm" size="small" :inline="true" v-show="showSearch" label-width="68px">
-      <el-form-item label="无公害产品基地的数量或标识" prop="ollutionFreeBase">
-        <el-input
-          v-model="queryParams.ollutionFreeBase"
-          placeholder="请输入无公害产品基地的数量或标识"
-          clearable
-          @keyup.enter.native="handleQuery"
-        />
-      </el-form-item>
-      <el-form-item label="地标产品基地的数量或标识" prop="landmarkProductBase">
-        <el-input
-          v-model="queryParams.landmarkProductBase"
-          placeholder="请输入地标产品基地的数量或标识"
-          clearable
-          @keyup.enter.native="handleQuery"
-        />
-      </el-form-item>
-      <el-form-item label="绿色产品基地的数量或标识" prop="greenProductBase">
-        <el-input
-          v-model="queryParams.greenProductBase"
-          placeholder="请输入绿色产品基地的数量或标识"
-          clearable
-          @keyup.enter.native="handleQuery"
-        />
-      </el-form-item>
-      <el-form-item label="有机产品基地的数量或标识" prop="organicProductBase">
-        <el-input
-          v-model="queryParams.organicProductBase"
-          placeholder="请输入有机产品基地的数量或标识"
-          clearable
-          @keyup.enter.native="handleQuery"
-        />
-      </el-form-item>
-      <el-form-item label="散户的数量或标识" prop="individualHousehold">
-        <el-input
-          v-model="queryParams.individualHousehold"
-          placeholder="请输入散户的数量或标识"
-          clearable
-          @keyup.enter.native="handleQuery"
-        />
-      </el-form-item>
-      <el-form-item label="其他基地的数量或标识" prop="otherBase">
-        <el-input
-          v-model="queryParams.otherBase"
-          placeholder="请输入其他基地的数量或标识"
-          clearable
-          @keyup.enter.native="handleQuery"
-        />
-      </el-form-item>
-      <el-form-item label="批发市场的数量或标识" prop="wholesaleMarket">
-        <el-input
-          v-model="queryParams.wholesaleMarket"
-          placeholder="请输入批发市场的数量或标识"
-          clearable
-          @keyup.enter.native="handleQuery"
-        />
-      </el-form-item>
-      <el-form-item label="运输车的数量或标识" prop="transportVehicle">
-        <el-input
-          v-model="queryParams.transportVehicle"
-          placeholder="请输入运输车的数量或标识"
-          clearable
-          @keyup.enter.native="handleQuery"
-        />
-      </el-form-item>
-      <el-form-item label="合计" prop="allCount">
-        <el-input
-          v-model="queryParams.allCount"
-          placeholder="请输入合计"
-          clearable
-          @keyup.enter.native="handleQuery"
-        />
-      </el-form-item>
       <el-form-item label="记录创建的时间" prop="createdDate">
         <el-date-picker clearable
           v-model="queryParams.createdDate"
@@ -132,102 +60,31 @@
       </el-col>
       <right-toolbar :showSearch.sync="showSearch" @queryTable="getList"></right-toolbar>
     </el-row>
-
-    <el-table v-loading="loading" :data="outSampleStageTypeList" @selection-change="handleSelectionChange">
-      <el-table-column type="selection" width="55" align="center" />
-      <el-table-column label="唯一标识符" align="center" prop="sampleQualityId" />
-      <el-table-column label="样品来源，抽样环节" align="center" prop="samplingStageType" />
-      <el-table-column label="无公害产品基地的数量或标识" align="center" prop="ollutionFreeBase" />
-      <el-table-column label="地标产品基地的数量或标识" align="center" prop="landmarkProductBase" />
-      <el-table-column label="绿色产品基地的数量或标识" align="center" prop="greenProductBase" />
-      <el-table-column label="有机产品基地的数量或标识" align="center" prop="organicProductBase" />
-      <el-table-column label="散户的数量或标识" align="center" prop="individualHousehold" />
-      <el-table-column label="其他基地的数量或标识" align="center" prop="otherBase" />
-      <el-table-column label="批发市场的数量或标识" align="center" prop="wholesaleMarket" />
-      <el-table-column label="运输车的数量或标识" align="center" prop="transportVehicle" />
-      <el-table-column label="合计" align="center" prop="allCount" />
-      <el-table-column label="记录创建的时间" align="center" prop="createdDate" width="180">
-        <template slot-scope="scope">
-          <span>{{ parseTime(scope.row.createdDate, '{y}-{m}-{d}') }}</span>
-        </template>
+    <el-table
+      v-if="!peopleTagNumLoading"
+      ref="refreshTable"
+      :data="outSampleStageTypeList"
+      :header-cell-style="headerStyle"
+      :span-method="spanMethod"
+      style="width: 100%;"
+      id="table1"
+    >
+      <el-table-column label="样品来源"  align="center">
+        <el-table-column  prop="stageIncludeType" width="150px" align="center"/>
+        <el-table-column  prop="samplingStageType" width="150px" align="center"/>
       </el-table-column>
-      <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
-        <template slot-scope="scope">
-          <el-button
-            size="mini"
-            type="text"
-            icon="el-icon-edit"
-            @click="handleUpdate(scope.row)"
-            v-hasPermi="['out:outSampleStageType:edit']"
-          >修改</el-button>
-          <el-button
-            size="mini"
-            type="text"
-            icon="el-icon-delete"
-            @click="handleDelete(scope.row)"
-            v-hasPermi="['out:outSampleStageType:remove']"
-          >删除</el-button>
-        </template>
+
+      <el-table-column label="数量" prop="unitNum" width="200px" align="center">
       </el-table-column>
     </el-table>
-    
-    <pagination
-      v-show="total>0"
-      :total="total"
-      :page.sync="queryParams.pageNum"
-      :limit.sync="queryParams.pageSize"
-      @pagination="getList"
-    />
-
-    <!-- 添加或修改被抽样环节数量统计对话框 -->
-    <el-dialog :title="title" :visible.sync="open" width="500px" append-to-body>
-      <el-form ref="form" :model="form" :rules="rules" label-width="80px">
-        <el-form-item label="无公害产品基地的数量或标识" prop="ollutionFreeBase">
-          <el-input v-model="form.ollutionFreeBase" placeholder="请输入无公害产品基地的数量或标识" />
-        </el-form-item>
-        <el-form-item label="地标产品基地的数量或标识" prop="landmarkProductBase">
-          <el-input v-model="form.landmarkProductBase" placeholder="请输入地标产品基地的数量或标识" />
-        </el-form-item>
-        <el-form-item label="绿色产品基地的数量或标识" prop="greenProductBase">
-          <el-input v-model="form.greenProductBase" placeholder="请输入绿色产品基地的数量或标识" />
-        </el-form-item>
-        <el-form-item label="有机产品基地的数量或标识" prop="organicProductBase">
-          <el-input v-model="form.organicProductBase" placeholder="请输入有机产品基地的数量或标识" />
-        </el-form-item>
-        <el-form-item label="散户的数量或标识" prop="individualHousehold">
-          <el-input v-model="form.individualHousehold" placeholder="请输入散户的数量或标识" />
-        </el-form-item>
-        <el-form-item label="其他基地的数量或标识" prop="otherBase">
-          <el-input v-model="form.otherBase" placeholder="请输入其他基地的数量或标识" />
-        </el-form-item>
-        <el-form-item label="批发市场的数量或标识" prop="wholesaleMarket">
-          <el-input v-model="form.wholesaleMarket" placeholder="请输入批发市场的数量或标识" />
-        </el-form-item>
-        <el-form-item label="运输车的数量或标识" prop="transportVehicle">
-          <el-input v-model="form.transportVehicle" placeholder="请输入运输车的数量或标识" />
-        </el-form-item>
-        <el-form-item label="合计" prop="allCount">
-          <el-input v-model="form.allCount" placeholder="请输入合计" />
-        </el-form-item>
-        <el-form-item label="记录创建的时间" prop="createdDate">
-          <el-date-picker clearable
-            v-model="form.createdDate"
-            type="date"
-            value-format="yyyy-MM-dd"
-            placeholder="请选择记录创建的时间">
-          </el-date-picker>
-        </el-form-item>
-      </el-form>
-      <div slot="footer" class="dialog-footer">
-        <el-button type="primary" @click="submitForm">确 定</el-button>
-        <el-button @click="cancel">取 消</el-button>
-      </div>
-    </el-dialog>
   </div>
 </template>
 
 <script>
 import { listOutSampleStageType, getOutSampleStageType, delOutSampleStageType, addOutSampleStageType, updateOutSampleStageType } from "@/api/out/outSampleStageType";
+import * as XLSX from "xlsx";
+import * as XLSXS from "xlsx-style";
+import FileSaver from 'file-saver'
 
 export default {
   name: "OutSampleStageType",
@@ -374,10 +231,151 @@ export default {
     },
     /** 导出按钮操作 */
     handleExport() {
-      this.download('out/outSampleStageType/export', {
-        ...this.queryParams
-      }, `outSampleStageType_${new Date().getTime()}.xlsx`)
-    }
+      let workSheet = XLSX.utils.table_to_sheet(document.querySelector("#table1"));
+      let bookNew = XLSX.utils.book_new();
+      let header=[];
+
+      // 在这里添加样式代码
+      for (const key in workSheet) {
+        if (workSheet[key] instanceof Object) {
+          workSheet[key].s = {
+            alignment: {
+              vertical: 'center',
+              horizontal: 'center',
+              indent: 0,
+              wrapText: true
+            },
+            font: {
+              name: '宋体',
+              sz: 10,
+              color: { rgb: '#FF000000' },
+              bold: false,
+              italic: false,
+              underline: false
+            },
+            border: {
+              top: { style: 'thin' },
+              bottom: { style: 'thin' },
+              left: { style: 'thin' },
+              right: { style: 'thin' }
+            }
+          }
+        }
+      }
+      console.log("进入之前");
+      let cellAdress={c:0,r:0};
+      let cell_ref = XLSX.utils.encode_cell(cellAdress);
+      let cell=workSheet[cell_ref].v;
+      console.log("打印cell的内容",cell);
+      //默认表头合并
+      header.push({ s: { r: 0, c: 0 }, e: { r: 1, c: 1 } });//样品来源
+
+      header.push({ s: { r: 0, c: 2 }, e: { r: 1, c: 2 } });//数量
+
+      header.push({ s: { r: 2, c: 0 }, e: { r: 2, c: 1 } });//生产基地、批发市场、运输车、合计
+      header.push({ s: { r: 9, c: 0 }, e: { r: 9, c: 1 } });
+      header.push({ s: { r: 10, c: 0 }, e: { r: 10, c: 1 } });
+      header.push({ s: { r: 11, c: 0 }, e: { r: 11, c: 1 } });
+
+      header.push({ s: { r: 3, c: 0 }, e: { r: 8, c: 0 } });//其中
+
+      workSheet['!merges'] = header;
+
+
+
+      for (const key in workSheet) {
+        if (workSheet[key] instanceof Object) {
+          workSheet[key].s = {
+            alignment: {
+              vertical: 'center',
+              horizontal: 'center',
+              indent: 0,
+              wrapText: true
+            },
+            font: {
+              name: '宋体',
+              sz: 10,
+              color: { rgb: '#FF000000' },
+              bold: false,
+              italic: false,
+              underline: false
+            },
+            border: {
+              top: { style: 'thin' },
+              bottom: { style: 'thin' },
+              left: { style: 'thin' },
+              right: { style: 'thin' }
+            }
+          }
+        }
+      }
+      let name = '被抽样环节数量统计表'
+      XLSX.utils.book_append_sheet(bookNew, workSheet, name) // 工作簿名称
+      var wopts = {
+        bookType: "xlsx", // 要生成的文件类型
+        bookSST: false, // 是否生成Shared String Table，官方解释是，如果开启生成速度会下降，但在低版本IOS设备上有更好的兼容性
+        type: "binary",
+      };
+      let wbout = XLSXS.write(bookNew, {
+        bookType: 'xlsx',
+        bookSST: false,
+        type: 'binary',
+      })
+      // XLSXS.writeFile(bookNew, '水果禁用表', wopts);
+      FileSaver.saveAs(
+        new Blob([s2ab(wbout)], {
+          type: 'application/octet-stream'
+        }),
+        name+ '.xlsx' // 保存的文件名
+      )
+      // 工具方法
+      function s2ab(s) {
+        var buf = new ArrayBuffer(s.length)
+        var view = new Uint8Array(buf)
+        for (var i = 0; i != s.length; ++i) view[i] = s.charCodeAt(i) & 0xff
+        return buf
+      }
+    },
+    /*表头行的合并*/
+    headerStyle({row, column, rowIndex, columnIndex }) {
+      // console.log(row, column, rowIndex, columnIndex);
+      const comStyle = {
+        backgroundColor: "#428fd7",
+        color: "#fff",
+        fontSize: "500",
+      };
+      if(rowIndex===1){
+        row[0].rowspan=2;
+      }
+      return {...comStyle}
+
+    },
+    /*表头列的合并*/
+    spanMethod({ row, column, rowIndex, columnIndex }) {
+      if(rowIndex=== 0 || rowIndex=== 7 ||rowIndex=== 8 || rowIndex=== 9){
+        if(columnIndex ===1){
+          return {rowspan: 1, colspan: 0}
+        }
+        if(columnIndex ===0){
+          return {rowspan: 1, colspan: 2}
+        }
+      }
+
+      if (rowIndex=== 1)
+      {//其中的那一行
+        if (columnIndex === 0) {
+          return {rowspan: 6, colspan: 1} // 隐藏表头下面第一行的第一列
+        }
+      }
+      if(rowIndex> 1){//”其中“包含的行
+        if (columnIndex === 0) {
+          return {rowspan: 1, colspan: 0} // 隐藏表头下面第一行的第一列
+        }
+        if (columnIndex === 1) {
+          return {rowspan: 1, colspan: 1} // 将表头下面第一行的第一列和第二列合并
+        }
+      }
+    },
   }
 };
 </script>

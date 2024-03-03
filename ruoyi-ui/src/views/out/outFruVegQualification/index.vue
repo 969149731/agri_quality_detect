@@ -319,9 +319,9 @@ export default {
       }
 
       console.log("打印长度",this.outFruVegQualificationList.length)
-      let name = '各类蔬菜水果合格率情况表' + '.xlsx'
+      let name = '各类蔬菜水果合格率情况表'
       workSheet['!merges'] = header;
-      XLSX.utils.book_append_sheet(bookNew, workSheet, name+"簿") // 工作簿名称
+      XLSX.utils.book_append_sheet(bookNew, workSheet, name) // 工作表名称
 
       var wopts = {
         bookType: "xlsx", // 要生成的文件类型
@@ -338,7 +338,7 @@ export default {
         new Blob([s2ab(wbout)], {
           type: 'application/octet-stream'
         }),
-        name // 保存的文件名
+        name+ '.xlsx' // 保存的文件名
       )
       // 工具方法
       function s2ab(s) {

@@ -78,9 +78,14 @@
       :data="StageList"
       style="width: 100%;"
       align='center'
+      id="table1"
     >
-      <el-table-column label="农药名称->" prop="IncludeLable"></el-table-column>
-      <el-table-column label="农药名称" align="center" prop="StageName"></el-table-column>
+      <el-table-column label="农药名称" align="center">
+        <el-table-column prop="IncludeLable"></el-table-column>
+        <el-table-column  align="center" prop="StageName">
+        </el-table-column>
+      </el-table-column>
+
       <el-table-column
         v-for="item in pesticideNameList"
         align="center"
@@ -238,7 +243,9 @@
 
 <script>
 import { listOutVegNoBanPesDetRecords2,listOutVegNoBanPesDetRecords, getOutVegNoBanPesDetRecords, delOutVegNoBanPesDetRecords, addOutVegNoBanPesDetRecords, updateOutVegNoBanPesDetRecords } from "@/api/out/outVegNoBanPesDetRecords";
-
+import * as XLSX from "xlsx";
+import * as XLSXS from "xlsx-style";
+import FileSaver from 'file-saver'
 export default {
   name: "OutVegNoBanPesDetRecords",
   data() {
@@ -312,11 +319,13 @@ export default {
       },
       StageList: [
         {
+          IncludeLable:'检出次数',
           StageName: '检出次数',
           StageId: 'totalDet'
 
         },
         {
+          IncludeLable:'超标次数',
           StageName: '超标次数',
           StageId: 'totalEx'
         },
@@ -481,21 +490,108 @@ export default {
     },
     /** 导出按钮操作 */
     handleExport() {
-      this.download('out/outVegNoBanPesDetRecords/export', {
-        ...this.queryParams
-      }, `outVegNoBanPesDetRecords_${new Date().getTime()}.xlsx`)
+      let workSheet = XLSX.utils.table_to_sheet(document.querySelector("#table1"));
+      let bookNew = XLSX.utils.book_new();
+      let header=[];
+
+      // 在这里添加样式代码
+      for (const key in workSheet) {
+        if (workSheet[key] instanceof Object) {
+          workSheet[key].s = {
+            alignment: {
+              vertical: 'center',
+              horizontal: 'center',
+              indent: 0,
+              wrapText: true
+            },
+            font: {
+              name: '宋体',
+              sz: 10,
+              color: { rgb: '#FF000000' },
+              bold: false,
+              italic: false,
+              underline: false
+            },
+            border: {
+              top: { style: 'thin' },
+              bottom: { style: 'thin' },
+              left: { style: 'thin' },
+              right: { style: 'thin' }
+            }
+          }
+        }
+      }
+
+      //默认表头合并
+      header.push({ s: { r: 0, c: 0 }, e: { r: 1, c: 1 } })
+      header.push({ s: { r: 2, c: 0 }, e: { r: 2, c: 1 } })
+      header.push({ s: { r: 3, c: 0 }, e: { r: 3, c: 1 } })
+      header.push({ s: { r: 4, c: 0 }, e: { r: 9, c: 0 } })
+
+      //农药表表头合并
+      for(let i=2;i<this.pesticideNameList.length+2;i++){
+        header.push({s:{r:0,c:i},e:{r:1,c:i}});
+      }
+      workSheet['!merges'] = header;
+      XLSX.utils.book_append_sheet(bookNew, workSheet, '蔬菜非禁用农药检出及超标情况表') // 表名称
+      let name = '蔬菜非禁用农药检出及超标情况表';
+      var wopts = {
+        bookType: "xlsx", // 要生成的文件类型
+        bookSST: false, // 是否生成Shared String Table，官方解释是，如果开启生成速度会下降，但在低版本IOS设备上有更好的兼容性
+        type: "binary",
+      };
+      let wbout = XLSXS.write(bookNew, {
+        bookType: 'xlsx',
+        bookSST: false,
+        type: 'binary',
+      })
+      // XLSXS.writeFile(bookNew, '水果禁用表', wopts);
+      FileSaver.saveAs(
+        new Blob([s2ab(wbout)], {
+          type: 'application/octet-stream'
+        }),
+        name+'.xlsx' // 保存的文件名
+      )
+      // 工具方法
+      function s2ab(s) {
+        var buf = new ArrayBuffer(s.length)
+        var view = new Uint8Array(buf)
+        for (var i = 0; i != s.length; ++i) view[i] = s.charCodeAt(i) & 0xff
+        return buf
+      }
     },
     /*表头行的合并*/
     headerStyle({ row, column, rowIndex, columnIndex }) {
       const comStyle = {
-        backgroundColor: "#428fd7",
+        backgroundColor: "#3D589B",
         color: "#fff",
         fontSize: "500",
       };
-      if (rowIndex === 0) {//第一行
-        row[0].colSpan = 0; // 将表头第一列和第二列合并，内容展示为第二列的内容
-        row[1].colSpan = 2;
-        if (columnIndex === 0) { // 将表头第一列隐藏
+      if(rowIndex===0){
+        row[0].rowspan=2;
+      }
+      if(rowIndex===1) {
+        if (columnIndex === 0 || columnIndex === 1) { // 将表头第一列隐藏
+          return {
+            display: "none",
+            ...comStyle,
+          };
+        }
+      }
+      return comStyle;
+    },
+    /*表头行的合并*/
+    headerStyle({ row, column, rowIndex, columnIndex }) {
+      const comStyle = {
+        backgroundColor: "#3D589B",
+        color: "#fff",
+        fontSize: "500",
+      };
+      if(rowIndex===0){
+        row[0].rowspan=2;
+      }
+      if(rowIndex===1) {
+        if (columnIndex === 0 || columnIndex === 1) { // 将表头第一列隐藏
           return {
             display: "none",
             ...comStyle,
@@ -506,8 +602,17 @@ export default {
     },
     /*表头列的合并*/
     spanMethod({ row, column, rowIndex, columnIndex }) {
+      if(rowIndex=== 0 || rowIndex=== 1){
+        if(columnIndex ===1){
+          return {rowspan: 1, colspan: 0}
+        }
+        if(columnIndex ===0){
+          return {rowspan: 1, colspan: 2}
+        }
+      }
+
       if (rowIndex=== 2)
-      {
+      {//其中的那一行
         if (columnIndex === 0) {
           return {rowspan: 6, colspan: 1} // 隐藏表头下面第一行的第一列
         }
