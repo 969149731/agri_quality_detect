@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.agriDictionary.mapper.agriPesticideDictionaryMapper">
+    
+    <resultMap type="agriPesticideDictionary" id="agriPesticideDictionaryResult">
+        <result property="pesticideId"    column="pesticide_id"    />
+        <result property="pesticideName"    column="pesticide_name"    />
+        <result property="standard"    column="standard"    />
+        <result property="vegPetPermit"    column="veg_pet_permit"    />
+        <result property="fruPetPermit"    column="fru_pet_permit"    />
+        <result property="createdAt"    column="created_at"    />
+    </resultMap>
+
+    <sql id="selectagriPesticideDictionaryVo">
+        select pesticide_id, pesticide_name, standard, veg_pet_permit, fru_pet_permit, created_at from agri_pesticide
+    </sql>
+
+    <select id="selectagriPesticideDictionaryList" parameterType="agriPesticideDictionary" resultMap="agriPesticideDictionaryResult">
+        <include refid="selectagriPesticideDictionaryVo"/>
+        <where>  
+            <if test="pesticideName != null  and pesticideName != ''"> and pesticide_name like concat('%', #{pesticideName}, '%')</if>
+            <if test="standard != null  and standard != ''"> and standard = #{standard}</if>
+            <if test="vegPetPermit != null  and vegPetPermit != ''"> and veg_pet_permit = #{vegPetPermit}</if>
+            <if test="fruPetPermit != null  and fruPetPermit != ''"> and fru_pet_permit = #{fruPetPermit}</if>
+            <if test="createdAt != null "> and created_at = #{createdAt}</if>
+        </where>
+    </select>
+    
+    <select id="selectagriPesticideDictionaryByPesticideId" parameterType="Long" resultMap="agriPesticideDictionaryResult">
+        <include refid="selectagriPesticideDictionaryVo"/>
+        where pesticide_id = #{pesticideId}
+    </select>
+        
+    <insert id="insertagriPesticideDictionary" parameterType="agriPesticideDictionary" useGeneratedKeys="true" keyProperty="pesticideId">
+        insert into agri_pesticide
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="pesticideName != null">pesticide_name,</if>
+            <if test="standard != null">standard,</if>
+            <if test="vegPetPermit != null">veg_pet_permit,</if>
+            <if test="fruPetPermit != null">fru_pet_permit,</if>
+            <if test="createdAt != null">created_at,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="pesticideName != null">#{pesticideName},</if>
+            <if test="standard != null">#{standard},</if>
+            <if test="vegPetPermit != null">#{vegPetPermit},</if>
+            <if test="fruPetPermit != null">#{fruPetPermit},</if>
+            <if test="createdAt != null">#{createdAt},</if>
+         </trim>
+    </insert>
+
+    <update id="updateagriPesticideDictionary" parameterType="agriPesticideDictionary">
+        update agri_pesticide
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="pesticideName != null">pesticide_name = #{pesticideName},</if>
+            <if test="standard != null">standard = #{standard},</if>
+            <if test="vegPetPermit != null">veg_pet_permit = #{vegPetPermit},</if>
+            <if test="fruPetPermit != null">fru_pet_permit = #{fruPetPermit},</if>
+            <if test="createdAt != null">created_at = #{createdAt},</if>
+        </trim>
+        where pesticide_id = #{pesticideId}
+    </update>
+
+    <delete id="deleteagriPesticideDictionaryByPesticideId" parameterType="Long">
+        delete from agri_pesticide where pesticide_id = #{pesticideId}
+    </delete>
+
+    <delete id="deleteagriPesticideDictionaryByPesticideIds" parameterType="String">
+        delete from agri_pesticide where pesticide_id in 
+        <foreach item="pesticideId" collection="array" open="(" separator="," close=")">
+            #{pesticideId}
+        </foreach>
+    </delete>
+</mapper>

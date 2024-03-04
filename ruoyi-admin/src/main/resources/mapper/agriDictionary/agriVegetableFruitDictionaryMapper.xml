@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.agriDictionary.mapper.agriVegetableFruitDictionaryMapper">
+    
+    <resultMap type="agriVegetableFruitDictionary" id="agriVegetableFruitDictionaryResult">
+        <result property="vegetableFruitId"    column="vegetable_fruit_id"    />
+        <result property="vegFruType"    column="veg_fru_type"    />
+        <result property="detailType"    column="detail_type"    />
+        <result property="vegFruName"    column="veg_fru_name"    />
+        <result property="highRiskSample"    column="high_risk_sample"    />
+        <result property="createdAt"    column="created_at"    />
+    </resultMap>
+
+    <sql id="selectagriVegetableFruitDictionaryVo">
+        select vegetable_fruit_id, veg_fru_type, detail_type, veg_fru_name, high_risk_sample, created_at from agri_vegetable_fruit
+    </sql>
+
+    <select id="selectagriVegetableFruitDictionaryList" parameterType="agriVegetableFruitDictionary" resultMap="agriVegetableFruitDictionaryResult">
+        <include refid="selectagriVegetableFruitDictionaryVo"/>
+        <where>  
+            <if test="vegFruType != null  and vegFruType != ''"> and veg_fru_type = #{vegFruType}</if>
+            <if test="detailType != null  and detailType != ''"> and detail_type = #{detailType}</if>
+            <if test="vegFruName != null  and vegFruName != ''"> and veg_fru_name like concat('%', #{vegFruName}, '%')</if>
+            <if test="highRiskSample != null  and highRiskSample != ''"> and high_risk_sample = #{highRiskSample}</if>
+            <if test="createdAt != null "> and created_at = #{createdAt}</if>
+        </where>
+    </select>
+    
+    <select id="selectagriVegetableFruitDictionaryByVegetableFruitId" parameterType="Long" resultMap="agriVegetableFruitDictionaryResult">
+        <include refid="selectagriVegetableFruitDictionaryVo"/>
+        where vegetable_fruit_id = #{vegetableFruitId}
+    </select>
+        
+    <insert id="insertagriVegetableFruitDictionary" parameterType="agriVegetableFruitDictionary" useGeneratedKeys="true" keyProperty="vegetableFruitId">
+        insert into agri_vegetable_fruit
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="vegFruType != null">veg_fru_type,</if>
+            <if test="detailType != null">detail_type,</if>
+            <if test="vegFruName != null">veg_fru_name,</if>
+            <if test="highRiskSample != null">high_risk_sample,</if>
+            <if test="createdAt != null">created_at,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="vegFruType != null">#{vegFruType},</if>
+            <if test="detailType != null">#{detailType},</if>
+            <if test="vegFruName != null">#{vegFruName},</if>
+            <if test="highRiskSample != null">#{highRiskSample},</if>
+            <if test="createdAt != null">#{createdAt},</if>
+         </trim>
+    </insert>
+
+    <update id="updateagriVegetableFruitDictionary" parameterType="agriVegetableFruitDictionary">
+        update agri_vegetable_fruit
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="vegFruType != null">veg_fru_type = #{vegFruType},</if>
+            <if test="detailType != null">detail_type = #{detailType},</if>
+            <if test="vegFruName != null">veg_fru_name = #{vegFruName},</if>
+            <if test="highRiskSample != null">high_risk_sample = #{highRiskSample},</if>
+            <if test="createdAt != null">created_at = #{createdAt},</if>
+        </trim>
+        where vegetable_fruit_id = #{vegetableFruitId}
+    </update>
+
+    <delete id="deleteagriVegetableFruitDictionaryByVegetableFruitId" parameterType="Long">
+        delete from agri_vegetable_fruit where vegetable_fruit_id = #{vegetableFruitId}
+    </delete>
+
+    <delete id="deleteagriVegetableFruitDictionaryByVegetableFruitIds" parameterType="String">
+        delete from agri_vegetable_fruit where vegetable_fruit_id in 
+        <foreach item="vegetableFruitId" collection="array" open="(" separator="," close=")">
+            #{vegetableFruitId}
+        </foreach>
+    </delete>
+</mapper>
