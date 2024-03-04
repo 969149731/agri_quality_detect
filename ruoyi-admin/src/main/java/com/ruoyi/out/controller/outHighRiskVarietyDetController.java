@@ -157,7 +157,6 @@ public class outHighRiskVarietyDetController extends BaseController
 //        List<outHighRiskVarietyDet> list = outHighRiskVarietyDetService.selectoutHighRiskVarietyDetList(outHighRiskVarietyDet);
 //        ExcelUtil<outHighRiskVarietyDet> util = new ExcelUtil<outHighRiskVarietyDet>(outHighRiskVarietyDet.class);
 //        util.exportExcel(response, list, "高风险品种样品检出情况数据");
-
 //        List<outHighRiskVarietyDet> res = new ArrayList<outHighRiskVarietyDet>();
         List<outHighRiskVarietyDet> outHighRiskVarietyDets = outHighRiskVarietyDetService.selectOutHighRiskVarietyDetList(agriCitySampleTestDetails);
         TemplateExportParams params = new TemplateExportParams("ruoyi-admin/src/main/java/com/ruoyi/excelOutTemplate/high1.xlsx");
@@ -197,7 +196,6 @@ public class outHighRiskVarietyDetController extends BaseController
         } catch (Exception e) {
             e.printStackTrace();
         }
-
 
     }
 

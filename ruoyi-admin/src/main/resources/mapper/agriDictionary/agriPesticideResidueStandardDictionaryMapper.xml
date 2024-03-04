@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.agriDictionary.mapper.agriPesticideResidueStandardDictionaryMapper">
+    
+    <resultMap type="agriPesticideResidueStandardDictionary" id="agriPesticideResidueStandardDictionaryResult">
+        <result property="pesticideResidueStandardId"    column="pesticide_residue_standard_id"    />
+        <result property="pesticideName"    column="pesticide_name"    />
+        <result property="vegFruName"    column="veg_fru_name"    />
+        <result property="standardCategory"    column="standard_category"    />
+        <result property="standardValue"    column="standard_value"    />
+        <result property="createdAt"    column="created_at"    />
+    </resultMap>
+
+    <sql id="selectagriPesticideResidueStandardDictionaryVo">
+        select pesticide_residue_standard_id, pesticide_name, veg_fru_name, standard_category, standard_value, created_at from agri_pesticide_residue_standard
+    </sql>
+
+    <select id="selectagriPesticideResidueStandardDictionaryList" parameterType="agriPesticideResidueStandardDictionary" resultMap="agriPesticideResidueStandardDictionaryResult">
+        <include refid="selectagriPesticideResidueStandardDictionaryVo"/>
+        <where>  
+            <if test="pesticideName != null  and pesticideName != ''"> and pesticide_name like concat('%', #{pesticideName}, '%')</if>
+            <if test="vegFruName != null  and vegFruName != ''"> and veg_fru_name like concat('%', #{vegFruName}, '%')</if>
+            <if test="standardCategory != null  and standardCategory != ''"> and standard_category = #{standardCategory}</if>
+            <if test="standardValue != null "> and standard_value = #{standardValue}</if>
+            <if test="createdAt != null "> and created_at = #{createdAt}</if>
+        </where>
+    </select>
+    
+    <select id="selectagriPesticideResidueStandardDictionaryByPesticideResidueStandardId" parameterType="Long" resultMap="agriPesticideResidueStandardDictionaryResult">
+        <include refid="selectagriPesticideResidueStandardDictionaryVo"/>
+        where pesticide_residue_standard_id = #{pesticideResidueStandardId}
+    </select>
+        
+    <insert id="insertagriPesticideResidueStandardDictionary" parameterType="agriPesticideResidueStandardDictionary" useGeneratedKeys="true" keyProperty="pesticideResidueStandardId">
+        insert into agri_pesticide_residue_standard
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="pesticideName != null">pesticide_name,</if>
+            <if test="vegFruName != null">veg_fru_name,</if>
+            <if test="standardCategory != null">standard_category,</if>
+            <if test="standardValue != null">standard_value,</if>
+            <if test="createdAt != null">created_at,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="pesticideName != null">#{pesticideName},</if>
+            <if test="vegFruName != null">#{vegFruName},</if>
+            <if test="standardCategory != null">#{standardCategory},</if>
+            <if test="standardValue != null">#{standardValue},</if>
+            <if test="createdAt != null">#{createdAt},</if>
+         </trim>
+    </insert>
+
+    <update id="updateagriPesticideResidueStandardDictionary" parameterType="agriPesticideResidueStandardDictionary">
+        update agri_pesticide_residue_standard
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="pesticideName != null">pesticide_name = #{pesticideName},</if>
+            <if test="vegFruName != null">veg_fru_name = #{vegFruName},</if>
+            <if test="standardCategory != null">standard_category = #{standardCategory},</if>
+            <if test="standardValue != null">standard_value = #{standardValue},</if>
+            <if test="createdAt != null">created_at = #{createdAt},</if>
+        </trim>
+        where pesticide_residue_standard_id = #{pesticideResidueStandardId}
+    </update>
+
+    <delete id="deleteagriPesticideResidueStandardDictionaryByPesticideResidueStandardId" parameterType="Long">
+        delete from agri_pesticide_residue_standard where pesticide_residue_standard_id = #{pesticideResidueStandardId}
+    </delete>
+
+    <delete id="deleteagriPesticideResidueStandardDictionaryByPesticideResidueStandardIds" parameterType="String">
+        delete from agri_pesticide_residue_standard where pesticide_residue_standard_id in 
+        <foreach item="pesticideResidueStandardId" collection="array" open="(" separator="," close=")">
+            #{pesticideResidueStandardId}
+        </foreach>
+    </delete>
+</mapper>

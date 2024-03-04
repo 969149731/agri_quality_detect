@@ -7,6 +7,7 @@ import com.ruoyi.out.domain.agriPesticideResidueStandard;
 import com.ruoyi.out.domain.outFruVegSelectType;
 import com.ruoyi.out.domain.outFruVegSelectType2;
 import com.ruoyi.out.domain.outSampleQuality;
+import org.springframework.stereotype.Repository;
 
 /**
  * 各抽样环节合格率情况Mapper接口
@@ -14,6 +15,7 @@ import com.ruoyi.out.domain.outSampleQuality;
  * @author chenjie
  * @date 2024-01-27
  */
+@Repository
 public interface outSampleQualityMapper 
 {
     /**
