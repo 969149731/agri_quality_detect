@@ -406,22 +406,57 @@ export default {
           }
         }
       }
-
+      console.log("进入之前");
+      let cellAdress={c:0,r:0};
+      let cell_ref = XLSX.utils.encode_cell(cellAdress);
+      let cell=workSheet[cell_ref].v;
+      console.log("打印cell的内容",cell);
       //默认表头合并
-      header.push({ s: { r: 0, c: 0 }, e: { r: 1, c: 1 } })
-      header.push({ s: { r: 2, c: 0 }, e: { r: 2, c: 1 } })
-      header.push({ s: { r: 3, c: 0 }, e: { r: 3, c: 1 } })
-      header.push({ s: { r: 4, c: 0 }, e: { r: 9, c: 0 } })
+      header.push({ s: { r: 0, c: 0 }, e: { r: 1, c: 1 } });//样品来源
 
-      console.log("打印长度",this.pesticideNameList.length)
-      //农药表表头合并
-      for(let i=2;i<this.pesticideNameList.length+2;i++){
-        header.push({s:{r:0,c:i},e:{r:1,c:i}});
-      }
-      let name = '各抽样环节合格率表' + '.xlsx'
+      header.push({ s: { r: 0, c: 2 }, e: { r: 0, c: 4 } });//蔬菜、水果、合计
+      header.push({ s: { r: 0, c: 5 }, e: { r: 0, c: 7 } });
+      header.push({ s: { r: 0, c: 8 }, e: { r: 0, c: 10 } });
+
+      header.push({ s: { r: 2, c: 0 }, e: { r: 2, c: 1 } });//生产基地、批发市场、运输车、合计
+      header.push({ s: { r: 9, c: 0 }, e: { r: 9, c: 1 } });
+      header.push({ s: { r: 10, c: 0 }, e: { r: 10, c: 1 } });
+      header.push({ s: { r: 11, c: 0 }, e: { r: 11, c: 1 } });
+
+      header.push({ s: { r: 3, c: 0 }, e: { r: 8, c: 0 } });//其中
+
       workSheet['!merges'] = header;
-      XLSX.utils.book_append_sheet(bookNew, workSheet, name+"簿") // 工作簿名称
 
+
+
+      for (const key in workSheet) {
+        if (workSheet[key] instanceof Object) {
+          workSheet[key].s = {
+            alignment: {
+              vertical: 'center',
+              horizontal: 'center',
+              indent: 0,
+              wrapText: true
+            },
+            font: {
+              name: '宋体',
+              sz: 10,
+              color: { rgb: '#FF000000' },
+              bold: false,
+              italic: false,
+              underline: false
+            },
+            border: {
+              top: { style: 'thin' },
+              bottom: { style: 'thin' },
+              left: { style: 'thin' },
+              right: { style: 'thin' }
+            }
+          }
+        }
+      }
+      let name = '各抽样环节合格率表'
+      XLSX.utils.book_append_sheet(bookNew, workSheet, name) // 工作簿名称
       var wopts = {
         bookType: "xlsx", // 要生成的文件类型
         bookSST: false, // 是否生成Shared String Table，官方解释是，如果开启生成速度会下降，但在低版本IOS设备上有更好的兼容性
@@ -437,7 +472,7 @@ export default {
         new Blob([s2ab(wbout)], {
           type: 'application/octet-stream'
         }),
-        name // 保存的文件名
+        name+ '.xlsx' // 保存的文件名
       )
       // 工具方法
       function s2ab(s) {

@@ -24,146 +24,56 @@ public class outSampleStageType extends BaseEntity
     @Excel(name = "样品来源，抽样环节")
     private String samplingStageType;
 
+    private String stageIncludeType;
+
+
     /** 无公害产品基地的数量或标识 */
     @Excel(name = "无公害产品基地的数量或标识")
-    private Long ollutionFreeBase;
-
-    /** 地标产品基地的数量或标识 */
-    @Excel(name = "地标产品基地的数量或标识")
-    private Long landmarkProductBase;
-
-    /** 绿色产品基地的数量或标识 */
-    @Excel(name = "绿色产品基地的数量或标识")
-    private Long greenProductBase;
-
-    /** 有机产品基地的数量或标识 */
-    @Excel(name = "有机产品基地的数量或标识")
-    private Long organicProductBase;
-
-    /** 散户的数量或标识 */
-    @Excel(name = "散户的数量或标识")
-    private Long individualHousehold;
-
-    /** 其他基地的数量或标识 */
-    @Excel(name = "其他基地的数量或标识")
-    private Long otherBase;
-
-    /** 批发市场的数量或标识 */
-    @Excel(name = "批发市场的数量或标识")
-    private Long wholesaleMarket;
-
-    /** 运输车的数量或标识 */
-    @Excel(name = "运输车的数量或标识")
-    private Long transportVehicle;
-
-    /** 合计 */
-    @Excel(name = "合计")
-    private Long allCount;
+    private Long unitNum=0L;
 
     /** 记录创建的时间 */
     @JsonFormat(pattern = "yyyy-MM-dd")
     @Excel(name = "记录创建的时间", width = 30, dateFormat = "yyyy-MM-dd")
     private Date createdDate;
 
-    public void setSampleQualityId(Long sampleQualityId) 
+    public outSampleStageType(String stageName){
+        super();
+        this.samplingStageType=stageName;
+    }
+    public outSampleStageType(){
+        super();
+    }
+    public void setSampleQualityId(Long sampleQualityId)
     {
         this.sampleQualityId = sampleQualityId;
     }
 
-    public Long getSampleQualityId() 
+    public Long getSampleQualityId()
     {
         return sampleQualityId;
     }
-    public void setSamplingStageType(String samplingStageType) 
+    public void setSamplingStageType(String samplingStageType)
     {
         this.samplingStageType = samplingStageType;
     }
-
-    public String getSamplingStageType() 
+    public String getSamplingStageType()
     {
         return samplingStageType;
     }
-    public void setOllutionFreeBase(Long ollutionFreeBase) 
-    {
-        this.ollutionFreeBase = ollutionFreeBase;
+    public Long getUnitNum() {
+        return unitNum;
+    }
+    public void setUnitNum(Long unitNum) {
+        this.unitNum = unitNum;
+    }
+    public String getStageIncludeType() {
+        return stageIncludeType;
     }
 
-    public Long getOllutionFreeBase() 
-    {
-        return ollutionFreeBase;
-    }
-    public void setLandmarkProductBase(Long landmarkProductBase) 
-    {
-        this.landmarkProductBase = landmarkProductBase;
+    public void setStageIncludeType(String stageIncludeType) {
+        this.stageIncludeType = stageIncludeType;
     }
 
-    public Long getLandmarkProductBase() 
-    {
-        return landmarkProductBase;
-    }
-    public void setGreenProductBase(Long greenProductBase) 
-    {
-        this.greenProductBase = greenProductBase;
-    }
-
-    public Long getGreenProductBase() 
-    {
-        return greenProductBase;
-    }
-    public void setOrganicProductBase(Long organicProductBase) 
-    {
-        this.organicProductBase = organicProductBase;
-    }
-
-    public Long getOrganicProductBase() 
-    {
-        return organicProductBase;
-    }
-    public void setIndividualHousehold(Long individualHousehold) 
-    {
-        this.individualHousehold = individualHousehold;
-    }
-
-    public Long getIndividualHousehold() 
-    {
-        return individualHousehold;
-    }
-    public void setOtherBase(Long otherBase) 
-    {
-        this.otherBase = otherBase;
-    }
-
-    public Long getOtherBase() 
-    {
-        return otherBase;
-    }
-    public void setWholesaleMarket(Long wholesaleMarket) 
-    {
-        this.wholesaleMarket = wholesaleMarket;
-    }
-
-    public Long getWholesaleMarket() 
-    {
-        return wholesaleMarket;
-    }
-    public void setTransportVehicle(Long transportVehicle) 
-    {
-        this.transportVehicle = transportVehicle;
-    }
-
-    public Long getTransportVehicle() 
-    {
-        return transportVehicle;
-    }
-    public void setAllCount(Long allCount) 
-    {
-        this.allCount = allCount;
-    }
-
-    public Long getAllCount() 
-    {
-        return allCount;
-    }
     public void setCreatedDate(Date createdDate) 
     {
         this.createdDate = createdDate;
@@ -173,21 +83,19 @@ public class outSampleStageType extends BaseEntity
     {
         return createdDate;
     }
-
+    public void addOneToUnitNum(){
+        this.unitNum+=1;
+    }
+    public void addTotalTogether(outSampleStageType otherOne){
+        this.unitNum+=otherOne.unitNum;
+    }
     @Override
     public String toString() {
         return new ToStringBuilder(this,ToStringStyle.MULTI_LINE_STYLE)
             .append("sampleQualityId", getSampleQualityId())
             .append("samplingStageType", getSamplingStageType())
-            .append("ollutionFreeBase", getOllutionFreeBase())
-            .append("landmarkProductBase", getLandmarkProductBase())
-            .append("greenProductBase", getGreenProductBase())
-            .append("organicProductBase", getOrganicProductBase())
-            .append("individualHousehold", getIndividualHousehold())
-            .append("otherBase", getOtherBase())
-            .append("wholesaleMarket", getWholesaleMarket())
-            .append("transportVehicle", getTransportVehicle())
-            .append("allCount", getAllCount())
+            .append("unitNum", getUnitNum())
+            .append("stageIncludeType", getStageIncludeType())
             .append("createdDate", getCreatedDate())
             .toString();
     }

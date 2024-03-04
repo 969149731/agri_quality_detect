@@ -156,6 +156,10 @@ public class outFruVegQualificationServiceImpl implements IoutFruVegQualificatio
         for(String StageTypeName :FruVegType){
             resultList.add(resultMap.get(StageTypeName));
         }
+        resultList.get(4).setVegFruType("其他类");
+        resultList.get(5).setVegFruType("小计");
+        resultList.get(9).setVegFruType("其他类");
+        resultList.get(10).setVegFruType("小计");
         return resultList;
     }
 
