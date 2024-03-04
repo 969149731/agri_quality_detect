@@ -28,7 +28,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="createdDate"    column="created_date"    />
     </resultMap>
 
-    <resultMap type="outFruVegSelectType" id="outFruVegSelectType">
+    <resultMap type="outFruVegSelectType2" id="outFruVegSelectType">
         <result property="citySampleTestDetailsId"    column="city_sample_test_details_id"    />
         <result property="sampleCode"    column="sample_code"    />
         <result property="vegFruName"    column="veg_fru_name"    />
