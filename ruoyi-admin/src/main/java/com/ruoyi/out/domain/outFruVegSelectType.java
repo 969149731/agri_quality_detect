@@ -142,7 +142,7 @@ public class outFruVegSelectType {
             System.out.println("该条目下无检出农药"+"/r/n蔬果名:"+vegFruName+"样品编号"+this.sampleCode);
             return false;
         }
-        if(this==null){
+        if(this.samplingStageType==null){
             System.out.println("生产环节属性值缺失："+"/r/生产环节:"+this.samplingStageType);
             return false;
         }

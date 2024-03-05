@@ -168,4 +168,20 @@ public class outFruVegSelectType2 {//比原始的多一个国家标准的属性
                 .append("detailType", this.detailType)
                 .toString();
     }
+
+    public boolean checkIsUseful() {
+        if (this.vegFruName==null){
+            System.out.println("蔬菜名缺失："+"/r/n蔬果名:"+this.vegFruName);
+            return false;
+        }
+        if(this.pesticideName==null && this.pesticideDetValue==null){
+            System.out.println("该条目下无检出农药"+"/r/n蔬果名:"+vegFruName+"样品编号"+this.sampleCode);
+            return false;
+        }
+        if(this.samplingStageType==null){
+            System.out.println("生产环节属性值缺失："+"/r/生产环节:"+this.samplingStageType);
+            return false;
+        }
+        return true;
+    }
 }

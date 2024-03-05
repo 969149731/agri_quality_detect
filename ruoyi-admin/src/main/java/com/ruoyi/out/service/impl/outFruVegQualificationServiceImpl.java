@@ -58,7 +58,7 @@ public class outFruVegQualificationServiceImpl implements IoutFruVegQualificatio
 
         PageHelper.startPage(0,0,false,false,true);//分页方法，仅对之后第一个查询生效
         List<outFruVegSelectType> selectReturnList = outFruVegQualificationMapper.getFruVegDetResultList();
-
+        if(selectReturnList.isEmpty()){System.out.println("查询出的结果列表为空");return null;}
         Map<String, outFruVegQualification> resultMap = new TreeMap<String, outFruVegQualification>();//使用字典存储
 
         StringBuilder successMsg = new StringBuilder();
@@ -116,12 +116,15 @@ public class outFruVegQualificationServiceImpl implements IoutFruVegQualificatio
             if(resultMap.get(vegFruDetailType)!=null){//在检测的列表中
                 resultMap.get(vegFruDetailType).addOneToSamplingNumber(); //该类型抽样数+1
                 //超标记录
+                if(item.vegFruName.equals("番茄")){
+                    System.out.println("我是番茄");
+                }
                 if (item.pesticideDetValue > firstStandard.standardValue) {//此处先仅对比第一个标准值
                     System.out.println("超标记录");
                     resultMap.get(vegFruDetailType).addInfoToexceedingSamples(item.vegFruName);//将超标样品写入格式如 空心菜（1）
                     resultMap.get(vegFruDetailType).addInfoToexceedingPesticides(item.pesticideName);//超标农药写入
                 }else {
-                    resultMap.get(vegFruDetailType).addOneToSamplingNumber(); //该类型合格数数+1
+                    resultMap.get(vegFruDetailType).addOneToPassNumber(); //该类型合格数数+1
                 }
             }
         }

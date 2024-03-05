@@ -9,6 +9,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.ruoyi.out.mapper.outSampleQualityMapper;
 import com.ruoyi.out.service.IoutSampleQualityService;
+
+import static com.ruoyi.framework.datasource.DynamicDataSourceContextHolder.log;
+
 /**
  * 各抽样环节合格率情况Service业务层处理
  * 
@@ -159,7 +162,7 @@ public class outSampleQualityServiceImpl implements IoutSampleQualityService
     }
 
     public List<outSampleQuality> selectoutSampleQualityList2(outSampleQuality outSampleQuality)
-    {//统计方法2，备用
+    {//统计方法2，备用//蔬菜水果合格率情况表
         //初始化列表
         List<outSampleQuality> resultList = new ArrayList<>();
         List<String> StageType= Arrays.asList("生产基地", "无公害产品基地","地标生产基地","绿色产品基地","有机产品基地","散户","其他基地","批发市场","运输车");//合计在最后加入
@@ -176,8 +179,13 @@ public class outSampleQualityServiceImpl implements IoutSampleQualityService
         //获取检测结果列表
         PageHelper.startPage(0,0,false,false,true);//分页方法，仅对之后第一个查询生效
         List<outFruVegSelectType2> SelectList = outSampleQualityMapper.getFruVegDetResultList();//获取农药检测结果表
+        if(SelectList.isEmpty()){System.out.println("查询出的结果列表为空");return resultList;}
         System.out.println("列表大小"+SelectList.size());
         for (outFruVegSelectType2 item : SelectList) {//遍历结果表
+            if (!item.checkIsUseful()) {//对蔬果名、农药名进行数据审查
+                String msg = "<br/>" + "第" + item.citySampleTestDetailsId + "条" + "数据无法判断";
+                continue;//没通过数据可用审查，跳过当前的检测条目
+            }
             //获取蔬菜名//用于获取标准
             String vegFruName = item.vegFruName;
             String vegFruType = item.vegFruType;
@@ -189,20 +197,21 @@ public class outSampleQualityServiceImpl implements IoutSampleQualityService
             List<agriPesticideResidueStandard> standardslist = outSampleQualityMapper.getagriPesticideResidueStandard(pesticidName, vegFruName);
             if(!standardslist.isEmpty() && this.findChineseStandard(standardslist)!=null){//在工具方法中判断了是否为国家标准
                 chineseStandard =this.findChineseStandard(standardslist);//获取国家标准
-            }else {
+            }else{
                 System.out.println("没有对应标准 国家标准"+"/n蔬果名:"+vegFruName+"/n农药名:"+pesticidName);//报错
+                continue;
             }
 
             //计算相应属性
-            if ("水果".equals(vegFruType)){
-                resultMap.get(item.samplingStageType).fruSamplingCountAddOne();
+            if ("水果".equals(vegFruType)&&stageName!=null){
+                resultMap.get(stageName).fruSamplingCountAddOne();
                 if (chineseStandard !=null && item.pesticideDetValue<chineseStandard.standardValue){
                     resultMap.get(item.samplingStageType).fruQualifiedCountAddOne();
                 }
             }
 
-            else if ("蔬菜".equals(vegFruType)){
-                resultMap.get(item.samplingStageType).vegSamplingCountAddOne();
+            else if ("蔬菜".equals(vegFruType)&&stageName!=null){
+                resultMap.get(stageName).vegSamplingCountAddOne();
                 if (chineseStandard !=null && item.pesticideDetValue<chineseStandard.standardValue){
                     resultMap.get(item.samplingStageType).vegQualifiedCountAddOne();
                 }
