@@ -3,6 +3,7 @@ package com.ruoyi.out.service.impl;
 import java.util.*;
 
 import com.github.pagehelper.PageHelper;
+import com.ruoyi.framework.web.domain.server.Sys;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.ruoyi.out.mapper.outFruBanPesDetRecordsMapper;
@@ -141,11 +142,19 @@ public class outFruBanPesDetRecordsServiceImpl implements IoutFruBanPesDetRecord
             String stageName = item.samplingStageType;
             agriPesticideResidueStandard firstStandard;
 
+            if(item.sampleCode.equals("2024R1047")){
+                System.out.println(item);
+            }
             if (!item.checkIsUseful()){//对蔬果名、农药名、生产环节进行数据审查
                 String msg = "<br/>" + "第"+ item.citySampleTestDetailsId +"条"+ "数据无法判断";
                 failureMsg.append(msg);
                 log.error(msg);
                 continue;//没通过数据可用审查，跳过当前的检测条目
+
+            }
+            if(!pesticideList.contains(item.pesticideName)){
+                System.out.println("该农药不在检测列表中");
+                continue;
             }
             //获取对应标准//在这里可以获取多种标准
             PageHelper.startPage(0,0,false,false,true);//分页方法，仅对之后第一个查询生效

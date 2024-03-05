@@ -134,16 +134,24 @@ public class outFruVegSelectType {
     }
 
     public boolean checkIsUseful(){
-        if (this.vegFruName==null){
-            System.out.println("蔬菜名缺失："+"/r/n蔬果名:"+this.vegFruName);
+        if (this.vegFruName==null){//情况一，蔬菜名缺失，完全无法判断
+            System.out.println("蔬菜名缺失："+"/r/n蔬果名:"+this.vegFruName+"样品编号"+this.sampleCode);
+            return false;
+        }
+        if(this.samplingStageType==null){
+            System.out.println("生产环节属性值缺失："+"/r/生产环节:"+this.samplingStageType+"样品编号"+this.sampleCode);
             return false;
         }
         if(this.pesticideName==null && this.pesticideDetValue==null){
             System.out.println("该条目下无检出农药"+"/r/n蔬果名:"+vegFruName+"样品编号"+this.sampleCode);
             return false;
         }
-        if(this.samplingStageType==null){
-            System.out.println("生产环节属性值缺失："+"/r/生产环节:"+this.samplingStageType);
+        if (this.pesticideName==null){
+            System.out.println("农药名缺失："+"/r/农药名:"+this.pesticideName+"样品编号"+this.sampleCode);
+            return false;
+        }
+        if(this.pesticideName.equals("") && this.pesticideDetValue!=null){
+            System.out.println("该条目农药名缺失"+"/r/农药名:"+pesticideName+"样品编号"+this.sampleCode);
             return false;
         }
         return true;
