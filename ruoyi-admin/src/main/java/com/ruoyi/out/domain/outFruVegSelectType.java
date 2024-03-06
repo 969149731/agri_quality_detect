@@ -133,6 +133,8 @@ public class outFruVegSelectType {
         this.detailType = detailType;
     }
 
+
+
     public boolean checkIsUseful(){
         if (this.vegFruName==null){
             System.out.println("蔬菜名缺失："+"/r/n蔬果名:"+this.vegFruName);

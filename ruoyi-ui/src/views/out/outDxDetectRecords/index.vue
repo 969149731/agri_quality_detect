@@ -1,14 +1,14 @@
 <template>
   <div class="app-container">
     <el-form :model="queryParams" ref="queryForm" size="small" :inline="true" v-show="showSearch" label-width="68px">
-      <el-form-item label="检测单位" prop="detectLocation">
-        <el-input
-          v-model="queryParams.detectLocation"
-          placeholder="请输入检测单位"
-          clearable
-          @keyup.enter.native="handleQuery"
-        />
-      </el-form-item>
+<!--      <el-form-item label="检测单位" prop="detectLocation">-->
+<!--        <el-input-->
+<!--          v-model="queryParams.detectLocation"-->
+<!--          placeholder="请输入检测单位"-->
+<!--          clearable-->
+<!--          @keyup.enter.native="handleQuery"-->
+<!--        />-->
+<!--      </el-form-item>-->
 <!--      <el-form-item label="抽样日期" prop="samplingDate">-->
 <!--        <el-date-picker clearable-->
 <!--          v-model="queryParams.samplingDate"-->
@@ -18,26 +18,35 @@
 <!--        </el-date-picker>-->
 <!--      </el-form-item>-->
 
-      <el-form-item label="抽样日期">
-        <el-date-picker
-          v-model="dateRange"
-          style="width: 240px"
-          value-format="yyyy-MM-dd"
-          type="daterange"
-          range-separator="-"
-          start-placeholder="开始日期"
-          end-placeholder="结束日期"
-        ></el-date-picker>
+<!--      <el-form-item label="抽样日期">-->
+<!--        <el-date-picker-->
+<!--          v-model="dateRange"-->
+<!--          style="width: 240px"-->
+<!--          value-format="yyyy-MM-dd"-->
+<!--          type="daterange"-->
+<!--          range-separator="-"-->
+<!--          start-placeholder="开始日期"-->
+<!--          end-placeholder="结束日期"-->
+<!--        ></el-date-picker>-->
+<!--      </el-form-item>-->
+
+      <el-form-item label="抽样年份" prop="year">
+        <el-input
+          v-model="queryParams.year"
+          placeholder="请输入抽样年份"
+          clearable
+          @keyup.enter.native="handleQuery"
+        />
       </el-form-item>
 
-<!--      <el-form-item label="抽样年份" prop="samplingYear">-->
-<!--        <el-input-->
-<!--          v-model="queryParams.samplingYear"-->
-<!--          placeholder="请输入抽样年份"-->
-<!--          clearable-->
-<!--          @keyup.enter.native="handleQuery"-->
-<!--        />-->
-<!--      </el-form-item>-->
+      <el-form-item label="抽样季度" prop="season">
+        <el-input
+          v-model="queryParams.season"
+          placeholder="请输入抽样季度"
+          clearable
+          @keyup.enter.native="handleQuery"
+        />
+      </el-form-item>
 <!--      <el-form-item label="抽样月份" prop="samplingMonth">-->
 <!--        <el-input-->
 <!--          v-model="queryParams.samplingMonth"-->
@@ -46,38 +55,31 @@
 <!--          @keyup.enter.native="handleQuery"-->
 <!--        />-->
 <!--      </el-form-item>-->
-      <el-form-item label="抽样数" prop="samplingCount">
-        <el-input
-          v-model="queryParams.samplingCount"
-          placeholder="请输入抽样数"
-          clearable
-          @keyup.enter.native="handleQuery"
-        />
-      </el-form-item>
-      <el-form-item label="合格数" prop="qualifiedCount">
-        <el-input
-          v-model="queryParams.qualifiedCount"
-          placeholder="请输入合格数"
-          clearable
-          @keyup.enter.native="handleQuery"
-        />
-      </el-form-item>
-      <el-form-item label="合格率" prop="passRate">
-        <el-input
-          v-model="queryParams.passRate"
-          placeholder="请输入合格率"
-          clearable
-          @keyup.enter.native="handleQuery"
-        />
-      </el-form-item>
-<!--      <el-form-item label="记录创建的时间" prop="createdDate">-->
-<!--        <el-date-picker clearable-->
-<!--          v-model="queryParams.createdDate"-->
-<!--          type="date"-->
-<!--          value-format="yyyy-MM-dd"-->
-<!--          placeholder="请选择记录创建的时间">-->
-<!--        </el-date-picker>-->
+<!--      <el-form-item label="抽样数" prop="samplingCount">-->
+<!--        <el-input-->
+<!--          v-model="queryParams.samplingCount"-->
+<!--          placeholder="请输入抽样数"-->
+<!--          clearable-->
+<!--          @keyup.enter.native="handleQuery"-->
+<!--        />-->
 <!--      </el-form-item>-->
+<!--      <el-form-item label="合格数" prop="qualifiedCount">-->
+<!--        <el-input-->
+<!--          v-model="queryParams.qualifiedCount"-->
+<!--          placeholder="请输入合格数"-->
+<!--          clearable-->
+<!--          @keyup.enter.native="handleQuery"-->
+<!--        />-->
+<!--      </el-form-item>-->
+<!--      <el-form-item label="合格率" prop="passRate">-->
+<!--        <el-input-->
+<!--          v-model="queryParams.passRate"-->
+<!--          placeholder="请输入合格率"-->
+<!--          clearable-->
+<!--          @keyup.enter.native="handleQuery"-->
+<!--        />-->
+<!--      </el-form-item>-->
+
       <el-form-item>
         <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery">搜索</el-button>
         <el-button icon="el-icon-refresh" size="mini" @click="resetQuery">重置</el-button>
@@ -119,6 +121,16 @@
       </el-col>
       <el-col :span="1.5">
         <el-button
+          type="info"
+          plain
+          icon="el-icon-upload2"
+          size="mini"
+          @click="handleImport"
+          v-hasPermi="['system:user:import']"
+        >导入</el-button>
+      </el-col>
+      <el-col :span="1.5">
+        <el-button
           type="warning"
           plain
           icon="el-icon-download"
@@ -130,45 +142,98 @@
       <right-toolbar :showSearch.sync="showSearch" @queryTable="getList"></right-toolbar>
     </el-row>
 
+<!--    <el-table v-loading="loading" :data="outDxDetectRecordsList" @selection-change="handleSelectionChange">-->
+<!--&lt;!&ndash;      <el-table-column type="selection" width="55" align="center" />&ndash;&gt;-->
+<!--      <el-table-column type="index" label="序号" width="55" align="center" />-->
+<!--      <el-table-column label="检测单位名称" align="center" prop="detectLocation" />-->
+<!--      <el-table-column label="抽样数(第一个月)" align="center" prop="month1SamplingCount" />-->
+<!--      <el-table-column label="合格数(第一个月)" align="center" prop="month1QualifiedCount" />-->
+<!--      <el-table-column label="合格率(第一个月)" align="center" prop="month1PassRate" />-->
+
+<!--      <el-table-column label="抽样数(第二个月)" align="center" prop="month2SamplingCount" />-->
+<!--      <el-table-column label="合格数(第二个月)" align="center" prop="month2QualifiedCount" />-->
+<!--      <el-table-column label="合格率(第二个月)" align="center" prop="month2PassRate" />-->
+
+<!--      <el-table-column label="抽样数(第三个月)" align="center" prop="month3SamplingCount" />-->
+<!--      <el-table-column label="合格数(第三个月)" align="center" prop="month3QualifiedCount" />-->
+<!--      <el-table-column label="合格率(第三个月)" align="center" prop="month3PassRate" />-->
+
+<!--      <el-table-column label="季度总抽样数" align="center" prop="allSamplingCount" />-->
+<!--      <el-table-column label="季度总合格数" align="center" prop="allQualifiedCount" />-->
+<!--      <el-table-column label="季度总合格率" align="center" prop="allPassRate" />-->
+
+<!--    </el-table>-->
+
+
+
     <el-table v-loading="loading" :data="outDxDetectRecordsList" @selection-change="handleSelectionChange">
-<!--      <el-table-column type="selection" width="55" align="center" />-->
-<!--      <el-table-column label="唯一标识符，自增" align="center" prop="recordDxId" />-->
+      <!--      <el-table-column type="selection" width="55" align="center" />-->
       <el-table-column type="index" label="序号" width="55" align="center" />
-      <el-table-column label="检测单位" align="center" prop="detectLocation" />
-      <el-table-column label="抽样日期" align="center" prop="samplingDate" width="180">
+      <el-table-column label="检测单位名称" align="center" prop="detectLocation" />
+<!--      <el-table-column label="抽样数(第一个月)" align="center" prop="month1SamplingCount" />-->
+<!--      <el-table-column label="合格数(第一个月)" align="center" prop="month1QualifiedCount" />-->
+<!--      <el-table-column label="合格率(第一个月)" align="center" prop="month1PassRate" />-->
+      <el-table-column label="第一个月" align="center" width="300px">
         <template slot-scope="scope">
-          <span>{{ parseTime(scope.row.samplingDate, '{y}-{m}-{d}') }}</span>
+          <el-table :data="[scope.row]" :show-header="true">
+            <el-table-column label="抽样数" align="center" prop="month1SamplingCount"></el-table-column>
+            <el-table-column label="合格数" align="center" prop="month1QualifiedCount"></el-table-column>
+            <el-table-column label="合格率" align="center" prop="month1PassRate"></el-table-column>
+          </el-table>
         </template>
       </el-table-column>
-<!--      <el-table-column label="抽样年份" align="center" prop="samplingYear" />-->
-<!--      <el-table-column label="抽样月份" align="center" prop="samplingMonth" />-->
-      <el-table-column label="抽样数" align="center" prop="samplingCount" />
-      <el-table-column label="合格数" align="center" prop="qualifiedCount" />
-      <el-table-column label="合格率" align="center" prop="passRate" />
-<!--      <el-table-column label="记录创建的时间" align="center" prop="createdDate" width="180">-->
-<!--        <template slot-scope="scope">-->
-<!--          <span>{{ parseTime(scope.row.createdDate, '{y}-{m}-{d}') }}</span>-->
-<!--        </template>-->
-<!--      </el-table-column>-->
-      <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
+
+<!--      <el-table-column label="抽样数(第二个月)" align="center" prop="month2SamplingCount" />-->
+<!--      <el-table-column label="合格数(第二个月)" align="center" prop="month2QualifiedCount" />-->
+<!--      <el-table-column label="合格率(第二个月)" align="center" prop="month2PassRate" />-->
+
+      <el-table-column label="第二个月" align="center" width="300px">
         <template slot-scope="scope">
-          <el-button
-            size="mini"
-            type="text"
-            icon="el-icon-edit"
-            @click="handleUpdate(scope.row)"
-            v-hasPermi="['out:outDxDetectRecords:edit']"
-          >修改</el-button>
-          <el-button
-            size="mini"
-            type="text"
-            icon="el-icon-delete"
-            @click="handleDelete(scope.row)"
-            v-hasPermi="['out:outDxDetectRecords:remove']"
-          >删除</el-button>
+          <el-table :data="[scope.row]" :show-header="true">
+            <el-table-column label="抽样数" align="center" prop="month2SamplingCount"></el-table-column>
+            <el-table-column label="合格数" align="center" prop="month2QualifiedCount"></el-table-column>
+            <el-table-column label="合格率" align="center" prop="month2PassRate"></el-table-column>
+          </el-table>
         </template>
       </el-table-column>
+
+
+<!--      <el-table-column label="抽样数(第三个月)" align="center" prop="month3SamplingCount" />-->
+<!--      <el-table-column label="合格数(第三个月)" align="center" prop="month3QualifiedCount" />-->
+<!--      <el-table-column label="合格率(第三个月)" align="center" prop="month3PassRate" />-->
+
+      <el-table-column label="第三个月" align="center" width="300px">
+        <template slot-scope="scope">
+          <el-table :data="[scope.row]" :show-header="true">
+            <el-table-column label="抽样数" align="center" prop="month3SamplingCount"></el-table-column>
+            <el-table-column label="合格数" align="center" prop="month3QualifiedCount"></el-table-column>
+            <el-table-column label="合格率" align="center" prop="month3PassRate"></el-table-column>
+          </el-table>
+        </template>
+      </el-table-column>
+
+
+<!--      <el-table-column label="季度总抽样数" align="center" prop="allSamplingCount" />-->
+<!--      <el-table-column label="季度总合格数" align="center" prop="allQualifiedCount" />-->
+<!--      <el-table-column label="季度总合格率" align="center" prop="allPassRate" />-->
+
+
+      <el-table-column label="该季度总计" align="center" width="300px">
+        <template slot-scope="scope">
+          <el-table :data="[scope.row]" :show-header="true">
+            <el-table-column label="总抽样数" align="center" prop="allSamplingCount" />
+            <el-table-column label="总合格数" align="center" prop="allQualifiedCount" />
+            <el-table-column label="总合格率" align="center" prop="allPassRate" />、
+          </el-table>
+        </template>
+      </el-table-column>
+
+            <el-table-column label=" " align="center" prop="" />
+
+
     </el-table>
+
+
 
     <pagination
       v-show="total>0"
@@ -179,54 +244,86 @@
     />
 
     <!-- 添加或修改定性监测结果汇总对话框 -->
-    <el-dialog :title="title" :visible.sync="open" width="500px" append-to-body>
-      <el-form ref="form" :model="form" :rules="rules" label-width="80px">
-        <el-form-item label="检测单位" prop="detectLocation">
-          <el-input v-model="form.detectLocation" placeholder="请输入检测单位" />
-        </el-form-item>
-        <el-form-item label="抽样日期" prop="samplingDate">
-          <el-date-picker clearable
-            v-model="form.samplingDate"
-            type="date"
-            value-format="yyyy-MM-dd"
-            placeholder="请选择抽样日期">
-          </el-date-picker>
-        </el-form-item>
-<!--        <el-form-item label="抽样年份" prop="samplingYear">-->
-<!--          <el-input v-model="form.samplingYear" placeholder="请输入抽样年份" />-->
+<!--    <el-dialog :title="title" :visible.sync="open" width="500px" append-to-body>-->
+<!--      <el-form ref="form" :model="form" :rules="rules" label-width="80px">-->
+<!--        <el-form-item label="检测单位" prop="detectLocation">-->
+<!--          <el-input v-model="form.detectLocation" placeholder="请输入检测单位" />-->
 <!--        </el-form-item>-->
-<!--        <el-form-item label="抽样月份" prop="samplingMonth">-->
-<!--          <el-input v-model="form.samplingMonth" placeholder="请输入抽样月份" />-->
-<!--        </el-form-item>-->
-        <el-form-item label="抽样数" prop="samplingCount">
-          <el-input v-model="form.samplingCount" placeholder="请输入抽样数" />
-        </el-form-item>
-        <el-form-item label="合格数" prop="qualifiedCount">
-          <el-input v-model="form.qualifiedCount" placeholder="请输入合格数" />
-        </el-form-item>
-        <el-form-item label="合格率" prop="passRate">
-          <el-input v-model="form.passRate" placeholder="请输入合格率" />
-        </el-form-item>
-<!--        <el-form-item label="记录创建的时间" prop="createdDate">-->
+<!--        <el-form-item label="抽样日期" prop="samplingDate">-->
 <!--          <el-date-picker clearable-->
-<!--            v-model="form.createdDate"-->
+<!--            v-model="form.samplingDate"-->
 <!--            type="date"-->
 <!--            value-format="yyyy-MM-dd"-->
-<!--            placeholder="请选择记录创建的时间">-->
+<!--            placeholder="请选择抽样日期">-->
 <!--          </el-date-picker>-->
 <!--        </el-form-item>-->
-      </el-form>
+<!--&lt;!&ndash;        <el-form-item label="抽样年份" prop="samplingYear">&ndash;&gt;-->
+<!--&lt;!&ndash;          <el-input v-model="form.samplingYear" placeholder="请输入抽样年份" />&ndash;&gt;-->
+<!--&lt;!&ndash;        </el-form-item>&ndash;&gt;-->
+<!--&lt;!&ndash;        <el-form-item label="抽样月份" prop="samplingMonth">&ndash;&gt;-->
+<!--&lt;!&ndash;          <el-input v-model="form.samplingMonth" placeholder="请输入抽样月份" />&ndash;&gt;-->
+<!--&lt;!&ndash;        </el-form-item>&ndash;&gt;-->
+<!--        <el-form-item label="抽样数" prop="samplingCount">-->
+<!--          <el-input v-model="form.samplingCount" placeholder="请输入抽样数" />-->
+<!--        </el-form-item>-->
+<!--        <el-form-item label="合格数" prop="qualifiedCount">-->
+<!--          <el-input v-model="form.qualifiedCount" placeholder="请输入合格数" />-->
+<!--        </el-form-item>-->
+<!--        <el-form-item label="合格率" prop="passRate">-->
+<!--          <el-input v-model="form.passRate" placeholder="请输入合格率" />-->
+<!--        </el-form-item>-->
+<!--&lt;!&ndash;        <el-form-item label="记录创建的时间" prop="createdDate">&ndash;&gt;-->
+<!--&lt;!&ndash;          <el-date-picker clearable&ndash;&gt;-->
+<!--&lt;!&ndash;            v-model="form.createdDate"&ndash;&gt;-->
+<!--&lt;!&ndash;            type="date"&ndash;&gt;-->
+<!--&lt;!&ndash;            value-format="yyyy-MM-dd"&ndash;&gt;-->
+<!--&lt;!&ndash;            placeholder="请选择记录创建的时间">&ndash;&gt;-->
+<!--&lt;!&ndash;          </el-date-picker>&ndash;&gt;-->
+<!--&lt;!&ndash;        </el-form-item>&ndash;&gt;-->
+<!--      </el-form>-->
+<!--      <div slot="footer" class="dialog-footer">-->
+<!--        <el-button type="primary" @click="submitForm">确 定</el-button>-->
+<!--        <el-button @click="cancel">取 消</el-button>-->
+<!--      </div>-->
+<!--    </el-dialog>-->
+
+    <!-- 用户导入对话框 -->
+    <el-dialog :title="upload.title" :visible.sync="upload.open" width="400px" append-to-body>
+      <el-upload
+        ref="upload"
+        :limit="1"
+        accept=".xlsx, .xls"
+        :headers="upload.headers"
+        :action="upload.url + '?updateSupport=' + upload.updateSupport"
+        :disabled="upload.isUploading"
+        :on-progress="handleFileUploadProgress"
+        :on-success="handleFileSuccess"
+        :auto-upload="false"
+        drag
+      >
+        <i class="el-icon-upload"></i>
+        <div class="el-upload__text">将文件拖到此处，或<em>点击上传</em></div>
+        <div class="el-upload__tip text-center" slot="tip">
+          <div class="el-upload__tip" slot="tip">
+            <el-checkbox v-model="upload.updateSupport" /> 是否更新已经存在的用户数据
+          </div>
+          <span>仅允许导入xls、xlsx格式文件。</span>
+          <el-link type="primary" :underline="false" style="font-size:12px;vertical-align: baseline;" @click="importTemplate">下载模板</el-link>
+        </div>
+      </el-upload>
       <div slot="footer" class="dialog-footer">
-        <el-button type="primary" @click="submitForm">确 定</el-button>
-        <el-button @click="cancel">取 消</el-button>
+        <el-button type="primary" @click="submitFileForm">确 定</el-button>
+        <el-button @click="upload.open = false">取 消</el-button>
       </div>
     </el-dialog>
+
   </div>
 </template>
 
 <script>
 import { listOutDxDetectRecords, getOutDxDetectRecords, delOutDxDetectRecords, addOutDxDetectRecords, updateOutDxDetectRecords } from "@/api/out/outDxDetectRecords";
 import {listOutDlDetectRecords} from "@/api/out/outDlDetectRecords";
+import {getToken} from "@/utils/auth";
 
 export default {
   name: "OutDxDetectRecords",
@@ -263,10 +360,29 @@ export default {
         samplingCount: null,
         qualifiedCount: null,
         passRate: null,
-        createdDate: null
-      },
+        createdDate: null,
+        year: '2022', // 设置默认值为 2024
+        season:'3'//设置默认值为3
+  },
       // 表单参数
       form: {},
+      upload: {
+        // 是否显示弹出层（用户导入）
+        open: false,
+        // 弹出层标题（用户导入）
+        title: "",
+        // 是否禁用上传
+        isUploading: false,
+        // 是否更新已经存在的用户数据
+        updateSupport: 0,
+        // 设置上传的请求头部
+        headers: { Authorization: "Bearer " + getToken() },
+        // 上传的地址
+        url: process.env.VUE_APP_BASE_API + "/out/outDxDetectRecords/importData"
+      },
+
+
+
       // 表单校验
       rules: {
       }
@@ -369,12 +485,39 @@ export default {
         this.$modal.msgSuccess("删除成功");
       }).catch(() => {});
     },
+    /** 导入按钮操作 */
+    handleImport() {
+      this.upload.title = "用户导入";
+      this.upload.open = true;
+    },
     /** 导出按钮操作 */
     handleExport() {
       this.download('out/outDxDetectRecords/export', {
         ...this.queryParams
       }, `outDxDetectRecords_${new Date().getTime()}.xlsx`)
+    },
+    /** 下载模板操作 */
+    importTemplate() {
+      this.download('out/outDxDetectRecords/importTemplate', {
+      }, `user_template_${new Date().getTime()}.xlsx`)
+    },
+    // 文件上传中处理
+    handleFileUploadProgress(event, file, fileList) {
+      this.upload.isUploading = true;
+    },
+    // 文件上传成功处理
+    handleFileSuccess(response, file, fileList) {
+      this.upload.open = false;
+      this.upload.isUploading = false;
+      this.$refs.upload.clearFiles();
+      this.$alert("<div style='overflow: auto;overflow-x: hidden;max-height: 70vh;padding: 10px 20px 0;'>" + response.msg + "</div>", "导入结果", { dangerouslyUseHTMLString: true });
+      this.getList();
+    },
+    // 提交上传文件
+    submitFileForm() {
+      this.$refs.upload.submit();
     }
+
   }
 };
 </script>

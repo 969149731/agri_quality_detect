@@ -1,7 +1,12 @@
 package com.ruoyi.out.mapper;
 
 import java.util.List;
+import java.util.Map;
+
+import com.ruoyi.out.domain.out2DxDetectRecords;
 import com.ruoyi.out.domain.outDxDetectRecords;
+import org.apache.ibatis.annotations.MapKey;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -60,4 +65,14 @@ public interface outDxDetectRecordsMapper
      * @return 结果
      */
     public int deleteoutDxDetectRecordsByRecordDxIds(Long[] recordDxIds);
+
+    public int insertOutDxDetectRecords(out2DxDetectRecords outDxDetectRecords);
+
+    @MapKey("detect_location")    //Key应该是结果对象中的一个属性，它将用作Map的键。使用数据库列明
+    List<Map<String, out2DxDetectRecords>> getQuarterlyStatistics(
+            @Param("year") Integer  year,
+            @Param("month1") Integer  month1,
+            @Param("month2") Integer  month2,
+            @Param("month3") Integer  month3
+    );
 }

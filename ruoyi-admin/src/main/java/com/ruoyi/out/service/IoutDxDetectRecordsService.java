@@ -1,7 +1,14 @@
 package com.ruoyi.out.service;
 
+import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
+import com.ruoyi.detection.domain.agriOut2CitySampleTestDetails;
+import com.ruoyi.out.domain.out2DxDetectRecords;
 import com.ruoyi.out.domain.outDxDetectRecords;
+import org.springframework.web.multipart.MultipartFile;
 
 /**
  * 定性监测结果汇总Service接口
@@ -58,4 +65,9 @@ public interface IoutDxDetectRecordsService
      * @return 结果
      */
     public int deleteoutDxDetectRecordsByRecordDxId(Long recordDxId);
+
+
+    public String importDxDetectRecordsService(MultipartFile file,List<out2DxDetectRecords> outDxDetectRecords, boolean updateSupport, String operName) throws IOException;
+
+    List<Map<String, out2DxDetectRecords>> getQuarterlyStatistics(Integer  year, Integer  month1, Integer  month2, Integer  month3);
 }

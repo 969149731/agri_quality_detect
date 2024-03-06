@@ -95,4 +95,137 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             #{recordDxId}
         </foreach>
     </delete>
+
+
+
+
+
+    <insert id="insertOutDxDetectRecords" parameterType="out2DxDetectRecords" useGeneratedKeys="true" keyProperty="recordDxId">
+        insert into out_dx_detect_records
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="detectLocation != null">detect_location,</if>
+            <if test="samplingYear != null">sampling_year,</if>
+            <if test="samplingMonth != null">sampling_month,</if>
+            <if test="samplingCount != null">sampling_count,</if>
+            <if test="qualifiedCount != null">qualified_count,</if>
+            <if test="passRate != null">pass_rate,</if>
+            <if test="createdDate != null">created_date,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="detectLocation != null">#{detectLocation},</if>
+<!--            <if test="samplingDate != null">#{samplingDate},</if>-->
+            <if test="samplingYear != null">#{samplingYear},</if>
+            <if test="samplingMonth != null">#{samplingMonth},</if>
+            <if test="samplingCount != null">#{samplingCount},</if>
+            <if test="qualifiedCount != null">#{qualifiedCount},</if>
+            <if test="passRate != null">#{passRate},</if>
+            <if test="createdDate != null">#{createdDate},</if>
+        </trim>
+    </insert>
+
+
+
+
+<!--    <select id="getQuarterlyStatistics" resultType="map">-->
+<!--        SELECT-->
+<!--            detect_location AS 检测单位,-->
+<!--            SUM(CASE WHEN sampling_month = #{month1} THEN sampling_count ELSE 0 END) AS '第一个月抽样数',-->
+<!--            SUM(CASE WHEN sampling_month = #{month1} THEN qualified_count ELSE 0 END) AS '第一个月合格数',-->
+<!--            ROUND(SUM(CASE WHEN sampling_month = #{month1} THEN qualified_count ELSE 0 END) / SUM(CASE WHEN sampling_month = 7 THEN sampling_count ELSE 0 END) * 100, 2) AS '第一个月合格率',-->
+<!--            SUM(CASE WHEN sampling_month = #{month2} THEN sampling_count ELSE 0 END) AS '第二个月抽样数',-->
+<!--            SUM(CASE WHEN sampling_month = #{month2} THEN qualified_count ELSE 0 END) AS '第二个月合格数',-->
+<!--            ROUND(SUM(CASE WHEN sampling_month = #{month2} THEN qualified_count ELSE 0 END) / SUM(CASE WHEN sampling_month = 8 THEN sampling_count ELSE 0 END) * 100, 2) AS '第二个月合格率',-->
+<!--            SUM(CASE WHEN sampling_month = #{month3} THEN sampling_count ELSE 0 END) AS '第三个月抽样数',-->
+<!--            SUM(CASE WHEN sampling_month = #{month3} THEN qualified_count ELSE 0 END) AS '第三个月合格数',-->
+<!--            ROUND(SUM(CASE WHEN sampling_month = #{month3} THEN qualified_count ELSE 0 END) / SUM(CASE WHEN sampling_month = 9 THEN sampling_count ELSE 0 END) * 100, 2) AS '第三个月合格率',-->
+<!--            SUM(sampling_count) AS '季度抽样数',-->
+<!--            SUM(qualified_count) AS '季度合格数',-->
+<!--            ROUND(SUM(qualified_count) / SUM(sampling_count) * 100, 2) AS '季度合格率'-->
+<!--        FROM-->
+<!--            out_dx_detect_records-->
+<!--        WHERE-->
+<!--            sampling_year = #{year}-->
+<!--          AND sampling_month IN (#{month1}, #{month2}, #{month3})-->
+<!--        GROUP BY-->
+<!--            detect_location-->
+<!--        ORDER BY-->
+<!--            detect_location;-->
+<!--    </select>-->
+
+
+
+<!--    <select id="getQuarterlyStatistics" resultType="out2DxDetectRecords">-->
+
+<!--        SET @index := 0;-->
+
+<!--        SELECT-->
+<!--            (@index := @index + 1) AS `recordDxId`,-->
+<!--            detect_location AS detectLocation,-->
+<!--            SUM(CASE WHEN sampling_month = #{month1} THEN sampling_count ELSE 0 END) AS 'month1SamplingCount',-->
+<!--            SUM(CASE WHEN sampling_month = #{month1} THEN qualified_count ELSE 0 END) AS 'month1QualifiedCount',-->
+<!--            ROUND(SUM(CASE WHEN sampling_month = #{month1} THEN qualified_count ELSE 0 END) / SUM(CASE WHEN sampling_month = 7 THEN sampling_count ELSE 0 END) * 100, 2) AS 'month1PassRate',-->
+<!--            SUM(CASE WHEN sampling_month = #{month2} THEN sampling_count ELSE 0 END) AS 'month2SamplingCount',-->
+<!--            SUM(CASE WHEN sampling_month = #{month2} THEN qualified_count ELSE 0 END) AS 'month2QualifiedCount',-->
+<!--            ROUND(SUM(CASE WHEN sampling_month = #{month2} THEN qualified_count ELSE 0 END) / SUM(CASE WHEN sampling_month = 8 THEN sampling_count ELSE 0 END) * 100, 2) AS 'month2PassRate',-->
+<!--            SUM(CASE WHEN sampling_month = #{month3} THEN sampling_count ELSE 0 END) AS 'month3SamplingCount',-->
+<!--            SUM(CASE WHEN sampling_month = #{month3} THEN qualified_count ELSE 0 END) AS 'month3QualifiedCount',-->
+<!--            ROUND(SUM(CASE WHEN sampling_month = #{month3} THEN qualified_count ELSE 0 END) / SUM(CASE WHEN sampling_month = 9 THEN sampling_count ELSE 0 END) * 100, 2) AS 'month3PassRate',-->
+<!--            SUM(sampling_count) AS 'allSamplingCount',-->
+<!--            SUM(qualified_count) AS 'allQualifiedCount',-->
+<!--            ROUND(SUM(qualified_count) / SUM(sampling_count) * 100, 2) AS 'allPassRate'-->
+<!--        FROM-->
+<!--            out_dx_detect_records-->
+<!--        WHERE-->
+<!--            sampling_year = #{year}-->
+<!--          AND sampling_month IN (#{month1}, #{month2}, #{month3})-->
+<!--        GROUP BY-->
+<!--            detect_location-->
+<!--        ORDER BY-->
+<!--            detect_location;-->
+<!--    </select>-->
+
+
+    <select id="getQuarterlyStatistics" resultType="out2DxDetectRecords">
+        SELECT
+            (@index := @index + 1) AS `recordDxId`,
+            detectLocation,
+            month1SamplingCount,
+            month1QualifiedCount,
+            month1PassRate,
+            month2SamplingCount,
+            month2QualifiedCount,
+            month2PassRate,
+            month3SamplingCount,
+            month3QualifiedCount,
+            month3PassRate,
+            allSamplingCount,
+            allQualifiedCount,
+            allPassRate
+        FROM
+            (SELECT
+                 detect_location AS detectLocation,
+                 SUM(CASE WHEN sampling_month = #{month1} THEN sampling_count ELSE 0 END) AS month1SamplingCount,
+                 SUM(CASE WHEN sampling_month = #{month1} THEN qualified_count ELSE 0 END) AS month1QualifiedCount,
+                 ROUND(SUM(CASE WHEN sampling_month = #{month1} THEN qualified_count ELSE 0 END) / SUM(CASE WHEN sampling_month = 7 THEN sampling_count ELSE 0 END) * 100, 2) AS month1PassRate,
+                 SUM(CASE WHEN sampling_month = #{month2} THEN sampling_count ELSE 0 END) AS month2SamplingCount,
+                 SUM(CASE WHEN sampling_month = #{month2} THEN qualified_count ELSE 0 END) AS month2QualifiedCount,
+                 ROUND(SUM(CASE WHEN sampling_month = #{month2} THEN qualified_count ELSE 0 END) / SUM(CASE WHEN sampling_month = 8 THEN sampling_count ELSE 0 END) * 100, 2) AS month2PassRate,
+                 SUM(CASE WHEN sampling_month = #{month3} THEN sampling_count ELSE 0 END) AS month3SamplingCount,
+                 SUM(CASE WHEN sampling_month = #{month3} THEN qualified_count ELSE 0 END) AS month3QualifiedCount,
+                 ROUND(SUM(CASE WHEN sampling_month = #{month3} THEN qualified_count ELSE 0 END) / SUM(CASE WHEN sampling_month = 9 THEN sampling_count ELSE 0 END) * 100, 2) AS month3PassRate,
+                 SUM(sampling_count) AS allSamplingCount,
+                 SUM(qualified_count) AS allQualifiedCount,
+                 ROUND(SUM(qualified_count) / SUM(sampling_count) * 100, 2) AS allPassRate
+             FROM
+                 out_dx_detect_records
+             WHERE
+                 sampling_year = #{year}
+               AND sampling_month IN (#{month1}, #{month2}, #{month3})
+             GROUP BY
+                 detect_location
+             ORDER BY
+                 detect_location) AS subquery,
+            (SELECT @index := 0) AS idx;
+    </select>
+
 </mapper>
