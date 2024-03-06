@@ -134,6 +134,11 @@ public class outExceedSampleDetailServiceImpl implements IoutExceedSampleDetailS
 //                    }
 //                }
             }
+            if (pesticideDetValue == null) {
+                pesticideDetValue=0.0;//设为不超标
+                System.out.println("注意！该样本的该农药没有对应检测值，请确认为0或者其他。【农药名字：["
+                        + pesticideName + "],蔬菜名字：[" + vegFruName + "],样本ID：[" + agriPesticideDetResult.getPesticideDetResultId() + "]】");
+            }
             //如果传的数据中有检测出有值的农药值 大于 该农药限量值 ,说明超标了
             if (pesticideDetValue > limitValue) {
                 flagNoPass = flagNoPass + 1;
