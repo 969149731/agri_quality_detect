@@ -97,28 +97,28 @@
           v-hasPermi="['out:outDxDetectRecords:add']"
         >新增</el-button>
       </el-col>
-      <el-col :span="1.5">
-        <el-button
-          type="success"
-          plain
-          icon="el-icon-edit"
-          size="mini"
-          :disabled="single"
-          @click="handleUpdate"
-          v-hasPermi="['out:outDxDetectRecords:edit']"
-        >修改</el-button>
-      </el-col>
-      <el-col :span="1.5">
-        <el-button
-          type="danger"
-          plain
-          icon="el-icon-delete"
-          size="mini"
-          :disabled="multiple"
-          @click="handleDelete"
-          v-hasPermi="['out:outDxDetectRecords:remove']"
-        >删除</el-button>
-      </el-col>
+<!--      <el-col :span="1.5">-->
+<!--        <el-button-->
+<!--          type="success"-->
+<!--          plain-->
+<!--          icon="el-icon-edit"-->
+<!--          size="mini"-->
+<!--          :disabled="single"-->
+<!--          @click="handleUpdate"-->
+<!--          v-hasPermi="['out:outDxDetectRecords:edit']"-->
+<!--        >修改</el-button>-->
+<!--      </el-col>-->
+<!--      <el-col :span="1.5">-->
+<!--        <el-button-->
+<!--          type="danger"-->
+<!--          plain-->
+<!--          icon="el-icon-delete"-->
+<!--          size="mini"-->
+<!--          :disabled="multiple"-->
+<!--          @click="handleDelete"-->
+<!--          v-hasPermi="['out:outDxDetectRecords:remove']"-->
+<!--        >删除</el-button>-->
+<!--      </el-col>-->
       <el-col :span="1.5">
         <el-button
           type="info"
@@ -243,12 +243,12 @@
       @pagination="getList"
     />
 
-    <!-- 添加或修改定性监测结果汇总对话框 -->
-<!--    <el-dialog :title="title" :visible.sync="open" width="500px" append-to-body>-->
-<!--      <el-form ref="form" :model="form" :rules="rules" label-width="80px">-->
-<!--        <el-form-item label="检测单位" prop="detectLocation">-->
-<!--          <el-input v-model="form.detectLocation" placeholder="请输入检测单位" />-->
-<!--        </el-form-item>-->
+<!--     添加或修改定性监测结果汇总对话框-->
+    <el-dialog :title="title" :visible.sync="open" width="500px" append-to-body>
+      <el-form ref="form" :model="form" :rules="rules" label-width="80px">
+        <el-form-item label="检测单位" prop="detectLocation">
+          <el-input v-model="form.detectLocation" placeholder="请输入检测单位" />
+        </el-form-item>
 <!--        <el-form-item label="抽样日期" prop="samplingDate">-->
 <!--          <el-date-picker clearable-->
 <!--            v-model="form.samplingDate"-->
@@ -257,35 +257,35 @@
 <!--            placeholder="请选择抽样日期">-->
 <!--          </el-date-picker>-->
 <!--        </el-form-item>-->
-<!--&lt;!&ndash;        <el-form-item label="抽样年份" prop="samplingYear">&ndash;&gt;-->
-<!--&lt;!&ndash;          <el-input v-model="form.samplingYear" placeholder="请输入抽样年份" />&ndash;&gt;-->
-<!--&lt;!&ndash;        </el-form-item>&ndash;&gt;-->
-<!--&lt;!&ndash;        <el-form-item label="抽样月份" prop="samplingMonth">&ndash;&gt;-->
-<!--&lt;!&ndash;          <el-input v-model="form.samplingMonth" placeholder="请输入抽样月份" />&ndash;&gt;-->
-<!--&lt;!&ndash;        </el-form-item>&ndash;&gt;-->
-<!--        <el-form-item label="抽样数" prop="samplingCount">-->
-<!--          <el-input v-model="form.samplingCount" placeholder="请输入抽样数" />-->
+        <el-form-item label="抽样年份" prop="samplingYear">
+          <el-input v-model="form.samplingYear" placeholder="请输入抽样年份" />
+        </el-form-item>
+        <el-form-item label="抽样月份" prop="samplingMonth">
+          <el-input v-model="form.samplingMonth" placeholder="请输入抽样月份" />
+        </el-form-item>
+        <el-form-item label="抽样数" prop="samplingCount">
+          <el-input v-model="form.samplingCount" placeholder="请输入抽样数" />
+        </el-form-item>
+        <el-form-item label="合格数" prop="qualifiedCount">
+          <el-input v-model="form.qualifiedCount" placeholder="请输入合格数" />
+        </el-form-item>
+        <el-form-item label="合格率" prop="passRate">
+          <el-input v-model="form.passRate" placeholder="请输入合格率" />
+        </el-form-item>
+<!--        <el-form-item label="记录创建的时间" prop="createdDate">-->
+<!--          <el-date-picker clearable-->
+<!--            v-model="form.createdDate"-->
+<!--            type="date"-->
+<!--            value-format="yyyy-MM-dd"-->
+<!--            placeholder="请选择记录创建的时间">-->
+<!--          </el-date-picker>-->
 <!--        </el-form-item>-->
-<!--        <el-form-item label="合格数" prop="qualifiedCount">-->
-<!--          <el-input v-model="form.qualifiedCount" placeholder="请输入合格数" />-->
-<!--        </el-form-item>-->
-<!--        <el-form-item label="合格率" prop="passRate">-->
-<!--          <el-input v-model="form.passRate" placeholder="请输入合格率" />-->
-<!--        </el-form-item>-->
-<!--&lt;!&ndash;        <el-form-item label="记录创建的时间" prop="createdDate">&ndash;&gt;-->
-<!--&lt;!&ndash;          <el-date-picker clearable&ndash;&gt;-->
-<!--&lt;!&ndash;            v-model="form.createdDate"&ndash;&gt;-->
-<!--&lt;!&ndash;            type="date"&ndash;&gt;-->
-<!--&lt;!&ndash;            value-format="yyyy-MM-dd"&ndash;&gt;-->
-<!--&lt;!&ndash;            placeholder="请选择记录创建的时间">&ndash;&gt;-->
-<!--&lt;!&ndash;          </el-date-picker>&ndash;&gt;-->
-<!--&lt;!&ndash;        </el-form-item>&ndash;&gt;-->
-<!--      </el-form>-->
-<!--      <div slot="footer" class="dialog-footer">-->
-<!--        <el-button type="primary" @click="submitForm">确 定</el-button>-->
-<!--        <el-button @click="cancel">取 消</el-button>-->
-<!--      </div>-->
-<!--    </el-dialog>-->
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button type="primary" @click="submitForm">确 定</el-button>
+        <el-button @click="cancel">取 消</el-button>
+      </div>
+    </el-dialog>
 
     <!-- 用户导入对话框 -->
     <el-dialog :title="upload.title" :visible.sync="upload.open" width="400px" append-to-body>
