@@ -72,17 +72,38 @@ public class outSampleQualityServiceImpl implements IoutSampleQualityService
 
             //计算相应属性
             if ("水果".equals(vegFruType)){
-                resultMap.get(item.samplingStageType).fruSamplingCountAddOne();
-                if ("合格".equals(item.chinaStandard)){
-                    resultMap.get(item.samplingStageType).fruQualifiedCountAddOne();
+                if (resultMap != null && item.samplingStageType != null) {
+                    if (resultMap.get(item.samplingStageType) != null) {
+                        resultMap.get(item.samplingStageType).fruSamplingCountAddOne();
+                    }
                 }
+
+                if ("合格".equals(item.chinaStandard)) {
+                    if (resultMap != null && item.samplingStageType != null) {
+                        if (resultMap.get(item.samplingStageType) != null) {
+                            resultMap.get(item.samplingStageType).fruQualifiedCountAddOne();
+                        }
+                    }
+                }
+
             }
 
             else if ("蔬菜".equals(vegFruType)){
-                resultMap.get(item.samplingStageType).vegSamplingCountAddOne();
-                if ("合格".equals(item.chinaStandard)){
-                    resultMap.get(item.samplingStageType).vegQualifiedCountAddOne();
+
+                if (resultMap != null && item.samplingStageType != null) {
+                    if (resultMap.get(item.samplingStageType) != null) {
+                        resultMap.get(item.samplingStageType).vegSamplingCountAddOne();
+                    }
                 }
+
+                if ("合格".equals(item.chinaStandard)) {
+                    if (resultMap != null && item.samplingStageType != null) {
+                        if (resultMap.get(item.samplingStageType) != null) {
+                            resultMap.get(item.samplingStageType).vegQualifiedCountAddOne();
+                        }
+                    }
+                }
+
             }
 
         }
