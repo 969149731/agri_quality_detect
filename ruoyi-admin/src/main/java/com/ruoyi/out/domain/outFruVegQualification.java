@@ -149,7 +149,7 @@ public class outFruVegQualification extends BaseEntity
     public void addInfoToexceedingPesticides(String pesticidesName){
         if(this.exceedingPesticides!="")
             pesticidesName="\n"+pesticidesName;
-        this.exceedingPesticides+=pesticidesName+"\n";
+        this.exceedingPesticides+=pesticidesName;
     };
 
     public void computeSelfPassRate(){

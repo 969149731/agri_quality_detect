@@ -47,9 +47,7 @@ public class outSampleStageTypeServiceImpl implements IoutSampleStageTypeService
     public List<outSampleStageType> selectoutSampleStageTypeList(outSampleStageType outSampleStageType)
     {
         List<outSampleStageType> resultList=new ArrayList<>();
-        //获取所有样本
-        PageHelper.startPage(0,0,false,false,true);//分页方法，仅对之后第一个查询生效
-        List<agriCitySampleTestDetails> SampleList= outSampleStageTypeMapper.getCitySampleResultList();
+
         //结果列表Map
         List<String> StageType= Arrays.asList("生产基地", "无公害产品基地","地标生产基地","绿色产品基地","有机产品基地","散户","其他基地","批发市场","运输车");//合计在最后加入
         List<String> StageIncludingType= Arrays.asList("无公害产品基地", "地标生产基地","绿色产品基地","有机产品基地","散户","其他基地");
@@ -79,13 +77,22 @@ public class outSampleStageTypeServiceImpl implements IoutSampleStageTypeService
 
         List<String> wholesaleMarketList=new ArrayList<>();
         List<String> transportVehicleList=new ArrayList<>();
+
+        //获取所有样本
+        PageHelper.startPage(0,0,false,false,true);//分页方法，仅对之后第一个查询生效
+        List<agriCitySampleTestDetails> SampleList= outSampleStageTypeMapper.getCitySampleResultList();
+        if(SampleList.isEmpty()){System.out.println("样本列表为空");}
         for(agriCitySampleTestDetails sample:SampleList){
-            //
+            if (sample.getSampleCode().equals("2024R1047")){
+                System.out.println("我在崇左");
+            }
             if (sample.getSamplingStageType()==null){
-                System.out.println("没有相应生产环节信息 生产环节"+sample.getSamplingStageType());
+                System.out.println("该条目没有相应生产环节信息 生产环节"+sample.getSamplingStageType());
+                continue;
             }
             if (!StageType.contains(sample.getSamplingStageType())){
-                System.out.println("生产环节不在统计列表中 生产环节"+sample.getSamplingStageType());
+                System.out.println("生产环节不在统计列表中 当前样本生产环节为："+sample.getSamplingStageType());
+                continue;
             }
             //统计
             switch (sample.getSamplingStageType()){//分情况统计

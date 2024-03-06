@@ -287,6 +287,9 @@
         <el-form-item label="抽样基数" prop="samplingBase">
           <el-input v-model="form.samplingBase" placeholder="请输入抽样基数" />
         </el-form-item>
+        <el-form-item label="抽样环节" prop="samplingBase">
+          <el-input v-model="form.samplingStageType" placeholder="请输入抽样环节" />
+        </el-form-item>
         <el-form-item label="抽样日期" prop="samplingDate">
           <el-date-picker clearable
             v-model="form.samplingDate"

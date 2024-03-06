@@ -12,6 +12,8 @@ import com.ruoyi.out.mapper.outFruNoBanPesDetRecordsMapper;
 import com.ruoyi.out.domain.outFruNoBanPesDetRecords;
 import com.ruoyi.out.service.IoutFruNoBanPesDetRecordsService;
 
+import static com.ruoyi.framework.datasource.DynamicDataSourceContextHolder.log;
+
 /**
  * 水果非禁止使用农药检出及超标情况Service业务层处理
  * 
@@ -96,17 +98,29 @@ public class outFruNoBanPesDetRecordsServiceImpl implements IoutFruNoBanPesDetRe
         return outFruNoBanPesDetRecordsMapper.deleteoutFruNoBanPesDetRecordsByFruNoBanPesDetRecordsId(fruNoBanPesDetRecordsId);
     }
 
-    public List<outReturnType> selectoutFruNoBanPesDetRecordsList2(){
-        List<outReturnType> returnResult = new ArrayList<outReturnType>();//生产原始返回值结果，农药名及全为0的其他值
-        PageHelper.startPage(0,0,false,false,true);//分页方法，仅对之后第一个查询生效
+    public List<outReturnType> selectoutFruNoBanPesDetRecordsList2() {
+        //初始化模块
+        List<outReturnType> resultList = new ArrayList<outReturnType>();//生成原始返回值结果，农药名及全为0的其他值
+        PageHelper.startPage(0, 0, false, false, true);//分页方法，仅对之后第一个查询生效
         List<String> pesticideList = outFruNoBanPesDetRecordsMapper.getFruNoBanPesticideList();//可以在此处设置农药列表//也可查询获取列表
+        if (pesticideList.isEmpty()) {
+            System.out.println("查询出的农药列表为空");
+            return resultList;
+        }
         Map<String, outReturnType> pesticideResultMap = new TreeMap<String, outReturnType>();//使用字典存储
         for (String pesticideName : pesticideList) {//初始化
             pesticideResultMap.put(pesticideName, new outReturnType(pesticideName));
         }
-        PageHelper.startPage(0,0,false,false,true);//分页方法，仅对之后第一个查询生效
-        List<outFruVegSelectType> SelectList = outFruNoBanPesDetRecordsMapper.getFruVegDetResultList();//获取农药检测结果表
 
+        PageHelper.startPage(0, 0, false, false, true);//分页方法，仅对之后第一个查询生效
+        List<outFruVegSelectType> SelectList = outFruNoBanPesDetRecordsMapper.getFruVegDetResultList();//获取所有符合条件的农药检测结果表//在此处进行各类条件查询
+        if (SelectList.isEmpty()) {
+            System.out.println("查询出的检测结果列表为空");
+            return resultList;
+        }
+
+        StringBuilder successMsg = new StringBuilder();
+        StringBuilder failureMsg = new StringBuilder();
         //先遍历所有获取到的结果
         for (outFruVegSelectType item : SelectList) {
             /*
@@ -117,46 +131,59 @@ public class outFruNoBanPesDetRecordsServiceImpl implements IoutFruNoBanPesDetRe
               citySampleTestDetailsId=1
               createdAt=<null>
             */
-
             //获取蔬菜名//用于获取标准
             String vegFruName = item.vegFruName;
-            String pesticidName = item.pesticideName;
+            String pesticideName = item.pesticideName;
             String stageName = item.samplingStageType;
             agriPesticideResidueStandard firstStandard;
-            if (!item.checkIsUseful()){
+
+            if (!item.checkIsUseful()) {//对蔬果名、农药名、生产环节进行数据审查
+                String msg = "<br/>" + "第" + item.citySampleTestDetailsId + "条" + "数据无法判断";
+                failureMsg.append(msg);
+                log.error(msg);
                 continue;//没通过数据可用审查，跳过当前的检测条目
             }
+            if(!pesticideList.contains(item.pesticideName)){
+                System.out.println("该农药不在检测列表中");
+                continue;
+            }
             //获取对应标准//在这里可以获取多种标准
-            PageHelper.startPage(0,0,false,false,true);//分页方法，仅对之后第一个查询生效
-            List<agriPesticideResidueStandard> standardslist = outFruNoBanPesDetRecordsMapper.getagriPesticideResidueStandard(pesticidName, vegFruName);
-            if(!standardslist.isEmpty()){
+            PageHelper.startPage(0, 0, false, false, true);//分页方法，仅对之后第一个查询生效
+            List<agriPesticideResidueStandard> standardslist = outFruNoBanPesDetRecordsMapper.getagriPesticideResidueStandard(pesticideName, vegFruName);
+            if (!standardslist.isEmpty()) {
                 firstStandard = standardslist.get(0);
-            }else {
-                System.out.println("没有对应标准"+"/n蔬果名:"+vegFruName+"/n农药名:"+pesticidName);
+                if (firstStandard.standardValue == null) {
+                    System.out.println("该标准值为空");
+                    continue;
+                }
+            } else {
+                String msg = "没有对应标准" + "/r/n蔬果名:" + vegFruName + "/n农药名:" + pesticideName;
+                failureMsg.append(msg);
+                log.error(msg);
                 continue;
             }
 
-            //计算相应属性
-            if(pesticideResultMap.get(pesticidName)!=null){//在检测的列表中
-                pesticideResultMap.get(pesticidName).totalDet += 1;//总检出
-                pesticideResultMap.get(pesticidName).addOneToStageName(stageName);//加到对应属性上
+            //计算相应属性//计算的逻辑可能还需要更改
+            if (pesticideResultMap.get(pesticideName) != null) {//在检测的列表中
+                pesticideResultMap.get(pesticideName).totalDet += 1;//总检出
+                pesticideResultMap.get(pesticideName).addOneToStageName(stageName);//加到对应属性上
                 if (item.pesticideDetValue > firstStandard.standardValue) {//此处先仅对比第一个标准值
-                    pesticideResultMap.get(pesticidName).totalEx += 1;//总超标
-                    pesticideResultMap.get(pesticidName).addOneToStageName(stageName + "Ex");//超标
+                    pesticideResultMap.get(pesticideName).totalEx += 1;//总超标
+                    pesticideResultMap.get(pesticideName).addOneToStageName(stageName + "Ex");//超标
                 }
             }
-
         }
 
         //把Map里的东西装进去
-        Set<Map.Entry<String, outReturnType>> entrySet=pesticideResultMap.entrySet();
-        outReturnType total =new outReturnType("合计");
-        for (Map.Entry<String, outReturnType> entryItem:entrySet) {
-            returnResult.add(entryItem.getValue());
+        Set<Map.Entry<String, outReturnType>> entrySet = pesticideResultMap.entrySet();
+        outReturnType total = new outReturnType("合计");
+        for (Map.Entry<String, outReturnType> entryItem : entrySet) {
+            resultList.add(entryItem.getValue());
             total.addToTotal(entryItem.getValue());
         }
-        returnResult.add(total);
+
+        resultList.add(total);
         //返回结果
-        return returnResult;
-    };
+        return resultList;
+    }
 }

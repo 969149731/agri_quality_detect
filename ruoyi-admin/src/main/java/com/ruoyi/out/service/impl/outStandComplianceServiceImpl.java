@@ -98,9 +98,7 @@ public class outStandComplianceServiceImpl implements IoutStandComplianceService
     public List<outStandardReturnType> selectoutStandComplianceList2(outStandardReturnType outStandardReturnType)
     {//为避免多一次交互,将合格率计算放到前端进行
 
-        List<outStandardReturnType> returnResult = new ArrayList<outStandardReturnType>();//生产原始返回值结果，农药名及全为0的其他值
-        //获取所有农药列表
-        PageHelper.startPage(0,0,false,false,true);//解除分页方法，仅对之后第一个查询生效
+        List<outStandardReturnType> resultList = new ArrayList<outStandardReturnType>();//生产原始返回值结果，农药名及全为0的其他值
         outStandardReturnType sampleNum= new outStandardReturnType("抽样数");//不放入结果
         outStandardReturnType passNum= new outStandardReturnType("合格数");//不放入结果
 
@@ -111,8 +109,10 @@ public class outStandComplianceServiceImpl implements IoutStandComplianceService
             resultMap.put(pesticideName, new outStandardReturnType(pesticideName));
         }
 
-        PageHelper.startPage(0,0,false,false,true);//分页方法，仅对之后第一个查询生效
+        //获取所有农药列表
+        PageHelper.startPage(0,0,false,false,true);//解除分页方法，仅对之后第一个查询生效
         List<agriCitySampleTestDetails> SampleList = outStandComplianceMapper.getFruVegDetSample();//获取所有样本
+        if (SampleList.isEmpty()){System.out.println("样本查询结果为空");return resultList;}
 
         //遍历所有获取到的样本
         for (agriCitySampleTestDetails sample : SampleList) {
@@ -124,12 +124,12 @@ public class outStandComplianceServiceImpl implements IoutStandComplianceService
 
         //先打包
         for (String pesticideName : pesticideList) {//初始化
-            returnResult.add(resultMap.get(pesticideName));
+            resultList.add(resultMap.get(pesticideName));
         }
 
         //计算抽样数合格数，合格率在前端计算，因为合格率要保留小数，但是传去的类型为int
         outStandardReturnType totalEx= new outStandardReturnType("各国超标数");//不放入结果
-        for (outStandardReturnType oneOfList : returnResult) {//初始化
+        for (outStandardReturnType oneOfList : resultList) {//初始化
             totalEx.addAll(oneOfList);
         }
 
@@ -137,12 +137,12 @@ public class outStandComplianceServiceImpl implements IoutStandComplianceService
         //passNum自身就可用
 
         //末尾加2个，前端会将其删除
-        returnResult.add(sampleNum);
-        returnResult.add(passNum);
+        resultList.add(sampleNum);
+        resultList.add(passNum);
         System.out.println("打印sampleNum和passNum");
         System.out.println(sampleNum);
         System.out.println(passNum);
-        return returnResult;
+        return resultList;
     }
 
     //工具方法

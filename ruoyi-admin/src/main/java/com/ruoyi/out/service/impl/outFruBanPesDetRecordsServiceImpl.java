@@ -3,6 +3,7 @@ package com.ruoyi.out.service.impl;
 import java.util.*;
 
 import com.github.pagehelper.PageHelper;
+import com.ruoyi.framework.web.domain.server.Sys;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.ruoyi.out.mapper.outFruBanPesDetRecordsMapper;
@@ -110,9 +111,10 @@ public class outFruBanPesDetRecordsServiceImpl implements IoutFruBanPesDetRecord
     @Override
     public List<outReturnType> selectoutFruBanPesDetRecordsList2(outReturnType outReturnTypeRecords) {
         //初始化模块
-        List<outReturnType> returnResult = new ArrayList<outReturnType>();//生成原始返回值结果，农药名及全为0的其他值
+        List<outReturnType> resultList = new ArrayList<outReturnType>();//生成原始返回值结果，农药名及全为0的其他值
         PageHelper.startPage(0,0,false,false,true);//分页方法，仅对之后第一个查询生效
         List<String> pesticideList = outFruBanPesDetRecordsMapper.getFruBanPesticideList();//可以在此处设置农药列表//也可查询获取列表
+        if(pesticideList.isEmpty()){System.out.println("查询出的农药列表为空");return resultList;}
         Map<String, outReturnType> pesticideResultMap = new TreeMap<String, outReturnType>();//使用字典存储
         for (String pesticideName : pesticideList) {//初始化
             pesticideResultMap.put(pesticideName, new outReturnType(pesticideName));
@@ -120,6 +122,7 @@ public class outFruBanPesDetRecordsServiceImpl implements IoutFruBanPesDetRecord
 
         PageHelper.startPage(0,0,false,false,true);//分页方法，仅对之后第一个查询生效
         List<outFruVegSelectType> SelectList = outFruBanPesDetRecordsMapper.getFruVegDetResultList();//获取所有符合条件的农药检测结果表//在此处进行各类条件查询
+        if(SelectList.isEmpty()){System.out.println("查询出的检测结果列表为空");return resultList;}
 
         StringBuilder successMsg = new StringBuilder();
         StringBuilder failureMsg = new StringBuilder();
@@ -139,17 +142,26 @@ public class outFruBanPesDetRecordsServiceImpl implements IoutFruBanPesDetRecord
             String stageName = item.samplingStageType;
             agriPesticideResidueStandard firstStandard;
 
-            if (!item.checkIsUseful()){
+            if(item.sampleCode.equals("2024R1047")){
+                System.out.println(item);
+            }
+            if (!item.checkIsUseful()){//对蔬果名、农药名、生产环节进行数据审查
                 String msg = "<br/>" + "第"+ item.citySampleTestDetailsId +"条"+ "数据无法判断";
                 failureMsg.append(msg);
                 log.error(msg);
                 continue;//没通过数据可用审查，跳过当前的检测条目
+
+            }
+            if(!pesticideList.contains(item.pesticideName)){
+                System.out.println("该农药不在检测列表中");
+                continue;
             }
             //获取对应标准//在这里可以获取多种标准
             PageHelper.startPage(0,0,false,false,true);//分页方法，仅对之后第一个查询生效
             List<agriPesticideResidueStandard> standardslist = outFruBanPesDetRecordsMapper.getagriPesticideResidueStandard(pesticideName, vegFruName);
             if(!standardslist.isEmpty()){
                  firstStandard = standardslist.get(0);
+                 if (firstStandard.standardValue==null){System.out.println("该标准值为空");continue;}
             }else {
                 String msg ="没有对应标准"+"/r/n蔬果名:"+vegFruName+"/n农药名:"+pesticideName;
                 failureMsg.append(msg);
@@ -172,12 +184,12 @@ public class outFruBanPesDetRecordsServiceImpl implements IoutFruBanPesDetRecord
         Set<Map.Entry<String, outReturnType>> entrySet=pesticideResultMap.entrySet();
         outReturnType total =new outReturnType("合计");
         for (Map.Entry<String, outReturnType> entryItem:entrySet) {
-            returnResult.add(entryItem.getValue());
+            resultList.add(entryItem.getValue());
             total.addToTotal(entryItem.getValue());
         }
 
-        returnResult.add(total);
+        resultList.add(total);
         //返回结果
-        return returnResult;
+        return resultList;
     }
 }
