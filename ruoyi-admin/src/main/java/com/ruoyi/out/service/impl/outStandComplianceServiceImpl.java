@@ -103,13 +103,14 @@ public class outStandComplianceServiceImpl implements IoutStandComplianceService
         outStandardReturnType passNum= new outStandardReturnType("合格数");//不放入结果
 
         //结果初始化
+        PageHelper.startPage(0,0,false,false,true);//解除分页方法，仅对之后第一个查询生效
         List<String> pesticideList = outStandComplianceMapper.getAllPesticideList();//可以在此处设置农药列表//也可查询获取列表
         Map<String, outStandardReturnType> resultMap = new TreeMap<String, outStandardReturnType>();//使用字典存储
         for (String pesticideName : pesticideList) {//初始化
             resultMap.put(pesticideName, new outStandardReturnType(pesticideName));
         }
 
-        //获取所有农药列表
+        //获取所有检测结果
         PageHelper.startPage(0,0,false,false,true);//解除分页方法，仅对之后第一个查询生效
         List<agriCitySampleTestDetails> SampleList = outStandComplianceMapper.getFruVegDetSample();//获取所有样本
         if (SampleList.isEmpty()){System.out.println("样本查询结果为空");return resultList;}
@@ -139,9 +140,8 @@ public class outStandComplianceServiceImpl implements IoutStandComplianceService
         //末尾加2个，前端会将其删除
         resultList.add(sampleNum);
         resultList.add(passNum);
-        System.out.println("打印sampleNum和passNum");
-        System.out.println(sampleNum);
-        System.out.println(passNum);
+        System.out.println("当前结果数"+SampleList.size());
+        System.out.println("当前农药数数"+pesticideList.size());
         return resultList;
     }
 

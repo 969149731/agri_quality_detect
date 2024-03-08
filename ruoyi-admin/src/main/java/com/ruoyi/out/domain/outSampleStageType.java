@@ -28,7 +28,7 @@ public class outSampleStageType extends BaseEntity
 
 
     /** 无公害产品基地的数量或标识 */
-    @Excel(name = "无公害产品基地的数量或标识")
+    @Excel(name = "数量")
     private Long unitNum=0L;
 
     /** 记录创建的时间 */

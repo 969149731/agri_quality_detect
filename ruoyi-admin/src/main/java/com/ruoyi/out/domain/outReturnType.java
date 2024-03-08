@@ -20,7 +20,11 @@ public class outReturnType extends BaseEntity {
     public int retailEx=0;
 
     public outReturnType(String pesticideName){
+        super();
         this.pesticideName=pesticideName;
+    }
+    public outReturnType(){
+        super();
     }
     //getterAndSetter
     public String getPesticideName() {
