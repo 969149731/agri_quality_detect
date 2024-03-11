@@ -64,10 +64,10 @@
         <el-card class="charts" >
           <!--          <h1> 一些图表</h1>-->
           <div class= "num graph" >
-            <el-card style="width: 34%;height: 265px;marginRight: 1%">
+            <el-card style="width: 34%;height: 300px;marginRight: 1%">
               <div style="width: 80%;height: 265px;" ref="pieEcharts"></div>
             </el-card>
-            <el-card ><div style="width: 80%;height: 265px;"><el-calendar v-model="value"></el-calendar></div></el-card>
+            <el-card style="width: 34%;height: 300px;"><div class="Calendar_div"><el-calendar v-model="value" class="calendar"></el-calendar></div></el-card>
           </div>
         </el-card>
       </el-row>
@@ -498,6 +498,24 @@ export default {
   height: 40px;
   text-align: left;
   color: #909399;
+}
+
+::v-deep .el-calendar-table  {
+  .el-calendar-table td.is-selected {
+    background-color: #3b7d91;
+  }
+  .el-calendar-table td .el-calendar-day:hover {
+    background-color: #6fc26f !important;
+  }
+  .current.is-today {
+    background: #9cd37c;
+    color: #fff;
+  }
+  .el-calendar-day{
+    font-size: small;
+    width: 20px;
+    height: 25px;
+  }
 }
 </style>
 
