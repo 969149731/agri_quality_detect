@@ -116,9 +116,6 @@ public class outFruVegQualificationServiceImpl implements IoutFruVegQualificatio
             if(resultMap.get(vegFruDetailType)!=null){//在检测的列表中
                 resultMap.get(vegFruDetailType).addOneToSamplingNumber(); //该类型抽样数+1
                 //超标记录
-                if(item.vegFruName.equals("番茄")){
-                    System.out.println("我是番茄");
-                }
                 if (item.pesticideDetValue > firstStandard.standardValue) {//此处先仅对比第一个标准值
                     System.out.println("超标记录");
                     resultMap.get(vegFruDetailType).addInfoToexceedingSamples(item.vegFruName);//将超标样品写入格式如 空心菜（1）

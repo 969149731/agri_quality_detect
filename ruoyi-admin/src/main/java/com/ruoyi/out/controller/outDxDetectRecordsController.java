@@ -10,6 +10,7 @@ import cn.afterturn.easypoi.excel.ExcelExportUtil;
 import cn.afterturn.easypoi.excel.ExcelImportUtil;
 import cn.afterturn.easypoi.excel.entity.ImportParams;
 import cn.afterturn.easypoi.excel.entity.TemplateExportParams;
+import com.github.pagehelper.PageHelper;
 import com.ruoyi.detection.domain.agriOut2CitySampleTestDetails;
 import com.ruoyi.out.domain.out2DxDetectRecords;
 import org.apache.poi.ss.usermodel.Cell;
@@ -72,7 +73,6 @@ public class outDxDetectRecordsController extends BaseController
         }else if(season==4){
             month1 = 10;month2 = 11;month3 = 12;
         }
-
         List<Map<String, out2DxDetectRecords>> statistics = outDxDetectRecordsService.getQuarterlyStatistics(year, month1, month2, month3);
 //        System.out.println(statistics+"qwer");
         return getDataTable(statistics);

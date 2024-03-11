@@ -170,64 +170,29 @@
       <!--      <el-table-column type="selection" width="55" align="center" />-->
       <el-table-column type="index" label="序号" width="55" align="center" />
       <el-table-column label="检测单位名称" align="center" prop="detectLocation" />
-<!--      <el-table-column label="抽样数(第一个月)" align="center" prop="month1SamplingCount" />-->
-<!--      <el-table-column label="合格数(第一个月)" align="center" prop="month1QualifiedCount" />-->
-<!--      <el-table-column label="合格率(第一个月)" align="center" prop="month1PassRate" />-->
       <el-table-column label="第一个月" align="center" width="300px">
-        <template slot-scope="scope">
-          <el-table :data="[scope.row]" :show-header="true">
             <el-table-column label="抽样数" align="center" prop="month1SamplingCount"></el-table-column>
             <el-table-column label="合格数" align="center" prop="month1QualifiedCount"></el-table-column>
             <el-table-column label="合格率" align="center" prop="month1PassRate"></el-table-column>
-          </el-table>
-        </template>
       </el-table-column>
 
-<!--      <el-table-column label="抽样数(第二个月)" align="center" prop="month2SamplingCount" />-->
-<!--      <el-table-column label="合格数(第二个月)" align="center" prop="month2QualifiedCount" />-->
-<!--      <el-table-column label="合格率(第二个月)" align="center" prop="month2PassRate" />-->
-
       <el-table-column label="第二个月" align="center" width="300px">
-        <template slot-scope="scope">
-          <el-table :data="[scope.row]" :show-header="true">
             <el-table-column label="抽样数" align="center" prop="month2SamplingCount"></el-table-column>
             <el-table-column label="合格数" align="center" prop="month2QualifiedCount"></el-table-column>
             <el-table-column label="合格率" align="center" prop="month2PassRate"></el-table-column>
-          </el-table>
-        </template>
       </el-table-column>
 
-
-<!--      <el-table-column label="抽样数(第三个月)" align="center" prop="month3SamplingCount" />-->
-<!--      <el-table-column label="合格数(第三个月)" align="center" prop="month3QualifiedCount" />-->
-<!--      <el-table-column label="合格率(第三个月)" align="center" prop="month3PassRate" />-->
-
       <el-table-column label="第三个月" align="center" width="300px">
-        <template slot-scope="scope">
-          <el-table :data="[scope.row]" :show-header="true">
             <el-table-column label="抽样数" align="center" prop="month3SamplingCount"></el-table-column>
             <el-table-column label="合格数" align="center" prop="month3QualifiedCount"></el-table-column>
             <el-table-column label="合格率" align="center" prop="month3PassRate"></el-table-column>
-          </el-table>
-        </template>
       </el-table-column>
 
-
-<!--      <el-table-column label="季度总抽样数" align="center" prop="allSamplingCount" />-->
-<!--      <el-table-column label="季度总合格数" align="center" prop="allQualifiedCount" />-->
-<!--      <el-table-column label="季度总合格率" align="center" prop="allPassRate" />-->
-
-
       <el-table-column label="该季度总计" align="center" width="300px">
-        <template slot-scope="scope">
-          <el-table :data="[scope.row]" :show-header="true">
             <el-table-column label="总抽样数" align="center" prop="allSamplingCount" />
             <el-table-column label="总合格数" align="center" prop="allQualifiedCount" />
             <el-table-column label="总合格率" align="center" prop="allPassRate" />、
-          </el-table>
-        </template>
       </el-table-column>
-
             <el-table-column label=" " align="center" prop="" />
 
 

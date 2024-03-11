@@ -213,8 +213,6 @@ public class outDxDetectRecordsServiceImpl implements IoutDxDetectRecordsService
     @Override
     public List<Map<String, out2DxDetectRecords>> getQuarterlyStatistics(Integer year, Integer month1, Integer month2, Integer month3) {
         List<Map<String, out2DxDetectRecords>> statistics = outDxDetectRecordsMapper.getQuarterlyStatistics(year, month1, month2, month3);
-
-
         return statistics;
     }
 
