@@ -253,7 +253,7 @@ export default {
   created() {
     this.getList();
     this.getUser();
-    this.Test="MyTest()";
+    // this.Test="MyTest()";
     this.getFastDataList();//获取数据
     this.getRoutineDataList();//
   },
