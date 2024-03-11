@@ -175,7 +175,7 @@ public class outDxDetectRecordsController extends BaseController
     }
 
     @Log(title = "定性检测导入", businessType = BusinessType.IMPORT)
-    @PreAuthorize("@ss.hasPermi('system:user:import')")
+//    @PreAuthorize("@ss.hasPermi('system:user:import')")
     @PostMapping("/importData")
     public AjaxResult importData(MultipartFile file, boolean updateSupport) throws Exception
     {

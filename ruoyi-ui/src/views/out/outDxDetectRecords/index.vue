@@ -119,6 +119,10 @@
 <!--          v-hasPermi="['out:outDxDetectRecords:remove']"-->
 <!--        >删除</el-button>-->
 <!--      </el-col>-->
+
+
+<!--      v-hasPermi="['system:user:import']"-->
+
       <el-col :span="1.5">
         <el-button
           type="info"
@@ -126,7 +130,6 @@
           icon="el-icon-upload2"
           size="mini"
           @click="handleImport"
-          v-hasPermi="['system:user:import']"
         >导入</el-button>
       </el-col>
       <el-col :span="1.5">
@@ -193,7 +196,6 @@
             <el-table-column label="总合格数" align="center" prop="allQualifiedCount" />
             <el-table-column label="总合格率" align="center" prop="allPassRate" />、
       </el-table-column>
-            <el-table-column label=" " align="center" prop="" />
 
 
     </el-table>

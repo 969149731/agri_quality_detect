@@ -33,14 +33,14 @@
           @keyup.enter.native="handleQuery"
         />
       </el-form-item>
-      <el-form-item label="抽样日期" prop="samplingDate">
-        <el-date-picker clearable
-          v-model="queryParams.samplingDate"
-          type="date"
-          value-format="yyyy-MM-dd"
-          placeholder="请选择抽样日期">
-        </el-date-picker>
-      </el-form-item>
+<!--      <el-form-item label="抽样日期" prop="samplingDate">-->
+<!--        <el-date-picker clearable-->
+<!--          v-model="queryParams.samplingDate"-->
+<!--          type="date"-->
+<!--          value-format="yyyy-MM-dd"-->
+<!--          placeholder="请选择抽样日期">-->
+<!--        </el-date-picker>-->
+<!--      </el-form-item>-->
       <el-form-item label="国家标准" prop="chinaStandard">
         <el-select v-model="queryParams.chinaStandard" placeholder="请选择国家标准" clearable>
           <el-option
@@ -51,56 +51,56 @@
           />
         </el-select>
       </el-form-item>
-      <el-form-item label="CAC标准" prop="cacStandard">
-        <el-select v-model="queryParams.cacStandard" placeholder="请选择CAC标准" clearable>
-          <el-option
-            v-for="dict in dict.type.pass_or_not"
-            :key="dict.value"
-            :label="dict.label"
-            :value="dict.value"
-          />
-        </el-select>
-      </el-form-item>
-      <el-form-item label="日本标准" prop="japanStandard">
-        <el-select v-model="queryParams.japanStandard" placeholder="请选择日本标准" clearable>
-          <el-option
-            v-for="dict in dict.type.pass_or_not"
-            :key="dict.value"
-            :label="dict.label"
-            :value="dict.value"
-          />
-        </el-select>
-      </el-form-item>
-      <el-form-item label="欧盟标准" prop="euStandard">
-        <el-select v-model="queryParams.euStandard" placeholder="请选择欧盟标准" clearable>
-          <el-option
-            v-for="dict in dict.type.pass_or_not"
-            :key="dict.value"
-            :label="dict.label"
-            :value="dict.value"
-          />
-        </el-select>
-      </el-form-item>
-      <el-form-item label="美国标准" prop="usStandard">
-        <el-select v-model="queryParams.usStandard" placeholder="请选择美国标准" clearable>
-          <el-option
-            v-for="dict in dict.type.pass_or_not"
-            :key="dict.value"
-            :label="dict.label"
-            :value="dict.value"
-          />
-        </el-select>
-      </el-form-item>
-      <el-form-item label="韩国标准" prop="koreaStandard">
-        <el-select v-model="queryParams.koreaStandard" placeholder="请选择韩国标准" clearable>
-          <el-option
-            v-for="dict in dict.type.pass_or_not"
-            :key="dict.value"
-            :label="dict.label"
-            :value="dict.value"
-          />
-        </el-select>
-      </el-form-item>
+<!--      <el-form-item label="CAC标准" prop="cacStandard">-->
+<!--        <el-select v-model="queryParams.cacStandard" placeholder="请选择CAC标准" clearable>-->
+<!--          <el-option-->
+<!--            v-for="dict in dict.type.pass_or_not"-->
+<!--            :key="dict.value"-->
+<!--            :label="dict.label"-->
+<!--            :value="dict.value"-->
+<!--          />-->
+<!--        </el-select>-->
+<!--      </el-form-item>-->
+<!--      <el-form-item label="日本标准" prop="japanStandard">-->
+<!--        <el-select v-model="queryParams.japanStandard" placeholder="请选择日本标准" clearable>-->
+<!--          <el-option-->
+<!--            v-for="dict in dict.type.pass_or_not"-->
+<!--            :key="dict.value"-->
+<!--            :label="dict.label"-->
+<!--            :value="dict.value"-->
+<!--          />-->
+<!--        </el-select>-->
+<!--      </el-form-item>-->
+<!--      <el-form-item label="欧盟标准" prop="euStandard">-->
+<!--        <el-select v-model="queryParams.euStandard" placeholder="请选择欧盟标准" clearable>-->
+<!--          <el-option-->
+<!--            v-for="dict in dict.type.pass_or_not"-->
+<!--            :key="dict.value"-->
+<!--            :label="dict.label"-->
+<!--            :value="dict.value"-->
+<!--          />-->
+<!--        </el-select>-->
+<!--      </el-form-item>-->
+<!--      <el-form-item label="美国标准" prop="usStandard">-->
+<!--        <el-select v-model="queryParams.usStandard" placeholder="请选择美国标准" clearable>-->
+<!--          <el-option-->
+<!--            v-for="dict in dict.type.pass_or_not"-->
+<!--            :key="dict.value"-->
+<!--            :label="dict.label"-->
+<!--            :value="dict.value"-->
+<!--          />-->
+<!--        </el-select>-->
+<!--      </el-form-item>-->
+<!--      <el-form-item label="韩国标准" prop="koreaStandard">-->
+<!--        <el-select v-model="queryParams.koreaStandard" placeholder="请选择韩国标准" clearable>-->
+<!--          <el-option-->
+<!--            v-for="dict in dict.type.pass_or_not"-->
+<!--            :key="dict.value"-->
+<!--            :label="dict.label"-->
+<!--            :value="dict.value"-->
+<!--          />-->
+<!--        </el-select>-->
+<!--      </el-form-item>-->
 
 
       <el-form-item label="抽样日期">
@@ -162,7 +162,7 @@
           icon="el-icon-upload2"
           size="mini"
           @click="handleImport"
-          v-hasPermi="['system:user:import']"
+
         >导入</el-button>
       </el-col>
       <el-col :span="1.5">
