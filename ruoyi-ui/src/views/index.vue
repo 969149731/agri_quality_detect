@@ -65,9 +65,9 @@
           <!--          <h1> 一些图表</h1>-->
           <div class= "num graph" >
             <el-card style="width: 34%;height: 265px;marginRight: 1%">
-              <div style="width: 80%;height: 265px;" ref="pieEcharts">{{initPieEcharts()}}</div>
+              <div style="width: 80%;height: 265px;" ref="pieEcharts"></div>
             </el-card>
-            <el-card ><div ><el-calendar v-model="value"></el-calendar></div></el-card>
+            <el-card ><div style="width: 80%;height: 265px;"><el-calendar v-model="value"></el-calendar></div></el-card>
           </div>
         </el-card>
       </el-row>
@@ -97,28 +97,28 @@
         <el-table v-loading="loading" :data="outDxDetectRecordsList">
           <el-table-column type="index" label="序号" width="55" align="center" />
           <el-table-column label="检测单位名称" align="center" prop="detectLocation" />
-           <el-table-column label="第一个月" align="center" width="300px">
-             <el-table-column label="抽样数" align="center" prop="month1SamplingCount"></el-table-column>
-             <el-table-column label="合格数" align="center" prop="month1QualifiedCount"></el-table-column>
-             <el-table-column label="合格率" align="center" prop="month1PassRate"></el-table-column>
+          <el-table-column label="第一个月" align="center" width="300px">
+            <el-table-column label="抽样数" align="center" prop="month1SamplingCount"></el-table-column>
+            <el-table-column label="合格数" align="center" prop="month1QualifiedCount"></el-table-column>
+            <el-table-column label="合格率" align="center" prop="month1PassRate"></el-table-column>
           </el-table-column>
 
           <el-table-column label="第二个月" align="center" width="300px">
-                <el-table-column label="抽样数" align="center" prop="month2SamplingCount"></el-table-column>
-                <el-table-column label="合格数" align="center" prop="month2QualifiedCount"></el-table-column>
-                <el-table-column label="合格率" align="center" prop="month2PassRate"></el-table-column>
+            <el-table-column label="抽样数" align="center" prop="month2SamplingCount"></el-table-column>
+            <el-table-column label="合格数" align="center" prop="month2QualifiedCount"></el-table-column>
+            <el-table-column label="合格率" align="center" prop="month2PassRate"></el-table-column>
           </el-table-column>
 
           <el-table-column label="第三个月" align="center" width="300px">
-                <el-table-column label="抽样数" align="center" prop="month3SamplingCount"></el-table-column>
-                <el-table-column label="合格数" align="center" prop="month3QualifiedCount"></el-table-column>
-                <el-table-column label="合格率" align="center" prop="month3PassRate"></el-table-column>
+            <el-table-column label="抽样数" align="center" prop="month3SamplingCount"></el-table-column>
+            <el-table-column label="合格数" align="center" prop="month3QualifiedCount"></el-table-column>
+            <el-table-column label="合格率" align="center" prop="month3PassRate"></el-table-column>
           </el-table-column>
 
           <el-table-column label="该季度总计" align="center" width="300px">
-                <el-table-column label="总抽样数" align="center" prop="allSamplingCount" />
-                <el-table-column label="总合格数" align="center" prop="allQualifiedCount" />
-                <el-table-column label="总合格率" align="center" prop="allPassRate" />、
+            <el-table-column label="总抽样数" align="center" prop="allSamplingCount" />
+            <el-table-column label="总合格数" align="center" prop="allQualifiedCount" />
+            <el-table-column label="总合格率" align="center" prop="allPassRate" />、
           </el-table-column>
 
 
@@ -259,7 +259,7 @@ export default {
   created() {
     this.getList();
     this.getUser();
-    // this.Test="MyTest()";
+    this.Test="MyTest()";
     this.getFastDataList();//获取数据
     this.getRoutineDataList();//
   },
@@ -277,6 +277,11 @@ export default {
       listOutDxDetectRecords(this.addDateRange(this.queryParams, this.dateRange)).then(response => {
         this.outDxDetectRecordsList = response.rows;
       });
+      //获取被抽检环节数据
+      listOutSampleStageType(this.queryParams).then(response => {
+        this.pieData = response.rows;
+        this.initPieEcharts();
+      });
       this.loading = false;
     },
     //饼图
@@ -285,10 +290,6 @@ export default {
         resolve()
       })
       let data={};
-      //获取被抽检环节数据
-      listOutSampleStageType(this.queryParams).then(response => {
-        this.pieData = response.rows;
-      });
 
       //创建一个数组
       let dataArray = []
