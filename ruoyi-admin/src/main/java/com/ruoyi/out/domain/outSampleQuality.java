@@ -115,13 +115,13 @@ public class outSampleQuality extends BaseEntity
         this.stageIncludeType="";
         this.vegSamplingCount=0L;
         this.vegQualifiedCount=0L;
-        this.vegQualificationRate=new BigDecimal("0.0");;
+        this.vegQualificationRate=new BigDecimal("0.0");
         this.fruSamplingCount=0L;
         this.fruQualifiedCount=0L;
-        this.fruQualificationRate=new BigDecimal("0.0");;
+        this.fruQualificationRate=new BigDecimal("0.0");
         this.totalSamplingCount=0L;
         this.totalQualifiedCount=0L;
-        this.totalQualificationRate=new BigDecimal("0.0");;
+        this.totalQualificationRate=new BigDecimal("0.0");
     };
     public void setSampleQualityId(Long sampleQualityId) 
     {
