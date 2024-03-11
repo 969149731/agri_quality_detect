@@ -87,11 +87,11 @@ public class outSampleStageTypeServiceImpl implements IoutSampleStageTypeService
                 System.out.println("我在崇左");
             }
             if (sample.getSamplingStageType()==null){
-                System.out.println("该条目没有相应生产环节信息 生产环节"+sample.getSamplingStageType());
+//                System.out.println("该条目没有相应生产环节信息 生产环节"+sample.getSamplingStageType());
                 continue;
             }
             if (!StageType.contains(sample.getSamplingStageType())){
-                System.out.println("生产环节不在统计列表中 当前样本生产环节为："+sample.getSamplingStageType());
+//                System.out.println("生产环节不在统计列表中 当前样本生产环节为："+sample.getSamplingStageType());
                 continue;
             }
             //统计
@@ -142,7 +142,7 @@ public class outSampleStageTypeServiceImpl implements IoutSampleStageTypeService
             allCount.addTotalTogether(resultMap.get(StageTypeName));
         }
         resultList.add(allCount);
-        System.out.println("打印结果列表"+resultList);
+//        System.out.println("打印结果列表"+resultList);
         return resultList;
     }
 
