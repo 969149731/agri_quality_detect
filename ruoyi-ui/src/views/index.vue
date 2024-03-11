@@ -67,7 +67,7 @@
             <el-card style="width: 34%;height: 265px;marginRight: 1%">
               <div style="width: 80%;height: 265px;" ref="pieEcharts">{{initPieEcharts()}}</div>
             </el-card>
-            <el-card style="width:30%;height: 265px"><div style="height: 100px"><el-calendar v-model="value"></el-calendar></div></el-card>
+            <el-card ><div ><el-calendar v-model="value"></el-calendar></div></el-card>
           </div>
         </el-card>
       </el-row>
@@ -76,7 +76,7 @@
     <div class="tables" shadow= 'hover' border style="width: 100%">
       <el-card shadow= 'hover' class="tableInfo">
         <div class="tableTitle">速览·例行监测</div>
-        <el-table v-loading="loading" :data="outDlDetectRecordsList" @selection-change="handleSelectionChange">
+        <el-table v-loading="loading" :data="outDlDetectRecordsList">
           <el-table-column label="被检单位" align="center" width="500" prop="samplingLocation" />
           <el-table-column label="蔬菜抽样数(个)"  align="center" prop="vegSamplingCount" />
           <el-table-column label="蔬菜合格数(个)"  align="center" prop="vegQualifiedCount" />
@@ -169,26 +169,26 @@ export default {
       routineDetectData: [],/*快速监测数据*/
       countData:[
         {
-          name: '快速检测',
+          name: '定量监测',
           value: 1200,
           icon: 'success',
           color: '#2ec7c9',
 
         },
         {
-          name: '例行检测',
+          name: '定性监测',
           value: 1200,
           icon: 'star-on',
           color: '#ffb980'
         },
         {
-          name: '色谱法定量监测',
+          name: '定量检测明细',
           value: 1200,
           icon: 's-goods',
           color: '#5ab1ef'
         },
         {
-          name: '蔬菜水果合格率',
+          name: '各类蔬菜水果合格率',
           value: 1200,
           icon: 'success',
           color: '#2ec7c9'
@@ -200,7 +200,13 @@ export default {
           color: '#ffb980'
         },
         {
-          name: '定性监测',
+          name: '无判定标准检出',
+          value: 1200,
+          icon: 'star-on',
+          color: '#ffb980'
+        },
+        {
+          name: '参照国家或国际标准合格率',
           value: 1200,
           icon: 'star-on',
           color: '#ffb980'
@@ -284,6 +290,19 @@ export default {
         this.pieData = response.rows;
       });
 
+      //创建一个数组
+      let dataArray = []
+      for (let i = 0; i < this.pieData.length; i++) {
+        let a = this.pieData[i];
+        if(a.unitNum!=0 && a.samplingStageType!="合计"){
+          //创建一个对象
+          let vote = {}
+          vote.value=a.unitNum;
+          vote.name=a.samplingStageType;
+          dataArray.push(vote)
+        }
+      }
+
       //然后异步执行echarts的初始化函数
       p.then(() => {
         let myChart = echarts.init(this.$refs.pieEcharts);
@@ -312,11 +331,7 @@ export default {
               labelLine: {
                 show: false,
               },
-              data: [
-                { value: 199, name: '生产基地' },
-                { value: 1, name: '批发市场' },
-                { value: 51, name: '运输车' },
-              ]
+              data: dataArray
             }
           ]
         }
@@ -324,7 +339,30 @@ export default {
       })
     },
     IntroduceClickEvent(key){
-      console.log(getFastDAta())
+      console.log(key);
+      switch (key){
+        case("定量监测"):
+          this.$router.push('/resultsum/outDlDetectRecords');
+          break;
+        case("定性监测"):
+          this.$router.push('/resultsum/outDxDetectRecords');
+          break;
+        case("定量检测明细"):
+          this.$router.push('/detectInf/detectionDetails');
+          break;
+        case("各类蔬菜水果合格率"):
+          this.$router.push('/resultsum/outdl/outFruVegQualification');
+          break;
+        case("各抽样环节合格率"):
+          this.$router.push('/resultsum/outdl/outSampleQuality');
+          break;
+        case("无判定标准检出"):
+          this.$router.push('/resultsum/outdl/outUndeterminedStandDet');
+          break;
+        case("参照国家或国际标准合格率"):
+          this.$router.push('/resultsum/outdl/outStandCompliance');
+          break;
+      }
       // this.$router.push('/register');
     },
     getFastDataList(){
