@@ -127,7 +127,6 @@ public class outDxDetectRecordsController extends BaseController
         Workbook workbook = ExcelExportUtil.exportExcel(params, map);
         workbook.write(response.getOutputStream());
         workbook.close();
-
     }
 
 
