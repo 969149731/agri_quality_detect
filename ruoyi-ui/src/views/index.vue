@@ -1,7 +1,7 @@
 <template>
   <div >
     <div>
-      <el-row :gutter="20">
+      <el-row :gutter="2">
         <el-col :span="8">
           <!--用户信息-->
           <div @click="mystest">{{Test}}</div>
@@ -42,18 +42,18 @@
             </div>
           </el-card>
         </el-col>
+        <!--介绍和入口-->
         <el-col :span="16">
-          <!--介绍和入口-->
           <el-card shadow= 'hover' class="introduceCard"><div style="white-space: pre-wrap;">{{Introduce}}</div></el-card>
-          <el-card shadow= 'hover' class="GuideCard" >
-
-            <el-row class="GuideRow" type="flex" :gutter="0">
-              <el-col :span="2" align="center" ><div class="Label"><div>快<br>速<br>入<br>口</div></div></el-col>
-              <div>
+          <el-card shadow= 'hover' class="GuideCard">
+            <el-row class="GuideRow" type="flex">
+              <el-col :span="2" ><div class="Label"><div class="Label_div">快<br>速<br>入<br>口</div></div></el-col>
+              <el-col :span="22" gutter="1">
                 <el-button v-for="item in countData" :key="item.name" class="EntranceButton" @click.native="IntroduceClickEvent(item.name)">
                   {{item.name}}
                 </el-button>
-              </div>
+              </el-col>
+
 
             </el-row>
 
@@ -76,26 +76,21 @@
     <div class="tables" shadow= 'hover' border style="width: 100%">
       <el-card shadow= 'hover' class="tableInfo">
         <div class="tableTitle">速览·例行监测</div>
-        <el-table stripe :data="routineDetectData" >
-          <el-table-column prop="id" label="序号" width="80" align="center"/>
-          <el-table-column prop="unit" label="被检单位" width="80" align="center"/>
-
-          <el-table-column prop="veg.Num" label="蔬菜抽样数" width="100" align="center"/>
-          <el-table-column  label="按国家标准判定" width="180" align="center">
-            <el-table-column prop="veg.qualifiedNum" label="合格数" width="100" align="center"/>
-            <el-table-column prop="veg.qualifiedRate" label="合格率" width="100" align="center"/>
-          </el-table-column>
-          <el-table-column prop="fruit.Num" label="水果抽样数" width="100" align="center"/>
-          <el-table-column  label="按国家标准判定" width="180" align="center">
-            <el-table-column prop="fruit.qualifiedNum" label="合格数" width="100" align="center"/>
-            <el-table-column prop="fruit.qualifiedRate" label="合格率" width="100" align="center"/>
-          </el-table-column>
-          <el-table-column prop="total.Num" label="总数" width="100" align="center"/>
-          <el-table-column label="按国家标准判定" width="180" align="center">
-            <el-table-column prop="total.qualifiedNum" label="合格数" width="100" align="center"/>
-            <el-table-column prop="total.qualifiedRate" label="合格率" width="100" align="center"/>
-          </el-table-column>
+        <el-table v-loading="loading" :data="outDlDetectRecordsList" @selection-change="handleSelectionChange">
+          <el-table-column label="被检单位" align="center" width="500" prop="samplingLocation" />
+          <el-table-column label="蔬菜抽样数(个)"  align="center" prop="vegSamplingCount" />
+          <el-table-column label="蔬菜合格数(个)"  align="center" prop="vegQualifiedCount" />
+          <el-table-column label="蔬菜合格率(%)"  align="center" prop="vegPassRate" />
+          <el-table-column label="   " width="70" align="center" prop="" />
+          <el-table-column label="水果抽样数(个)"  align="center" prop="fruSamplingCount" />
+          <el-table-column label="水果合格数(个)" align="center" prop="fruQualifiedCount" />
+          <el-table-column label="水果合格率(%)"  align="center" prop="fruPassRate" />
+          <el-table-column label="   " width="70" align="center" prop="" />
+          <el-table-column label="总抽样数(个)"  align="center" prop="allSamplingCount" />
+          <el-table-column label="总合格数(个)"  align="center" prop="allQualifiedCount" />
+          <el-table-column label="总合格率(%)"  align="center" prop="allPassRate" />
         </el-table>
+
       </el-card>
       <el-card shadow= 'hover' class="tableInfo">
         <div class="tableTitle">速览·定性监测</div>
@@ -153,10 +148,13 @@ import userAvatar from "./system/user/profile/userAvatar";
 import userInfo from "./system/user/profile/userInfo";
 import { getUserProfile } from "@/api/system/user";
 
+//定量监测API
+import { listOutDlDetectRecords} from "@/api/out/outDlDetectRecords";
 //定性监测API
 import { listOutDxDetectRecords} from "@/api/out/outDxDetectRecords";
-import resetPwd from "@/views/system/user/profile/resetPwd";
-//引入api
+import {listOutSampleStageType} from "@/api/out/outSampleStageType";
+
+
 export default {
   name: "Index",
   components: { userAvatar, userInfo},
@@ -201,6 +199,12 @@ export default {
           icon: 'star-on',
           color: '#ffb980'
         },
+        {
+          name: '定性监测',
+          value: 1200,
+          icon: 'star-on',
+          color: '#ffb980'
+        },
       ],
 
       //个人信息展示卡
@@ -220,6 +224,8 @@ export default {
       postGroup: {},
       activeTab: "userinfo",
 
+      // 定量监测结果汇总表格数据
+      outDlDetectRecordsList: [],
 
       // 定性监测结果汇总表格数据
       outDxDetectRecordsList: [],
@@ -240,6 +246,7 @@ export default {
         year: '2022', // 设置默认值为 2024
         season:'3'//设置默认值为3
       },
+      pieData:{},
 
     }
   },
@@ -254,17 +261,29 @@ export default {
     /** 查询定性监测结果汇总列表 */
     getList(){
       this.loading = true;
-      // listOutDxDetectRecords(this.queryParams).then(response => {
+      //定量监测
+      listOutDlDetectRecords(this.addDateRange(this.queryParams, this.dateRange)).then(response => {
+        this.outDlDetectRecordsList = response.rows;
+        this.outDlDetectRecordsList=this.outDlDetectRecordsList.slice(1,10);
+        this.total = response.total;
+      });
+      //定性监测
       listOutDxDetectRecords(this.addDateRange(this.queryParams, this.dateRange)).then(response => {
         this.outDxDetectRecordsList = response.rows;
-        this.loading = false;
       });
+      this.loading = false;
     },
     //饼图
     initPieEcharts () {
       let p = new Promise((resolve) => {
         resolve()
       })
+      let data={};
+      //获取被抽检环节数据
+      listOutSampleStageType(this.queryParams).then(response => {
+        this.pieData = response.rows;
+      });
+
       //然后异步执行echarts的初始化函数
       p.then(() => {
         let myChart = echarts.init(this.$refs.pieEcharts);
@@ -347,6 +366,9 @@ export default {
   font-size: large;
   color: #464058;
   background-color: #dff1e8;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  margin-left: 10px;
   .el-button--primary{
     font-size: large;
   }
@@ -359,13 +381,16 @@ export default {
   margin: 0px 0 0 0;
 }
 .GuideCard{
-
+  background-color: #a5b6cb;
+  border-radius: 12px;
+  margin: 5px;
 }
 .GuideRow{
 
   align-items: center;
   justify-items: center;
   flex-wrap: wrap;
+  margin: 10px;
   /*height: auto;*/
 }
 /*  .FastEntranceCard{*/
@@ -376,7 +401,6 @@ export default {
 /*  }*/
 /*}*/
 .Label{
-  display: flex;
   align-items: center;
   align-content: center;
   padding: 0px;
@@ -387,16 +411,26 @@ export default {
   color: #464058;
 
   height: 120px;
-  width: 950px;
+  width: 100%;
   background: #a5b6cb;
-  div{
-    border-radius: 10px;
-    height: 130;
-    width: 50px;
-    background-color: #dff1e8;
-    margin: 0px 0px 0px 10px;
-  }
+
 }
+.Label_div {
+  display: flex;
+  width:50px;
+  height:120px;
+  align-items: center;
+  justify-content: center;
+  br{
+    horiz-align: center;
+    vertical-align: center;
+    color: white;
+  }
+
+  border-radius: 10px;
+  background-color: #dff1e8;
+}
+
 .tables{
   margin: 20px 0 0 0;
   width: auto;
