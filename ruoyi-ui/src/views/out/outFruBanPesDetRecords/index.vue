@@ -1,62 +1,62 @@
 <template>
   <div class="app-container">
     <el-form :model="queryParams" ref="queryForm" size="small" :inline="true" v-show="showSearch" label-width="68px">
-      <el-form-item label="农药名称" prop="pesticideName">
-        <el-input
-          v-model="queryParams.pesticideName"
-          placeholder="请输入农药名称"
-          clearable
-          @keyup.enter.native="handleQuery"
-        />
-      </el-form-item>
+<!--      <el-form-item label="农药名称" prop="pesticideName">-->
+<!--        <el-input-->
+<!--          v-model="queryParams.pesticideName"-->
+<!--          placeholder="请输入农药名称"-->
+<!--          clearable-->
+<!--          @keyup.enter.native="handleQuery"-->
+<!--        />-->
+<!--      </el-form-item>-->
 
-      <el-form-item label="记录创建时间" prop="createdDate" label-width="100px">
-        <el-date-picker clearable
-          v-model="queryParams.createdDate"
-          type="date"
-          value-format="yyyy-MM-dd"
-          placeholder="请选择记录创建的时间">
-        </el-date-picker>
-      </el-form-item>
-      <el-form-item>
-        <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery">搜索</el-button>
-        <el-button icon="el-icon-refresh" size="mini" @click="resetQuery">重置</el-button>
-      </el-form-item>
+<!--      <el-form-item label="记录创建时间" prop="createdDate" label-width="100px">-->
+<!--        <el-date-picker clearable-->
+<!--          v-model="queryParams.createdDate"-->
+<!--          type="date"-->
+<!--          value-format="yyyy-MM-dd"-->
+<!--          placeholder="请选择记录创建的时间">-->
+<!--        </el-date-picker>-->
+<!--      </el-form-item>-->
+<!--      <el-form-item>-->
+<!--        <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery">搜索</el-button>-->
+<!--        <el-button icon="el-icon-refresh" size="mini" @click="resetQuery">重置</el-button>-->
+<!--      </el-form-item>-->
     </el-form>
 
     <el-row :gutter="10" class="mb8">
-      <el-col :span="1.5">
-        <el-button
-          type="primary"
-          plain
-          icon="el-icon-plus"
-          size="mini"
-          @click="handleAdd"
-          v-hasPermi="['out:outFruBanPesDetRecords:add']"
-        >新增</el-button>
-      </el-col>
-      <el-col :span="1.5">
-        <el-button
-          type="success"
-          plain
-          icon="el-icon-edit"
-          size="mini"
-          :disabled="single"
-          @click="handleUpdate"
-          v-hasPermi="['out:outFruBanPesDetRecords:edit']"
-        >修改</el-button>
-      </el-col>
-      <el-col :span="1.5">
-        <el-button
-          type="danger"
-          plain
-          icon="el-icon-delete"
-          size="mini"
-          :disabled="multiple"
-          @click="handleDelete"
-          v-hasPermi="['out:outFruBanPesDetRecords:remove']"
-        >删除</el-button>
-      </el-col>
+<!--      <el-col :span="1.5">-->
+<!--        <el-button-->
+<!--          type="primary"-->
+<!--          plain-->
+<!--          icon="el-icon-plus"-->
+<!--          size="mini"-->
+<!--          @click="handleAdd"-->
+<!--          v-hasPermi="['out:outFruBanPesDetRecords:add']"-->
+<!--        >新增</el-button>-->
+<!--      </el-col>-->
+<!--      <el-col :span="1.5">-->
+<!--        <el-button-->
+<!--          type="success"-->
+<!--          plain-->
+<!--          icon="el-icon-edit"-->
+<!--          size="mini"-->
+<!--          :disabled="single"-->
+<!--          @click="handleUpdate"-->
+<!--          v-hasPermi="['out:outFruBanPesDetRecords:edit']"-->
+<!--        >修改</el-button>-->
+<!--      </el-col>-->
+<!--      <el-col :span="1.5">-->
+<!--        <el-button-->
+<!--          type="danger"-->
+<!--          plain-->
+<!--          icon="el-icon-delete"-->
+<!--          size="mini"-->
+<!--          :disabled="multiple"-->
+<!--          @click="handleDelete"-->
+<!--          v-hasPermi="['out:outFruBanPesDetRecords:remove']"-->
+<!--        >删除</el-button>-->
+<!--      </el-col>-->
       <el-col :span="1.5">
         <el-button
           type="warning"
@@ -82,9 +82,7 @@
     >
       <el-table-column label="农药名称" align="center">
         <el-table-column prop="IncludeLable"></el-table-column>
-        <el-table-column  align="center" prop="StageName">
-
-        </el-table-column>
+        <el-table-column  align="center" prop="StageName"></el-table-column>
       </el-table-column>
 
       <el-table-column
@@ -101,9 +99,9 @@
     </el-table>
     <!--占用格，界面有点拥挤，美化一下-->
 
-    <el-card   class="bottom-card" shadow="always" :body-style= "{ padding:  '0px'}">
-        <img src=""  class="bottom-img"/>
-    </el-card>
+<!--    <el-card   class="bottom-card" shadow="always" :body-style= "{ padding:  '0px'}">-->
+<!--        <img src=""  class="bottom-img"/>-->
+<!--    </el-card>-->
 
 
 
@@ -412,6 +410,53 @@ export default {
         ...this.queryParams
       }, `outFruBanPesDetRecords_${new Date().getTime()}.xlsx`)
     },
+    /*表头行的合并*/
+    headerStyle({ row, column, rowIndex, columnIndex }) {
+      const comStyle = {
+        backgroundColor: "#3D589B",
+        color: "#fff",
+        fontSize: "500",
+      };
+      if(rowIndex===0){
+        row[0].rowspan=2;
+      }
+      if(rowIndex===1) {
+        if (columnIndex === 0 || columnIndex === 1) { // 将表头第一列隐藏
+          return {
+            display: "none",
+            ...comStyle,
+          };
+        }
+      }
+      return comStyle;
+    },
+    /*表头列的合并*/
+    spanMethod({ row, column, rowIndex, columnIndex }) {
+      if(rowIndex=== 0 || rowIndex=== 1){
+        if(columnIndex ===1){
+          return {rowspan: 1, colspan: 0}
+        }
+        if(columnIndex ===0){
+          return {rowspan: 1, colspan: 2}
+        }
+      }
+
+      if (rowIndex=== 2)
+      {//其中的那一行
+        if (columnIndex === 0) {
+          return {rowspan: 6, colspan: 1} // 隐藏表头下面第一行的第一列
+        }
+      }
+      if(rowIndex> 2){//”其中“包含的行
+        if (columnIndex === 0) {
+          return {rowspan: 1, colspan: 0} // 隐藏表头下面第一行的第一列
+        }
+        if (columnIndex === 1) {
+          return {rowspan: 1, colspan: 1} // 将表头下面第一行的第一列和第二列合并
+        }
+      }
+    },
+
     test(){
 
     },

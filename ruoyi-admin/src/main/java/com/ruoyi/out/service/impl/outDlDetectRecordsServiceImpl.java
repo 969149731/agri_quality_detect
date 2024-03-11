@@ -126,10 +126,10 @@ public class outDlDetectRecordsServiceImpl implements IoutDlDetectRecordsService
                 //因为limitValue是==null的，说明没有该字典，先尝试用 用户上传的中国标准的数据进行农药是否超标的判断
                 String chinaStandard = sample.getChinaStandard();
                 if(chinaStandard!=null){
-                    if (chinaStandard=="合格"){
+                    if (chinaStandard.equals("合格")){
                         return true;
                     }
-                    if (chinaStandard=="不合格"){
+                    if (chinaStandard.equals("不合格")){
                         return false;
                     }
                 }
