@@ -9,7 +9,7 @@
           @keyup.enter.native="handleQuery"
         />
       </el-form-item>
-      <el-form-item label="蔬菜或水果名" prop="vegFruName">
+      <el-form-item label="蔬菜或水果名" prop="vegFruName" label-width="30">
         <el-input
           v-model="queryParams.vegFruName"
           placeholder="请输入蔬菜或水果名"
@@ -27,7 +27,7 @@
           />
         </el-select>
       </el-form-item>
-      <el-form-item label="标准值（mg/kg）" prop="standardValue">
+      <el-form-item label="标准值（mg/kg）" prop="standardValue" label-width="30">
         <el-input
           v-model="queryParams.standardValue"
           placeholder="请输入标准值"

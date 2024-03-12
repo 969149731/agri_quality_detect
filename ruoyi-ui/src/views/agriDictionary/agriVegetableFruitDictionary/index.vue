@@ -29,7 +29,7 @@
           @keyup.enter.native="handleQuery"
         />
       </el-form-item>
-      <el-form-item label="高风险样品" prop="highRiskSample">
+      <el-form-item label="高风险样品" prop="highRiskSample" label-width="30">
         <el-select v-model="queryParams.highRiskSample" placeholder="请选择是否为高风险品种样品，如果为高风险，在属性中填入高风险，若为空，就说明不是高风险品种样品" clearable>
           <el-option
             v-for="dict in dict.type.high_risk_sample"

@@ -191,7 +191,7 @@
         <el-table-column label="合格率" align="center" prop="qualificationRate" />
         <el-table-column label="禁用农药检出" align="center" prop="prohibitedPesticideDetection" />
         <el-table-column label="常规农药超标" align="center" prop="routinePesticideExceedance" />
-        <el-table-column label="备注" align="center" prop="remarks" />
+<!--        <el-table-column label="备注" align="center" prop="remarks" />-->
       </el-table>
     </template>
 
