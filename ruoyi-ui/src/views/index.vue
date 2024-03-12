@@ -343,25 +343,25 @@ export default {
       console.log(key);
       switch (key){
         case("定量监测"):
-          this.$router.push('/resultsum/outDlDetectRecords');
+          this.$router.push('/detectInf/outDlDetectRecords');
           break;
         case("定性监测"):
-          this.$router.push('/resultsum/outDxDetectRecords');
+          this.$router.push('/detectInf/outDxDetectRecords');
           break;
-        case("定量检测明细"):
+        case("定量检测导入明细"):
           this.$router.push('/detectInf/detectionDetails');
           break;
         case("各类蔬菜水果合格率"):
-          this.$router.push('/resultsum/outdl/outFruVegQualification');
+          this.$router.push('/resultsum/outFruVegQualification');
           break;
         case("各抽样环节合格率"):
-          this.$router.push('/resultsum/outdl/outSampleQuality');
+          this.$router.push('/resultsum/outSampleQuality');
           break;
         case("无判定标准检出"):
-          this.$router.push('/resultsum/outdl/outUndeterminedStandDet');
+          this.$router.push('/resultsum/outUndeterminedStandDet');
           break;
         case("参照国家或国际标准合格率"):
-          this.$router.push('/resultsum/outdl/outStandCompliance');
+          this.$router.push('/resultsum/outStandCompliance');
           break;
       }
       // this.$router.push('/register');
