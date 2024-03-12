@@ -205,6 +205,20 @@
         </template>
       </el-table-column>
 
+
+<!--      <el-table-column label="⠀⠀⠀⠀农药名⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀检测值 mg/kg" align="center" prop="result" width="300px">-->
+<!--        <template slot-scope="props" >-->
+<!--          <el-table  :data="props.row.agriPesticideDetResultList">-->
+<!--            <el-table-column  label="1" align="center" prop="pesticideName">-->
+<!--            </el-table-column>-->
+<!--            <el-table-column  label="2" align="center" prop="pesticideDetValue">-->
+<!--            </el-table-column>-->
+<!--          </el-table>-->
+<!--        </template>-->
+<!--      </el-table-column>-->
+
+
+
       <el-table-column label="国家标准" align="center" prop="chinaStandard">
         <template slot-scope="scope">
           <dict-tag :options="dict.type.pass_or_not" :value="scope.row.chinaStandard"/>
