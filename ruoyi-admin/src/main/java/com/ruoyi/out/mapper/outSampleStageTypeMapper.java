@@ -1,10 +1,12 @@
 package com.ruoyi.out.mapper;
 
 import java.util.List;
+import java.util.Map;
 
 import com.ruoyi.detection.domain.agriCitySampleTestDetails;
 import com.ruoyi.out.domain.outFruVegSelectType;
 import com.ruoyi.out.domain.outSampleStageType;
+import org.apache.ibatis.annotations.Param;
 
 /**
  * 被抽样环节数量统计Mapper接口
@@ -62,5 +64,5 @@ public interface outSampleStageTypeMapper
      */
     public int deleteoutSampleStageTypeBySampleQualityIds(Long[] sampleQualityIds);
 
-    public List<agriCitySampleTestDetails> getCitySampleResultList();
+    public List<agriCitySampleTestDetails> getCitySampleResultList(@Param("params") Map<String, Object> params);
 }

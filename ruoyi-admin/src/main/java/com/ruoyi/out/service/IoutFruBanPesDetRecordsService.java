@@ -1,5 +1,6 @@
 package com.ruoyi.out.service;
 
+import java.sql.Date;
 import java.util.List;
 import com.ruoyi.out.domain.outFruBanPesDetRecords;
 import com.ruoyi.out.domain.outReturnType;
@@ -62,5 +63,5 @@ public interface IoutFruBanPesDetRecordsService
 
     /*使用新方法获取列表
     */
-    public List<outReturnType> selectoutFruBanPesDetRecordsList2(outReturnType outReturnTypeRecords);
+    public List<outReturnType> selectoutFruBanPesDetRecordsList2(outReturnType outReturnTypeRecords, Date startDate,Date endDate);
 }

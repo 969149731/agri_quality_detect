@@ -61,5 +61,5 @@ public interface IoutVegNoBanPesDetRecordsService
      */
     public int deleteoutVegNoBanPesDetRecordsByVegNoBanPesDetRecordsId(Long vegNoBanPesDetRecordsId);
 
-    public List<outReturnType> selectoutVegNoBanPesDetRecordsList2();
+    public List<outReturnType> selectoutVegNoBanPesDetRecordsList2(outVegNoBanPesDetRecords outVegNoBanPesDetRecords);
 }

@@ -1,12 +1,14 @@
 package com.ruoyi.out.mapper;
 
 import java.util.List;
+import java.util.Map;
 
 import com.ruoyi.detection.domain.agriCitySampleTestDetails;
 import com.ruoyi.out.domain.agriPesticideResidueStandard;
 import com.ruoyi.out.domain.outFruVegSelectType;
 import com.ruoyi.out.domain.outStandCompliance;
 import com.ruoyi.out.domain.outStandardReturnType;
+import org.apache.ibatis.annotations.Param;
 
 /**
  * 参照国际组织或国家标准合格率情况Mapper接口
@@ -68,7 +70,7 @@ public interface outStandComplianceMapper
     public List<String> getAllPesticideList();
 
     public List<outFruVegSelectType> getFruVegDetResultList(String sampleCode);
-    List<agriCitySampleTestDetails> getFruVegDetSample();
+    List<agriCitySampleTestDetails> getFruVegDetSample(@Param("params") Map<String, Object> params);
     public List<agriPesticideResidueStandard> getagriPesticideResidueStandard(String pesticideName, String vegFruName);
 
 }

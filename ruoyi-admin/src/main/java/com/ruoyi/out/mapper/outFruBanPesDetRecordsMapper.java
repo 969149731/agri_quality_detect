@@ -1,12 +1,16 @@
 package com.ruoyi.out.mapper;
 
+import java.sql.Date;
 import java.util.List;
+import java.util.Map;
+
 import com.ruoyi.out.domain.outFruBanPesDetRecords;
 
 import com.ruoyi.detection.domain.agriPesticideDetResult;//农药详细表
 import com.ruoyi.out.domain.outFruVegSelectType;
 import com.ruoyi.out.domain.outReturnType;
 import com.ruoyi.out.domain.agriPesticideResidueStandard;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -75,5 +79,5 @@ public interface outFruBanPesDetRecordsMapper
 
     public List<agriPesticideResidueStandard> getagriPesticideResidueStandard(String pesticideName, String vegFruName);
 
-    public List<outFruVegSelectType> getFruVegDetResultList();
+    public List<outFruVegSelectType> getFruVegDetResultList(@Param("params")Map<String, Object> params, Date startDate, Date endDate);
 }

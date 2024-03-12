@@ -196,8 +196,6 @@
             <el-table-column label="总合格数" align="center" prop="allQualifiedCount" />
             <el-table-column label="总合格率" align="center" prop="allPassRate" />、
       </el-table-column>
-
-
     </el-table>
 
 
@@ -289,7 +287,6 @@
 
 <script>
 import { listOutDxDetectRecords, getOutDxDetectRecords, delOutDxDetectRecords, addOutDxDetectRecords, updateOutDxDetectRecords } from "@/api/out/outDxDetectRecords";
-import {listOutDlDetectRecords} from "@/api/out/outDlDetectRecords";
 import {getToken} from "@/utils/auth";
 
 export default {

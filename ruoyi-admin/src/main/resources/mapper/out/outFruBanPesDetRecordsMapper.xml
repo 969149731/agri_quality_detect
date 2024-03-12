@@ -28,7 +28,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="createdDate"    column="created_date"    />
     </resultMap>
 
-    <resultMap type="outFruVegSelectType" id="outFruVegSelectType">
+    <resultMap type="outFruVegSelectType" id="outFruVegSelectTypeInfo">
         <result property="citySampleTestDetailsId"    column="city_sample_test_details_id"    />
         <result property="sampleCode"    column="sample_code"    />
         <result property="vegFruName"    column="veg_fru_name"    />
@@ -201,16 +201,24 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         where pesticide_name=#{arg0} and veg_fru_name=#{arg1}
     </select>
 
-    <select id="getFruVegDetResultList" resultMap="outFruVegSelectType">
-        select agric.city_sample_test_details_id,agric.sample_code,agric.veg_fru_name,agric.sampling_location,agric.detect_location,agric.sampling_stage_type,agric.sampling_date,
+    <select id="getFruVegDetResultList" resultMap="outFruVegSelectTypeInfo">
+        SELECT agric.city_sample_test_details_id,agric.sample_code,agric.veg_fru_name,agric.sampling_location,agric.detect_location,agric.sampling_stage_type,agric.sampling_date,
                agrip.pesticide_det_result_id,agrip.pesticide_name,agrip.pesticide_det_value,
                agriv.vegetable_fruit_id,agriv.veg_fru_type,agriv.detail_type
-        from agri_city_sample_test_details agric
-        left join agri_pesticide_det_result agrip
-        on agric.city_sample_test_details_id = agrip.city_sample_test_details_id
-        left join agri_vegetable_fruit agriv
-        on agric.veg_fru_name = agriv.veg_fru_name
-        where agriv.veg_fru_type='水果'
+        FROM agri_city_sample_test_details agric
+        LEFT JOIN agri_pesticide_det_result agrip
+        ON agric.city_sample_test_details_id = agrip.city_sample_test_details_id
+        LEFT JOIN agri_vegetable_fruit agriv
+        ON agric.veg_fru_name = agriv.veg_fru_name
+        <where>
+            AND agriv.veg_fru_type='水果'
+            <if test="params.beginTime != null and params.beginTime != ''"><!-- 开始时间检索 -->
+                AND date_format(agric.sampling_date,'%y%m%d') &gt;= date_format(#{params.beginTime},'%y%m%d')
+            </if>
+            <if test="params.endTime != null and params.endTime != ''"><!-- 结束时间检索 -->
+                AND date_format(agric.sampling_date,'%y%m%d') &lt;= date_format(#{params.endTime},'%y%m%d')
+            </if>
+        </where>
     </select>
 
 </mapper>

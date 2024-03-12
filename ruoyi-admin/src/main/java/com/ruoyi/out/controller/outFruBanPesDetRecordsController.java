@@ -4,6 +4,7 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 import java.net.URLEncoder;
+import java.sql.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -67,13 +68,15 @@ public class outFruBanPesDetRecordsController extends BaseController
     @PreAuthorize("@ss.hasPermi('out:outFruBanPesDetRecords:export')")
     @Log(title = "水果禁用农药检出及超标情况", businessType = BusinessType.EXPORT)
     @PostMapping("/export")
-    public void export(HttpServletResponse response, outFruBanPesDetRecords outFruBanPesDetRecords)
+    public void export(HttpServletResponse response, outFruBanPesDetRecords outFruBanPesDetRecords,Integer  year, Integer  month1, Integer  month2, Integer  month3)
     {
+        Date startDate=new Date(year,month1,1);
+        Date endDate=new Date(year,month3,0);//获取月份最后一天
 //        List<outFruBanPesDetRecords> list = outFruBanPesDetRecordsService.selectoutFruBanPesDetRecordsList(outFruBanPesDetRecords);
 //        ExcelUtil<outFruBanPesDetRecords> util = new ExcelUtil<outFruBanPesDetRecords>(outFruBanPesDetRecords.class);
 //        util.exportExcel(response, list, "水果禁用农药检出及超标情况数据");
         outReturnType outReturnTypeRecords=new outReturnType();
-        List<outReturnType> list = outFruBanPesDetRecordsService.selectoutFruBanPesDetRecordsList2(outReturnTypeRecords);
+        List<outReturnType> list = outFruBanPesDetRecordsService.selectoutFruBanPesDetRecordsList2(outReturnTypeRecords,startDate,endDate);
         TemplateExportParams params = new TemplateExportParams("ruoyi-admin/src/main/java/com/ruoyi/excelOutTemplate/outFruBanPesDetRecords.xlsx");
         Map<String, Object> map = new HashMap<>();
         map.put("tableName", "3.水果禁用农药检出及超标情况表");
@@ -160,10 +163,24 @@ public class outFruBanPesDetRecordsController extends BaseController
 
     @PreAuthorize("@ss.hasPermi('out:outFruBanPesDetRecords:list')")
     @GetMapping("/listNew")
-    public TableDataInfo listNew(outReturnType outReturnTypeRecords)
+    public TableDataInfo listNew(outReturnType outReturnTypeRecords,Integer year,Integer season)
     {//水果禁用表新表的接口
         startPage();
-        List<outReturnType> list = outFruBanPesDetRecordsService.selectoutFruBanPesDetRecordsList2(outReturnTypeRecords);
+        int month1 = 0;
+        int month2 = 0;
+        int month3 = 0;
+        if(season==1){
+            month1 = 1;month2 = 2;month3 = 3;
+        }else if(season==2){
+            month1 = 4;month2 = 5;month3 = 6;
+        }else if(season==3){
+            month1 = 7;month2 = 8;month3 = 9;
+        }else if(season==4){
+            month1 = 10;month2 = 11;month3 = 12;
+        }
+        Date startDate=new Date(2022,month1,1);
+        Date endDate=new Date(2022,month3,0);//获取月份最后一天
+        List<outReturnType> list = outFruBanPesDetRecordsService.selectoutFruBanPesDetRecordsList2(outReturnTypeRecords,startDate,endDate);
         return getDataTable(list);
     }
 

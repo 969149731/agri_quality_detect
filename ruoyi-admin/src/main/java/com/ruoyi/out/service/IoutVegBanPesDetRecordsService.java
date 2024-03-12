@@ -63,5 +63,5 @@ public interface IoutVegBanPesDetRecordsService
 
 
     //自建方法
-    List<outReturnType> selectoutVegBanPesDetRecordsList2();
+    List<outReturnType> selectoutVegBanPesDetRecordsList2(outVegBanPesDetRecords outVegBanPesDetRecords);
 }

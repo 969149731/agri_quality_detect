@@ -1,26 +1,39 @@
 <template>
   <div class="app-container">
     <el-form :model="queryParams" ref="queryForm" size="small" :inline="true" v-show="showSearch" label-width="68px">
-<!--      <el-form-item label="数据源于哪个市区县" prop="sourceArea">-->
-<!--        <el-input-->
-<!--          v-model="queryParams.sourceArea"-->
-<!--          placeholder="请输入数据源于哪个市区县"-->
-<!--          clearable-->
-<!--          @keyup.enter.native="handleQuery"-->
-<!--        />-->
-<!--      </el-form-item>-->
-<!--      <el-form-item label="记录创建的时间" prop="createdDate">-->
-<!--        <el-date-picker clearable-->
-<!--          v-model="queryParams.createdDate"-->
-<!--          type="date"-->
-<!--          value-format="yyyy-MM-dd"-->
-<!--          placeholder="请选择记录创建的时间">-->
-<!--        </el-date-picker>-->
-<!--      </el-form-item>-->
-<!--      <el-form-item>-->
-<!--        <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery">搜索</el-button>-->
-<!--        <el-button icon="el-icon-refresh" size="mini" @click="resetQuery">重置</el-button>-->
-<!--      </el-form-item>-->
+      <el-form-item label="抽样年份" prop="year">
+        <el-input
+          v-model="queryParams.year"
+          placeholder="请输入抽样年份"
+          clearable
+          @keyup.enter.native="handleQuery"
+        />
+      </el-form-item>
+
+      <el-form-item label="抽样季度" prop="season">
+        <el-input
+          v-model="queryParams.season"
+          placeholder="请输入抽样季度"
+          clearable
+          @keyup.enter.native="handleQuery"
+        />
+      </el-form-item>
+      <el-form-item label="抽样日期">
+        <el-date-picker
+          v-model="dateRange"
+          style="width: 240px"
+          value-format="yyyy-MM-dd"
+          type="daterange"
+          range-separator="-"
+          start-placeholder="开始日期"
+          end-placeholder="结束日期"
+        ></el-date-picker>
+      </el-form-item>
+      <el-form-item>
+
+        <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery">搜索</el-button>
+        <el-button icon="el-icon-refresh" size="mini" @click="resetQuery">重置</el-button>
+      </el-form-item>
     </el-form>
 
     <el-row :gutter="10" class="mb8">
@@ -344,6 +357,7 @@ import { listOutStandCompliance2,listOutStandCompliance, getOutStandCompliance, 
 import * as XLSX from "xlsx";
 import * as XLSXS from "xlsx-style";
 import FileSaver from 'file-saver';
+import { reactive } from 'vue'
 export default {
   name: "OutStandCompliance",
   data() {
@@ -441,6 +455,8 @@ export default {
         qualificationRate: null,
         createdDate: null
       },
+      // 日期范围
+      dateRange: [],
       // 表单参数
       form: {},
       // 表单校验
@@ -507,36 +523,32 @@ export default {
     /** 查询参照国际组织或国家标准合格率情况列表 */
     getList() {
       this.loading = true;
-      listOutStandCompliance(this.queryParams).then(response => {
-        this.outStandComplianceList = response.rows;
-        this.total = response.total;
-        this.loading = false;
-
-      });
-      listOutStandCompliance2(this.queryParams).then(response => {//二维表使用的列表获取
+      listOutStandCompliance2(this.addDateRange(this.queryParams, this.dateRange)).then(response => {//二维表使用的列表获取
         this.pesticideNameList = response.rows;
         this.total = response.total;
-
-
         let length=this.pesticideNameList.length
         //抽样数
-        this.StandardList[0].sampleNum+=this.pesticideNameList[length-2].CN;
-        this.StandardList[1].sampleNum+=this.pesticideNameList[length-2].CAC;
-        this.StandardList[2].sampleNum+=this.pesticideNameList[length-2].US;
-        this.StandardList[3].sampleNum+=this.pesticideNameList[length-2].EU;
-        this.StandardList[4].sampleNum+=this.pesticideNameList[length-2].JPN;
-        this.StandardList[5].sampleNum+=this.pesticideNameList[length-2].KR;
+        this.StandardList[0].sampleNum=this.pesticideNameList[length-2].CN;
+        this.StandardList[1].sampleNum=this.pesticideNameList[length-2].CAC;
+        this.StandardList[2].sampleNum=this.pesticideNameList[length-2].US;
+        this.StandardList[3].sampleNum=this.pesticideNameList[length-2].EU;
+        this.StandardList[4].sampleNum=this.pesticideNameList[length-2].JPN;
+        this.StandardList[5].sampleNum=this.pesticideNameList[length-2].KR;
         //合格数
-        this.StandardList[0].passNum+=this.pesticideNameList[length-1].CN;
-        this.StandardList[1].passNum+=this.pesticideNameList[length-1].CAC;
-        this.StandardList[2].passNum+=this.pesticideNameList[length-1].US;
-        this.StandardList[3].passNum+=this.pesticideNameList[length-1].EU;
-        this.StandardList[4].passNum+=this.pesticideNameList[length-1].JPN;
-        this.StandardList[5].passNum+=this.pesticideNameList[length-1].KR;
+        this.StandardList[0].passNum=this.pesticideNameList[length-1].CN;
+        this.StandardList[1].passNum=this.pesticideNameList[length-1].CAC;
+        this.StandardList[2].passNum=this.pesticideNameList[length-1].US;
+        this.StandardList[3].passNum=this.pesticideNameList[length-1].EU;
+        this.StandardList[4].passNum=this.pesticideNameList[length-1].JPN;
+        this.StandardList[5].passNum=this.pesticideNameList[length-1].KR;
         for(let standard of this.StandardList){//计算Rate
-          standard.passRate=standard.passNum/standard.sampleNum*100
-          standard.passRate=standard.passRate.toFixed(2)//注意会将类型改为字符串类型
-          console.log("standard合格率",standard.passRate)
+          if(standard.sampleNum===0){
+            standard.passRate=0;
+            standard.passRate=standard.passRate.toFixed(2)//保留两位小数，注意会将类型改为字符串类型
+          }else {
+            standard.passRate=standard.passNum/standard.sampleNum*100
+            standard.passRate=standard.passRate.toFixed(2)//保留两位小数，注意会将类型改为字符串类型
+          }
         }
         this.pesticideNameList.splice(this.pesticideNameList.length-2, 2);//将多出的两列除去
         this.loading = false;
@@ -627,10 +639,12 @@ export default {
     /** 搜索按钮操作 */
     handleQuery() {
       this.queryParams.pageNum = 1;
+      this.pesticideNameList=[];//目前已知要在此清空才会更改内容
       this.getList();
     },
     /** 重置按钮操作 */
     resetQuery() {
+      this.dateRange=[];
       this.resetForm("queryForm");
       this.handleQuery();
     },

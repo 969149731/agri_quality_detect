@@ -99,8 +99,8 @@ public class outStandComplianceServiceImpl implements IoutStandComplianceService
     {//为避免多一次交互,将合格率计算放到前端进行
 
         List<outStandardReturnType> resultList = new ArrayList<outStandardReturnType>();//生产原始返回值结果，农药名及全为0的其他值
-        outStandardReturnType sampleNum= new outStandardReturnType("抽样数");//不放入结果
-        outStandardReturnType passNum= new outStandardReturnType("合格数");//不放入结果
+        outStandardReturnType sampleNum= new outStandardReturnType("抽样数");//最后才放入结果
+        outStandardReturnType passNum= new outStandardReturnType("合格数");//最后才放入结果
 
         //结果初始化
         PageHelper.startPage(0,0,false,false,true);//解除分页方法，仅对之后第一个查询生效
@@ -112,13 +112,13 @@ public class outStandComplianceServiceImpl implements IoutStandComplianceService
 
         //获取所有检测结果
         PageHelper.startPage(0,0,false,false,true);//解除分页方法，仅对之后第一个查询生效
-        List<agriCitySampleTestDetails> SampleList = outStandComplianceMapper.getFruVegDetSample();//获取所有样本
-        if (SampleList.isEmpty()){System.out.println("样本查询结果为空");return resultList;}
+        List<agriCitySampleTestDetails> SampleList = outStandComplianceMapper.getFruVegDetSample(outStandardReturnType.getParams());//获取所有样本
+        if (SampleList.isEmpty()){System.out.println("样本查询结果为空");}
 
         //遍历所有获取到的样本
         for (agriCitySampleTestDetails sample : SampleList) {
             //判断该样本是否合格并在内部统计
-            outStandardReturnType answer = SamplePasscCheck(resultMap,sample.getSampleCode());
+            outStandardReturnType answer = SamplePasscCheck(resultMap,sample);
             passNum.addAll(answer);//使用方法传回的该样本在不同标准下的合格情况，农药的超标情况在内部统计
             //System.out.println("看看answer的变化"+answer);
         }
@@ -136,7 +136,14 @@ public class outStandComplianceServiceImpl implements IoutStandComplianceService
 
         sampleNum.setAll(SampleList.size());//直接用样本的大小
         //passNum自身就可用
-
+        if (SampleList.isEmpty()){
+            //末尾加2个，前端会将其删除
+            resultList.add(sampleNum);
+            resultList.add(passNum);
+            System.out.println("当前结果数"+SampleList.size());
+            System.out.println("当前农药数数"+pesticideList.size());
+            return resultList;
+        }
         //末尾加2个，前端会将其删除
         resultList.add(sampleNum);
         resultList.add(passNum);
@@ -154,29 +161,28 @@ public class outStandComplianceServiceImpl implements IoutStandComplianceService
         return true;
     };
     //判断样本是否合格，1为合格，0为不合格
-    outStandardReturnType SamplePasscCheck(Map<String, outStandardReturnType> resultMap,String SampleCode){
+    outStandardReturnType SamplePasscCheck(Map<String, outStandardReturnType> resultMap,agriCitySampleTestDetails sample){
         outStandardReturnType result =new outStandardReturnType();
-        result.setAll(0);//初始均为不合格
-
+        result.setAll(1);//初始均为合格
+        List<String> standardType= Arrays.asList("国家标准", "CAC","欧盟","美国","日本","韩国");//用于遍历
         //获取该样本下所有农药的检测结果
-        List<outFruVegSelectType> SelectList = outStandComplianceMapper.getFruVegDetResultList(SampleCode);
-        System.out.println("打印对应样本及其检测结果  样本编号："+SampleCode+" 农药列表："+SelectList);
+        List<outFruVegSelectType> SelectList = outStandComplianceMapper.getFruVegDetResultList(sample.getSampleCode());
+        System.out.println("打印对应样本及其检测结果  样本编号："+sample.getSampleCode()+" 农药列表："+SelectList);
         if (SelectList.isEmpty()){
             //防止返回空的情况，一般不会为空
-            result.setAll(1);//将所有值设为1，表示该样本在所有标准下均合格
-            return result;//检测合格
+            return result;//检测合格，返回初始的均为合格的情况
         }
-        for (outFruVegSelectType item: SelectList){
+        for (outFruVegSelectType item: SelectList){//遍历所有检出的农药
             //获取蔬菜名//用于获取标准
             String vegFruName = item.vegFruName;
             String pesticideName = item.pesticideName;
             if(pesticideName==null && item.pesticideDetValue==null){
                 System.out.println("该条目下无检出农药"+"/r/n蔬果名:"+vegFruName+"样品编号"+item.sampleCode);
                 result.setAll(1);//将所有值设为1，表示该样本在所有标准下均合格
-                return result;//检测合格
+                return result;//检测合格，返回初始的均为合格的情况
             }
-            if (!checkIsUseful(item)){
-                return result;//没通过数据可用审查,此样本均不合格
+            if (!checkIsUseful(item)){//对蔬菜名进行审查
+                return result;//默认合格？，返回初始均为合格的情况
             }
 
             //获取对应标准//可能取得多个标准
@@ -185,27 +191,36 @@ public class outStandComplianceServiceImpl implements IoutStandComplianceService
             if(!standardslist.isEmpty()){//有就啥也不做，在下面进行计算，没有就全不通过
             }else {
                 System.out.println("没有任何对应标准"+"/n蔬果名:"+vegFruName+"/n农药名:"+pesticideName);
-                return result;//没有标准，均不合格
+                for(String standarditem:standardType){//在没有任何标准时对用户输入的合格信息进行遍历
+                    if (sample.IsPassUnderTheStandard(standarditem)){
+                    }else {//仅对不合格时设定0，一旦设为0后，该样本的该标准为不合格
+                        result.setOne(standarditem,0);
+                    }
+                }
+                return result;//返回使用了用户传入的信息的结果
             }
 
             //计算相应属性
-            List<String> standardType= Arrays.asList("国家标准", "CAC","欧盟","美国","日本","韩国");//有农药检出就一定要看所有标准
+            //有农药检出且有至少一个参考标准就要看所有标准
             Map<String, agriPesticideResidueStandard> standardMap = new TreeMap<String, agriPesticideResidueStandard>();//使用字典存储
-            for (agriPesticideResidueStandard standard:standardslist) {//初始化Map用于遍历所有类型的标准
+            for (agriPesticideResidueStandard standard:standardslist) {//初始化Map，用于对所有现有的参考标准进行查询
                 standardMap.put(standard.standardCategory, standard);
             }
 
-            result.setAll(1);//到此默认均合格，若有任意不合格情况，将设为0
-            for (String standardName:standardType){//开始依次判断所有标准
+            for (String standardName:standardType){//开始依次判断所有的6个标准
                 agriPesticideResidueStandard nowStandard = standardMap.get(standardName);//当前标准
-                if(nowStandard==null){//对应的标准不存在，不合格
-                    result.setOne(standardName,0);
+                if(nowStandard==null){//对应的标准不存在，即查询标准返回的结果列表中没有
+                    if (sample.IsPassUnderTheStandard(standardName)){//使用用户输入的信息，为空时也视为不合格
+                    }else {
+                        result.setOne(standardName,0);
+                    }
                     continue;
                 }
+                //对应的标准存在，对农药进行判断和统计
                 if(resultMap.get(pesticideName)!=null){//在检测的列表中//不在检测列表中的农药不考察
                     outStandardReturnType pesticide = resultMap.get(pesticideName);
                     if (item.pesticideDetValue > nowStandard.standardValue) {//超标
-                        result.setOne(standardName,0);
+                        result.setOne(standardName,0);//不合格
                         pesticide.addOne(standardName);//对应农药的对应标准超标数+1
                     }else{//在该标准下该种农药合格//但样品合格要看所有农药
                         //已默认合格，无操作

@@ -80,7 +80,7 @@ public class outSampleStageTypeServiceImpl implements IoutSampleStageTypeService
 
         //获取所有样本
         PageHelper.startPage(0,0,false,false,true);//分页方法，仅对之后第一个查询生效
-        List<agriCitySampleTestDetails> SampleList= outSampleStageTypeMapper.getCitySampleResultList();
+        List<agriCitySampleTestDetails> SampleList= outSampleStageTypeMapper.getCitySampleResultList(outSampleStageType.getParams());
         if(SampleList.isEmpty()){System.out.println("样本列表为空");}
         for(agriCitySampleTestDetails sample:SampleList){
             if (sample.getSampleCode().equals("2024R1047")){

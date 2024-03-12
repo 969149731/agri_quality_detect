@@ -60,5 +60,5 @@ public interface IoutFruNoBanPesDetRecordsService
      */
     public int deleteoutFruNoBanPesDetRecordsByFruNoBanPesDetRecordsId(Long fruNoBanPesDetRecordsId);
 
-    public List<outReturnType> selectoutFruNoBanPesDetRecordsList2();
+    public List<outReturnType> selectoutFruNoBanPesDetRecordsList2(outFruNoBanPesDetRecords outFruNoBanPesDetRecords);
 }

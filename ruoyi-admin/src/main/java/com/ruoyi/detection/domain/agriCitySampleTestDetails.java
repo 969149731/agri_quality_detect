@@ -242,6 +242,30 @@ public class agriCitySampleTestDetails extends BaseEntity
         this.agriPesticideDetResultList = agriPesticideDetResultList;
     }
 
+    public boolean IsPassUnderTheStandard(String standardName){
+        switch (standardName){
+            case "国家标准":
+                if (this.chinaStandard!=null && this.chinaStandard.equals("合格")) return true;
+                else return false;
+            case "CAC":
+                if (this.cacStandard!=null &&this.cacStandard.equals("合格")) return true;
+                else return false;
+            case "欧盟":
+                if (this.euStandard!=null &&this.euStandard.equals("合格")) return true;
+                else return false;
+            case "美国":
+                if (this.usStandard!=null &&this.usStandard.equals("合格")) return true;
+                else return false;
+            case "韩国":
+                if (this.koreaStandard!=null &&this.koreaStandard.equals("合格")) return true;
+                else return false;
+            case "日本":
+                if (this.japanStandard!=null &&this.japanStandard.equals("合格")) return true;
+                else return false;
+        }
+        return true;//合格
+    }
+
     @Override
     public String toString() {
         return new ToStringBuilder(this,ToStringStyle.MULTI_LINE_STYLE)

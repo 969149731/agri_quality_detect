@@ -60,52 +60,61 @@ public class outSampleQualityServiceImpl implements IoutSampleQualityService
         }
         //获取检测结果列表
         PageHelper.startPage(0,0,false,false,true);//分页方法，仅对之后第一个查询生效
-        List<outFruVegSelectType2> SelectList = outSampleQualityMapper.getFruVegDetResultList();//获取农药检测结果表
-        System.out.println("列表大小"+SelectList.size());
+        List<outFruVegSelectType2> SelectList = outSampleQualityMapper.getFruVegDetResultList(outSampleQuality.getParams());//获取农药检测结果表
         for (outFruVegSelectType2 item : SelectList) {//遍历结果表
+            if (!item.checkIsUseful()) {//对蔬果名、农药名生产环节进行数据审查
+                String msg = "<br/>" + "第" + item.citySampleTestDetailsId + "条" + "数据无法判断";
+                continue;//没通过数据可用审查，跳过当前的检测条目
+            }
             //获取蔬菜名//用于获取标准
-            String vegFruName = item.vegFruName;
-            String vegFruType = item.vegFruType;
-            String pesticidName = item.pesticideName;
-            String stageName = item.samplingStageType;
+            String vegFruName = item.vegFruName;//蔬菜名
+            String vegFruType = item.vegFruType;//蔬菜类型
+            String pesticidName = item.pesticideName;//农药名
+            String stageName = item.samplingStageType;//生产环节
+            agriPesticideResidueStandard chineseStandard=null;
+            //获取对应标准//在这里可以获取多种标准
+            PageHelper.startPage(0,0,false,false,true);//分页方法，仅对之后第一个查询生效
+            List<agriPesticideResidueStandard> standardslist = outSampleQualityMapper.getagriPesticideResidueStandard(pesticidName, vegFruName);
+            if(!standardslist.isEmpty() && this.findChineseStandard(standardslist)!=null){//在工具方法中判断了是否为国家标准
+                chineseStandard =this.findChineseStandard(standardslist);//获取国家标准，如果有跳到下方进行数值判断
+            }else{//没有国家标准
+                //计算相应属性
+                if ("水果".equals(vegFruType)){
+                        if (resultMap.get(stageName) != null) {//能获取到样本的生产环节
+                            resultMap.get(stageName).fruSamplingCountAddOne();//先增加一个抽样数
+                        }
+                    if ("合格".equals(item.chinaStandard)) {
+                            if (resultMap.get(stageName) != null) {
+                                resultMap.get(stageName).fruQualifiedCountAddOne();
+                            }
+                    }
+                }
+                else if ("蔬菜".equals(vegFruType)){
+                        if (resultMap.get(stageName) != null) {
+                            resultMap.get(stageName).vegSamplingCountAddOne();
+                        }
 
-
+                    if ("合格".equals(item.chinaStandard)) {
+                            if (resultMap.get(stageName) != null) {
+                                resultMap.get(stageName).vegQualifiedCountAddOne();
+                            }
+                    }
+                }
+                continue;
+            }
             //计算相应属性
-            if ("水果".equals(vegFruType)){
-                if (resultMap != null && item.samplingStageType != null) {
-                    if (resultMap.get(item.samplingStageType) != null) {
-                        resultMap.get(item.samplingStageType).fruSamplingCountAddOne();
-                    }
+            if ("水果".equals(vegFruType)&&stageName!=null){//水果
+                resultMap.get(stageName).fruSamplingCountAddOne();
+                if (chineseStandard !=null && item.pesticideDetValue<=chineseStandard.standardValue){//合格//注意等于限制也合格
+                    resultMap.get(item.samplingStageType).fruQualifiedCountAddOne();
                 }
-
-                if ("合格".equals(item.chinaStandard)) {
-                    if (resultMap != null && item.samplingStageType != null) {
-                        if (resultMap.get(item.samplingStageType) != null) {
-                            resultMap.get(item.samplingStageType).fruQualifiedCountAddOne();
-                        }
-                    }
-                }
-
             }
-
-            else if ("蔬菜".equals(vegFruType)){
-
-                if (resultMap != null && item.samplingStageType != null) {
-                    if (resultMap.get(item.samplingStageType) != null) {
-                        resultMap.get(item.samplingStageType).vegSamplingCountAddOne();
-                    }
+            else if ("蔬菜".equals(vegFruType)&&stageName!=null){
+                resultMap.get(stageName).vegSamplingCountAddOne();
+                if (chineseStandard !=null && item.pesticideDetValue<=chineseStandard.standardValue){
+                    resultMap.get(item.samplingStageType).vegQualifiedCountAddOne();
                 }
-
-                if ("合格".equals(item.chinaStandard)) {
-                    if (resultMap != null && item.samplingStageType != null) {
-                        if (resultMap.get(item.samplingStageType) != null) {
-                            resultMap.get(item.samplingStageType).vegQualifiedCountAddOne();
-                        }
-                    }
-                }
-
             }
-
         }
 
         //把Map里的东西装进去
@@ -199,19 +208,18 @@ public class outSampleQualityServiceImpl implements IoutSampleQualityService
         }
         //获取检测结果列表
         PageHelper.startPage(0,0,false,false,true);//分页方法，仅对之后第一个查询生效
-        List<outFruVegSelectType2> SelectList = outSampleQualityMapper.getFruVegDetResultList();//获取农药检测结果表
+        List<outFruVegSelectType2> SelectList = outSampleQualityMapper.getFruVegDetResultList(outSampleQuality.getParams());//获取农药检测结果表
         if(SelectList.isEmpty()){System.out.println("查询出的结果列表为空");return resultList;}
-        System.out.println("列表大小"+SelectList.size());
         for (outFruVegSelectType2 item : SelectList) {//遍历结果表
-            if (!item.checkIsUseful()) {//对蔬果名、农药名进行数据审查
+            if (!item.checkIsUseful()) {//对蔬果名、农药名生产环节进行数据审查
                 String msg = "<br/>" + "第" + item.citySampleTestDetailsId + "条" + "数据无法判断";
                 continue;//没通过数据可用审查，跳过当前的检测条目
             }
             //获取蔬菜名//用于获取标准
-            String vegFruName = item.vegFruName;
-            String vegFruType = item.vegFruType;
-            String pesticidName = item.pesticideName;
-            String stageName = item.samplingStageType;
+            String vegFruName = item.vegFruName;//蔬菜名
+            String vegFruType = item.vegFruType;//蔬菜类型
+            String pesticidName = item.pesticideName;//农药名
+            String stageName = item.samplingStageType;//生产环节
             agriPesticideResidueStandard chineseStandard=null;
             //获取对应标准//在这里可以获取多种标准
             PageHelper.startPage(0,0,false,false,true);//分页方法，仅对之后第一个查询生效

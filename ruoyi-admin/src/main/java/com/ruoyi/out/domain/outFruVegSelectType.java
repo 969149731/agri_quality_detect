@@ -1,11 +1,12 @@
 package com.ruoyi.out.domain;
 
+import com.ruoyi.common.core.domain.BaseEntity;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
 import java.util.Date;
 
-public class outFruVegSelectType {
+public class outFruVegSelectType extends BaseEntity {
     public Long citySampleTestDetailsId;
     public String sampleCode;
     public String vegFruName;

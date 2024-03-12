@@ -55,6 +55,7 @@ public class outFruVegQualificationController extends BaseController
     {
         startPage();
         List<outFruVegQualification> list = outFruVegQualificationService.selectoutFruVegQualificationList(outFruVegQualification);
+        if (list==null) return null;//奇怪的报错，有空注意一下//可能是其他模块的返回值是带参数的，这个貌似不带
         return getDataTable(list);
     }
 

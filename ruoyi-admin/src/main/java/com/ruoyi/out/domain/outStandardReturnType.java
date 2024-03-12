@@ -99,7 +99,7 @@ public class outStandardReturnType extends BaseEntity {
             case "韩国":this.KR+=1;break;
         }
     }
-    public void setOne(String StandardName,int setTonum){
+    public void setOne(String StandardName,int setTonum){//对其进行值的设定
         switch (StandardName){
             case "国家标准":this.CN=setTonum;break;
             case "CAC":this.CAC=setTonum;break;
@@ -130,7 +130,7 @@ public class outStandardReturnType extends BaseEntity {
                 .toString();
     }
     //工具方法
-    public void setAll(int SampleNum){
+    public void setAll(int SampleNum){//当设定其为合格（合格为1）时注意，若某一样本检出的某一农药超标，则其为不合格
         this.CN=SampleNum;
         this.CAC=SampleNum;
         this.JPN=SampleNum;

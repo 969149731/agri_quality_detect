@@ -67,7 +67,7 @@ public class outFruNoBanPesDetRecordsController extends BaseController
     @PostMapping("/export")
     public void export(HttpServletResponse response, outFruNoBanPesDetRecords outFruNoBanPesDetRecords)
     {
-        List<outReturnType> list = outFruNoBanPesDetRecordsService.selectoutFruNoBanPesDetRecordsList2();
+        List<outReturnType> list = outFruNoBanPesDetRecordsService.selectoutFruNoBanPesDetRecordsList2(outFruNoBanPesDetRecords);
         TemplateExportParams params = new TemplateExportParams("ruoyi-admin/src/main/java/com/ruoyi/excelOutTemplate/outFruBanPesDetRecords.xlsx");
         Map<String, Object> map = new HashMap<>();
         map.put("tableName", "4.水果上非禁止使用农药检出及超标情况");
@@ -159,7 +159,7 @@ public class outFruNoBanPesDetRecordsController extends BaseController
     public TableDataInfo listNew(outFruNoBanPesDetRecords outFruNoBanPesDetRecords)
     {
         startPage();
-        List<outReturnType> list = outFruNoBanPesDetRecordsService.selectoutFruNoBanPesDetRecordsList2();
+        List<outReturnType> list = outFruNoBanPesDetRecordsService.selectoutFruNoBanPesDetRecordsList2(outFruNoBanPesDetRecords);
         return getDataTable(list);
     }
 }

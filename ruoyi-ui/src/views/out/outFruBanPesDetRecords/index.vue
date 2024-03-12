@@ -1,27 +1,39 @@
 <template>
   <div class="app-container">
     <el-form :model="queryParams" ref="queryForm" size="small" :inline="true" v-show="showSearch" label-width="68px">
-<!--      <el-form-item label="农药名称" prop="pesticideName">-->
-<!--        <el-input-->
-<!--          v-model="queryParams.pesticideName"-->
-<!--          placeholder="请输入农药名称"-->
-<!--          clearable-->
-<!--          @keyup.enter.native="handleQuery"-->
-<!--        />-->
-<!--      </el-form-item>-->
+      <el-form-item label="抽样年份" prop="year">
+        <el-input
+          v-model="queryParams.year"
+          placeholder="请输入抽样年份"
+          clearable
+          @keyup.enter.native="handleQuery"
+        />
+      </el-form-item>
 
-<!--      <el-form-item label="记录创建时间" prop="createdDate" label-width="100px">-->
-<!--        <el-date-picker clearable-->
-<!--          v-model="queryParams.createdDate"-->
-<!--          type="date"-->
-<!--          value-format="yyyy-MM-dd"-->
-<!--          placeholder="请选择记录创建的时间">-->
-<!--        </el-date-picker>-->
-<!--      </el-form-item>-->
-<!--      <el-form-item>-->
-<!--        <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery">搜索</el-button>-->
-<!--        <el-button icon="el-icon-refresh" size="mini" @click="resetQuery">重置</el-button>-->
-<!--      </el-form-item>-->
+      <el-form-item label="抽样季度" prop="season">
+        <el-input
+          v-model="queryParams.season"
+          placeholder="请输入抽样季度"
+          clearable
+          @keyup.enter.native="handleQuery"
+        />
+      </el-form-item>
+      <el-form-item label="抽样日期">
+        <el-date-picker
+          v-model="dateRange"
+          style="width: 240px"
+          value-format="yyyy-MM-dd"
+          type="daterange"
+          range-separator="-"
+          start-placeholder="开始日期"
+          end-placeholder="结束日期"
+        ></el-date-picker>
+      </el-form-item>
+      <el-form-item>
+
+        <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery">搜索</el-button>
+        <el-button icon="el-icon-refresh" size="mini" @click="resetQuery">重置</el-button>
+      </el-form-item>
     </el-form>
 
     <el-row :gutter="10" class="mb8">
@@ -103,8 +115,6 @@
 <!--        <img src=""  class="bottom-img"/>-->
 <!--    </el-card>-->
 
-
-
     <pagination
       v-show="total>0"
       :total="total"
@@ -112,81 +122,6 @@
       :limit.sync="queryParams.pageSize"
       @pagination="getList"
     />
-
-    <!-- 添加或修改水果禁用农药检出及超标情况对话框 -->
-    <el-dialog :title="title" :visible.sync="open" width="500px" append-to-body>
-      <el-form ref="form" :model="form" :rules="rules" label-width="80px">
-        <el-form-item label="农药名称" prop="pesticideName">
-          <el-input v-model="form.pesticideName" placeholder="请输入农药名称" />
-        </el-form-item>
-        <el-form-item label="甲胺磷" prop="methamidophos">
-          <el-input v-model="form.methamidophos" placeholder="请输入甲胺磷" />
-        </el-form-item>
-        <el-form-item label="乙酰甲胺磷" prop="acephate">
-          <el-input v-model="form.acephate" placeholder="请输入乙酰甲胺磷" />
-        </el-form-item>
-        <el-form-item label="甲拌磷" prop="phorate">
-          <el-input v-model="form.phorate" placeholder="请输入甲拌磷" />
-        </el-form-item>
-        <el-form-item label="氧乐果" prop="dimethoate">
-          <el-input v-model="form.dimethoate" placeholder="请输入氧乐果" />
-        </el-form-item>
-        <el-form-item label="水胺硫磷" prop="isocarbophos">
-          <el-input v-model="form.isocarbophos" placeholder="请输入水胺硫磷" />
-        </el-form-item>
-        <el-form-item label="乐果" prop="dichlorvos">
-          <el-input v-model="form.dichlorvos" placeholder="请输入乐果" />
-        </el-form-item>
-        <el-form-item label="甲基异柳磷" prop="methylParathion">
-          <el-input v-model="form.methylParathion" placeholder="请输入甲基异柳磷" />
-        </el-form-item>
-        <el-form-item label="氟虫腈" prop="flucythrinate">
-          <el-input v-model="form.flucythrinate" placeholder="请输入氟虫腈" />
-        </el-form-item>
-        <el-form-item label="克百威" prop="carbaryl">
-          <el-input v-model="form.carbaryl" placeholder="请输入克百威" />
-        </el-form-item>
-        <el-form-item label="涕灭威" prop="permethrin">
-          <el-input v-model="form.permethrin" placeholder="请输入涕灭威" />
-        </el-form-item>
-        <el-form-item label="检出次数" prop="deteNum">
-          <el-input v-model="form.deteNum" placeholder="请输入检出次数" />
-        </el-form-item>
-        <el-form-item label="超标次数" prop="exDetNum">
-          <el-input v-model="form.exDetNum" placeholder="请输入超标次数" />
-        </el-form-item>
-        <el-form-item label="记录生产基地的检查次数" prop="productionInspectCount">
-          <el-input v-model="form.productionInspectCount" placeholder="请输入记录生产基地的检查次数" />
-        </el-form-item>
-        <el-form-item label="记录生产基地的超标次数" prop="productionExceedCount">
-          <el-input v-model="form.productionExceedCount" placeholder="请输入记录生产基地的超标次数" />
-        </el-form-item>
-        <el-form-item label="记录批发市场的检查次数" prop="wholesaleInspectCount">
-          <el-input v-model="form.wholesaleInspectCount" placeholder="请输入记录批发市场的检查次数" />
-        </el-form-item>
-        <el-form-item label="记录批发市场的超标次数" prop="wholesaleExceedCount">
-          <el-input v-model="form.wholesaleExceedCount" placeholder="请输入记录批发市场的超标次数" />
-        </el-form-item>
-        <el-form-item label="记录运输车的检查次数" prop="vehicleInspectCount">
-          <el-input v-model="form.vehicleInspectCount" placeholder="请输入记录运输车的检查次数" />
-        </el-form-item>
-        <el-form-item label="记录运输车的超标次数" prop="vehicleExceedCount">
-          <el-input v-model="form.vehicleExceedCount" placeholder="请输入记录运输车的超标次数" />
-        </el-form-item>
-        <el-form-item label="记录创建的时间" prop="createdDate">
-          <el-date-picker clearable
-            v-model="form.createdDate"
-            type="date"
-            value-format="yyyy-MM-dd"
-            placeholder="请选择记录创建的时间">
-          </el-date-picker>
-        </el-form-item>
-      </el-form>
-      <div slot="footer" class="dialog-footer">
-        <el-button type="primary" @click="submitForm">确 定</el-button>
-        <el-button @click="cancel">取 消</el-button>
-      </div>
-    </el-dialog>
   </div>
 </template>
 
@@ -219,6 +154,7 @@ export default {
       title: "",
       // 是否显示弹出层
       open: false,
+
       // 查询参数
       queryParams: {
         pageNum: 1,
@@ -234,16 +170,13 @@ export default {
         flucythrinate: null,
         carbaryl: null,
         permethrin: null,
-        deteNum: null,
-        exDetNum: null,
-        productionInspectCount: null,
-        productionExceedCount: null,
-        wholesaleInspectCount: null,
-        wholesaleExceedCount: null,
-        vehicleInspectCount: null,
-        vehicleExceedCount: null,
-        createdDate: null
+        year: '2024', // 设置默认值为 2024
+        season:'3',//设置默认值为3
+        createdDate: null,
       },
+      // 日期范围
+      dateRange: [],
+
       // 表单参数
       form: {},
       // 表单校验
@@ -298,15 +231,13 @@ export default {
     /** 查询水果禁用农药检出及超标情况列表 */
     getList() {
       this.loading = true;
-      listOutFruBanPesDetRecords(this.queryParams).then(response => {
-        this.outFruBanPesDetRecordsList = response.rows;
-        this.total = response.total;
-        this.loading = false;
-      });
-      listOutFruBanPesDetRecords2(this.queryParams).then(response => {//二维表使用的列表获取
+      // listOutFruBanPesDetRecords(this.queryParams).then(response => {
+      //   this.outFruBanPesDetRecordsList = response.rows;
+      //   this.total = response.total;
+      //   this.loading = false;
+      // });
+      listOutFruBanPesDetRecords2(this.addDateRange(this.queryParams, this.dateRange)).then(response => {//二维表使用的列表获取
         this.pesticideNameList = response.rows;
-        let newList=Object.assign({},response.rows[0]);
-        const newObj = newList.pesticideName;
         this.loading = false;
       });
     },
@@ -349,6 +280,7 @@ export default {
     },
     /** 重置按钮操作 */
     resetQuery() {
+      this.dateRange = [];
       this.resetForm("queryForm");
       this.handleQuery();
     },

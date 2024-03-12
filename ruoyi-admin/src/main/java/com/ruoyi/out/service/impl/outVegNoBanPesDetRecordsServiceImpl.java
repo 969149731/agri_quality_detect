@@ -95,7 +95,7 @@ public class outVegNoBanPesDetRecordsServiceImpl implements IoutVegNoBanPesDetRe
     {
         return outVegNoBanPesDetRecordsMapper.deleteoutVegNoBanPesDetRecordsByVegNoBanPesDetRecordsId(vegNoBanPesDetRecordsId);
     }
-    public List<outReturnType> selectoutVegNoBanPesDetRecordsList2() {
+    public List<outReturnType> selectoutVegNoBanPesDetRecordsList2(outVegNoBanPesDetRecords outVegNoBanPesDetRecords) {
         //初始化模块
         List<outReturnType> resultList = new ArrayList<outReturnType>();//生成原始返回值结果，农药名及全为0的其他值
         PageHelper.startPage(0, 0, false, false, true);//分页方法，仅对之后第一个查询生效
@@ -110,7 +110,7 @@ public class outVegNoBanPesDetRecordsServiceImpl implements IoutVegNoBanPesDetRe
         }
 
         PageHelper.startPage(0, 0, false, false, true);//分页方法，仅对之后第一个查询生效
-        List<outFruVegSelectType> SelectList = outVegNoBanPesDetRecordsMapper.getFruVegDetResultList();//获取所有符合条件的农药检测结果表//在此处进行各类条件查询
+        List<outFruVegSelectType> SelectList = outVegNoBanPesDetRecordsMapper.getFruVegDetResultList(outVegNoBanPesDetRecords.getParams());//获取所有符合条件的农药检测结果表//在此处进行各类条件查询
         if (SelectList.isEmpty()) {
             System.out.println("查询出的检测结果列表为空");
             return resultList;

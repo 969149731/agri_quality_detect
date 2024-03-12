@@ -56,8 +56,9 @@ public class outFruVegQualificationServiceImpl implements IoutFruVegQualificatio
         List<String> VegDetailType= Arrays.asList("瓜果类", "叶菜类", "豆类","根茎类","蔬菜其它类");
         List<String> FruDetailType= Arrays.asList("柑橘类","浆果类","核果类","水果其它类");
 
+        //查询所有样本的检测结果
         PageHelper.startPage(0,0,false,false,true);//分页方法，仅对之后第一个查询生效
-        List<outFruVegSelectType> selectReturnList = outFruVegQualificationMapper.getFruVegDetResultList();
+        List<outFruVegSelectType> selectReturnList = outFruVegQualificationMapper.getFruVegDetResultList(outFruVegQualification.getParams());
         if(selectReturnList.isEmpty()){System.out.println("查询出的结果列表为空");return null;}
         Map<String, outFruVegQualification> resultMap = new TreeMap<String, outFruVegQualification>();//使用字典存储
 

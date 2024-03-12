@@ -1,18 +1,39 @@
 <template>
   <div class="app-container">
     <el-form :model="queryParams" ref="queryForm" size="small" :inline="true" v-show="showSearch" label-width="68px">
-<!--      <el-form-item label="记录创建的时间" prop="createdDate">-->
-<!--        <el-date-picker clearable-->
-<!--          v-model="queryParams.createdDate"-->
-<!--          type="date"-->
-<!--          value-format="yyyy-MM-dd"-->
-<!--          placeholder="请选择记录创建的时间">-->
-<!--        </el-date-picker>-->
-<!--      </el-form-item>-->
-<!--      <el-form-item>-->
-<!--        <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery">搜索</el-button>-->
-<!--        <el-button icon="el-icon-refresh" size="mini" @click="resetQuery">重置</el-button>-->
-<!--      </el-form-item>-->
+      <el-form-item label="抽样年份" prop="year">
+        <el-input
+          v-model="queryParams.year"
+          placeholder="请输入抽样年份"
+          clearable
+          @keyup.enter.native="handleQuery"
+        />
+      </el-form-item>
+
+      <el-form-item label="抽样季度" prop="season">
+        <el-input
+          v-model="queryParams.season"
+          placeholder="请输入抽样季度"
+          clearable
+          @keyup.enter.native="handleQuery"
+        />
+      </el-form-item>
+      <el-form-item label="抽样日期">
+        <el-date-picker
+          v-model="dateRange"
+          style="width: 240px"
+          value-format="yyyy-MM-dd"
+          type="daterange"
+          range-separator="-"
+          start-placeholder="开始日期"
+          end-placeholder="结束日期"
+        ></el-date-picker>
+      </el-form-item>
+      <el-form-item>
+
+        <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery">搜索</el-button>
+        <el-button icon="el-icon-refresh" size="mini" @click="resetQuery">重置</el-button>
+      </el-form-item>
     </el-form>
 
     <el-row :gutter="10" class="mb8">
@@ -145,6 +166,8 @@ export default {
         exceedingPesticides: null,
         createdDate: null
       },
+      // 日期范围
+      dateRange: [],
       // 表单参数
       form: {},
       // 表单校验
@@ -197,7 +220,7 @@ export default {
     /** 查询各类蔬菜水果合格率情况列表 */
     getList() {
       this.loading = true;
-      listOutFruVegQualification(this.queryParams).then(response => {
+      listOutFruVegQualification(this.addDateRange(this.queryParams, this.dateRange)).then(response => {
         this.outFruVegQualificationList = response.rows;
         this.total = response.total;
         this.loading = false;
@@ -229,6 +252,7 @@ export default {
     },
     /** 重置按钮操作 */
     resetQuery() {
+      this.dateRange=[];
       this.resetForm("queryForm");
       this.handleQuery();
     },
