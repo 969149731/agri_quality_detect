@@ -231,11 +231,6 @@ export default {
     /** 查询水果禁用农药检出及超标情况列表 */
     getList() {
       this.loading = true;
-      // listOutFruBanPesDetRecords(this.queryParams).then(response => {
-      //   this.outFruBanPesDetRecordsList = response.rows;
-      //   this.total = response.total;
-      //   this.loading = false;
-      // });
       listOutFruBanPesDetRecords2(this.addDateRange(this.queryParams, this.dateRange)).then(response => {//二维表使用的列表获取
         this.pesticideNameList = response.rows;
         this.loading = false;

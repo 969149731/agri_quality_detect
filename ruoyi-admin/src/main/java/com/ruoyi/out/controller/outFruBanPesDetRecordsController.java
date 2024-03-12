@@ -68,15 +68,16 @@ public class outFruBanPesDetRecordsController extends BaseController
     @PreAuthorize("@ss.hasPermi('out:outFruBanPesDetRecords:export')")
     @Log(title = "水果禁用农药检出及超标情况", businessType = BusinessType.EXPORT)
     @PostMapping("/export")
-    public void export(HttpServletResponse response, outFruBanPesDetRecords outFruBanPesDetRecords,Integer  year, Integer  month1, Integer  month2, Integer  month3)
+    public void export(HttpServletResponse response, outFruBanPesDetRecords outFruBanPesDetRecords)
     {
-        Date startDate=new Date(year,month1,1);
-        Date endDate=new Date(year,month3,0);//获取月份最后一天
 //        List<outFruBanPesDetRecords> list = outFruBanPesDetRecordsService.selectoutFruBanPesDetRecordsList(outFruBanPesDetRecords);
 //        ExcelUtil<outFruBanPesDetRecords> util = new ExcelUtil<outFruBanPesDetRecords>(outFruBanPesDetRecords.class);
 //        util.exportExcel(response, list, "水果禁用农药检出及超标情况数据");
         outReturnType outReturnTypeRecords=new outReturnType();
-        List<outReturnType> list = outFruBanPesDetRecordsService.selectoutFruBanPesDetRecordsList2(outReturnTypeRecords,startDate,endDate);
+        outReturnTypeRecords.setParams(outFruBanPesDetRecords.getParams());
+        List<outReturnType> list = outFruBanPesDetRecordsService.selectoutFruBanPesDetRecordsList2(outReturnTypeRecords);
+        System.out.println("打印一下导出时的参数值"+list);
+        System.out.println("打印一下导出时的结果表"+list);
         TemplateExportParams params = new TemplateExportParams("ruoyi-admin/src/main/java/com/ruoyi/excelOutTemplate/outFruBanPesDetRecords.xlsx");
         Map<String, Object> map = new HashMap<>();
         map.put("tableName", "3.水果禁用农药检出及超标情况表");
@@ -180,7 +181,7 @@ public class outFruBanPesDetRecordsController extends BaseController
         }
         Date startDate=new Date(2022,month1,1);
         Date endDate=new Date(2022,month3,0);//获取月份最后一天
-        List<outReturnType> list = outFruBanPesDetRecordsService.selectoutFruBanPesDetRecordsList2(outReturnTypeRecords,startDate,endDate);
+        List<outReturnType> list = outFruBanPesDetRecordsService.selectoutFruBanPesDetRecordsList2(outReturnTypeRecords);
         return getDataTable(list);
     }
 

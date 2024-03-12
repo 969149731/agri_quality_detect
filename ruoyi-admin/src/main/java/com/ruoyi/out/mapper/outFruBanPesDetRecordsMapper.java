@@ -79,5 +79,5 @@ public interface outFruBanPesDetRecordsMapper
 
     public List<agriPesticideResidueStandard> getagriPesticideResidueStandard(String pesticideName, String vegFruName);
 
-    public List<outFruVegSelectType> getFruVegDetResultList(@Param("params")Map<String, Object> params, Date startDate, Date endDate);
+    public List<outFruVegSelectType> getFruVegDetResultList(@Param("params")Map<String, Object> params);
 }

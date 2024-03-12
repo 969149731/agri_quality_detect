@@ -63,5 +63,5 @@ public interface IoutFruBanPesDetRecordsService
 
     /*使用新方法获取列表
     */
-    public List<outReturnType> selectoutFruBanPesDetRecordsList2(outReturnType outReturnTypeRecords, Date startDate,Date endDate);
+    public List<outReturnType> selectoutFruBanPesDetRecordsList2(outReturnType outReturnTypeRecords);
 }
