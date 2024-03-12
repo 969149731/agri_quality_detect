@@ -140,7 +140,7 @@
 <!--      <el-table-column label="超标农药品种" align="center" prop="exceedPesticideName" />-->
 <!--      <el-table-column label="超标农药超标值" align="center" prop="exceedPesticideValue" />-->
 <!--      <el-table-column label="限量值" align="center" prop="limitValue" />-->
-      <el-table-column label="备注" align="center" prop="remarks" />
+<!--      <el-table-column label="备注" align="center" prop="remarks" />-->
 <!--      <el-table-column label="记录创建的时间" align="center" prop="createdDate" width="180">-->
 <!--        <template slot-scope="scope">-->
 <!--          <span>{{ parseTime(scope.row.createdDate, '{y}-{m}-{d}') }}</span>-->

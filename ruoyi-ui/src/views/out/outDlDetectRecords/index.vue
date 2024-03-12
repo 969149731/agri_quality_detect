@@ -130,8 +130,10 @@
       </el-form-item>
     </el-form>
 
-    <el-row :gutter="10" class="mb8"  justify="end" type="flex">
-<!--      <el-col :span="1.5">-->
+<!--    <el-row :gutter="10" class="mb8"  justify="end" type="flex">-->
+    <el-row :gutter="10" class="mb8" >
+
+    <!--      <el-col :span="1.5">-->
 <!--        <el-button-->
 <!--          type="primary"-->
 <!--          plain-->
@@ -163,6 +165,8 @@
 <!--          v-hasPermi="['out:outDlDetectRecords:remove']"-->
 <!--        >删除</el-button>-->
 <!--      </el-col>-->
+
+
       <el-col :span="2.1">
         <el-button
           type="warning"
@@ -171,10 +175,14 @@
           size="mini"
           @click="handleExport"
           v-hasPermi="['out:outDlDetectRecords:export']"
-        >导出数据</el-button>
+        >导出</el-button>
       </el-col>
       <right-toolbar :showSearch.sync="showSearch" @queryTable="getList"></right-toolbar>
     </el-row>
+
+
+
+
 
     <el-table v-loading="loading" :data="outDlDetectRecordsList" @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="55" align="center" />

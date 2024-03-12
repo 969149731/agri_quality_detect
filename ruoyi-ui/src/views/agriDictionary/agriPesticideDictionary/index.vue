@@ -17,7 +17,7 @@
 <!--          @keyup.enter.native="handleQuery"-->
 <!--        />-->
 <!--      </el-form-item>-->
-      <el-form-item label="蔬菜农药是否禁用" prop="vegPetPermit">
+      <el-form-item label="蔬菜农药是否禁用" prop="vegPetPermit" label-width="30">
         <el-select v-model="queryParams.vegPetPermit" placeholder="请选择蔬菜农药是否禁用" clearable>
           <el-option
             v-for="dict in dict.type.veg_pet_permit"
@@ -27,7 +27,7 @@
           />
         </el-select>
       </el-form-item>
-      <el-form-item label="水果农药是否禁用" prop="fruPetPermit">
+      <el-form-item label="水果农药是否禁用" prop="fruPetPermit"  label-width="30">
         <el-select v-model="queryParams.fruPetPermit" placeholder="请选择水果农药是否禁用" clearable>
           <el-option
             v-for="dict in dict.type.fru_pet_permit"
