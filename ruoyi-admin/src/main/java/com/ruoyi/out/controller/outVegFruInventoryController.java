@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import cn.afterturn.easypoi.excel.ExcelExportUtil;
 import cn.afterturn.easypoi.excel.entity.TemplateExportParams;
+import com.ruoyi.detection.domain.agriCitySampleTestDetails;
 import com.ruoyi.out.domain.VegFruStatistic;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -48,11 +49,11 @@ public class outVegFruInventoryController extends BaseController
      */
     @PreAuthorize("@ss.hasPermi('out:outVegFruInventory:list')")
     @GetMapping("/list")
-    public TableDataInfo list(outVegFruInventory outVegFruInventory)
+    public TableDataInfo list(outVegFruInventory outVegFruInventory, agriCitySampleTestDetails agriCitySampleTestDetails)
     {
 //        startPage();
 //        List<outVegFruInventory> list = outVegFruInventoryService.selectoutVegFruInventoryList(outVegFruInventory);
-        List<VegFruStatistic> list = outVegFruInventoryService.selectVegFruStatistic();
+        List<VegFruStatistic> list = outVegFruInventoryService.selectVegFruStatistic(agriCitySampleTestDetails);
 
         return getDataTable(list);
     }
@@ -63,14 +64,14 @@ public class outVegFruInventoryController extends BaseController
     @PreAuthorize("@ss.hasPermi('out:outVegFruInventory:export')")
     @Log(title = "蔬菜水果种类及数量", businessType = BusinessType.EXPORT)
     @PostMapping("/export")
-    public void export(HttpServletResponse response, outVegFruInventory outVegFruInventory) throws IOException {
+    public void export(HttpServletResponse response, outVegFruInventory outVegFruInventory,agriCitySampleTestDetails agriCitySampleTestDetails) throws IOException {
 //        List<outVegFruInventory> list = outVegFruInventoryService.selectoutVegFruInventoryList(outVegFruInventory);
 //        ExcelUtil<outVegFruInventory> util = new ExcelUtil<outVegFruInventory>(outVegFruInventory.class);
 //        util.exportExcel(response, list, "蔬菜水果种类及数量数据");
         Long index=1L;
         TemplateExportParams params = new TemplateExportParams("ruoyi-admin/src/main/java/com/ruoyi/excelOutTemplate/outVegFruInventoryExcelTemplate.xlsx");
         Map<String, Object> map = new HashMap<>();
-        List<VegFruStatistic> list = outVegFruInventoryService.selectVegFruStatistic();
+        List<VegFruStatistic> list = outVegFruInventoryService.selectVegFruStatistic(agriCitySampleTestDetails);
         //这边开到
         List<outVegFruInventory> mergedList = new ArrayList<>();
 

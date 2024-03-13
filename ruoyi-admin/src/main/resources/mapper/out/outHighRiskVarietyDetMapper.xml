@@ -142,69 +142,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 <!--    </select>-->
 
-<!--    <select id="selectHighRiskSampleList" resultMap="SampleTestDetailResultMap">-->
-<!--        SELECT-->
-<!--        a.detect_location AS detectLocation,-->
-<!--        a.veg_fru_name AS vegFruName,-->
-<!--        GROUP_CONCAT(IFNULL(CONCAT(a.sample_code, '-', COALESCE(b.pesticide_name, CONCAT(a.city_sample_test_details_id, '-没有检测到农药')), ':', b.pesticide_det_value), CONCAT(a.sample_code, '-没有检测到农药:0'))) AS det_res,-->
-<!--        (SELECT COUNT(*) FROM agri_city_sample_test_details WHERE veg_fru_name = a.veg_fru_name AND detect_location = a.detect_location) AS totalSamples,-->
-<!--        0 AS qualifiedNumber,-->
-<!--        0 AS qualificationRate,-->
-<!--        '' AS prohibitedPesticideDetection,-->
-<!--        '' AS routinePesticideExceedance-->
-<!--        FROM-->
-<!--        agri_city_sample_test_details a-->
-<!--        LEFT JOIN-->
-<!--        agri_pesticide_det_result b ON a.city_sample_test_details_id = b.city_sample_test_details_id-->
-<!--        JOIN-->
-<!--        agri_vegetable_fruit c ON a.veg_fru_name = c.veg_fru_name-->
-<!--        WHERE-->
-<!--        c.high_risk_sample = '高风险'-->
-<!--        <trim prefix="AND" prefixOverrides="AND |OR ">-->
-<!--            <if test="params.beginTime != null and params.beginTime != ''">-->
-<!--                date_format(a.sampling_date,'%y%m%d') &gt;= date_format(#{params.beginTime},'%y%m%d')-->
-<!--            </if>-->
-<!--            <if test="params.endTime != null and params.endTime != ''">-->
-<!--                AND date_format(a.sampling_date,'%y%m%d') &lt;= date_format(#{params.endTime},'%y%m%d')-->
-<!--            </if>-->
-<!--        </trim>-->
-<!--        GROUP BY-->
-<!--        a.detect_location, a.veg_fru_name-->
-<!--        ORDER BY-->
-<!--        a.detect_location, a.veg_fru_name;-->
-<!--    </select>-->
 
-
-<!--    <select id="selectHighRiskSampleList" resultMap="SampleTestDetailResultMap">-->
-<!--        SELECT-->
-<!--        a.detect_location AS detectLocation,-->
-<!--        a.veg_fru_name AS vegFruName,-->
-<!--        GROUP_CONCAT(IFNULL(CONCAT(a.sample_code, '-', COALESCE(b.pesticide_name, CONCAT(a.city_sample_test_details_id, '-没有检测到农药')), ':', b.pesticide_det_value), CONCAT(a.sample_code, '-没有检测到农药:0'))) AS det_res,-->
-<!--        (SELECT COUNT(*) FROM agri_city_sample_test_details WHERE veg_fru_name = a.veg_fru_name AND detect_location = a.detect_location) AS totalSamples,-->
-<!--        0 AS qualifiedNumber,-->
-<!--        0 AS qualificationRate,-->
-<!--        '' AS prohibitedPesticideDetection,-->
-<!--        '' AS routinePesticideExceedance-->
-<!--        FROM-->
-<!--        agri_city_sample_test_details a-->
-<!--        LEFT JOIN-->
-<!--        agri_pesticide_det_result b ON a.city_sample_test_details_id = b.city_sample_test_details_id-->
-<!--        JOIN-->
-<!--        agri_vegetable_fruit c ON a.veg_fru_name = c.veg_fru_name-->
-<!--        <where>-->
-<!--            c.high_risk_sample = '高风险'-->
-<!--            <if test="params.beginTime != null and params.beginTime != ''">-->
-<!--                AND date_format(a.sampling_date,'%y%m%d') &gt;= date_format(#{params.beginTime},'%y%m%d')-->
-<!--            </if>-->
-<!--            <if test="params.endTime != null and params.endTime != ''">-->
-<!--                AND date_format(a.sampling_date,'%y%m%d') &lt;= date_format(#{params.endTime},'%y%m%d')-->
-<!--            </if>-->
-<!--        </where>-->
-<!--        GROUP BY-->
-<!--        a.detect_location, a.veg_fru_name-->
-<!--        ORDER BY-->
-<!--        a.detect_location, a.veg_fru_name;-->
-<!--    </select>-->
     <select id="selectHighRiskSampleList" resultMap="SampleTestDetailResultMap">
         SELECT
         a.detect_location AS detectLocation,

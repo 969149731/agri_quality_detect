@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import cn.afterturn.easypoi.excel.ExcelExportUtil;
 import cn.afterturn.easypoi.excel.entity.TemplateExportParams;
+import com.ruoyi.detection.domain.agriCitySampleTestDetails;
 import com.ruoyi.out.domain.VegFruStatistic;
 import com.ruoyi.out.service.IoutVegFruInventoryService;
 import org.apache.poi.ss.usermodel.Workbook;
@@ -50,9 +51,9 @@ public class outFruInventoryController extends BaseController
      */
     @PreAuthorize("@ss.hasPermi('out:outFruInventory:list')")
     @GetMapping("/list")
-    public TableDataInfo list(outFruInventory outFruInventory)
+    public TableDataInfo list(outFruInventory outFruInventory, agriCitySampleTestDetails agriCitySampleTestDetails)
     {
-        List<VegFruStatistic> list = outVegFruInventoryService.selectVegFruStatistic();
+        List<VegFruStatistic> list = outVegFruInventoryService.selectVegFruStatistic(agriCitySampleTestDetails);
         return getDataTable(list);
     }
 
@@ -62,12 +63,12 @@ public class outFruInventoryController extends BaseController
     @PreAuthorize("@ss.hasPermi('out:outFruInventory:export')")
     @Log(title = "水果种类及数量", businessType = BusinessType.EXPORT)
     @PostMapping("/export")
-    public void export(HttpServletResponse response, outFruInventory outFruInventory) throws IOException {
+    public void export(HttpServletResponse response, outFruInventory outFruInventory, agriCitySampleTestDetails agriCitySampleTestDetails) throws IOException {
         int fruitSeqNo=1;
 
         TemplateExportParams params = new TemplateExportParams("ruoyi-admin/src/main/java/com/ruoyi/excelOutTemplate/outFruInventoryExcelTemplate.xlsx");
         Map<String, Object> map = new HashMap<>();
-        List<VegFruStatistic> list = outVegFruInventoryService.selectVegFruStatistic();
+        List<VegFruStatistic> list = outVegFruInventoryService.selectVegFruStatistic(agriCitySampleTestDetails);
 
         List<VegFruStatistic> listFru = new ArrayList<>();
 

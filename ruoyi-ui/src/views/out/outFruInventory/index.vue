@@ -57,10 +57,24 @@
 <!--          placeholder="请选择记录创建的时间">-->
 <!--        </el-date-picker>-->
 <!--      </el-form-item>-->
-<!--      <el-form-item>-->
-<!--        <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery">搜索</el-button>-->
-<!--        <el-button icon="el-icon-refresh" size="mini" @click="resetQuery">重置</el-button>-->
-<!--      </el-form-item>-->
+
+      <el-form-item label="抽样日期">
+        <el-date-picker
+          v-model="dateRange"
+          style="width: 240px"
+          value-format="yyyy-MM-dd"
+          type="daterange"
+          range-separator="-"
+          start-placeholder="开始日期"
+          end-placeholder="结束日期"
+        ></el-date-picker>
+      </el-form-item>
+
+
+      <el-form-item>
+        <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery">搜索</el-button>
+        <el-button icon="el-icon-refresh" size="mini" @click="resetQuery">重置</el-button>
+      </el-form-item>
     </el-form>
 
     <el-row :gutter="10" class="mb8">
@@ -202,6 +216,7 @@
 
 <script>
 import { listOutFruInventory, getOutFruInventory, delOutFruInventory, addOutFruInventory, updateOutFruInventory } from "@/api/out/outFruInventory";
+import {listOutVegInventory} from "@/api/out/outVegInventory";
 
 export default {
   name: "OutFruInventory",
@@ -225,6 +240,8 @@ export default {
       title: "",
       // 是否显示弹出层
       open: false,
+      // 日期范围
+      dateRange: [],
       // 查询参数
       queryParams: {
         pageNum: 1,
@@ -246,7 +263,7 @@ export default {
   },
   computed: {
     filteredVegFruInventoryListFilteVeg() {
-      return this.outVegFruInventoryList.filter(item => item.type === '水果');
+      return this.outFruInventoryList.filter(item => item.type === '水果');
     }
 
   },
@@ -261,8 +278,8 @@ export default {
     /** 查询水果种类及数量列表 */
     getList() {
       this.loading = true;
-      listOutFruInventory(this.queryParams).then(response => {
-        this.outVegFruInventoryList = response.rows;
+      listOutFruInventory(this.addDateRange(this.queryParams, this.dateRange)).then(response => {
+        this.outFruInventoryList = response.rows;
         this.total = response.total;
         this.loading = false;
       });
@@ -293,6 +310,7 @@ export default {
     },
     /** 重置按钮操作 */
     resetQuery() {
+      this.dateRange = [];
       this.resetForm("queryForm");
       this.handleQuery();
     },

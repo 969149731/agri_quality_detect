@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import cn.afterturn.easypoi.excel.ExcelExportUtil;
 import cn.afterturn.easypoi.excel.entity.TemplateExportParams;
+import com.ruoyi.detection.domain.agriCitySampleTestDetails;
 import com.ruoyi.out.domain.VegFruStatistic;
 import com.ruoyi.out.domain.outVegFruInventory;
 import com.ruoyi.out.service.IoutVegFruInventoryService;
@@ -51,13 +52,13 @@ public class outVegInventoryController extends BaseController
      */
     @PreAuthorize("@ss.hasPermi('out:outVegInventory:list')")
     @GetMapping("/list")
-    public TableDataInfo list(outVegInventory outVegInventory)
+    public TableDataInfo list(outVegInventory outVegInventory, agriCitySampleTestDetails agriCitySampleTestDetails)
     {
 //        startPage();
 //        List<outVegInventory> list = outVegInventoryService.selectoutVegInventoryList(outVegInventory);
 //        return getDataTable(list);
 
-        List<VegFruStatistic> list = outVegFruInventoryService.selectVegFruStatistic();
+        List<VegFruStatistic> list = outVegFruInventoryService.selectVegFruStatistic(agriCitySampleTestDetails);
         return getDataTable(list);
 
     }
@@ -68,13 +69,13 @@ public class outVegInventoryController extends BaseController
     @PreAuthorize("@ss.hasPermi('out:outVegInventory:export')")
     @Log(title = "蔬菜种类及数量", businessType = BusinessType.EXPORT)
     @PostMapping("/export")
-    public void export(HttpServletResponse response, outVegInventory outVegInventory) throws IOException {
+    public void export(HttpServletResponse response, outVegInventory outVegInventory, agriCitySampleTestDetails agriCitySampleTestDetails) throws IOException {
         int vegetableSeqNo=1;
         int fruitSeqNo=1;
 
         TemplateExportParams params = new TemplateExportParams("ruoyi-admin/src/main/java/com/ruoyi/excelOutTemplate/outVegInventoryExcelTemplate.xlsx");
         Map<String, Object> map = new HashMap<>();
-        List<VegFruStatistic> list = outVegFruInventoryService.selectVegFruStatistic();
+        List<VegFruStatistic> list = outVegFruInventoryService.selectVegFruStatistic(agriCitySampleTestDetails);
 
         List<VegFruStatistic> listVeg = new ArrayList<>();
 

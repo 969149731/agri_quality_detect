@@ -90,35 +90,80 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="quantity" column="Quantity"/>
     </resultMap>
 
+<!--   没有加时间搜索的 <select id="selectVegFruStatistic" resultMap="VegFruStatisticMap">-->
+<!--        SELECT-->
+<!--            avf.veg_fru_name AS NAME,-->
+<!--            '蔬菜' AS TYPE,-->
+<!--            COUNT(acstd.city_sample_test_details_id) AS Quantity-->
+<!--        FROM-->
+<!--            agri_city_sample_test_details acstd-->
+<!--                JOIN-->
+<!--            agri_vegetable_fruit avf ON acstd.veg_fru_name = avf.veg_fru_name-->
+<!--        WHERE-->
+<!--            avf.veg_fru_type = '蔬菜'-->
+<!--        GROUP BY-->
+<!--            avf.veg_fru_name-->
+
+<!--        UNION ALL-->
+
+<!--        SELECT-->
+<!--            avf.veg_fru_name AS NAME,-->
+<!--            '水果' AS TYPE,-->
+<!--            COUNT(acstd.city_sample_test_details_id) AS Quantity-->
+<!--        FROM-->
+<!--            agri_city_sample_test_details acstd-->
+<!--                JOIN-->
+<!--            agri_vegetable_fruit avf ON acstd.veg_fru_name = avf.veg_fru_name-->
+<!--        WHERE-->
+<!--            avf.veg_fru_type = '水果'-->
+<!--        GROUP BY-->
+<!--            avf.veg_fru_name-->
+<!--    </select>-->
+
+
     <select id="selectVegFruStatistic" resultMap="VegFruStatisticMap">
         SELECT
-            avf.veg_fru_name AS NAME,
-            '蔬菜' AS TYPE,
-            COUNT(acstd.city_sample_test_details_id) AS Quantity
+        avf.veg_fru_name AS NAME,
+        '蔬菜' AS TYPE,
+        COUNT(acstd.city_sample_test_details_id) AS Quantity
         FROM
-            agri_city_sample_test_details acstd
-                JOIN
-            agri_vegetable_fruit avf ON acstd.veg_fru_name = avf.veg_fru_name
-        WHERE
+        agri_city_sample_test_details acstd
+        JOIN
+        agri_vegetable_fruit avf ON acstd.veg_fru_name = avf.veg_fru_name
+        where
             avf.veg_fru_type = '蔬菜'
+            <if test="params.beginTime != null and params.beginTime != ''">
+                AND date_format(acstd.sampling_date,'%y%m%d') &gt;= date_format(#{params.beginTime},'%y%m%d')
+            </if>
+            <if test="params.endTime != null and params.endTime != ''">
+                AND date_format(acstd.sampling_date,'%y%m%d') &lt;= date_format(#{params.endTime},'%y%m%d')
+            </if>
+
         GROUP BY
-            avf.veg_fru_name
+        avf.veg_fru_name
 
         UNION ALL
 
         SELECT
-            avf.veg_fru_name AS NAME,
-            '水果' AS TYPE,
-            COUNT(acstd.city_sample_test_details_id) AS Quantity
+        avf.veg_fru_name AS NAME,
+        '水果' AS TYPE,
+        COUNT(acstd.city_sample_test_details_id) AS Quantity
         FROM
-            agri_city_sample_test_details acstd
-                JOIN
-            agri_vegetable_fruit avf ON acstd.veg_fru_name = avf.veg_fru_name
+        agri_city_sample_test_details acstd
+        JOIN
+        agri_vegetable_fruit avf ON acstd.veg_fru_name = avf.veg_fru_name
         WHERE
-            avf.veg_fru_type = '水果'
+        avf.veg_fru_type = '水果'
+        <if test="params.beginTime != null and params.beginTime != ''">
+            AND date_format(acstd.sampling_date,'%y%m%d') &gt;= date_format(#{params.beginTime},'%y%m%d')
+        </if>
+        <if test="params.endTime != null and params.endTime != ''">
+            AND date_format(acstd.sampling_date,'%y%m%d') &lt;= date_format(#{params.endTime},'%y%m%d')
+        </if>
         GROUP BY
-            avf.veg_fru_name
+        avf.veg_fru_name
     </select>
+
 
 
 

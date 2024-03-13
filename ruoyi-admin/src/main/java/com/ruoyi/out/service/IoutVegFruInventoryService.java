@@ -2,6 +2,7 @@ package com.ruoyi.out.service;
 
 import java.util.List;
 
+import com.ruoyi.detection.domain.agriCitySampleTestDetails;
 import com.ruoyi.out.domain.VegFruStatistic;
 import com.ruoyi.out.domain.outVegFruInventory;
 
@@ -61,5 +62,5 @@ public interface IoutVegFruInventoryService
      */
     public int deleteoutVegFruInventoryByVegFruInventoryId(Long vegFruInventoryId);
 
-    List<VegFruStatistic> selectVegFruStatistic();
+    List<VegFruStatistic> selectVegFruStatistic(agriCitySampleTestDetails agriCitySampleTestDetails);
 }

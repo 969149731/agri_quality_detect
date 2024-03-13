@@ -2,6 +2,7 @@ package com.ruoyi.out.mapper;
 
 import java.util.List;
 
+import com.ruoyi.detection.domain.agriCitySampleTestDetails;
 import com.ruoyi.out.domain.VegFruStatistic;
 import com.ruoyi.out.domain.outVegFruInventory;
 import org.springframework.stereotype.Repository;
@@ -64,5 +65,5 @@ public interface outVegFruInventoryMapper
      */
     public int deleteoutVegFruInventoryByVegFruInventoryIds(Long[] vegFruInventoryIds);
 
-    List<VegFruStatistic> selectVegFruStatistic();
+    List<VegFruStatistic> selectVegFruStatistic(agriCitySampleTestDetails agriCitySampleTestDetails);
 }

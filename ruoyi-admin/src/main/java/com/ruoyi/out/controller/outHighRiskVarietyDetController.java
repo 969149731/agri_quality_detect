@@ -74,10 +74,8 @@ public class outHighRiskVarietyDetController extends BaseController
 
 
 
-
+//   孙帅写的方法
     private static void mergeCells(Sheet sheet) {
-//        int lastNum = sheet.getLastRowNum();
-//        int rowIndex = 3;
         // 遍历每一行
         int rowStartA = 3;
         int endRowA = rowStartA;
@@ -144,6 +142,96 @@ public class outHighRiskVarietyDetController extends BaseController
     }
 
 
+//    gpt写的  不用这个了
+//    private static void mergeCells(Sheet sheet) {
+//        // 遍历每一行
+//        int rowStartA = 3;
+//        int endRowA = rowStartA;
+//        int rowStartB = 3;
+//        int endRowB = rowStartB;
+//        for (int rowIndex = 4; rowIndex <= sheet.getLastRowNum(); rowIndex++) {
+//            Row row = sheet.getRow(rowIndex);
+//            if (row == null) {
+//                continue; // 跳过空行
+//            }
+//
+//            // 检查并获取单元格值
+//            String valueA = getCellStringValue(row.getCell(0));
+//            String valueB = getCellStringValue(row.getCell(1));
+//
+//            // 从当前行的上一行
+//            Row preRow = sheet.getRow(rowIndex - 1);
+//            if (preRow == null) {
+//                continue; // 跳过空行
+//            }
+//
+//            // 检查并获取前一行单元格值
+//            String preValueA = getCellStringValue(preRow.getCell(0));
+//            String preValueB = getCellStringValue(preRow.getCell(1));
+//
+//            if (valueA.equals(preValueA)) {
+//                endRowA++;
+//            } else {
+//                if (rowStartA != endRowA) {
+//                    CellRangeAddress range = new CellRangeAddress(rowStartA, endRowA, 0, 0);
+//                    // 添加合并区域前检查重叠
+//                    if (!isOverlappingMergeRegion(sheet, range)) {
+//                        sheet.addMergedRegion(range);
+//                    }
+//                }
+//                rowStartA = rowIndex;
+//                endRowA = rowStartA;
+//            }
+//
+//            if (valueB.equals(preValueB)) {
+//                endRowB++;
+//            } else {
+//                if (rowStartB != endRowB) {
+//                    CellRangeAddress range = new CellRangeAddress(rowStartB, endRowB, 1, 1);
+//                    // 添加合并区域前检查重叠
+//                    if (!isOverlappingMergeRegion(sheet, range)) {
+//                        sheet.addMergedRegion(range);
+//                    }
+//                }
+//                rowStartB = rowIndex;
+//                endRowB = rowStartB;
+//            }
+//        }
+//
+//        // 处理循环结束后最后的合并
+//        mergeFinalRegions(sheet, rowStartA, endRowA, 0);
+//        mergeFinalRegions(sheet, rowStartB, endRowB, 1);
+//    }
+//
+//    private static String getCellStringValue(Cell cell) {
+//        if (cell == null) {
+//            return "";
+//        }
+//        cell.setCellType(CellType.STRING);
+//        return cell.getStringCellValue();
+//    }
+//
+//    private static boolean isOverlappingMergeRegion(Sheet sheet, CellRangeAddress newRange) {
+//        for (int i = 0; i < sheet.getNumMergedRegions(); i++) {
+//            CellRangeAddress existingRange = sheet.getMergedRegion(i);
+//            if (existingRange.intersects(newRange)) {
+//                return true;
+//            }
+//        }
+//        return false;
+//    }
+//
+//    private static void mergeFinalRegions(Sheet sheet, int startRow, int endRow, int columnIndex) {
+//        if (startRow != endRow) {
+//            CellRangeAddress range = new CellRangeAddress(startRow, endRow, columnIndex, columnIndex);
+//            if (!isOverlappingMergeRegion(sheet, range)) {
+//                sheet.addMergedRegion(range);
+//            }
+//        }
+//    }
+
+
+
 
 
     /**
@@ -159,7 +247,7 @@ public class outHighRiskVarietyDetController extends BaseController
 //        util.exportExcel(response, list, "高风险品种样品检出情况数据");
 //        List<outHighRiskVarietyDet> res = new ArrayList<outHighRiskVarietyDet>();
         List<outHighRiskVarietyDet> outHighRiskVarietyDets = outHighRiskVarietyDetService.selectOutHighRiskVarietyDetList(agriCitySampleTestDetails);
-        TemplateExportParams params = new TemplateExportParams("ruoyi-admin/src/main/java/com/ruoyi/excelOutTemplate/high1.xlsx");
+        TemplateExportParams params = new TemplateExportParams("ruoyi-admin/src/main/java/com/ruoyi/excelOutTemplate/high2.xlsx");
         Map<String, Object> map = new HashMap<>();
         map.put("maplist", outHighRiskVarietyDets);
         try {
