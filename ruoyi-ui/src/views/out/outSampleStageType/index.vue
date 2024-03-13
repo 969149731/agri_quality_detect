@@ -82,6 +82,7 @@
       <right-toolbar :showSearch.sync="showSearch" @queryTable="getList"></right-toolbar>
     </el-row>
     <el-table
+      v-loading="loading"
       v-if="!peopleTagNumLoading"
       ref="refreshTable"
       :data="outSampleStageTypeList"

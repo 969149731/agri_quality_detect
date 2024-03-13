@@ -84,6 +84,7 @@
 
 
     <el-table
+      v-loading="loading"
       v-if="!peopleTagNumLoading"
       ref="refreshTable"
       :data="outSampleQualityList"

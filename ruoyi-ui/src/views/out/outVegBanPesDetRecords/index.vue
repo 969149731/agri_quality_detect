@@ -83,6 +83,7 @@
     </el-row>
 
     <el-table
+      v-loading="loading"
       v-if="!peopleTagNumLoading"
       ref="refreshTable"
       :header-cell-style="headerStyle"

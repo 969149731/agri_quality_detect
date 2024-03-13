@@ -56,18 +56,23 @@ public class outFruVegQualificationServiceImpl implements IoutFruVegQualificatio
         List<String> VegDetailType= Arrays.asList("瓜果类", "叶菜类", "豆类","根茎类","蔬菜其它类");
         List<String> FruDetailType= Arrays.asList("柑橘类","浆果类","核果类","水果其它类");
 
+        Map<String, outFruVegQualification> resultMap = new TreeMap<String, outFruVegQualification>();//使用字典存储
+        StringBuilder successMsg = new StringBuilder();
+        StringBuilder failureMsg = new StringBuilder();
+        //结果初始化
+        for (String Typename : FruVegType) {
+            resultMap.put(Typename, new outFruVegQualification(Typename));
+        }
         //查询所有样本的检测结果
         PageHelper.startPage(0,0,false,false,true);//分页方法，仅对之后第一个查询生效
         List<outFruVegSelectType> selectReturnList = outFruVegQualificationMapper.getFruVegDetResultList(outFruVegQualification.getParams());
-        if(selectReturnList.isEmpty()){System.out.println("查询出的结果列表为空");return null;}
-        Map<String, outFruVegQualification> resultMap = new TreeMap<String, outFruVegQualification>();//使用字典存储
+        if(selectReturnList.isEmpty()){System.out.println("查询出的结果列表为空");
+            //装入
+            for(String StageTypeName :FruVegType){
+                resultList.add(resultMap.get(StageTypeName));
+            }
+            return resultList;}
 
-        StringBuilder successMsg = new StringBuilder();
-        StringBuilder failureMsg = new StringBuilder();
-
-        for (String Typename : FruVegType) {//结果初始化
-            resultMap.put(Typename, new outFruVegQualification(Typename));
-        }
         //先遍历所有获取到的结果
         for (outFruVegSelectType item : selectReturnList) {
             /*
