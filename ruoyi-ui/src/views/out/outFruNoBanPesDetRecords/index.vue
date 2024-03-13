@@ -1,23 +1,23 @@
 <template>
   <div class="app-container">
     <el-form :model="queryParams" ref="queryForm" size="small" :inline="true" v-show="showSearch" label-width="68px">
-      <el-form-item label="抽样年份" prop="year">
-        <el-input
-          v-model="queryParams.year"
-          placeholder="请输入抽样年份"
-          clearable
-          @keyup.enter.native="handleQuery"
-        />
-      </el-form-item>
+<!--      <el-form-item label="抽样年份" prop="year">-->
+<!--        <el-input-->
+<!--          v-model="queryParams.year"-->
+<!--          placeholder="请输入抽样年份"-->
+<!--          clearable-->
+<!--          @keyup.enter.native="handleQuery"-->
+<!--        />-->
+<!--      </el-form-item>-->
 
-      <el-form-item label="抽样季度" prop="season">
-        <el-input
-          v-model="queryParams.season"
-          placeholder="请输入抽样季度"
-          clearable
-          @keyup.enter.native="handleQuery"
-        />
-      </el-form-item>
+<!--      <el-form-item label="抽样季度" prop="season">-->
+<!--        <el-input-->
+<!--          v-model="queryParams.season"-->
+<!--          placeholder="请输入抽样季度"-->
+<!--          clearable-->
+<!--          @keyup.enter.native="handleQuery"-->
+<!--        />-->
+<!--      </el-form-item>-->
       <el-form-item label="抽样日期">
         <el-date-picker
           v-model="dateRange"
