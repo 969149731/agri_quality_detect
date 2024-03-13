@@ -309,6 +309,9 @@ public class outHighRiskVarietyDetServiceImpl implements IoutHighRiskVarietyDetS
             //因为limitValue是==null的，说明没有该字典，先尝试用 用户上传的中国标准的数据进行农药是否超标的判断
         }
         //如果传的数据中有检测出有值的农药值 大于 该农药限量值 ,说明超标了
+//        if(pesticideDetValue==0){
+//            return false;
+//        }
         if (pesticideDetValue > limitValue) {
             flagNoPass = flagNoPass + 1;
         }
@@ -378,7 +381,7 @@ public class outHighRiskVarietyDetServiceImpl implements IoutHighRiskVarietyDetS
 
     //孙帅开始写的代码   方法返回值和参数可以先不管1
     public List<outHighRiskVarietyDet> selectOutHighRiskVarietyDetList(agriCitySampleTestDetails agriCitySampleTestDetails) {
-        List<outHighRiskVarietyDet> outHighRiskVarietyDets = outHighRiskVarietyDetMapper.selectHighRiskSampleList();
+        List<outHighRiskVarietyDet> outHighRiskVarietyDets = outHighRiskVarietyDetMapper.selectHighRiskSampleList(agriCitySampleTestDetails);
         List<outHighRiskVarietyDet> finalRes = new ArrayList<>();
         //开始遍历获取到的outHighRiskVarietyDets
         for (outHighRiskVarietyDet highRiskVarietyDet : outHighRiskVarietyDets) {

@@ -1,6 +1,8 @@
 package com.ruoyi.out.mapper;
 
 import java.util.List;
+
+import com.ruoyi.detection.domain.agriCitySampleTestDetails;
 import com.ruoyi.out.domain.outHighRiskVarietyDet;
 import org.springframework.stereotype.Repository;
 
@@ -65,5 +67,5 @@ public interface outHighRiskVarietyDetMapper
     public String selectHighRiskSampleByVegFruName(String vegFruName);
 
 
-    public List<outHighRiskVarietyDet> selectHighRiskSampleList();
+    public List<outHighRiskVarietyDet> selectHighRiskSampleList(agriCitySampleTestDetails agriCitySampleTestDetails);
 }

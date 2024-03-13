@@ -73,10 +73,24 @@
 <!--          placeholder="请选择记录创建的时间">-->
 <!--        </el-date-picker>-->
 <!--      </el-form-item>-->
-<!--      <el-form-item>-->
-<!--        <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery">搜索</el-button>-->
-<!--        <el-button icon="el-icon-refresh" size="mini" @click="resetQuery">重置</el-button>-->
-<!--      </el-form-item>-->
+
+
+      <el-form-item label="抽样日期">
+        <el-date-picker
+          v-model="dateRange"
+          style="width: 240px"
+          value-format="yyyy-MM-dd"
+          type="daterange"
+          range-separator="-"
+          start-placeholder="开始日期"
+          end-placeholder="结束日期"
+        ></el-date-picker>
+      </el-form-item>
+
+      <el-form-item>
+        <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery">搜索</el-button>
+        <el-button icon="el-icon-refresh" size="mini" @click="resetQuery">重置</el-button>
+      </el-form-item>
     </el-form>
 
     <el-row :gutter="10" class="mb8">
@@ -253,6 +267,7 @@
 
 <script>
 import { listOutHighRiskVarietyDet, getOutHighRiskVarietyDet, delOutHighRiskVarietyDet, addOutHighRiskVarietyDet, updateOutHighRiskVarietyDet } from "@/api/out/outHighRiskVarietyDet";
+import {listOutExceedSampleDetail} from "@/api/out/outExceedSampleDetail";
 
 export default {
   name: "OutHighRiskVarietyDet",
@@ -276,6 +291,8 @@ export default {
       title: "",
       // 是否显示弹出层
       open: false,
+      // 日期范围
+      dateRange: [],
       // 查询参数
       queryParams: {
         pageNum: 1,
@@ -305,7 +322,7 @@ export default {
     /** 查询高风险品种样品检出情况列表 */
     getList() {
       this.loading = true;
-      listOutHighRiskVarietyDet(this.queryParams).then(response => {
+      listOutHighRiskVarietyDet(this.addDateRange(this.queryParams, this.dateRange)).then(response => {
         this.outHighRiskVarietyDetList = response.rows;
         this.total = response.total;
         this.loading = false;
@@ -340,6 +357,7 @@ export default {
     },
     /** 重置按钮操作 */
     resetQuery() {
+      this.dateRange = [];
       this.resetForm("queryForm");
       this.handleQuery();
     },
