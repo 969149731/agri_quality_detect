@@ -69,6 +69,7 @@ public class outStandComplianceController extends BaseController
     public void export(HttpServletResponse response, outStandCompliance outStandCompliance)
     {
         outStandardReturnType NewOne=new outStandardReturnType();//可能后续会用到传参的，目前传空的
+        NewOne.setParams(outStandCompliance.getParams());
         List<outStandardReturnType> list = outStandComplianceService.selectoutStandComplianceList2(NewOne);
         //计算合格率
         outStandardReturnType SampleNum=list.get(list.size()-2);
@@ -212,6 +213,10 @@ public class outStandComplianceController extends BaseController
 
     private static BigDecimal computePassRate(int sampleNum,int passNum) {//计算合格率
         DecimalFormat decimalFormat = new DecimalFormat("0.00");
+        if(sampleNum==0){
+            return new BigDecimal(decimalFormat.format(0.00).toString());
+        }
+
         Double percentage=(double)((double)passNum/(double)sampleNum)*100;
         return new BigDecimal(decimalFormat.format(percentage).toString());
     }
