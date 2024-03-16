@@ -124,6 +124,26 @@
 <!--          placeholder="请选择记录创建的时间">-->
 <!--        </el-date-picker>-->
 <!--      </el-form-item>-->
+
+      <el-form-item label="检测城市" prop="detectLocation">
+<!--        <el-input-->
+<!--          v-model="queryParams.detectLocation"-->
+<!--          placeholder="请输入检测单位"-->
+<!--          clearable-->
+<!--          @keyup.enter.native="handleQuery"-->
+<!--        />-->
+
+        <el-select v-model="queryParams.detectLocation" placeholder="城市" clearable>
+          <el-option
+            v-for="dict in dict.type.city"
+            :key="dict.value"
+            :label="dict.label"
+            :value="dict.value"
+          />
+        </el-select>
+
+      </el-form-item>
+
       <el-form-item>
         <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery">搜索</el-button>
         <el-button icon="el-icon-refresh" size="mini" @click="resetQuery">重置</el-button>
@@ -308,6 +328,7 @@ import { listOutDlDetectRecords, getOutDlDetectRecords, delOutDlDetectRecords, a
 
 export default {
   name: "OutDlDetectRecords",
+  dicts: ['city'],
   data() {
     return {
       // 遮罩层

@@ -41,6 +41,7 @@
 <!--          placeholder="请选择抽样日期">-->
 <!--        </el-date-picker>-->
 <!--      </el-form-item>-->
+
       <el-form-item label="国家标准" prop="chinaStandard">
         <el-select v-model="queryParams.chinaStandard" placeholder="请选择国家标准" clearable>
           <el-option
@@ -51,6 +52,7 @@
           />
         </el-select>
       </el-form-item>
+
 <!--      <el-form-item label="CAC标准" prop="cacStandard">-->
 <!--        <el-select v-model="queryParams.cacStandard" placeholder="请选择CAC标准" clearable>-->
 <!--          <el-option-->
