@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.out.mapper.outTeaInventoryMapper">
+    
+    <resultMap type="outTeaInventory" id="outTeaInventoryResult">
+        <result property="teaInventoryId"    column="veg_fru_inventory_id"    />
+        <result property="vegetableSeqNo"    column="vegetable_seq_no"    />
+        <result property="vegetableDetailName"    column="vegetable_detail_name"    />
+        <result property="vegetableQuantity"    column="vegetable_quantity"    />
+        <result property="fruitSeqNo"    column="fruit_seq_no"    />
+        <result property="fruitDetailName"    column="fruit__detail_name"    />
+        <result property="fruitQuantity"    column="fruit_quantity"    />
+        <result property="createdDate"    column="created_date"    />
+    </resultMap>
+
+    <sql id="selectoutTeaInventoryVo">
+        select veg_fru_inventory_id, vegetable_seq_no, vegetable_detail_name, vegetable_quantity, fruit_seq_no, fruit__detail_name, fruit_quantity, created_date from out_tea_qualification
+    </sql>
+
+    <select id="selectoutTeaInventoryList" parameterType="outTeaInventory" resultMap="outTeaInventoryResult">
+        <include refid="selectoutTeaInventoryVo"/>
+        <where>  
+            <if test="vegetableSeqNo != null "> and vegetable_seq_no = #{vegetableSeqNo}</if>
+            <if test="vegetableDetailName != null  and vegetableDetailName != ''"> and vegetable_detail_name like concat('%', #{vegetableDetailName}, '%')</if>
+            <if test="vegetableQuantity != null "> and vegetable_quantity = #{vegetableQuantity}</if>
+            <if test="fruitSeqNo != null "> and fruit_seq_no = #{fruitSeqNo}</if>
+            <if test="fruitDetailName != null  and fruitDetailName != ''"> and fruit__detail_name like concat('%', #{fruitDetailName}, '%')</if>
+            <if test="fruitQuantity != null "> and fruit_quantity = #{fruitQuantity}</if>
+            <if test="createdDate != null "> and created_date = #{createdDate}</if>
+        </where>
+    </select>
+    
+    <select id="selectoutTeaInventoryByTeaInventoryId" parameterType="Long" resultMap="outTeaInventoryResult">
+        <include refid="selectoutTeaInventoryVo"/>
+        where veg_fru_inventory_id = #{teaInventoryId}
+    </select>
+        
+    <insert id="insertoutTeaInventory" parameterType="outTeaInventory" useGeneratedKeys="true" keyProperty="teaInventoryId">
+        insert into out_tea_qualification
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="vegetableSeqNo != null">vegetable_seq_no,</if>
+            <if test="vegetableDetailName != null">vegetable_detail_name,</if>
+            <if test="vegetableQuantity != null">vegetable_quantity,</if>
+            <if test="fruitSeqNo != null">fruit_seq_no,</if>
+            <if test="fruitDetailName != null">fruit__detail_name,</if>
+            <if test="fruitQuantity != null">fruit_quantity,</if>
+            <if test="createdDate != null">created_date,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="vegetableSeqNo != null">#{vegetableSeqNo},</if>
+            <if test="vegetableDetailName != null">#{vegetableDetailName},</if>
+            <if test="vegetableQuantity != null">#{vegetableQuantity},</if>
+            <if test="fruitSeqNo != null">#{fruitSeqNo},</if>
+            <if test="fruitDetailName != null">#{fruitDetailName},</if>
+            <if test="fruitQuantity != null">#{fruitQuantity},</if>
+            <if test="createdDate != null">#{createdDate},</if>
+         </trim>
+    </insert>
+
+    <update id="updateoutTeaInventory" parameterType="outTeaInventory">
+        update out_tea_qualification
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="vegetableSeqNo != null">vegetable_seq_no = #{vegetableSeqNo},</if>
+            <if test="vegetableDetailName != null">vegetable_detail_name = #{vegetableDetailName},</if>
+            <if test="vegetableQuantity != null">vegetable_quantity = #{vegetableQuantity},</if>
+            <if test="fruitSeqNo != null">fruit_seq_no = #{fruitSeqNo},</if>
+            <if test="fruitDetailName != null">fruit__detail_name = #{fruitDetailName},</if>
+            <if test="fruitQuantity != null">fruit_quantity = #{fruitQuantity},</if>
+            <if test="createdDate != null">created_date = #{createdDate},</if>
+        </trim>
+        where veg_fru_inventory_id = #{teaInventoryId}
+    </update>
+
+    <delete id="deleteoutTeaInventoryByTeaInventoryId" parameterType="Long">
+        delete from out_tea_qualification where veg_fru_inventory_id = #{teaInventoryId}
+    </delete>
+
+    <delete id="deleteoutTeaInventoryByTeaInventoryIds" parameterType="String">
+        delete from out_tea_qualification where veg_fru_inventory_id in 
+        <foreach item="teaInventoryId" collection="array" open="(" separator="," close=")">
+            #{teaInventoryId}
+        </foreach>
+    </delete>
+</mapper>
