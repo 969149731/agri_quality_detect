@@ -1,6 +1,8 @@
 package com.ruoyi.out.service;
 
 import java.util.List;
+
+import com.ruoyi.out.domain.outReturnType;
 import com.ruoyi.out.domain.outTeaBanPesDetRecords;
 
 /**
@@ -25,7 +27,7 @@ public interface IoutTeaBanPesDetRecordsService
      * @param outTeaBanPesDetRecords 茶叶禁用农药检出及超标情况
      * @return 茶叶禁用农药检出及超标情况集合
      */
-    public List<outTeaBanPesDetRecords> selectoutTeaBanPesDetRecordsList(outTeaBanPesDetRecords outTeaBanPesDetRecords);
+    public List<outReturnType> selectoutTeaBanPesDetRecordsList(outTeaBanPesDetRecords outTeaBanPesDetRecords);
 
     /**
      * 新增茶叶禁用农药检出及超标情况

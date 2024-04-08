@@ -1,7 +1,12 @@
 package com.ruoyi.out.mapper;
 
 import java.util.List;
+import java.util.Map;
+
+import com.ruoyi.out.domain.agriPesticideResidueStandard;
+import com.ruoyi.out.domain.outFruVegSelectType;
 import com.ruoyi.out.domain.outTeaNoBanPesDetRecords;
+import org.apache.ibatis.annotations.Param;
 
 /**
  * 茶叶上非禁止使用农药检出及超标情况Mapper接口
@@ -58,4 +63,11 @@ public interface outTeaNoBanPesDetRecordsMapper
      * @return 结果
      */
     public int deleteoutTeaNoBanPesDetRecordsByTeaNoBanPesDetRecordsIds(Long[] teaNoBanPesDetRecordsIds);
+
+
+    public List<String> getTeaNoBanPesticideList();
+
+    public List<agriPesticideResidueStandard> getagriPesticideResidueStandard(String pesticideName, String vegFruName);
+
+    public List<outFruVegSelectType> getDetResultList(@Param("params") Map<String, Object> params);
 }

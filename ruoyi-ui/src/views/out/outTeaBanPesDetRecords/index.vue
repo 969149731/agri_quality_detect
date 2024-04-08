@@ -1,196 +1,24 @@
 <template>
   <div class="app-container">
     <el-form :model="queryParams" ref="queryForm" size="small" :inline="true" v-show="showSearch" label-width="68px">
-      <el-form-item label="农药名称" prop="pesticideName">
-        <el-input
-          v-model="queryParams.pesticideName"
-          placeholder="请输入农药名称"
-          clearable
-          @keyup.enter.native="handleQuery"
-        />
-      </el-form-item>
-      <el-form-item label="甲胺磷" prop="methamidophos">
-        <el-input
-          v-model="queryParams.methamidophos"
-          placeholder="请输入甲胺磷"
-          clearable
-          @keyup.enter.native="handleQuery"
-        />
-      </el-form-item>
-      <el-form-item label="乙酰甲胺磷" prop="acephate">
-        <el-input
-          v-model="queryParams.acephate"
-          placeholder="请输入乙酰甲胺磷"
-          clearable
-          @keyup.enter.native="handleQuery"
-        />
-      </el-form-item>
-      <el-form-item label="甲拌磷" prop="phorate">
-        <el-input
-          v-model="queryParams.phorate"
-          placeholder="请输入甲拌磷"
-          clearable
-          @keyup.enter.native="handleQuery"
-        />
-      </el-form-item>
-      <el-form-item label="氧乐果" prop="dimethoate">
-        <el-input
-          v-model="queryParams.dimethoate"
-          placeholder="请输入氧乐果"
-          clearable
-          @keyup.enter.native="handleQuery"
-        />
-      </el-form-item>
-      <el-form-item label="毒死蜱" prop="chlorpyrifos">
-        <el-input
-          v-model="queryParams.chlorpyrifos"
-          placeholder="请输入毒死蜱"
-          clearable
-          @keyup.enter.native="handleQuery"
-        />
-      </el-form-item>
-      <el-form-item label="特丁硫磷" prop="fenthion">
-        <el-input
-          v-model="queryParams.fenthion"
-          placeholder="请输入特丁硫磷"
-          clearable
-          @keyup.enter.native="handleQuery"
-        />
-      </el-form-item>
-      <el-form-item label="三唑磷" prop="triazophos">
-        <el-input
-          v-model="queryParams.triazophos"
-          placeholder="请输入三唑磷"
-          clearable
-          @keyup.enter.native="handleQuery"
-        />
-      </el-form-item>
-      <el-form-item label="水胺硫磷" prop="isocarbophos">
-        <el-input
-          v-model="queryParams.isocarbophos"
-          placeholder="请输入水胺硫磷"
-          clearable
-          @keyup.enter.native="handleQuery"
-        />
-      </el-form-item>
-      <el-form-item label="治螟磷" prop="trichlorfon">
-        <el-input
-          v-model="queryParams.trichlorfon"
-          placeholder="请输入治螟磷"
-          clearable
-          @keyup.enter.native="handleQuery"
-        />
-      </el-form-item>
-      <el-form-item label="乐果" prop="dichlorvos">
-        <el-input
-          v-model="queryParams.dichlorvos"
-          placeholder="请输入乐果"
-          clearable
-          @keyup.enter.native="handleQuery"
-        />
-      </el-form-item>
-      <el-form-item label="甲基异柳磷" prop="methylParathion">
-        <el-input
-          v-model="queryParams.methylParathion"
-          placeholder="请输入甲基异柳磷"
-          clearable
-          @keyup.enter.native="handleQuery"
-        />
-      </el-form-item>
-      <el-form-item label="氟虫腈" prop="flucythrinate">
-        <el-input
-          v-model="queryParams.flucythrinate"
-          placeholder="请输入氟虫腈"
-          clearable
-          @keyup.enter.native="handleQuery"
-        />
-      </el-form-item>
-      <el-form-item label="克百威" prop="carbaryl">
-        <el-input
-          v-model="queryParams.carbaryl"
-          placeholder="请输入克百威"
-          clearable
-          @keyup.enter.native="handleQuery"
-        />
-      </el-form-item>
-      <el-form-item label="检出次数" prop="deteNum">
-        <el-input
-          v-model="queryParams.deteNum"
-          placeholder="请输入检出次数"
-          clearable
-          @keyup.enter.native="handleQuery"
-        />
-      </el-form-item>
-      <el-form-item label="超标次数" prop="exDetNum">
-        <el-input
-          v-model="queryParams.exDetNum"
-          placeholder="请输入超标次数"
-          clearable
-          @keyup.enter.native="handleQuery"
-        />
-      </el-form-item>
-      <el-form-item label="记录生产基地的检查次数" prop="productionInspectCount">
-        <el-input
-          v-model="queryParams.productionInspectCount"
-          placeholder="请输入记录生产基地的检查次数"
-          clearable
-          @keyup.enter.native="handleQuery"
-        />
-      </el-form-item>
-      <el-form-item label="记录生产基地的超标次数" prop="productionExceedCount">
-        <el-input
-          v-model="queryParams.productionExceedCount"
-          placeholder="请输入记录生产基地的超标次数"
-          clearable
-          @keyup.enter.native="handleQuery"
-        />
-      </el-form-item>
-      <el-form-item label="记录批发市场的检查次数" prop="wholesaleInspectCount">
-        <el-input
-          v-model="queryParams.wholesaleInspectCount"
-          placeholder="请输入记录批发市场的检查次数"
-          clearable
-          @keyup.enter.native="handleQuery"
-        />
-      </el-form-item>
-      <el-form-item label="记录批发市场的超标次数" prop="wholesaleExceedCount">
-        <el-input
-          v-model="queryParams.wholesaleExceedCount"
-          placeholder="请输入记录批发市场的超标次数"
-          clearable
-          @keyup.enter.native="handleQuery"
-        />
-      </el-form-item>
-      <el-form-item label="记录运输车的检查次数" prop="vehicleInspectCount">
-        <el-input
-          v-model="queryParams.vehicleInspectCount"
-          placeholder="请输入记录运输车的检查次数"
-          clearable
-          @keyup.enter.native="handleQuery"
-        />
-      </el-form-item>
-      <el-form-item label="记录运输车的超标次数" prop="vehicleExceedCount">
-        <el-input
-          v-model="queryParams.vehicleExceedCount"
-          placeholder="请输入记录运输车的超标次数"
-          clearable
-          @keyup.enter.native="handleQuery"
-        />
-      </el-form-item>
-      <el-form-item label="记录创建的时间" prop="createdDate">
-        <el-date-picker clearable
-          v-model="queryParams.createdDate"
-          type="date"
+
+      <el-form-item label="抽样日期">
+        <el-date-picker
+          v-model="dateRange"
+          style="width: 240px"
           value-format="yyyy-MM-dd"
-          placeholder="请选择记录创建的时间">
-        </el-date-picker>
+          type="daterange"
+          range-separator="-"
+          start-placeholder="开始日期"
+          end-placeholder="结束日期"
+        ></el-date-picker>
       </el-form-item>
       <el-form-item>
         <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery">搜索</el-button>
         <el-button icon="el-icon-refresh" size="mini" @click="resetQuery">重置</el-button>
       </el-form-item>
     </el-form>
-
+<!--
     <el-row :gutter="10" class="mb8">
       <el-col :span="1.5">
         <el-button
@@ -236,57 +64,36 @@
       </el-col>
       <right-toolbar :showSearch.sync="showSearch" @queryTable="getList"></right-toolbar>
     </el-row>
-
-    <el-table v-loading="loading" :data="outTeaBanPesDetRecordsList" @selection-change="handleSelectionChange">
-      <el-table-column type="selection" width="55" align="center" />
-      <el-table-column label="唯一标识每条检测记录" align="center" prop="teaBanPesDetRecordsId" />
-      <el-table-column label="农药名称" align="center" prop="pesticideName" />
-      <el-table-column label="甲胺磷" align="center" prop="methamidophos" />
-      <el-table-column label="乙酰甲胺磷" align="center" prop="acephate" />
-      <el-table-column label="甲拌磷" align="center" prop="phorate" />
-      <el-table-column label="氧乐果" align="center" prop="dimethoate" />
-      <el-table-column label="毒死蜱" align="center" prop="chlorpyrifos" />
-      <el-table-column label="特丁硫磷" align="center" prop="fenthion" />
-      <el-table-column label="三唑磷" align="center" prop="triazophos" />
-      <el-table-column label="水胺硫磷" align="center" prop="isocarbophos" />
-      <el-table-column label="治螟磷" align="center" prop="trichlorfon" />
-      <el-table-column label="乐果" align="center" prop="dichlorvos" />
-      <el-table-column label="甲基异柳磷" align="center" prop="methylParathion" />
-      <el-table-column label="氟虫腈" align="center" prop="flucythrinate" />
-      <el-table-column label="克百威" align="center" prop="carbaryl" />
-      <el-table-column label="检出次数" align="center" prop="deteNum" />
-      <el-table-column label="超标次数" align="center" prop="exDetNum" />
-      <el-table-column label="记录生产基地的检查次数" align="center" prop="productionInspectCount" />
-      <el-table-column label="记录生产基地的超标次数" align="center" prop="productionExceedCount" />
-      <el-table-column label="记录批发市场的检查次数" align="center" prop="wholesaleInspectCount" />
-      <el-table-column label="记录批发市场的超标次数" align="center" prop="wholesaleExceedCount" />
-      <el-table-column label="记录运输车的检查次数" align="center" prop="vehicleInspectCount" />
-      <el-table-column label="记录运输车的超标次数" align="center" prop="vehicleExceedCount" />
-      <el-table-column label="记录创建的时间" align="center" prop="createdDate" width="180">
-        <template slot-scope="scope">
-          <span>{{ parseTime(scope.row.createdDate, '{y}-{m}-{d}') }}</span>
-        </template>
+-->
+    <el-table
+      v-loading="loading"
+      v-if="!peopleTagNumLoading"
+      ref="refreshTable"
+      :header-cell-style="headerStyle"
+      :span-method="spanMethod"
+      :data="StageList"
+      style="width: 100%;"
+      align='center'
+      id="table1"
+    >
+      <el-table-column label="农药名称" align="center">
+        <el-table-column prop="IncludeLable"></el-table-column>
+        <el-table-column  align="center" prop="StageName"></el-table-column>
       </el-table-column>
-      <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
+
+      <el-table-column
+        v-for="item in pesticideNameList"
+        align="center"
+        :label="item.pesticideName"
+        :key="item.StageId"
+        prop="value"
+      >
         <template slot-scope="scope">
-          <el-button
-            size="mini"
-            type="text"
-            icon="el-icon-edit"
-            @click="handleUpdate(scope.row)"
-            v-hasPermi="['out:outTeaBanPesDetRecords:edit']"
-          >修改</el-button>
-          <el-button
-            size="mini"
-            type="text"
-            icon="el-icon-delete"
-            @click="handleDelete(scope.row)"
-            v-hasPermi="['out:outTeaBanPesDetRecords:remove']"
-          >删除</el-button>
+          <div>{{ item[scope.row['StageId']] }}</div>
         </template>
       </el-table-column>
     </el-table>
-    
+    <!--占用格，界面有点拥挤，美化一下-->
     <pagination
       v-show="total>0"
       :total="total"
@@ -298,86 +105,13 @@
     <!-- 添加或修改茶叶禁用农药检出及超标情况对话框 -->
     <el-dialog :title="title" :visible.sync="open" width="500px" append-to-body>
       <el-form ref="form" :model="form" :rules="rules" label-width="80px">
-        <el-form-item label="农药名称" prop="pesticideName">
-          <el-input v-model="form.pesticideName" placeholder="请输入农药名称" />
-        </el-form-item>
-        <el-form-item label="甲胺磷" prop="methamidophos">
-          <el-input v-model="form.methamidophos" placeholder="请输入甲胺磷" />
-        </el-form-item>
-        <el-form-item label="乙酰甲胺磷" prop="acephate">
-          <el-input v-model="form.acephate" placeholder="请输入乙酰甲胺磷" />
-        </el-form-item>
-        <el-form-item label="甲拌磷" prop="phorate">
-          <el-input v-model="form.phorate" placeholder="请输入甲拌磷" />
-        </el-form-item>
-        <el-form-item label="氧乐果" prop="dimethoate">
-          <el-input v-model="form.dimethoate" placeholder="请输入氧乐果" />
-        </el-form-item>
-        <el-form-item label="毒死蜱" prop="chlorpyrifos">
-          <el-input v-model="form.chlorpyrifos" placeholder="请输入毒死蜱" />
-        </el-form-item>
-        <el-form-item label="特丁硫磷" prop="fenthion">
-          <el-input v-model="form.fenthion" placeholder="请输入特丁硫磷" />
-        </el-form-item>
-        <el-form-item label="三唑磷" prop="triazophos">
-          <el-input v-model="form.triazophos" placeholder="请输入三唑磷" />
-        </el-form-item>
-        <el-form-item label="水胺硫磷" prop="isocarbophos">
-          <el-input v-model="form.isocarbophos" placeholder="请输入水胺硫磷" />
-        </el-form-item>
-        <el-form-item label="治螟磷" prop="trichlorfon">
-          <el-input v-model="form.trichlorfon" placeholder="请输入治螟磷" />
-        </el-form-item>
-        <el-form-item label="乐果" prop="dichlorvos">
-          <el-input v-model="form.dichlorvos" placeholder="请输入乐果" />
-        </el-form-item>
-        <el-form-item label="甲基异柳磷" prop="methylParathion">
-          <el-input v-model="form.methylParathion" placeholder="请输入甲基异柳磷" />
-        </el-form-item>
-        <el-form-item label="氟虫腈" prop="flucythrinate">
-          <el-input v-model="form.flucythrinate" placeholder="请输入氟虫腈" />
-        </el-form-item>
-        <el-form-item label="克百威" prop="carbaryl">
-          <el-input v-model="form.carbaryl" placeholder="请输入克百威" />
-        </el-form-item>
-        <el-form-item label="检出次数" prop="deteNum">
-          <el-input v-model="form.deteNum" placeholder="请输入检出次数" />
-        </el-form-item>
-        <el-form-item label="超标次数" prop="exDetNum">
-          <el-input v-model="form.exDetNum" placeholder="请输入超标次数" />
-        </el-form-item>
-        <el-form-item label="记录生产基地的检查次数" prop="productionInspectCount">
-          <el-input v-model="form.productionInspectCount" placeholder="请输入记录生产基地的检查次数" />
-        </el-form-item>
-        <el-form-item label="记录生产基地的超标次数" prop="productionExceedCount">
-          <el-input v-model="form.productionExceedCount" placeholder="请输入记录生产基地的超标次数" />
-        </el-form-item>
-        <el-form-item label="记录批发市场的检查次数" prop="wholesaleInspectCount">
-          <el-input v-model="form.wholesaleInspectCount" placeholder="请输入记录批发市场的检查次数" />
-        </el-form-item>
-        <el-form-item label="记录批发市场的超标次数" prop="wholesaleExceedCount">
-          <el-input v-model="form.wholesaleExceedCount" placeholder="请输入记录批发市场的超标次数" />
-        </el-form-item>
-        <el-form-item label="记录运输车的检查次数" prop="vehicleInspectCount">
-          <el-input v-model="form.vehicleInspectCount" placeholder="请输入记录运输车的检查次数" />
-        </el-form-item>
-        <el-form-item label="记录运输车的超标次数" prop="vehicleExceedCount">
-          <el-input v-model="form.vehicleExceedCount" placeholder="请输入记录运输车的超标次数" />
-        </el-form-item>
-        <el-form-item label="记录创建的时间" prop="createdDate">
-          <el-date-picker clearable
-            v-model="form.createdDate"
-            type="date"
-            value-format="yyyy-MM-dd"
-            placeholder="请选择记录创建的时间">
-          </el-date-picker>
-        </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button type="primary" @click="submitForm">确 定</el-button>
         <el-button @click="cancel">取 消</el-button>
       </div>
     </el-dialog>
+
   </div>
 </template>
 
@@ -400,8 +134,7 @@ export default {
       showSearch: true,
       // 总条数
       total: 0,
-      // 茶叶禁用农药检出及超标情况表格数据
-      outTeaBanPesDetRecordsList: [],
+
       // 弹出层标题
       title: "",
       // 是否显示弹出层
@@ -438,7 +171,48 @@ export default {
       form: {},
       // 表单校验
       rules: {
-      }
+      },
+      //界面表格行表头，如生产基地
+      StageList: [
+        {
+          IncludeLable:'检出次数',
+          StageName: '检出次数',
+          StageId: 'totalDet'
+
+        },
+        {
+          IncludeLable:'超标次数',
+          StageName: '超标次数',
+          StageId: 'totalEx'
+        },
+        {
+          IncludeLable:"其中",
+          StageName: '生产基地检出次数',
+          StageId: 'productBase'
+        },
+        {
+          StageName: '生产基地超标次数',
+          StageId: 'productBaseEx'
+        },
+        {
+          StageName: '各类市场检出',
+          StageId: 'market'
+        },
+        {
+          StageName: '各类市场超标',
+          StageId: 'marketEx'
+        },
+        {
+          StageName: '运输车检出',
+          StageId: 'vehicle'
+        },
+        {
+          StageName: '运输车超标',
+          StageId: 'vehicleEx'
+        },
+      ],
+      // 茶叶禁用农药检出及超标情况表格数据
+      pesticideNameList: [],
     };
   },
   created() {
@@ -449,7 +223,7 @@ export default {
     getList() {
       this.loading = true;
       listOutTeaBanPesDetRecords(this.queryParams).then(response => {
-        this.outTeaBanPesDetRecordsList = response.rows;
+        this.pesticideNameList = response.rows;
         this.total = response.total;
         this.loading = false;
       });
@@ -556,7 +330,53 @@ export default {
       this.download('out/outTeaBanPesDetRecords/export', {
         ...this.queryParams
       }, `outTeaBanPesDetRecords_${new Date().getTime()}.xlsx`)
-    }
+    },
+    /*表头行的合并*/
+    headerStyle({ row, column, rowIndex, columnIndex }) {
+      const comStyle = {
+        backgroundColor: "#3D589B",
+        color: "#fff",
+        fontSize: "500",
+      };
+      if(rowIndex===0){
+        row[0].rowspan=2;
+      }
+      if(rowIndex===1) {
+        if (columnIndex === 0 || columnIndex === 1) { // 将表头第一列隐藏
+          return {
+            display: "none",
+            ...comStyle,
+          };
+        }
+      }
+      return comStyle;
+    },
+    /*表头列的合并*/
+    spanMethod({ row, column, rowIndex, columnIndex }) {
+      if(rowIndex=== 0 || rowIndex=== 1){
+        if(columnIndex ===1){
+          return {rowspan: 1, colspan: 0}
+        }
+        if(columnIndex ===0){
+          return {rowspan: 1, colspan: 2}
+        }
+      }
+
+      if (rowIndex=== 2)
+      {//其中的那一行
+        if (columnIndex === 0) {
+          return {rowspan: 6, colspan: 1} // 隐藏表头下面第一行的第一列
+        }
+      }
+      if(rowIndex> 2){//”其中“包含的行
+        if (columnIndex === 0) {
+          return {rowspan: 1, colspan: 0} // 隐藏表头下面第一行的第一列
+        }
+        if (columnIndex === 1) {
+          return {rowspan: 1, colspan: 1} // 将表头下面第一行的第一列和第二列合并
+        }
+      }
+    },
   }
 };
 </script>

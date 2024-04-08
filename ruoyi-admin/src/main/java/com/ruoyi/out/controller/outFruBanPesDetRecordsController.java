@@ -76,8 +76,7 @@ public class outFruBanPesDetRecordsController extends BaseController
         outReturnType outReturnTypeRecords=new outReturnType();
         outReturnTypeRecords.setParams(outFruBanPesDetRecords.getParams());
         List<outReturnType> list = outFruBanPesDetRecordsService.selectoutFruBanPesDetRecordsList2(outReturnTypeRecords);
-        System.out.println("打印一下导出时的参数值"+list);
-        System.out.println("打印一下导出时的结果表"+list);
+
         TemplateExportParams params = new TemplateExportParams("ruoyi-admin/src/main/java/com/ruoyi/excelOutTemplate/outFruBanPesDetRecords.xlsx");
         Map<String, Object> map = new HashMap<>();
         map.put("tableName", "3.水果禁用农药检出及超标情况表");

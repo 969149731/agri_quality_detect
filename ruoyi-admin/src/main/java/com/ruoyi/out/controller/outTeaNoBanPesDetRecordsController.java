@@ -1,7 +1,20 @@
 package com.ruoyi.out.controller;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.InputStream;
+import java.net.URLEncoder;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import javax.servlet.http.HttpServletResponse;
+
+import cn.afterturn.easypoi.excel.ExcelExportUtil;
+import cn.afterturn.easypoi.excel.entity.TemplateExportParams;
+import com.ruoyi.out.domain.outReturnType;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.ss.usermodel.WorkbookFactory;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -42,7 +55,7 @@ public class outTeaNoBanPesDetRecordsController extends BaseController
     public TableDataInfo list(outTeaNoBanPesDetRecords outTeaNoBanPesDetRecords)
     {
         startPage();
-        List<outTeaNoBanPesDetRecords> list = outTeaNoBanPesDetRecordsService.selectoutTeaNoBanPesDetRecordsList(outTeaNoBanPesDetRecords);
+        List<outReturnType> list = outTeaNoBanPesDetRecordsService.selectoutTeaNoBanPesDetRecordsList(outTeaNoBanPesDetRecords);
         return getDataTable(list);
     }
 
@@ -54,9 +67,49 @@ public class outTeaNoBanPesDetRecordsController extends BaseController
     @PostMapping("/export")
     public void export(HttpServletResponse response, outTeaNoBanPesDetRecords outTeaNoBanPesDetRecords)
     {
-        List<outTeaNoBanPesDetRecords> list = outTeaNoBanPesDetRecordsService.selectoutTeaNoBanPesDetRecordsList(outTeaNoBanPesDetRecords);
-        ExcelUtil<outTeaNoBanPesDetRecords> util = new ExcelUtil<outTeaNoBanPesDetRecords>(outTeaNoBanPesDetRecords.class);
-        util.exportExcel(response, list, "茶叶上非禁止使用农药检出及超标情况数据");
+        outReturnType outReturnTypeRecords=new outReturnType();
+        outReturnTypeRecords.setParams(outTeaNoBanPesDetRecords.getParams());
+        List<outReturnType> list = outTeaNoBanPesDetRecordsService.selectoutTeaNoBanPesDetRecordsList(outTeaNoBanPesDetRecords);
+
+        TemplateExportParams params = new TemplateExportParams("ruoyi-admin/src/main/java/com/ruoyi/excelOutTemplate/outFruBanPesDetRecords.xlsx");
+        Map<String, Object> map = new HashMap<>();
+        map.put("tableName", "3.茶叶上非禁止使用农药检出及超标情况表");
+        map.put("maplist", list);
+        try {
+            // 生成 Excel 数据
+            params.setColForEach(true);
+            Workbook workbook = ExcelExportUtil.exportExcel(params, map);
+
+            // 将 Workbook 写入 ByteArrayOutputStream
+            ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+            workbook.write(outputStream);
+
+            // 从 ByteArrayOutputStream 创建 ByteArrayInputStream
+            InputStream inputStream = new ByteArrayInputStream(outputStream.toByteArray());
+
+            // 重新读取 Excel 数据
+            workbook = WorkbookFactory.create(inputStream);
+            Sheet sheet = workbook.getSheetAt(0);
+
+            // 获取单元格内容，并将相同内容的单元格合并
+            //mergeCells(sheet);
+
+            // 设置响应头
+            response.setContentType("application/vnd.ms-excel");
+            response.setHeader("Content-Disposition", "attachment;filename=" + URLEncoder.encode("out.xlsx", "UTF-8"));
+
+            // 将修改后的 Excel 数据写入响应输出流
+            workbook.write(response.getOutputStream());
+
+            // 最后关闭相关的流和 Workbook
+            workbook.close();
+            outputStream.close();
+            inputStream.close();
+
+            System.out.println("Excel 导出并合并完成。");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     /**
