@@ -65,9 +65,7 @@ public class outDlDetectRecordsServiceImpl implements IoutDlDetectRecordsService
 
     //判断样品是蔬菜还是水果函数
     public int check_type(String sampleName) {
-        System.out.println("看看123 ");
         String type = outDlDetectRecordsMapper.checkSampleType(sampleName);
-        System.out.println("看看 "+type);
         if ("蔬菜".equals(type)) {
             return 0;
         } else if("水果".equals(type)) {
