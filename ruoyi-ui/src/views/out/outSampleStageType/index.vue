@@ -105,7 +105,6 @@
 <script>
 import { listOutSampleStageType, getOutSampleStageType, delOutSampleStageType, addOutSampleStageType, updateOutSampleStageType } from "@/api/out/outSampleStageType";
 import * as XLSX from "xlsx";
-import * as XLSXS from "xlsx-style";
 import FileSaver from 'file-saver'
 
 export default {

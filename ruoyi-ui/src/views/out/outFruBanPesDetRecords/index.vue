@@ -129,7 +129,6 @@
 <script>
 import { listOutFruBanPesDetRecords2,listOutFruBanPesDetRecords, getOutFruBanPesDetRecords, delOutFruBanPesDetRecords, addOutFruBanPesDetRecords, updateOutFruBanPesDetRecords } from "@/api/out/outFruBanPesDetRecords";
 import * as XLSX from "xlsx";
-import * as XLSXS from "xlsx-style";
 import FileSaver from 'file-saver'
 
 

@@ -257,8 +257,6 @@
 
 <script>
 import { listOutVegNoBanPesDetRecords2,listOutVegNoBanPesDetRecords, getOutVegNoBanPesDetRecords, delOutVegNoBanPesDetRecords, addOutVegNoBanPesDetRecords, updateOutVegNoBanPesDetRecords } from "@/api/out/outVegNoBanPesDetRecords";
-import * as XLSX from "xlsx";
-import * as XLSXS from "xlsx-style";
 import FileSaver from 'file-saver'
 export default {
   name: "OutVegNoBanPesDetRecords",

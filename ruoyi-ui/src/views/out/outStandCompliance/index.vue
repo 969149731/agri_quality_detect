@@ -355,8 +355,6 @@
 
 <script>
 import { listOutStandCompliance2,listOutStandCompliance, getOutStandCompliance, delOutStandCompliance, addOutStandCompliance, updateOutStandCompliance } from "@/api/out/outStandCompliance";
-import * as XLSX from "xlsx";
-import * as XLSXS from "xlsx-style";
 import FileSaver from 'file-saver';
 import { reactive } from 'vue'
 export default {

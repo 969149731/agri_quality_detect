@@ -130,7 +130,6 @@
 <script>
 import { listOutFruVegQualification, getOutFruVegQualification, delOutFruVegQualification, addOutFruVegQualification, updateOutFruVegQualification } from "@/api/out/outFruVegQualification";
 import * as XLSX from "xlsx";
-import * as XLSXS from "xlsx-style";
 import FileSaver from 'file-saver'
 export default {
   name: "OutFruVegQualification",

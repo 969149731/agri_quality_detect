@@ -192,8 +192,6 @@
 
 <script>
 import { listOutSampleQuality, getOutSampleQuality, delOutSampleQuality, addOutSampleQuality, updateOutSampleQuality } from "@/api/out/outSampleQuality";
-import * as XLSX from "xlsx";
-import * as XLSXS from "xlsx-style";
 import FileSaver from 'file-saver'
 export default {
   name: "OutSampleQuality",

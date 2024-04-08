@@ -208,8 +208,6 @@
 
 <script>
 import { listOutVegBanPesDetRecords2,listOutVegBanPesDetRecords, getOutVegBanPesDetRecords, delOutVegBanPesDetRecords, addOutVegBanPesDetRecords, updateOutVegBanPesDetRecords } from "@/api/out/outVegBanPesDetRecords";
-import * as XLSX from "xlsx";
-import * as XLSXS from "xlsx-style";
 import FileSaver from 'file-saver'
 
 export default {
