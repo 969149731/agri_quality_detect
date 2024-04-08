@@ -26,7 +26,7 @@ public class agriPesticideDetResult extends BaseEntity
 
     /** 检测值（mg/kg） */
     @Excel(name = "检测值")
-    private Double pesticideDetValue;
+    private String pesticideDetValue;
 
     /** 逻辑外键，用id关联各市样品检测结果详细表 */
     private Long citySampleTestDetailsId;
@@ -52,12 +52,12 @@ public class agriPesticideDetResult extends BaseEntity
     {
         return pesticideName;
     }
-    public void setPesticideDetValue(Double pesticideDetValue) 
+    public void setPesticideDetValue(String pesticideDetValue)
     {
         this.pesticideDetValue = pesticideDetValue;
     }
 
-    public Double getPesticideDetValue() 
+    public String getPesticideDetValue()
     {
         return pesticideDetValue;
     }

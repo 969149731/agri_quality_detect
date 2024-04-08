@@ -110,7 +110,7 @@ public class outExceedSampleDetailServiceImpl implements IoutExceedSampleDetailS
             //获取上传的数据中有检测出有值的农药名
             String pesticideName = agriPesticideDetResult.getPesticideName();
             //获取上传的数据中有检测出有值的农药值
-            Double pesticideDetValue = agriPesticideDetResult.getPesticideDetValue();
+            Double pesticideDetValue = Double.valueOf(agriPesticideDetResult.getPesticideDetValue());
             //获取上传的数据中具体的样品名【蔬菜水果名】，用查询该样品农药限量值
             String vegFruName = sample.getVegFruName();
             //标准，默认依据国家标准
@@ -175,7 +175,7 @@ public class outExceedSampleDetailServiceImpl implements IoutExceedSampleDetailS
                     //获取上传的数据中有检测出有值的农药名
                     String pesticideName = agriPesticideDetResult.getPesticideName();
                     //获取上传的数据中有检测出有值的农药值
-                    Double pesticideDetValue = agriPesticideDetResult.getPesticideDetValue();
+                    Double pesticideDetValue = Double.valueOf(agriPesticideDetResult.getPesticideDetValue());
                     //获取上传的数据中具体的样品名【蔬菜水果名】，用查询该样品农药限量值
                     String vegFruName = CitySampleTestDetail.getVegFruName();
                     //标准，默认依据国家标准

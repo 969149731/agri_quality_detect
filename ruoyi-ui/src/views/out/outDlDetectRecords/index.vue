@@ -125,7 +125,7 @@
 <!--        </el-date-picker>-->
 <!--      </el-form-item>-->
 
-      <el-form-item label="检测城市" prop="detectLocation">
+      <el-form-item label="检测地点" prop="detectLocation">
 <!--        <el-input-->
 <!--          v-model="queryParams.detectLocation"-->
 <!--          placeholder="请输入检测单位"-->

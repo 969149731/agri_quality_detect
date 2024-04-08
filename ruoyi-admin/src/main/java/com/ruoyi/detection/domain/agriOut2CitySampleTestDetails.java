@@ -10,6 +10,7 @@ import java.util.Date;
 *
 * excel导入的实体,动态农药name和value
 * 这个实体类版本不是动态的农药name和value，是写死的，具体的农药名字
+* 这个只是用来导入用的，在新的方法中，用到的是动态导入，这个类已经没用什么利用价值了
 * */
 public class agriOut2CitySampleTestDetails {
 

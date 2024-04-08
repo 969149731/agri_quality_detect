@@ -180,7 +180,7 @@ public class outBanPesticideDetectionServiceImpl implements IoutBanPesticideDete
                     if("甲胺磷".equals(pesticideName)||"乙酰甲胺磷".equals(pesticideName)||"甲拌磷".equals(pesticideName)||"氧乐果".equals(pesticideName)||"毒死蜱".equals(pesticideName)||"特丁硫磷".equals(pesticideName)||"三唑磷".equals(pesticideName)||"水胺硫磷".equals(pesticideName)||"治螟磷".equals(pesticideName)||"乐果".equals(pesticideName)||"甲基异柳磷".equals(pesticideName)||"氟虫腈".equals(pesticideName)||"克百威".equals(pesticideName)){
                         agriPesticideDetResultForBanPesticideDetection agriPesticideDetResultForBanPesticideDetection = new agriPesticideDetResultForBanPesticideDetection();
                         agriPesticideDetResultForBanPesticideDetection.setPesticideName(pesticideName);
-                        agriPesticideDetResultForBanPesticideDetection.setPesticideDetValue(agriPesticideDetResult.getPesticideDetValue());
+                        agriPesticideDetResultForBanPesticideDetection.setPesticideDetValue(Double.valueOf(agriPesticideDetResult.getPesticideDetValue()));
                         //获取上传的数据中具体的样品名【蔬菜水果名】，用查询该样品农药限量值
                         String vegFruName = CitySampleTestDetail.getVegFruName();
                         //标准，默认依据国家标准
@@ -214,7 +214,7 @@ public class outBanPesticideDetectionServiceImpl implements IoutBanPesticideDete
                     if("甲胺磷".equals(pesticideName)||"乙酰甲胺磷".equals(pesticideName)||"甲拌磷".equals(pesticideName)||"氧乐果".equals(pesticideName)||"水胺硫磷".equals(pesticideName)||"乐果".equals(pesticideName)||"甲基异柳磷".equals(pesticideName)||"氟虫腈".equals(pesticideName)||"克百威".equals(pesticideName)||"涕灭威".equals(pesticideName)){
                         agriPesticideDetResultForBanPesticideDetection agriPesticideDetResultForBanPesticideDetection = new agriPesticideDetResultForBanPesticideDetection();
                         agriPesticideDetResultForBanPesticideDetection.setPesticideName(pesticideName);
-                        agriPesticideDetResultForBanPesticideDetection.setPesticideDetValue(agriPesticideDetResult.getPesticideDetValue());
+                        agriPesticideDetResultForBanPesticideDetection.setPesticideDetValue(Double.valueOf(agriPesticideDetResult.getPesticideDetValue()));
                         //获取上传的数据中具体的样品名【蔬菜水果名】，用查询该样品农药限量值
                         String vegFruName = CitySampleTestDetail.getVegFruName();
                         //标准，默认依据国家标准

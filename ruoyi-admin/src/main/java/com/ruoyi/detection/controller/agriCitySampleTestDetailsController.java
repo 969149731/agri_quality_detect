@@ -1,6 +1,7 @@
 package com.ruoyi.detection.controller;
 
 import java.util.List;
+import java.util.Map;
 import javax.servlet.http.HttpServletResponse;
 
 import cn.afterturn.easypoi.excel.ExcelImportUtil;
@@ -41,57 +42,49 @@ public class agriCitySampleTestDetailsController extends BaseController
     @Autowired
     private IagriCitySampleTestDetailsService agriCitySampleTestDetailsService;
 
-//
+
+//    改需求前用的导入
 //    @Log(title = "用户管理", businessType = BusinessType.IMPORT)
-//    @PreAuthorize("@ss.hasPermi('system:user:import')")
+////    @PreAuthorize("@ss.hasPermi('system:user:import')")
 //    @PostMapping("/importData")
 //    public AjaxResult importData(MultipartFile file, boolean updateSupport) throws Exception
 //    {
-//        ExcelUtil<agriCitySampleTestDetails> util = new ExcelUtil<agriCitySampleTestDetails>(agriCitySampleTestDetails.class);
-//        List<agriCitySampleTestDetails> agriCitySampleTestDetailsList = util.importExcel(file.getInputStream());
+//        ImportParams params = new ImportParams();
+//        params.setTitleRows(1);  //表标题占用的行数
+//        params.setHeadRows(2);  //表头所占用的行数
+//        List<agriOut2CitySampleTestDetails> agriOut2CitySampleTestDetailsList = null;
+//        try {
+//            agriOut2CitySampleTestDetailsList = ExcelImportUtil.importExcel(file.getInputStream(), agriOut2CitySampleTestDetails.class, params);
+//        } catch (Exception e) {
+//            throw new RuntimeException(e);
+//        }finally {
+//            System.gc();//调用垃圾回收
+//        }
 //        String operName = getUsername();
-//        String message = agriCitySampleTestDetailsService.importAgriCitySampleTestDetails(agriCitySampleTestDetailsList, updateSupport, operName);
+//        String message = agriCitySampleTestDetailsService.importAgriOut2CitySampleTestDetailsList(agriOut2CitySampleTestDetailsList, updateSupport, operName);
 //        return success(message);
 //    }
 
-//    @Log(title = "用户管理", businessType = BusinessType.IMPORT)
-//    @PreAuthorize("@ss.hasPermi('system:user:import')")
-//    @PostMapping("/importData")
-//    public AjaxResult importData(MultipartFile file, boolean updateSupport) throws Exception
-//    {
-//        ExcelUtil<agriOutCitySampleTestDetails> util = new ExcelUtil<agriOutCitySampleTestDetails>(agriOutCitySampleTestDetails.class);
-//        List<agriOutCitySampleTestDetails> agriOutCitySampleTestDetailsList = util.importExcel(file.getInputStream());
-//        String operName = getUsername();
-//        String message = agriCitySampleTestDetailsService.importAgriOutCitySampleTestDetailsList(agriOutCitySampleTestDetailsList, updateSupport, operName);
-//        return success(message);
-//    }
 
+    //新需求的导入
     @Log(title = "用户管理", businessType = BusinessType.IMPORT)
 //    @PreAuthorize("@ss.hasPermi('system:user:import')")
     @PostMapping("/importData")
-    public AjaxResult importData(MultipartFile file, boolean updateSupport) throws Exception
-    {
-//      ExcelUtil<agriOut2CitySampleTestDetails> util = new ExcelUtil<agriOut2CitySampleTestDetails>(agriOut2CitySampleTestDetails.class);
-//      List<agriOut2CitySampleTestDetails> agriOut2CitySampleTestDetailsList = util.importExcel(file.getInputStream());
+    public AjaxResult importData(MultipartFile file, boolean updateSupport) throws Exception {
         ImportParams params = new ImportParams();
-        params.setTitleRows(1);  //表标题占用的行数
-        params.setHeadRows(2);  //表头所占用的行数
-        List<agriOut2CitySampleTestDetails> agriOut2CitySampleTestDetailsList = null;
+        params.setHeadRows(1);  //表头所占用的行数
+        List<Map<String, Object>> list;
         try {
-            agriOut2CitySampleTestDetailsList = ExcelImportUtil.importExcel(file.getInputStream(), agriOut2CitySampleTestDetails.class, params);
+            list = ExcelImportUtil.importExcel(file.getInputStream(), Map.class, params);
         } catch (Exception e) {
             throw new RuntimeException(e);
-        }finally {
+        } finally {
             System.gc();//调用垃圾回收
         }
-//        System.out.println(("*****解析出来的数据:" + JSON.toJSONString(agriOut2CitySampleTestDetailsList)));
         String operName = getUsername();
-        String message = agriCitySampleTestDetailsService.importAgriOut2CitySampleTestDetailsList(agriOut2CitySampleTestDetailsList, updateSupport, operName);
+        String message = agriCitySampleTestDetailsService.importAgriOut2CitySampleTestDetailsList(list, updateSupport, operName);
         return success(message);
     }
-
-
-
     /**
      * 查询各市样品检测结果详细列表
      */

@@ -76,6 +76,18 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="koreaStandard" column="korea_standard"/>
         <result property="createdAt" column="created_at"/>
 
+        <result property="samplingLocationProvince" column="sampling_location_province"/>
+        <result property="samplingLocationCity" column="sampling_location_city"/>
+        <result property="samplingLocationCounty" column="sampling_location_county"/>
+        <result property="enterpriseName" column="enterprise_name"/>
+        <result property="enterpriseAttribute" column="enterprise_attribute"/>
+        <result property="enterpriseCreditIdCode" column="enterprise_credit_id_code"/>
+        <result property="tracingProvince" column="tracing_province"/>
+        <result property="tracingCity" column="tracing_city"/>
+        <result property="tracingCounty" column="tracing_county"/>
+        <result property="tracingArea" column="tracing_area"/>
+
+
         <collection property="agriPesticideDetResultList" ofType="agriPesticideDetResult">
             <id column="id" property="pesticideDetResultId"/>
             <result column="pesticide_name" property="pesticideName"/>
@@ -103,6 +115,17 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="euStandard != null  and euStandard != ''"> and eu_standard = #{euStandard}</if>
             <if test="usStandard != null  and usStandard != ''"> and us_standard = #{usStandard}</if>
             <if test="koreaStandard != null  and koreaStandard != ''"> and korea_standard = #{koreaStandard}</if>
+
+            <if test="samplingLocationProvince != null  and samplingLocationProvince != ''"> and sampling_location_province = #{samplingLocationProvince}</if>
+            <if test="samplingLocationCity != null  and samplingLocationCity != ''"> and sampling_location_city = #{samplingLocationCity}</if>
+            <if test="samplingLocationCounty != null  and samplingLocationCounty != ''"> and sampling_location_county = #{samplingLocationCounty}</if>
+            <if test="enterpriseAttribute != null  and enterpriseAttribute != ''"> and enterprise_attribute = #{enterpriseAttribute}</if>
+            <if test="enterpriseCreditIdCode != null  and enterpriseCreditIdCode != ''"> and enterprise_credit_id_code = #{enterpriseCreditIdCode}</if>
+            <if test="tracingProvince != null  and tracingProvince != ''"> and tracing_province = #{tracingProvince}</if>
+            <if test="tracingCity != null  and tracingCity != ''"> and tracing_city = #{tracingCity}</if>
+            <if test="tracingCounty != null  and tracingCounty != ''"> and tracing_county = #{tracingCounty}</if>
+            <if test="tracingArea != null  and tracingArea != ''"> and tracing_area = #{tracingArea}</if>
+
             <if test="params.beginTime != null and params.beginTime != ''"><!-- 开始时间检索 -->
                 AND date_format(sampling_date,'%y%m%d') &gt;= date_format(#{params.beginTime},'%y%m%d')
             </if>
@@ -161,7 +184,18 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="usStandard != null">us_standard,</if>
             <if test="koreaStandard != null">korea_standard,</if>
             <if test="createdAt != null">created_at,</if>
-         </trim>
+            <if test="samplingLocationProvince != null">sampling_location_province,</if>
+            <if test="samplingLocationCity != null">sampling_location_city,</if>
+            <if test="samplingLocationCounty != null">sampling_location_county,</if>
+            <if test="enterpriseName != null">enterprise_name,</if>
+            <if test="enterpriseAttribute != null">enterprise_attribute,</if>
+            <if test="enterpriseCreditIdCode != null">enterprise_credit_id_code,</if>
+            <if test="tracingProvince != null">tracing_province,</if>
+            <if test="tracingCity != null">tracing_city,</if>
+            <if test="tracingCounty != null">tracing_county,</if>
+            <if test="tracingArea != null">tracing_area,</if>
+
+        </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="sampleCode != null">#{sampleCode},</if>
             <if test="vegFruName != null">#{vegFruName},</if>
@@ -178,7 +212,18 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="usStandard != null">#{usStandard},</if>
             <if test="koreaStandard != null">#{koreaStandard},</if>
             <if test="createdAt != null">#{createdAt},</if>
-         </trim>
+            <if test="samplingLocationProvince != null">#{samplingLocationProvince},</if>
+            <if test="samplingLocationCity != null">#{samplingLocationCity},</if>
+            <if test="samplingLocationCounty != null">#{samplingLocationCounty},</if>
+            <if test="enterpriseName != null">#{enterpriseName},</if>
+            <if test="enterpriseAttribute != null">#{enterpriseAttribute},</if>
+            <if test="enterpriseCreditIdCode != null">#{enterpriseCreditIdCode},</if>
+            <if test="tracingProvince != null">#{tracingProvince},</if>
+            <if test="tracingCity != null">#{tracingCity},</if>
+            <if test="tracingCounty != null">#{tracingCounty},</if>
+            <if test="tracingArea != null">#{tracingArea},</if>
+
+        </trim>
     </insert>
 
     <update id="updateagriCitySampleTestDetails" parameterType="agriCitySampleTestDetails">

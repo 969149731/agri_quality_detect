@@ -1,6 +1,8 @@
 package com.ruoyi.detection.service;
 
 import java.util.List;
+import java.util.Map;
+
 import com.ruoyi.detection.domain.agriCitySampleTestDetails;
 import com.ruoyi.detection.domain.agriOut2CitySampleTestDetails;
 import com.ruoyi.detection.domain.agriOutCitySampleTestDetails;
@@ -65,5 +67,8 @@ public interface IagriCitySampleTestDetailsService
 
     String importAgriOutCitySampleTestDetailsList(List<agriOutCitySampleTestDetails> agriOutCitySampleTestDetailsList, boolean updateSupport, String operName);
 
-    String importAgriOut2CitySampleTestDetailsList(List<agriOut2CitySampleTestDetails> agriOut2CitySampleTestDetailsList, boolean updateSupport, String operName);
+    //需求修改前的导入接口，先暂时保留着，但是不用了
+    String importAgriOut2CitySampleTestDetailsList_pre(List<agriOut2CitySampleTestDetails> agriOut2CitySampleTestDetailsList, boolean updateSupport, String operName);
+
+    String importAgriOut2CitySampleTestDetailsList(List<Map<String, Object>> agriOut2CitySampleTestDetailsList, boolean updateSupport, String operName);
 }

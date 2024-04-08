@@ -1,8 +1,7 @@
 package com.ruoyi.detection.service.impl;
 
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 import cn.afterturn.easypoi.excel.entity.ImportParams;
 import com.ruoyi.common.exception.ServiceException;
@@ -14,7 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
-import java.util.ArrayList;
+
 import com.ruoyi.common.utils.StringUtils;
 import org.springframework.transaction.annotation.Transactional;
 import com.ruoyi.detection.domain.agriPesticideDetResult;
@@ -230,7 +229,7 @@ public class agriCitySampleTestDetailsServiceImpl implements IagriCitySampleTest
                 //有了插入主表部分的ID之后插入从表部分的检测农药和检测值,以及主表中的ID，以对应上
                 agriPesticideDetResult.setCitySampleTestDetailsId(mainTableId);
                 agriPesticideDetResult.setPesticideName(agriOutCitySampleTestDetails.getPesticideName());
-                agriPesticideDetResult.setPesticideDetValue(agriOutCitySampleTestDetails.getPesticideDetValue());
+                agriPesticideDetResult.setPesticideDetValue(String.valueOf(agriOutCitySampleTestDetails.getPesticideDetValue()));
                 agriPesticideDetResultMapper.insertagriPesticideDetResult(agriPesticideDetResult);
 
                 //删除主表中没有信息数据的表
@@ -257,8 +256,9 @@ public class agriCitySampleTestDetailsServiceImpl implements IagriCitySampleTest
         return successMsg.toString();
     }
 
+    //需求修改前的接口方法的实现，这边先保留着，但是先不用了
     @Override
-    public String importAgriOut2CitySampleTestDetailsList(List<agriOut2CitySampleTestDetails> agriOut2CitySampleTestDetailsList, boolean updateSupport, String operName) {
+    public String importAgriOut2CitySampleTestDetailsList_pre(List<agriOut2CitySampleTestDetails> agriOut2CitySampleTestDetailsList, boolean updateSupport, String operName) {
         if (StringUtils.isNull(agriOut2CitySampleTestDetailsList) || agriOut2CitySampleTestDetailsList.size() == 0) {
             throw new ServiceException("导入数据不能为空！");
         }
@@ -330,294 +330,452 @@ public class agriCitySampleTestDetailsServiceImpl implements IagriCitySampleTest
                 agriPesticideDetResult agriPesticideDetResult= new agriPesticideDetResult();                //有了插入主表部分的ID之后插入从表部分的检测农药和检测值
                 //有了插入主表部分的ID之后插入从表部分的检测农药和检测值,以及主表中的ID，以对应上
                 agriPesticideDetResult.setCitySampleTestDetailsId(mainTableId);
-                if(agriOut2CitySampleTestDetails.getNy1()!=null){
-                    agriPesticideDetResult.setPesticideName("甲胺磷");
-                    agriPesticideDetResult.setPesticideDetValue(agriOut2CitySampleTestDetails.getNy1());
-                    agriPesticideDetResultMapper.insertagriPesticideDetResult(agriPesticideDetResult);
+//                if(agriOut2CitySampleTestDetails.getNy1()!=null){
+//                    agriPesticideDetResult.setPesticideName("甲胺磷");
+//                    agriPesticideDetResult.setPesticideDetValue(agriOut2CitySampleTestDetails.getNy1());
+//                    agriPesticideDetResultMapper.insertagriPesticideDetResult(agriPesticideDetResult);
+//                }
+//                if(agriOut2CitySampleTestDetails.getNy2()!=null){
+//                    agriPesticideDetResult.setPesticideName("乙酰甲胺磷");
+//                    agriPesticideDetResult.setPesticideDetValue(agriOut2CitySampleTestDetails.getNy2());
+//                    agriPesticideDetResultMapper.insertagriPesticideDetResult(agriPesticideDetResult);
+//                }
+//                if(agriOut2CitySampleTestDetails.getNy3()!=null){
+//                    agriPesticideDetResult.setPesticideName("甲拌磷");
+//                    agriPesticideDetResult.setPesticideDetValue(agriOut2CitySampleTestDetails.getNy3());
+//                    agriPesticideDetResultMapper.insertagriPesticideDetResult(agriPesticideDetResult);
+//                }
+//                if(agriOut2CitySampleTestDetails.getNy4()!=null){
+//                    agriPesticideDetResult.setPesticideName("氧乐果");
+//                    agriPesticideDetResult.setPesticideDetValue(agriOut2CitySampleTestDetails.getNy4());
+//                    agriPesticideDetResultMapper.insertagriPesticideDetResult(agriPesticideDetResult);
+//                }
+//                if(agriOut2CitySampleTestDetails.getNy5()!=null){
+//                    agriPesticideDetResult.setPesticideName("毒死蜱");
+//                    agriPesticideDetResult.setPesticideDetValue(agriOut2CitySampleTestDetails.getNy5());
+//                    agriPesticideDetResultMapper.insertagriPesticideDetResult(agriPesticideDetResult);
+//                }
+//                if(agriOut2CitySampleTestDetails.getNy6()!=null){
+//                    agriPesticideDetResult.setPesticideName("特丁硫磷");
+//                    agriPesticideDetResult.setPesticideDetValue(agriOut2CitySampleTestDetails.getNy6());
+//                    agriPesticideDetResultMapper.insertagriPesticideDetResult(agriPesticideDetResult);
+//                }
+//                if(agriOut2CitySampleTestDetails.getNy7()!=null){
+//                    agriPesticideDetResult.setPesticideName("三唑磷");
+//                    agriPesticideDetResult.setPesticideDetValue(agriOut2CitySampleTestDetails.getNy7());
+//                    agriPesticideDetResultMapper.insertagriPesticideDetResult(agriPesticideDetResult);
+//                }
+//                if(agriOut2CitySampleTestDetails.getNy8()!=null){
+//                    agriPesticideDetResult.setPesticideName("水胺硫磷");
+//                    agriPesticideDetResult.setPesticideDetValue(agriOut2CitySampleTestDetails.getNy8());
+//                    agriPesticideDetResultMapper.insertagriPesticideDetResult(agriPesticideDetResult);
+//                }
+//                if(agriOut2CitySampleTestDetails.getNy9()!=null){
+//                    agriPesticideDetResult.setPesticideName("治螟磷");
+//                    agriPesticideDetResult.setPesticideDetValue(agriOut2CitySampleTestDetails.getNy9());
+//                    agriPesticideDetResultMapper.insertagriPesticideDetResult(agriPesticideDetResult);
+//                }
+//                if(agriOut2CitySampleTestDetails.getNy10()!=null){
+//                    agriPesticideDetResult.setPesticideName("乐果");
+//                    agriPesticideDetResult.setPesticideDetValue(agriOut2CitySampleTestDetails.getNy10());
+//                    agriPesticideDetResultMapper.insertagriPesticideDetResult(agriPesticideDetResult);
+//                }
+//                if(agriOut2CitySampleTestDetails.getNy11()!=null){
+//                    agriPesticideDetResult.setPesticideName("甲基异柳磷");
+//                    agriPesticideDetResult.setPesticideDetValue(agriOut2CitySampleTestDetails.getNy11());
+//                    agriPesticideDetResultMapper.insertagriPesticideDetResult(agriPesticideDetResult);
+//                }
+//                if(agriOut2CitySampleTestDetails.getNy12()!=null){
+//                    agriPesticideDetResult.setPesticideName("氟虫腈");
+//                    agriPesticideDetResult.setPesticideDetValue(agriOut2CitySampleTestDetails.getNy12());
+//                    agriPesticideDetResultMapper.insertagriPesticideDetResult(agriPesticideDetResult);
+//                }
+//                if(agriOut2CitySampleTestDetails.getNy13()!=null){
+//                    agriPesticideDetResult.setPesticideName("克百威");
+//                    agriPesticideDetResult.setPesticideDetValue(agriOut2CitySampleTestDetails.getNy13());
+//                    agriPesticideDetResultMapper.insertagriPesticideDetResult(agriPesticideDetResult);
+//                }
+//                if(agriOut2CitySampleTestDetails.getNy14()!=null){
+//                    agriPesticideDetResult.setPesticideName("联苯菊酯");
+//                    agriPesticideDetResult.setPesticideDetValue(agriOut2CitySampleTestDetails.getNy14());
+//                    agriPesticideDetResultMapper.insertagriPesticideDetResult(agriPesticideDetResult);
+//                }
+//                if(agriOut2CitySampleTestDetails.getNy15()!=null){
+//                    agriPesticideDetResult.setPesticideName("氯氟氰菊酯");
+//                    agriPesticideDetResult.setPesticideDetValue(agriOut2CitySampleTestDetails.getNy15());
+//                    agriPesticideDetResultMapper.insertagriPesticideDetResult(agriPesticideDetResult);
+//                }
+//                if(agriOut2CitySampleTestDetails.getNy16()!=null){
+//                    agriPesticideDetResult.setPesticideName("氟氯氰菊酯");
+//                    agriPesticideDetResult.setPesticideDetValue(agriOut2CitySampleTestDetails.getNy16());
+//                    agriPesticideDetResultMapper.insertagriPesticideDetResult(agriPesticideDetResult);
+//                }
+//                if(agriOut2CitySampleTestDetails.getNy17()!=null){
+//                    agriPesticideDetResult.setPesticideName("氯氰菊酯");
+//                    agriPesticideDetResult.setPesticideDetValue(agriOut2CitySampleTestDetails.getNy17());
+//                    agriPesticideDetResultMapper.insertagriPesticideDetResult(agriPesticideDetResult);
+//                }
+//                if(agriOut2CitySampleTestDetails.getNy18()!=null){
+//                    agriPesticideDetResult.setPesticideName("甲氰菊酯");
+//                    agriPesticideDetResult.setPesticideDetValue(agriOut2CitySampleTestDetails.getNy18());
+//                    agriPesticideDetResultMapper.insertagriPesticideDetResult(agriPesticideDetResult);
+//                }
+//                if(agriOut2CitySampleTestDetails.getNy19()!=null){
+//                    agriPesticideDetResult.setPesticideName("溴氰菊酯");
+//                    agriPesticideDetResult.setPesticideDetValue(agriOut2CitySampleTestDetails.getNy19());
+//                    agriPesticideDetResultMapper.insertagriPesticideDetResult(agriPesticideDetResult);
+//                }
+//                if(agriOut2CitySampleTestDetails.getNy20()!=null){
+//                    agriPesticideDetResult.setPesticideName("三唑酮");
+//                    agriPesticideDetResult.setPesticideDetValue(agriOut2CitySampleTestDetails.getNy20());
+//                    agriPesticideDetResultMapper.insertagriPesticideDetResult(agriPesticideDetResult);
+//                }
+//                if(agriOut2CitySampleTestDetails.getNy21()!=null){
+//                    agriPesticideDetResult.setPesticideName("百菌清");
+//                    agriPesticideDetResult.setPesticideDetValue(agriOut2CitySampleTestDetails.getNy21());
+//                    agriPesticideDetResultMapper.insertagriPesticideDetResult(agriPesticideDetResult);
+//                }
+//                if(agriOut2CitySampleTestDetails.getNy22()!=null){
+//                    agriPesticideDetResult.setPesticideName("腐霉利");
+//                    agriPesticideDetResult.setPesticideDetValue(agriOut2CitySampleTestDetails.getNy22());
+//                    agriPesticideDetResultMapper.insertagriPesticideDetResult(agriPesticideDetResult);
+//                }
+//                if(agriOut2CitySampleTestDetails.getNy23()!=null){
+//                    agriPesticideDetResult.setPesticideName("丙溴磷");
+//                    agriPesticideDetResult.setPesticideDetValue(agriOut2CitySampleTestDetails.getNy23());
+//                    agriPesticideDetResultMapper.insertagriPesticideDetResult(agriPesticideDetResult);
+//                }
+//                if(agriOut2CitySampleTestDetails.getNy24()!=null){
+//                    agriPesticideDetResult.setPesticideName("多菌灵");
+//                    agriPesticideDetResult.setPesticideDetValue(agriOut2CitySampleTestDetails.getNy24());
+//                    agriPesticideDetResultMapper.insertagriPesticideDetResult(agriPesticideDetResult);
+//                }
+//                if(agriOut2CitySampleTestDetails.getNy25()!=null){
+//                    agriPesticideDetResult.setPesticideName("啶虫脒");
+//                    agriPesticideDetResult.setPesticideDetValue(agriOut2CitySampleTestDetails.getNy25());
+//                    agriPesticideDetResultMapper.insertagriPesticideDetResult(agriPesticideDetResult);
+//                }
+//                if(agriOut2CitySampleTestDetails.getNy26()!=null){
+//                    agriPesticideDetResult.setPesticideName("苯醚甲环唑");
+//                    agriPesticideDetResult.setPesticideDetValue(agriOut2CitySampleTestDetails.getNy26());
+//                    agriPesticideDetResultMapper.insertagriPesticideDetResult(agriPesticideDetResult);
+//                }
+//                if(agriOut2CitySampleTestDetails.getNy27()!=null){
+//                    agriPesticideDetResult.setPesticideName("阿维菌素");
+//                    agriPesticideDetResult.setPesticideDetValue(agriOut2CitySampleTestDetails.getNy27());
+//                    agriPesticideDetResultMapper.insertagriPesticideDetResult(agriPesticideDetResult);
+//                }
+//                if(agriOut2CitySampleTestDetails.getNy28()!=null){
+//                    agriPesticideDetResult.setPesticideName("甲氨基阿维菌素苯甲酸盐");
+//                    agriPesticideDetResult.setPesticideDetValue(agriOut2CitySampleTestDetails.getNy28());
+//                    agriPesticideDetResultMapper.insertagriPesticideDetResult(agriPesticideDetResult);
+//                }
+//                if(agriOut2CitySampleTestDetails.getNy29()!=null){
+//                    agriPesticideDetResult.setPesticideName("氟啶脲");
+//                    agriPesticideDetResult.setPesticideDetValue(agriOut2CitySampleTestDetails.getNy29());
+//                    agriPesticideDetResultMapper.insertagriPesticideDetResult(agriPesticideDetResult);
+//                }
+//                if(agriOut2CitySampleTestDetails.getNy30()!=null){
+//                    agriPesticideDetResult.setPesticideName("灭幼脲");
+//                    agriPesticideDetResult.setPesticideDetValue(agriOut2CitySampleTestDetails.getNy30());
+//                    agriPesticideDetResultMapper.insertagriPesticideDetResult(agriPesticideDetResult);
+//                }
+//                if(agriOut2CitySampleTestDetails.getNy31()!=null){
+//                    agriPesticideDetResult.setPesticideName("灭蝇胺");
+//                    agriPesticideDetResult.setPesticideDetValue(agriOut2CitySampleTestDetails.getNy31());
+//                    agriPesticideDetResultMapper.insertagriPesticideDetResult(agriPesticideDetResult);
+//                }
+//                if(agriOut2CitySampleTestDetails.getNy32()!=null){
+//                    agriPesticideDetResult.setPesticideName("噻虫嗪");
+//                    agriPesticideDetResult.setPesticideDetValue(agriOut2CitySampleTestDetails.getNy32());
+//                    agriPesticideDetResultMapper.insertagriPesticideDetResult(agriPesticideDetResult);
+//                }
+//                if(agriOut2CitySampleTestDetails.getNy33()!=null){
+//                    agriPesticideDetResult.setPesticideName("甲霜灵");
+//                    agriPesticideDetResult.setPesticideDetValue(agriOut2CitySampleTestDetails.getNy33());
+//                    agriPesticideDetResultMapper.insertagriPesticideDetResult(agriPesticideDetResult);
+//                }
+//                if(agriOut2CitySampleTestDetails.getNy34()!=null){
+//                    agriPesticideDetResult.setPesticideName("霜霉威");
+//                    agriPesticideDetResult.setPesticideDetValue(agriOut2CitySampleTestDetails.getNy34());
+//                    agriPesticideDetResultMapper.insertagriPesticideDetResult(agriPesticideDetResult);
+//                }
+//                if(agriOut2CitySampleTestDetails.getNy35()!=null){
+//                    agriPesticideDetResult.setPesticideName("吡唑醚菌酯");
+//                    agriPesticideDetResult.setPesticideDetValue(agriOut2CitySampleTestDetails.getNy35());
+//                    agriPesticideDetResultMapper.insertagriPesticideDetResult(agriPesticideDetResult);
+//                }
+//                if(agriOut2CitySampleTestDetails.getNy36()!=null){
+//                    agriPesticideDetResult.setPesticideName("氯吡脲");
+//                    agriPesticideDetResult.setPesticideDetValue(agriOut2CitySampleTestDetails.getNy36());
+//                    agriPesticideDetResultMapper.insertagriPesticideDetResult(agriPesticideDetResult);
+//                }
+//                if(agriOut2CitySampleTestDetails.getNy37()!=null){
+//                    agriPesticideDetResult.setPesticideName("嘧霉胺");
+//                    agriPesticideDetResult.setPesticideDetValue(agriOut2CitySampleTestDetails.getNy37());
+//                    agriPesticideDetResultMapper.insertagriPesticideDetResult(agriPesticideDetResult);
+//                }
+//                if(agriOut2CitySampleTestDetails.getNy38()!=null){
+//                    agriPesticideDetResult.setPesticideName("吡虫啉");
+//                    agriPesticideDetResult.setPesticideDetValue(agriOut2CitySampleTestDetails.getNy38());
+//                    agriPesticideDetResultMapper.insertagriPesticideDetResult(agriPesticideDetResult);
+//                }
+//                if(agriOut2CitySampleTestDetails.getNy39()!=null){
+//                    agriPesticideDetResult.setPesticideName("呋虫胺");
+//                    agriPesticideDetResult.setPesticideDetValue(agriOut2CitySampleTestDetails.getNy39());
+//                    agriPesticideDetResultMapper.insertagriPesticideDetResult(agriPesticideDetResult);
+//                }
+//                if(agriOut2CitySampleTestDetails.getNy40()!=null){
+//                    agriPesticideDetResult.setPesticideName("虱螨脲");
+//                    agriPesticideDetResult.setPesticideDetValue(agriOut2CitySampleTestDetails.getNy40());
+//                    agriPesticideDetResultMapper.insertagriPesticideDetResult(agriPesticideDetResult);
+//                }
+//                if(agriOut2CitySampleTestDetails.getNy41()!=null){
+//                    agriPesticideDetResult.setPesticideName("倍硫磷");
+//                    agriPesticideDetResult.setPesticideDetValue(agriOut2CitySampleTestDetails.getNy41());
+//                    agriPesticideDetResultMapper.insertagriPesticideDetResult(agriPesticideDetResult);
+//                }
+//                if(agriOut2CitySampleTestDetails.getNy42()!=null){
+//                    agriPesticideDetResult.setPesticideName("抑霉唑");
+//                    agriPesticideDetResult.setPesticideDetValue(agriOut2CitySampleTestDetails.getNy42());
+//                    agriPesticideDetResultMapper.insertagriPesticideDetResult(agriPesticideDetResult);
+//                }
+//                if(agriOut2CitySampleTestDetails.getNy43()!=null){
+//                    agriPesticideDetResult.setPesticideName("敌敌畏");
+//                    agriPesticideDetResult.setPesticideDetValue(agriOut2CitySampleTestDetails.getNy43());
+//                    agriPesticideDetResultMapper.insertagriPesticideDetResult(agriPesticideDetResult);
+//                }
+//                if(agriOut2CitySampleTestDetails.getNy44()!=null){
+//                    agriPesticideDetResult.setPesticideName("甲基毒死蜱");
+//                    agriPesticideDetResult.setPesticideDetValue(agriOut2CitySampleTestDetails.getNy44());
+//                    agriPesticideDetResultMapper.insertagriPesticideDetResult(agriPesticideDetResult);
+//                }
+//                if(agriOut2CitySampleTestDetails.getNy45()!=null){
+//                    agriPesticideDetResult.setPesticideName("氰戊菊酯");
+//                    agriPesticideDetResult.setPesticideDetValue(agriOut2CitySampleTestDetails.getNy45());
+//                    agriPesticideDetResultMapper.insertagriPesticideDetResult(agriPesticideDetResult);
+//                }
+//                if(agriOut2CitySampleTestDetails.getNy46()!=null){
+//                    agriPesticideDetResult.setPesticideName("异菌脲");
+//                    agriPesticideDetResult.setPesticideDetValue(agriOut2CitySampleTestDetails.getNy46());
+//                    agriPesticideDetResultMapper.insertagriPesticideDetResult(agriPesticideDetResult);
+//                }
+//                if(agriOut2CitySampleTestDetails.getNy47()!=null){
+//                    agriPesticideDetResult.setPesticideName("涕灭威");
+//                    agriPesticideDetResult.setPesticideDetValue(agriOut2CitySampleTestDetails.getNy47());
+//                    agriPesticideDetResultMapper.insertagriPesticideDetResult(agriPesticideDetResult);
+//                }
+//                if(agriOut2CitySampleTestDetails.getNy48()!=null){
+//                    agriPesticideDetResult.setPesticideName("烯酰吗啉");
+//                    agriPesticideDetResult.setPesticideDetValue(agriOut2CitySampleTestDetails.getNy48());
+//                    agriPesticideDetResultMapper.insertagriPesticideDetResult(agriPesticideDetResult);
+//                }
+//                if(agriOut2CitySampleTestDetails.getNy49()!=null){
+//                    agriPesticideDetResult.setPesticideName("炔螨特");
+//                    agriPesticideDetResult.setPesticideDetValue(agriOut2CitySampleTestDetails.getNy49());
+//                    agriPesticideDetResultMapper.insertagriPesticideDetResult(agriPesticideDetResult);
+//                }
+//                if(agriOut2CitySampleTestDetails.getNy50()!=null){
+//                    agriPesticideDetResult.setPesticideName("乙螨唑");
+//                    agriPesticideDetResult.setPesticideDetValue(agriOut2CitySampleTestDetails.getNy50());
+//                    agriPesticideDetResultMapper.insertagriPesticideDetResult(agriPesticideDetResult);
+//                }
+//                if(agriOut2CitySampleTestDetails.getNy51()!=null){
+//                    agriPesticideDetResult.setPesticideName("嘧菌酯");
+//                    agriPesticideDetResult.setPesticideDetValue(agriOut2CitySampleTestDetails.getNy51());
+//                    agriPesticideDetResultMapper.insertagriPesticideDetResult(agriPesticideDetResult);
+//                }
+//                if(agriOut2CitySampleTestDetails.getNy52()!=null){
+//                    agriPesticideDetResult.setPesticideName("噻虫胺");
+//                    agriPesticideDetResult.setPesticideDetValue(agriOut2CitySampleTestDetails.getNy52());
+//                    agriPesticideDetResultMapper.insertagriPesticideDetResult(agriPesticideDetResult);
+//                }
+//                if(agriOut2CitySampleTestDetails.getNy53()!=null){
+//                    agriPesticideDetResult.setPesticideName("丙环唑");
+//                    agriPesticideDetResult.setPesticideDetValue(agriOut2CitySampleTestDetails.getNy53());
+//                    agriPesticideDetResultMapper.insertagriPesticideDetResult(agriPesticideDetResult);
+//                }
+//                if(agriOut2CitySampleTestDetails.getNy54()!=null){
+//                    agriPesticideDetResult.setPesticideName("螺虫乙酯");
+//                    agriPesticideDetResult.setPesticideDetValue(agriOut2CitySampleTestDetails.getNy54());
+//                    agriPesticideDetResultMapper.insertagriPesticideDetResult(agriPesticideDetResult);
+//                }
+//                if(agriOut2CitySampleTestDetails.getNy55()!=null){
+//                    agriPesticideDetResult.setPesticideName("哒螨灵");
+//                    agriPesticideDetResult.setPesticideDetValue(agriOut2CitySampleTestDetails.getNy55());
+//                    agriPesticideDetResultMapper.insertagriPesticideDetResult(agriPesticideDetResult);
+//                }
+//                if(agriOut2CitySampleTestDetails.getNy56()!=null){
+//                    agriPesticideDetResult.setPesticideName("四螨嗪");
+//                    agriPesticideDetResult.setPesticideDetValue(agriOut2CitySampleTestDetails.getNy56());
+//                    agriPesticideDetResultMapper.insertagriPesticideDetResult(agriPesticideDetResult);
+//                }
+//                if(agriOut2CitySampleTestDetails.getNy57()!=null){
+//                    agriPesticideDetResult.setPesticideName("虫螨腈");
+//                    agriPesticideDetResult.setPesticideDetValue(agriOut2CitySampleTestDetails.getNy57());
+//                    agriPesticideDetResultMapper.insertagriPesticideDetResult(agriPesticideDetResult);
+//                }
+//                if(agriOut2CitySampleTestDetails.getNy58()!=null){
+//                    agriPesticideDetResult.setPesticideName("咪鲜胺");
+//                    agriPesticideDetResult.setPesticideDetValue(agriOut2CitySampleTestDetails.getNy58());
+//                    agriPesticideDetResultMapper.insertagriPesticideDetResult(agriPesticideDetResult);
+//                }
+
+                successNum++;
+                successMsg.append("<br/>" +"第"+ successNum +"条"+ "数据导入成功");
+            } catch (Exception e) {
+                failureNum++;
+                String msg = "<br/>" + "第"+ failureNum +"条"+ "数据导入失败：";
+                failureMsg.append(msg + e.getMessage());
+                log.error(msg, e);
+            }
+        }
+
+        if (failureNum > 0) {
+            failureMsg.insert(0, "抱歉，导入失败！共 " + failureNum + " 条数据格式不正确，错误如下：");
+            throw new ServiceException(failureMsg.toString());
+        } else {
+            successMsg.insert(0, "恭喜，数据已全部导入成功！共 " + successNum + " 条，数据如下：");
+        }
+        return successMsg.toString();
+    }
+
+    @Override
+    public String importAgriOut2CitySampleTestDetailsList(List<Map<String, Object>> agriOut2CitySampleTestDetailsList, boolean updateSupport, String operName) {
+        if (StringUtils.isNull(agriOut2CitySampleTestDetailsList) || agriOut2CitySampleTestDetailsList.size() == 0) {
+            throw new ServiceException("导入数据不能为空！");
+        }
+        SimpleDateFormat originalFormat = new SimpleDateFormat("yyyy.M.d");
+        SimpleDateFormat targetFormat = new SimpleDateFormat("yyyy-MM-dd");
+        int successNum = 0;
+        int failureNum = 0;
+        //要用到的主表主键值
+        long mainTableId =0;
+        //要丢弃的主表主键值
+        long noUseTableId =0;
+        StringBuilder successMsg = new StringBuilder();
+        StringBuilder failureMsg = new StringBuilder();
+        String password = configService.selectConfigByKey("sys.user.initPassword");
+        for (Map<String, Object> agriOut2CitySampleTestDetails : agriOut2CitySampleTestDetailsList) {
+            try {
+                // Long citySampleTestDetailsId =agriOut2CitySampleTestDetails.get("序号").toString();//?
+                String sampleCode = agriOut2CitySampleTestDetails.get("样品编号").toString();
+                String vegFruName = agriOut2CitySampleTestDetails.get("样品名称").toString();
+                String samplingStageType = agriOut2CitySampleTestDetails.get("抽样环节").toString();
+                String samplingLocationProvince  = agriOut2CitySampleTestDetails.get("抽样省").toString();
+                String samplingLocationCity  = agriOut2CitySampleTestDetails.get("抽样市").toString();
+                String samplingLocationCounty  = agriOut2CitySampleTestDetails.get("抽样县").toString();
+                String samplingLocation = agriOut2CitySampleTestDetails.get("抽样地址").toString();
+                String samplingDate  = agriOut2CitySampleTestDetails.get("抽样日期").toString();
+
+                String enterpriseName=null;
+                try {
+                    enterpriseName = agriOut2CitySampleTestDetails.get("企业名称/农户").toString();
+                }catch (Exception e)
+                {
+                    enterpriseName= agriOut2CitySampleTestDetails.get("企业名称").toString();
                 }
-                if(agriOut2CitySampleTestDetails.getNy2()!=null){
-                    agriPesticideDetResult.setPesticideName("乙酰甲胺磷");
-                    agriPesticideDetResult.setPesticideDetValue(agriOut2CitySampleTestDetails.getNy2());
-                    agriPesticideDetResultMapper.insertagriPesticideDetResult(agriPesticideDetResult);
+
+                String enterpriseAttribute=null;
+                try {
+                     enterpriseAttribute = agriOut2CitySampleTestDetails.get("企业属性（绿色/有机/地理标志/GAP)").toString();
+                }catch (Exception e)
+                {
+                    enterpriseAttribute=null;
                 }
-                if(agriOut2CitySampleTestDetails.getNy3()!=null){
-                    agriPesticideDetResult.setPesticideName("甲拌磷");
-                    agriPesticideDetResult.setPesticideDetValue(agriOut2CitySampleTestDetails.getNy3());
-                    agriPesticideDetResultMapper.insertagriPesticideDetResult(agriPesticideDetResult);
+
+                String enterpriseCreditIdCode=null;
+                try {
+                    enterpriseCreditIdCode = agriOut2CitySampleTestDetails.get("企业信用代码/身份证号").toString();
+                }catch (Exception e)
+                {
+                    enterpriseCreditIdCode=null;
                 }
-                if(agriOut2CitySampleTestDetails.getNy4()!=null){
-                    agriPesticideDetResult.setPesticideName("氧乐果");
-                    agriPesticideDetResult.setPesticideDetValue(agriOut2CitySampleTestDetails.getNy4());
-                    agriPesticideDetResultMapper.insertagriPesticideDetResult(agriPesticideDetResult);
-                }
-                if(agriOut2CitySampleTestDetails.getNy5()!=null){
-                    agriPesticideDetResult.setPesticideName("毒死蜱");
-                    agriPesticideDetResult.setPesticideDetValue(agriOut2CitySampleTestDetails.getNy5());
-                    agriPesticideDetResultMapper.insertagriPesticideDetResult(agriPesticideDetResult);
-                }
-                if(agriOut2CitySampleTestDetails.getNy6()!=null){
-                    agriPesticideDetResult.setPesticideName("特丁硫磷");
-                    agriPesticideDetResult.setPesticideDetValue(agriOut2CitySampleTestDetails.getNy6());
-                    agriPesticideDetResultMapper.insertagriPesticideDetResult(agriPesticideDetResult);
-                }
-                if(agriOut2CitySampleTestDetails.getNy7()!=null){
-                    agriPesticideDetResult.setPesticideName("三唑磷");
-                    agriPesticideDetResult.setPesticideDetValue(agriOut2CitySampleTestDetails.getNy7());
-                    agriPesticideDetResultMapper.insertagriPesticideDetResult(agriPesticideDetResult);
-                }
-                if(agriOut2CitySampleTestDetails.getNy8()!=null){
-                    agriPesticideDetResult.setPesticideName("水胺硫磷");
-                    agriPesticideDetResult.setPesticideDetValue(agriOut2CitySampleTestDetails.getNy8());
-                    agriPesticideDetResultMapper.insertagriPesticideDetResult(agriPesticideDetResult);
-                }
-                if(agriOut2CitySampleTestDetails.getNy9()!=null){
-                    agriPesticideDetResult.setPesticideName("治螟磷");
-                    agriPesticideDetResult.setPesticideDetValue(agriOut2CitySampleTestDetails.getNy9());
-                    agriPesticideDetResultMapper.insertagriPesticideDetResult(agriPesticideDetResult);
-                }
-                if(agriOut2CitySampleTestDetails.getNy10()!=null){
-                    agriPesticideDetResult.setPesticideName("乐果");
-                    agriPesticideDetResult.setPesticideDetValue(agriOut2CitySampleTestDetails.getNy10());
-                    agriPesticideDetResultMapper.insertagriPesticideDetResult(agriPesticideDetResult);
-                }
-                if(agriOut2CitySampleTestDetails.getNy11()!=null){
-                    agriPesticideDetResult.setPesticideName("甲基异柳磷");
-                    agriPesticideDetResult.setPesticideDetValue(agriOut2CitySampleTestDetails.getNy11());
-                    agriPesticideDetResultMapper.insertagriPesticideDetResult(agriPesticideDetResult);
-                }
-                if(agriOut2CitySampleTestDetails.getNy12()!=null){
-                    agriPesticideDetResult.setPesticideName("氟虫腈");
-                    agriPesticideDetResult.setPesticideDetValue(agriOut2CitySampleTestDetails.getNy12());
-                    agriPesticideDetResultMapper.insertagriPesticideDetResult(agriPesticideDetResult);
-                }
-                if(agriOut2CitySampleTestDetails.getNy13()!=null){
-                    agriPesticideDetResult.setPesticideName("克百威");
-                    agriPesticideDetResult.setPesticideDetValue(agriOut2CitySampleTestDetails.getNy13());
-                    agriPesticideDetResultMapper.insertagriPesticideDetResult(agriPesticideDetResult);
-                }
-                if(agriOut2CitySampleTestDetails.getNy14()!=null){
-                    agriPesticideDetResult.setPesticideName("联苯菊酯");
-                    agriPesticideDetResult.setPesticideDetValue(agriOut2CitySampleTestDetails.getNy14());
-                    agriPesticideDetResultMapper.insertagriPesticideDetResult(agriPesticideDetResult);
-                }
-                if(agriOut2CitySampleTestDetails.getNy15()!=null){
-                    agriPesticideDetResult.setPesticideName("氯氟氰菊酯");
-                    agriPesticideDetResult.setPesticideDetValue(agriOut2CitySampleTestDetails.getNy15());
-                    agriPesticideDetResultMapper.insertagriPesticideDetResult(agriPesticideDetResult);
-                }
-                if(agriOut2CitySampleTestDetails.getNy16()!=null){
-                    agriPesticideDetResult.setPesticideName("氟氯氰菊酯");
-                    agriPesticideDetResult.setPesticideDetValue(agriOut2CitySampleTestDetails.getNy16());
-                    agriPesticideDetResultMapper.insertagriPesticideDetResult(agriPesticideDetResult);
-                }
-                if(agriOut2CitySampleTestDetails.getNy17()!=null){
-                    agriPesticideDetResult.setPesticideName("氯氰菊酯");
-                    agriPesticideDetResult.setPesticideDetValue(agriOut2CitySampleTestDetails.getNy17());
-                    agriPesticideDetResultMapper.insertagriPesticideDetResult(agriPesticideDetResult);
-                }
-                if(agriOut2CitySampleTestDetails.getNy18()!=null){
-                    agriPesticideDetResult.setPesticideName("甲氰菊酯");
-                    agriPesticideDetResult.setPesticideDetValue(agriOut2CitySampleTestDetails.getNy18());
-                    agriPesticideDetResultMapper.insertagriPesticideDetResult(agriPesticideDetResult);
-                }
-                if(agriOut2CitySampleTestDetails.getNy19()!=null){
-                    agriPesticideDetResult.setPesticideName("溴氰菊酯");
-                    agriPesticideDetResult.setPesticideDetValue(agriOut2CitySampleTestDetails.getNy19());
-                    agriPesticideDetResultMapper.insertagriPesticideDetResult(agriPesticideDetResult);
-                }
-                if(agriOut2CitySampleTestDetails.getNy20()!=null){
-                    agriPesticideDetResult.setPesticideName("三唑酮");
-                    agriPesticideDetResult.setPesticideDetValue(agriOut2CitySampleTestDetails.getNy20());
-                    agriPesticideDetResultMapper.insertagriPesticideDetResult(agriPesticideDetResult);
-                }
-                if(agriOut2CitySampleTestDetails.getNy21()!=null){
-                    agriPesticideDetResult.setPesticideName("百菌清");
-                    agriPesticideDetResult.setPesticideDetValue(agriOut2CitySampleTestDetails.getNy21());
-                    agriPesticideDetResultMapper.insertagriPesticideDetResult(agriPesticideDetResult);
-                }
-                if(agriOut2CitySampleTestDetails.getNy22()!=null){
-                    agriPesticideDetResult.setPesticideName("腐霉利");
-                    agriPesticideDetResult.setPesticideDetValue(agriOut2CitySampleTestDetails.getNy22());
-                    agriPesticideDetResultMapper.insertagriPesticideDetResult(agriPesticideDetResult);
-                }
-                if(agriOut2CitySampleTestDetails.getNy23()!=null){
-                    agriPesticideDetResult.setPesticideName("丙溴磷");
-                    agriPesticideDetResult.setPesticideDetValue(agriOut2CitySampleTestDetails.getNy23());
-                    agriPesticideDetResultMapper.insertagriPesticideDetResult(agriPesticideDetResult);
-                }
-                if(agriOut2CitySampleTestDetails.getNy24()!=null){
-                    agriPesticideDetResult.setPesticideName("多菌灵");
-                    agriPesticideDetResult.setPesticideDetValue(agriOut2CitySampleTestDetails.getNy24());
-                    agriPesticideDetResultMapper.insertagriPesticideDetResult(agriPesticideDetResult);
-                }
-                if(agriOut2CitySampleTestDetails.getNy25()!=null){
-                    agriPesticideDetResult.setPesticideName("啶虫脒");
-                    agriPesticideDetResult.setPesticideDetValue(agriOut2CitySampleTestDetails.getNy25());
-                    agriPesticideDetResultMapper.insertagriPesticideDetResult(agriPesticideDetResult);
-                }
-                if(agriOut2CitySampleTestDetails.getNy26()!=null){
-                    agriPesticideDetResult.setPesticideName("苯醚甲环唑");
-                    agriPesticideDetResult.setPesticideDetValue(agriOut2CitySampleTestDetails.getNy26());
-                    agriPesticideDetResultMapper.insertagriPesticideDetResult(agriPesticideDetResult);
-                }
-                if(agriOut2CitySampleTestDetails.getNy27()!=null){
-                    agriPesticideDetResult.setPesticideName("阿维菌素");
-                    agriPesticideDetResult.setPesticideDetValue(agriOut2CitySampleTestDetails.getNy27());
-                    agriPesticideDetResultMapper.insertagriPesticideDetResult(agriPesticideDetResult);
-                }
-                if(agriOut2CitySampleTestDetails.getNy28()!=null){
-                    agriPesticideDetResult.setPesticideName("甲氨基阿维菌素苯甲酸盐");
-                    agriPesticideDetResult.setPesticideDetValue(agriOut2CitySampleTestDetails.getNy28());
-                    agriPesticideDetResultMapper.insertagriPesticideDetResult(agriPesticideDetResult);
-                }
-                if(agriOut2CitySampleTestDetails.getNy29()!=null){
-                    agriPesticideDetResult.setPesticideName("氟啶脲");
-                    agriPesticideDetResult.setPesticideDetValue(agriOut2CitySampleTestDetails.getNy29());
-                    agriPesticideDetResultMapper.insertagriPesticideDetResult(agriPesticideDetResult);
-                }
-                if(agriOut2CitySampleTestDetails.getNy30()!=null){
-                    agriPesticideDetResult.setPesticideName("灭幼脲");
-                    agriPesticideDetResult.setPesticideDetValue(agriOut2CitySampleTestDetails.getNy30());
-                    agriPesticideDetResultMapper.insertagriPesticideDetResult(agriPesticideDetResult);
-                }
-                if(agriOut2CitySampleTestDetails.getNy31()!=null){
-                    agriPesticideDetResult.setPesticideName("灭蝇胺");
-                    agriPesticideDetResult.setPesticideDetValue(agriOut2CitySampleTestDetails.getNy31());
-                    agriPesticideDetResultMapper.insertagriPesticideDetResult(agriPesticideDetResult);
-                }
-                if(agriOut2CitySampleTestDetails.getNy32()!=null){
-                    agriPesticideDetResult.setPesticideName("噻虫嗪");
-                    agriPesticideDetResult.setPesticideDetValue(agriOut2CitySampleTestDetails.getNy32());
-                    agriPesticideDetResultMapper.insertagriPesticideDetResult(agriPesticideDetResult);
-                }
-                if(agriOut2CitySampleTestDetails.getNy33()!=null){
-                    agriPesticideDetResult.setPesticideName("甲霜灵");
-                    agriPesticideDetResult.setPesticideDetValue(agriOut2CitySampleTestDetails.getNy33());
-                    agriPesticideDetResultMapper.insertagriPesticideDetResult(agriPesticideDetResult);
-                }
-                if(agriOut2CitySampleTestDetails.getNy34()!=null){
-                    agriPesticideDetResult.setPesticideName("霜霉威");
-                    agriPesticideDetResult.setPesticideDetValue(agriOut2CitySampleTestDetails.getNy34());
-                    agriPesticideDetResultMapper.insertagriPesticideDetResult(agriPesticideDetResult);
-                }
-                if(agriOut2CitySampleTestDetails.getNy35()!=null){
-                    agriPesticideDetResult.setPesticideName("吡唑醚菌酯");
-                    agriPesticideDetResult.setPesticideDetValue(agriOut2CitySampleTestDetails.getNy35());
-                    agriPesticideDetResultMapper.insertagriPesticideDetResult(agriPesticideDetResult);
-                }
-                if(agriOut2CitySampleTestDetails.getNy36()!=null){
-                    agriPesticideDetResult.setPesticideName("氯吡脲");
-                    agriPesticideDetResult.setPesticideDetValue(agriOut2CitySampleTestDetails.getNy36());
-                    agriPesticideDetResultMapper.insertagriPesticideDetResult(agriPesticideDetResult);
-                }
-                if(agriOut2CitySampleTestDetails.getNy37()!=null){
-                    agriPesticideDetResult.setPesticideName("嘧霉胺");
-                    agriPesticideDetResult.setPesticideDetValue(agriOut2CitySampleTestDetails.getNy37());
-                    agriPesticideDetResultMapper.insertagriPesticideDetResult(agriPesticideDetResult);
-                }
-                if(agriOut2CitySampleTestDetails.getNy38()!=null){
-                    agriPesticideDetResult.setPesticideName("吡虫啉");
-                    agriPesticideDetResult.setPesticideDetValue(agriOut2CitySampleTestDetails.getNy38());
-                    agriPesticideDetResultMapper.insertagriPesticideDetResult(agriPesticideDetResult);
-                }
-                if(agriOut2CitySampleTestDetails.getNy39()!=null){
-                    agriPesticideDetResult.setPesticideName("呋虫胺");
-                    agriPesticideDetResult.setPesticideDetValue(agriOut2CitySampleTestDetails.getNy39());
-                    agriPesticideDetResultMapper.insertagriPesticideDetResult(agriPesticideDetResult);
-                }
-                if(agriOut2CitySampleTestDetails.getNy40()!=null){
-                    agriPesticideDetResult.setPesticideName("虱螨脲");
-                    agriPesticideDetResult.setPesticideDetValue(agriOut2CitySampleTestDetails.getNy40());
-                    agriPesticideDetResultMapper.insertagriPesticideDetResult(agriPesticideDetResult);
-                }
-                if(agriOut2CitySampleTestDetails.getNy41()!=null){
-                    agriPesticideDetResult.setPesticideName("倍硫磷");
-                    agriPesticideDetResult.setPesticideDetValue(agriOut2CitySampleTestDetails.getNy41());
-                    agriPesticideDetResultMapper.insertagriPesticideDetResult(agriPesticideDetResult);
-                }
-                if(agriOut2CitySampleTestDetails.getNy42()!=null){
-                    agriPesticideDetResult.setPesticideName("抑霉唑");
-                    agriPesticideDetResult.setPesticideDetValue(agriOut2CitySampleTestDetails.getNy42());
-                    agriPesticideDetResultMapper.insertagriPesticideDetResult(agriPesticideDetResult);
-                }
-                if(agriOut2CitySampleTestDetails.getNy43()!=null){
-                    agriPesticideDetResult.setPesticideName("敌敌畏");
-                    agriPesticideDetResult.setPesticideDetValue(agriOut2CitySampleTestDetails.getNy43());
-                    agriPesticideDetResultMapper.insertagriPesticideDetResult(agriPesticideDetResult);
-                }
-                if(agriOut2CitySampleTestDetails.getNy44()!=null){
-                    agriPesticideDetResult.setPesticideName("甲基毒死蜱");
-                    agriPesticideDetResult.setPesticideDetValue(agriOut2CitySampleTestDetails.getNy44());
-                    agriPesticideDetResultMapper.insertagriPesticideDetResult(agriPesticideDetResult);
-                }
-                if(agriOut2CitySampleTestDetails.getNy45()!=null){
-                    agriPesticideDetResult.setPesticideName("氰戊菊酯");
-                    agriPesticideDetResult.setPesticideDetValue(agriOut2CitySampleTestDetails.getNy45());
-                    agriPesticideDetResultMapper.insertagriPesticideDetResult(agriPesticideDetResult);
-                }
-                if(agriOut2CitySampleTestDetails.getNy46()!=null){
-                    agriPesticideDetResult.setPesticideName("异菌脲");
-                    agriPesticideDetResult.setPesticideDetValue(agriOut2CitySampleTestDetails.getNy46());
-                    agriPesticideDetResultMapper.insertagriPesticideDetResult(agriPesticideDetResult);
-                }
-                if(agriOut2CitySampleTestDetails.getNy47()!=null){
-                    agriPesticideDetResult.setPesticideName("涕灭威");
-                    agriPesticideDetResult.setPesticideDetValue(agriOut2CitySampleTestDetails.getNy47());
-                    agriPesticideDetResultMapper.insertagriPesticideDetResult(agriPesticideDetResult);
-                }
-                if(agriOut2CitySampleTestDetails.getNy48()!=null){
-                    agriPesticideDetResult.setPesticideName("烯酰吗啉");
-                    agriPesticideDetResult.setPesticideDetValue(agriOut2CitySampleTestDetails.getNy48());
-                    agriPesticideDetResultMapper.insertagriPesticideDetResult(agriPesticideDetResult);
-                }
-                if(agriOut2CitySampleTestDetails.getNy49()!=null){
-                    agriPesticideDetResult.setPesticideName("炔螨特");
-                    agriPesticideDetResult.setPesticideDetValue(agriOut2CitySampleTestDetails.getNy49());
-                    agriPesticideDetResultMapper.insertagriPesticideDetResult(agriPesticideDetResult);
-                }
-                if(agriOut2CitySampleTestDetails.getNy50()!=null){
-                    agriPesticideDetResult.setPesticideName("乙螨唑");
-                    agriPesticideDetResult.setPesticideDetValue(agriOut2CitySampleTestDetails.getNy50());
-                    agriPesticideDetResultMapper.insertagriPesticideDetResult(agriPesticideDetResult);
-                }
-                if(agriOut2CitySampleTestDetails.getNy51()!=null){
-                    agriPesticideDetResult.setPesticideName("嘧菌酯");
-                    agriPesticideDetResult.setPesticideDetValue(agriOut2CitySampleTestDetails.getNy51());
-                    agriPesticideDetResultMapper.insertagriPesticideDetResult(agriPesticideDetResult);
-                }
-                if(agriOut2CitySampleTestDetails.getNy52()!=null){
-                    agriPesticideDetResult.setPesticideName("噻虫胺");
-                    agriPesticideDetResult.setPesticideDetValue(agriOut2CitySampleTestDetails.getNy52());
-                    agriPesticideDetResultMapper.insertagriPesticideDetResult(agriPesticideDetResult);
-                }
-                if(agriOut2CitySampleTestDetails.getNy53()!=null){
-                    agriPesticideDetResult.setPesticideName("丙环唑");
-                    agriPesticideDetResult.setPesticideDetValue(agriOut2CitySampleTestDetails.getNy53());
-                    agriPesticideDetResultMapper.insertagriPesticideDetResult(agriPesticideDetResult);
-                }
-                if(agriOut2CitySampleTestDetails.getNy54()!=null){
-                    agriPesticideDetResult.setPesticideName("螺虫乙酯");
-                    agriPesticideDetResult.setPesticideDetValue(agriOut2CitySampleTestDetails.getNy54());
-                    agriPesticideDetResultMapper.insertagriPesticideDetResult(agriPesticideDetResult);
-                }
-                if(agriOut2CitySampleTestDetails.getNy55()!=null){
-                    agriPesticideDetResult.setPesticideName("哒螨灵");
-                    agriPesticideDetResult.setPesticideDetValue(agriOut2CitySampleTestDetails.getNy55());
-                    agriPesticideDetResultMapper.insertagriPesticideDetResult(agriPesticideDetResult);
-                }
-                if(agriOut2CitySampleTestDetails.getNy56()!=null){
-                    agriPesticideDetResult.setPesticideName("四螨嗪");
-                    agriPesticideDetResult.setPesticideDetValue(agriOut2CitySampleTestDetails.getNy56());
-                    agriPesticideDetResultMapper.insertagriPesticideDetResult(agriPesticideDetResult);
-                }
-                if(agriOut2CitySampleTestDetails.getNy57()!=null){
-                    agriPesticideDetResult.setPesticideName("虫螨腈");
-                    agriPesticideDetResult.setPesticideDetValue(agriOut2CitySampleTestDetails.getNy57());
-                    agriPesticideDetResultMapper.insertagriPesticideDetResult(agriPesticideDetResult);
-                }
-                if(agriOut2CitySampleTestDetails.getNy58()!=null){
-                    agriPesticideDetResult.setPesticideName("咪鲜胺");
-                    agriPesticideDetResult.setPesticideDetValue(agriOut2CitySampleTestDetails.getNy58());
+
+                String tracingProvince = agriOut2CitySampleTestDetails.get("溯源省").toString();
+                String tracingCity  = agriOut2CitySampleTestDetails.get("溯源市").toString();
+                String tracingCounty  = agriOut2CitySampleTestDetails.get("溯源县").toString();
+                String tracingArea  = agriOut2CitySampleTestDetails.get("溯源产地").toString();
+                String chinaStandard = agriOut2CitySampleTestDetails.get("判定结果").toString();
+                Date samplingDateUse = originalFormat.parse(samplingDate);//抽样日期
+
+//                Double samplingQuantity = agriOut2CitySampleTestDetails.getSamplingQuantity();
+//                String samplingBase = agriOut2CitySampleTestDetails.getSamplingBase();
+
+                agriCitySampleTestDetails agriCitySampleTestDetails = new agriCitySampleTestDetails();
+//                agriCitySampleTestDetails.setCitySampleTestDetailsId(citySampleTestDetailsId);
+                agriCitySampleTestDetails.setSamplingLocationProvince(samplingLocationProvince);
+                agriCitySampleTestDetails.setSamplingLocationCity(samplingLocationCity);
+                agriCitySampleTestDetails.setSamplingLocationCounty(samplingLocationCounty);
+                agriCitySampleTestDetails.setEnterpriseName(enterpriseName);
+                agriCitySampleTestDetails.setEnterpriseAttribute(enterpriseAttribute);
+                agriCitySampleTestDetails.setEnterpriseCreditIdCode(enterpriseCreditIdCode);
+                agriCitySampleTestDetails.setTracingProvince(tracingProvince);
+                agriCitySampleTestDetails.setTracingCity(tracingCity);
+                agriCitySampleTestDetails.setTracingCounty(tracingCounty);
+                agriCitySampleTestDetails.setTracingArea(tracingArea);
+
+                agriCitySampleTestDetails.setSampleCode(sampleCode);
+                agriCitySampleTestDetails.setVegFruName(vegFruName);
+                agriCitySampleTestDetails.setSamplingLocation(samplingLocation);
+
+                Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+                //获取当前登录的用户名
+                String username = authentication.getName();
+                //通过当前登录的用户名查询到当前登录的用户所存在的部门
+                String deptName = agriCitySampleTestDetailsMapper.selectUserDepByUserName(username);
+                agriCitySampleTestDetails.setDetectLocation(deptName);
+
+//                agriCitySampleTestDetails.setSamplingQuantity(samplingQuantity);
+//                agriCitySampleTestDetails.setSamplingBase(samplingBase);
+
+                agriCitySampleTestDetails.setSamplingStageType(samplingStageType);
+                agriCitySampleTestDetails.setSamplingDate(samplingDateUse);
+                agriCitySampleTestDetails.setChinaStandard(chinaStandard);
+
+                //插入主表部分
+                agriCitySampleTestDetailsMapper.insertagriCitySampleTestDetails(agriCitySampleTestDetails);
+//                System.out.println("-----------------------------"+agriCitySampleTestDetails.getCitySampleTestDetailsId()+"---------------------------------------------------");
+                //这个判断固定真正有用的主键值，用来传给从表也就是检测表，（随便取了3个为null值的属性判断）,如果判断的字段是空的，说明这张表是为了添加从表字段时候多余添加进来的
+//                if(samplingQuantity!=null&&samplingBase!=null&&samplingDate!=null){
+                //查询插入主表部分的ID  ID值更新到全集变量
+                mainTableId=agriCitySampleTestDetails.getCitySampleTestDetailsId();
+//                    System.out.println(mainTableId+"----------------------------------");
+//                }
+                agriPesticideDetResult agriPesticideDetResult= new agriPesticideDetResult();                //有了插入主表部分的ID之后插入从表部分的检测农药和检测值
+                //有了插入主表部分的ID之后插入从表部分的检测农药和检测值,以及主表中的ID，以对应上
+                agriPesticideDetResult.setCitySampleTestDetailsId(mainTableId);
+
+
+                //插入从表
+                List<String> other= Arrays.asList(
+                        "序号", "样品编号","样品名称","抽样环节",
+                        "抽样省","抽样市","抽样县","抽样地址",
+                        "企业名称/农户","企业属性（绿色/有机/地理标志/GAP)","企业信用代码/身份证号",
+                        "溯源省","溯源市","溯源县","溯源产地","判定结果","抽样日期","企业名称","excelRowNum");//合计在最后加入
+                //遍历每一个map
+                Set<Map.Entry<String, Object>> entrySet = agriOut2CitySampleTestDetails.entrySet();
+                for (Map.Entry<String, Object> entryItem : entrySet) {//对于map里每一个内容
+                    if (other.contains(entryItem.getKey())){continue;}//不是农药跳过
+                    agriPesticideDetResult.setPesticideName(entryItem.getKey());
+
+                    Object value = entryItem.getValue();
+                    if (value == null) {
+                        continue;
+                    }
+                    if (value.equals("/")||value.equals("未检出")){
+                        continue;
+                    }
+                    if (value instanceof String) {
+                        // 保持原样
+                    } else if (value instanceof Double) {
+                        value = value.toString();
+                    } else {
+                        throw new IllegalArgumentException("Value must be either String or Double");
+                    }
+
+                    agriPesticideDetResult.setPesticideDetValue((String) value);
+
                     agriPesticideDetResultMapper.insertagriPesticideDetResult(agriPesticideDetResult);
                 }
 
@@ -638,6 +796,7 @@ public class agriCitySampleTestDetailsServiceImpl implements IagriCitySampleTest
             successMsg.insert(0, "恭喜，数据已全部导入成功！共 " + successNum + " 条，数据如下：");
         }
         return successMsg.toString();
+
     }
 
 

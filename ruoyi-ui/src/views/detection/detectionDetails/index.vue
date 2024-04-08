@@ -185,16 +185,29 @@
 <!--      <el-table-column label="主键" align="center" prop="citySampleTestDetailsId" />-->
       <el-table-column label="样品编号" align="center" prop="sampleCode" />
       <el-table-column label="样品名称" align="center" prop="vegFruName" />
-      <el-table-column label="抽样地点" align="center" prop="samplingLocation" />
-      <el-table-column label="检测单位" align="center" prop="detectLocation" />
-      <el-table-column label="抽样数量（kg/个数）" align="center" prop="samplingQuantity" />
-      <el-table-column label="抽样基数" align="center" prop="samplingBase" />
       <el-table-column label="抽样环节" align="center" prop="samplingStageType" />
+      <el-table-column label="抽样省" align="center" prop="samplingLocationProvince" />
+      <el-table-column label="抽样市" align="center" prop="samplingLocationCity" />
+      <el-table-column label="抽样县" align="center" prop="samplingLocationCounty" />
+      <el-table-column label="抽样地址" align="center" prop="samplingLocation" />
       <el-table-column label="抽样日期" align="center" prop="samplingDate" width="180">
         <template slot-scope="scope">
           <span>{{ parseTime(scope.row.samplingDate, '{y}-{m}-{d}') }}</span>
         </template>
       </el-table-column>
+
+      <el-table-column label="企业名称/农户" align="center" prop="enterpriseName" />
+      <el-table-column label="企业属性（绿色/有机/地理标志/GAP)" align="center" prop="enterpriseAttribute" />
+      <el-table-column label="企业信用代码/身份证号" align="center" prop="enterpriseCreditIdCode" />
+      <el-table-column label="溯源省" align="center" prop="tracingProvince" />
+      <el-table-column label="溯源市" align="center" prop="tracingCity" />
+      <el-table-column label="溯源县" align="center" prop="tracingCounty" />
+      <el-table-column label="溯源产地" align="center" prop="tracingArea" />
+
+
+<!--        <el-table-column label="检测单位" align="center" prop="detectLocation" />-->
+<!--      <el-table-column label="抽样数量（kg/个数）" align="center" prop="samplingQuantity" />-->
+<!--      <el-table-column label="抽样基数" align="center" prop="samplingBase" />-->
 
       <el-table-column label="检测结果" align="center" prop="result" width="300px">
         <template slot-scope="props" >
@@ -208,49 +221,36 @@
       </el-table-column>
 
 
-<!--      <el-table-column label="⠀⠀⠀⠀农药名⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀检测值 mg/kg" align="center" prop="result" width="300px">-->
-<!--        <template slot-scope="props" >-->
-<!--          <el-table  :data="props.row.agriPesticideDetResultList">-->
-<!--            <el-table-column  label="1" align="center" prop="pesticideName">-->
-<!--            </el-table-column>-->
-<!--            <el-table-column  label="2" align="center" prop="pesticideDetValue">-->
-<!--            </el-table-column>-->
-<!--          </el-table>-->
-<!--        </template>-->
-<!--      </el-table-column>-->
-
-
-
-      <el-table-column label="国家标准" align="center" prop="chinaStandard">
+      <el-table-column label="判定结果" align="center" prop="chinaStandard">
         <template slot-scope="scope">
           <dict-tag :options="dict.type.pass_or_not" :value="scope.row.chinaStandard"/>
         </template>
       </el-table-column>
-      <el-table-column label="CAC标准" align="center" prop="cacStandard">
-        <template slot-scope="scope">
-          <dict-tag :options="dict.type.pass_or_not" :value="scope.row.cacStandard"/>
-        </template>
-      </el-table-column>
-      <el-table-column label="日本标准" align="center" prop="japanStandard">
-        <template slot-scope="scope">
-          <dict-tag :options="dict.type.pass_or_not" :value="scope.row.japanStandard"/>
-        </template>
-      </el-table-column>
-      <el-table-column label="欧盟标准" align="center" prop="euStandard">
-        <template slot-scope="scope">
-          <dict-tag :options="dict.type.pass_or_not" :value="scope.row.euStandard"/>
-        </template>
-      </el-table-column>
-      <el-table-column label="美国标准" align="center" prop="usStandard">
-        <template slot-scope="scope">
-          <dict-tag :options="dict.type.pass_or_not" :value="scope.row.usStandard"/>
-        </template>
-      </el-table-column>
-      <el-table-column label="韩国标准" align="center" prop="koreaStandard">
-        <template slot-scope="scope">
-          <dict-tag :options="dict.type.pass_or_not" :value="scope.row.koreaStandard"/>
-        </template>
-      </el-table-column>
+<!--      <el-table-column label="CAC标准" align="center" prop="cacStandard">-->
+<!--        <template slot-scope="scope">-->
+<!--          <dict-tag :options="dict.type.pass_or_not" :value="scope.row.cacStandard"/>-->
+<!--        </template>-->
+<!--      </el-table-column>-->
+<!--      <el-table-column label="日本标准" align="center" prop="japanStandard">-->
+<!--        <template slot-scope="scope">-->
+<!--          <dict-tag :options="dict.type.pass_or_not" :value="scope.row.japanStandard"/>-->
+<!--        </template>-->
+<!--      </el-table-column>-->
+<!--      <el-table-column label="欧盟标准" align="center" prop="euStandard">-->
+<!--        <template slot-scope="scope">-->
+<!--          <dict-tag :options="dict.type.pass_or_not" :value="scope.row.euStandard"/>-->
+<!--        </template>-->
+<!--      </el-table-column>-->
+<!--      <el-table-column label="美国标准" align="center" prop="usStandard">-->
+<!--        <template slot-scope="scope">-->
+<!--          <dict-tag :options="dict.type.pass_or_not" :value="scope.row.usStandard"/>-->
+<!--        </template>-->
+<!--      </el-table-column>-->
+<!--      <el-table-column label="韩国标准" align="center" prop="koreaStandard">-->
+<!--        <template slot-scope="scope">-->
+<!--          <dict-tag :options="dict.type.pass_or_not" :value="scope.row.koreaStandard"/>-->
+<!--        </template>-->
+<!--      </el-table-column>-->
 
 
 
@@ -490,6 +490,9 @@ export default {
         euStandard: null,
         usStandard: null,
         koreaStandard: null,
+        samplingLocationProvince:null,
+        samplingLocationCity:null,
+        samplingLocationCounty:null,
       },
         // 数据导入参数
       upload: {

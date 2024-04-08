@@ -10,7 +10,7 @@ import com.ruoyi.common.core.domain.BaseEntity;
 import org.springframework.context.annotation.Bean;
 
 /**
- * 各市样品检测结果详细对象 agri_city_sample_test_details
+ * 各市样品检测结果详细对象 agri_city_sample_test_details  和数据库字段对应
  * 
  * @author chenjie
  * @date 2024-01-24
@@ -31,30 +31,56 @@ public class agriCitySampleTestDetails extends BaseEntity
     @Excel(name = "样品名称")
     private String vegFruName;
 
+    /** 抽样环节 */
+    @Excel(name = "抽样环节")
+    private String samplingStageType;
+
+    @Excel(name = "抽样省")
+    private String samplingLocationProvince;
+
+    @Excel(name = "抽样市")
+    private String samplingLocationCity;
+
+    @Excel(name = "抽样县")
+    private String samplingLocationCounty;
+
     /** 抽样地点 */
-    @Excel(name = "抽样地点")
+    @Excel(name = "抽样地址")
     private String samplingLocation;
 
     /** 检测单位 */
     @Excel(name = "检测单位")
     private String detectLocation;
 
-    /** 抽样数量（kg/个数） */
-    @Excel(name = "抽样数量")
-    private Double samplingQuantity;
-
-    /** 抽样基数 */
-    @Excel(name = "抽样基数")
-    private String samplingBase;
-
-    /** 抽样环节 */
-    @Excel(name = "抽样环节")
-    private String samplingStageType;
-
     /** 抽样日期 */
     @JsonFormat(pattern = "yyyy-MM-dd")
     @Excel(name = "抽样日期", width = 30, dateFormat = "yyyy-MM-dd")
     private Date samplingDate;
+
+    @Excel(name = "企业名称/农户")
+    private String enterpriseName;
+    @Excel(name = "企业属性（绿色/有机/地理标志/GAP)")
+    private String enterpriseAttribute;
+    @Excel(name = "企业信用代码/身份证号")
+    private String enterpriseCreditIdCode;
+    @Excel(name = "溯源省")
+    private String tracingProvince;
+    @Excel(name = "溯源市")
+    private String tracingCity;
+    @Excel(name = "溯源县")
+    private String tracingCounty;
+    @Excel(name = "溯源产地")
+    private String tracingArea;
+
+    //新表中取消了
+    /** 抽样数量（kg/个数） */
+    @Excel(name = "抽样数量")
+    private Double samplingQuantity;
+    //新表中取消了
+    /** 抽样基数 */
+    @Excel(name = "抽样基数")
+    private String samplingBase;
+
 
     /** 国家标准 */
     @Excel(name = "国家标准")
@@ -87,158 +113,219 @@ public class agriCitySampleTestDetails extends BaseEntity
     @Excel(name = "农药检测结果信息")
     private List<agriPesticideDetResult> agriPesticideDetResultList;
 
-    public void setCitySampleTestDetailsId(Long citySampleTestDetailsId) 
-    {
+    public Long getCitySampleTestDetailsId() {
+        return citySampleTestDetailsId;
+    }
+
+    public void setCitySampleTestDetailsId(Long citySampleTestDetailsId) {
         this.citySampleTestDetailsId = citySampleTestDetailsId;
     }
 
-    public Long getCitySampleTestDetailsId() 
-    {
-        return citySampleTestDetailsId;
+    public String getSampleCode() {
+        return sampleCode;
     }
-    public void setSampleCode(String sampleCode) 
-    {
+
+    public void setSampleCode(String sampleCode) {
         this.sampleCode = sampleCode;
     }
 
-    public String getSampleCode() 
-    {
-        return sampleCode;
+    public String getVegFruName() {
+        return vegFruName;
     }
-    public void setVegFruName(String vegFruName) 
-    {
+
+    public void setVegFruName(String vegFruName) {
         this.vegFruName = vegFruName;
     }
 
-    public String getVegFruName() 
-    {
-        return vegFruName;
-    }
-    public void setSamplingLocation(String samplingLocation) 
-    {
-        this.samplingLocation = samplingLocation;
+    public String getSamplingStageType() {
+        return samplingStageType;
     }
 
-    public String getSamplingLocation() 
-    {
-        return samplingLocation;
-    }
-    public void setDetectLocation(String detectLocation) 
-    {
-        this.detectLocation = detectLocation;
-    }
-
-    public String getDetectLocation() 
-    {
-        return detectLocation;
-    }
-    public void setSamplingQuantity(Double samplingQuantity) 
-    {
-        this.samplingQuantity = samplingQuantity;
-    }
-
-    public Double getSamplingQuantity() 
-    {
-        return samplingQuantity;
-    }
-    public void setSamplingBase(String samplingBase)
-    {
-        this.samplingBase = samplingBase;
-    }
-
-    public String getSamplingBase()
-    {
-        return samplingBase;
-    }
-    public void setSamplingStageType(String samplingStageType) 
-    {
+    public void setSamplingStageType(String samplingStageType) {
         this.samplingStageType = samplingStageType;
     }
 
-    public String getSamplingStageType() 
-    {
-        return samplingStageType;
+    public String getSamplingLocationProvince() {
+        return samplingLocationProvince;
     }
-    public void setSamplingDate(Date samplingDate) 
-    {
+
+    public void setSamplingLocationProvince(String samplingLocationProvince) {
+        this.samplingLocationProvince = samplingLocationProvince;
+    }
+
+    public String getSamplingLocationCity() {
+        return samplingLocationCity;
+    }
+
+    public void setSamplingLocationCity(String samplingLocationCity) {
+        this.samplingLocationCity = samplingLocationCity;
+    }
+
+    public String getSamplingLocationCounty() {
+        return samplingLocationCounty;
+    }
+
+    public void setSamplingLocationCounty(String samplingLocationCounty) {
+        this.samplingLocationCounty = samplingLocationCounty;
+    }
+
+    public String getSamplingLocation() {
+        return samplingLocation;
+    }
+
+    public void setSamplingLocation(String samplingLocation) {
+        this.samplingLocation = samplingLocation;
+    }
+
+    public String getDetectLocation() {
+        return detectLocation;
+    }
+
+    public void setDetectLocation(String detectLocation) {
+        this.detectLocation = detectLocation;
+    }
+
+    public Date getSamplingDate() {
+        return samplingDate;
+    }
+
+    public void setSamplingDate(Date samplingDate) {
         this.samplingDate = samplingDate;
     }
 
-    public Date getSamplingDate() 
-    {
-        return samplingDate;
+    public String getEnterpriseName() {
+        return enterpriseName;
     }
-    public void setChinaStandard(String chinaStandard) 
-    {
+
+    public void setEnterpriseName(String enterpriseName) {
+        this.enterpriseName = enterpriseName;
+    }
+
+    public String getEnterpriseAttribute() {
+        return enterpriseAttribute;
+    }
+
+    public void setEnterpriseAttribute(String enterpriseAttribute) {
+        this.enterpriseAttribute = enterpriseAttribute;
+    }
+
+    public String getEnterpriseCreditIdCode() {
+        return enterpriseCreditIdCode;
+    }
+
+    public void setEnterpriseCreditIdCode(String enterpriseCreditIdCode) {
+        this.enterpriseCreditIdCode = enterpriseCreditIdCode;
+    }
+
+    public String getTracingProvince() {
+        return tracingProvince;
+    }
+
+    public void setTracingProvince(String tracingProvince) {
+        this.tracingProvince = tracingProvince;
+    }
+
+    public String getTracingCity() {
+        return tracingCity;
+    }
+
+    public void setTracingCity(String tracingCity) {
+        this.tracingCity = tracingCity;
+    }
+
+    public String getTracingCounty() {
+        return tracingCounty;
+    }
+
+    public void setTracingCounty(String tracingCounty) {
+        this.tracingCounty = tracingCounty;
+    }
+
+    public String getTracingArea() {
+        return tracingArea;
+    }
+
+    public void setTracingArea(String tracingArea) {
+        this.tracingArea = tracingArea;
+    }
+
+    public Double getSamplingQuantity() {
+        return samplingQuantity;
+    }
+
+    public void setSamplingQuantity(Double samplingQuantity) {
+        this.samplingQuantity = samplingQuantity;
+    }
+
+    public String getSamplingBase() {
+        return samplingBase;
+    }
+
+    public void setSamplingBase(String samplingBase) {
+        this.samplingBase = samplingBase;
+    }
+
+    public String getChinaStandard() {
+        return chinaStandard;
+    }
+
+    public void setChinaStandard(String chinaStandard) {
         this.chinaStandard = chinaStandard;
     }
 
-    public String getChinaStandard() 
-    {
-        return chinaStandard;
+    public String getCacStandard() {
+        return cacStandard;
     }
-    public void setCacStandard(String cacStandard) 
-    {
+
+    public void setCacStandard(String cacStandard) {
         this.cacStandard = cacStandard;
     }
 
-    public String getCacStandard() 
-    {
-        return cacStandard;
+    public String getJapanStandard() {
+        return japanStandard;
     }
-    public void setJapanStandard(String japanStandard) 
-    {
+
+    public void setJapanStandard(String japanStandard) {
         this.japanStandard = japanStandard;
     }
 
-    public String getJapanStandard() 
-    {
-        return japanStandard;
+    public String getEuStandard() {
+        return euStandard;
     }
-    public void setEuStandard(String euStandard) 
-    {
+
+    public void setEuStandard(String euStandard) {
         this.euStandard = euStandard;
     }
 
-    public String getEuStandard() 
-    {
-        return euStandard;
+    public String getUsStandard() {
+        return usStandard;
     }
-    public void setUsStandard(String usStandard) 
-    {
+
+    public void setUsStandard(String usStandard) {
         this.usStandard = usStandard;
     }
 
-    public String getUsStandard() 
-    {
-        return usStandard;
+    public String getKoreaStandard() {
+        return koreaStandard;
     }
-    public void setKoreaStandard(String koreaStandard) 
-    {
+
+    public void setKoreaStandard(String koreaStandard) {
         this.koreaStandard = koreaStandard;
     }
 
-    public String getKoreaStandard() 
-    {
-        return koreaStandard;
-    }
-    public void setCreatedAt(Date createdAt) 
-    {
-        this.createdAt = createdAt;
-    }
-
-    public Date getCreatedAt() 
-    {
+    public Date getCreatedAt() {
         return createdAt;
     }
 
-    public List<agriPesticideDetResult> getAgriPesticideDetResultList()
-    {
+    public void setCreatedAt(Date createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    public List<agriPesticideDetResult> getAgriPesticideDetResultList() {
         return agriPesticideDetResultList;
     }
 
-    public void setAgriPesticideDetResultList(List<agriPesticideDetResult> agriPesticideDetResultList)
-    {
+    public void setAgriPesticideDetResultList(List<agriPesticideDetResult> agriPesticideDetResultList) {
         this.agriPesticideDetResultList = agriPesticideDetResultList;
     }
 
@@ -266,26 +353,37 @@ public class agriCitySampleTestDetails extends BaseEntity
         return true;//合格
     }
 
+
     @Override
     public String toString() {
-        return new ToStringBuilder(this,ToStringStyle.MULTI_LINE_STYLE)
-            .append("citySampleTestDetailsId", getCitySampleTestDetailsId())
-            .append("sampleCode", getSampleCode())
-            .append("vegFruName", getVegFruName())
-            .append("samplingLocation", getSamplingLocation())
-            .append("detectLocation", getDetectLocation())
-            .append("samplingQuantity", getSamplingQuantity())
-            .append("samplingBase", getSamplingBase())
-            .append("samplingStageType", getSamplingStageType())
-            .append("samplingDate", getSamplingDate())
-            .append("chinaStandard", getChinaStandard())
-            .append("cacStandard", getCacStandard())
-            .append("japanStandard", getJapanStandard())
-            .append("euStandard", getEuStandard())
-            .append("usStandard", getUsStandard())
-            .append("koreaStandard", getKoreaStandard())
-            .append("createdAt", getCreatedAt())
-            .append("agriPesticideDetResultList", getAgriPesticideDetResultList())
-            .toString();
+        return "agriCitySampleTestDetails{" +
+                "citySampleTestDetailsId=" + citySampleTestDetailsId +
+                ", sampleCode='" + sampleCode + '\'' +
+                ", vegFruName='" + vegFruName + '\'' +
+                ", samplingStageType='" + samplingStageType + '\'' +
+                ", samplingLocationProvince='" + samplingLocationProvince + '\'' +
+                ", samplingLocationCity='" + samplingLocationCity + '\'' +
+                ", samplingLocationCounty='" + samplingLocationCounty + '\'' +
+                ", samplingLocation='" + samplingLocation + '\'' +
+                ", detectLocation='" + detectLocation + '\'' +
+                ", samplingDate=" + samplingDate +
+                ", enterpriseName='" + enterpriseName + '\'' +
+                ", enterpriseAttribute='" + enterpriseAttribute + '\'' +
+                ", enterpriseCreditIdCode='" + enterpriseCreditIdCode + '\'' +
+                ", tracingProvince='" + tracingProvince + '\'' +
+                ", tracingCity='" + tracingCity + '\'' +
+                ", tracingCounty='" + tracingCounty + '\'' +
+                ", tracingArea='" + tracingArea + '\'' +
+                ", samplingQuantity=" + samplingQuantity +
+                ", samplingBase='" + samplingBase + '\'' +
+                ", chinaStandard='" + chinaStandard + '\'' +
+                ", cacStandard='" + cacStandard + '\'' +
+                ", japanStandard='" + japanStandard + '\'' +
+                ", euStandard='" + euStandard + '\'' +
+                ", usStandard='" + usStandard + '\'' +
+                ", koreaStandard='" + koreaStandard + '\'' +
+                ", createdAt=" + createdAt +
+                ", agriPesticideDetResultList=" + agriPesticideDetResultList +
+                '}';
     }
 }
