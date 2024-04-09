@@ -62,7 +62,7 @@ public class outTeaNoBanPesDetRecordsServiceImpl implements IoutTeaNoBanPesDetRe
         params.setParams(outTeaNoBanPesDetRecords.getParams());
         List<outFruVegSelectType> SelectList = outTeaNoBanPesDetRecordsMapper.getDetResultList(params.getParams());//获取所有符合条件的农药检测结果表//在此处进行各类条件查询
         if(SelectList.isEmpty()){System.out.println("查询出的检测结果列表为空");return resultList;}
-
+        System.out.println(SelectList);
         StringBuilder successMsg = new StringBuilder();
         StringBuilder failureMsg = new StringBuilder();
         //先遍历所有获取到的结果

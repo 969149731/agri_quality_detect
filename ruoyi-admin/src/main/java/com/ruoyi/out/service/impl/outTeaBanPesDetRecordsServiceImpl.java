@@ -26,7 +26,7 @@ public class outTeaBanPesDetRecordsServiceImpl implements IoutTeaBanPesDetRecord
     @Autowired
     private outTeaBanPesDetRecordsMapper outTeaBanPesDetRecordsMapper;
 
-    /**
+    /*****
      * 查询茶叶禁用农药检出及超标情况
      * 
      * @param teaBanPesDetRecordsId 茶叶禁用农药检出及超标情况主键
@@ -35,6 +35,7 @@ public class outTeaBanPesDetRecordsServiceImpl implements IoutTeaBanPesDetRecord
     @Override
     public outTeaBanPesDetRecords selectoutTeaBanPesDetRecordsByTeaBanPesDetRecordsId(Long teaBanPesDetRecordsId)
     {
+        //
         return outTeaBanPesDetRecordsMapper.selectoutTeaBanPesDetRecordsByTeaBanPesDetRecordsId(teaBanPesDetRecordsId);
     }
 
@@ -89,7 +90,6 @@ public class outTeaBanPesDetRecordsServiceImpl implements IoutTeaBanPesDetRecord
                 failureMsg.append(msg);
                 log.error(msg);
                 continue;//没通过数据可用审查，跳过当前的检测条目
-
             }
             if(!pesticideList.contains(item.pesticideName)){
                 System.out.println("该农药不在检测列表中");
