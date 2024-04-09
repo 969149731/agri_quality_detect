@@ -3,6 +3,8 @@ package com.ruoyi.out.domain;
 public class VegFruStatistic {
     private int vegetableSeqNo;
     private  int fruitSeqNo;
+    private  int teaSeqNo;
+
     private String name;
     private String type;
     private int quantity;
@@ -47,11 +49,20 @@ public class VegFruStatistic {
         this.quantity = quantity;
     }
 
+    public int getTeaSeqNo() {
+        return teaSeqNo;
+    }
+
+    public void setTeaSeqNo(int teaSeqNo) {
+        this.teaSeqNo = teaSeqNo;
+    }
+
     @Override
     public String toString() {
         return "VegFruStatistic{" +
                 "vegetableSeqNo=" + vegetableSeqNo +
                 ", fruitSeqNo=" + fruitSeqNo +
+                ", teaSeqNo=" + teaSeqNo +
                 ", name='" + name + '\'' +
                 ", type='" + type + '\'' +
                 ", quantity=" + quantity +
