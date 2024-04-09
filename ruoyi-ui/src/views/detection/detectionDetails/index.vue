@@ -182,7 +182,14 @@
 
     <el-table v-loading="loading" :data="detectionDetailsList" @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="55" align="center" />
-<!--      <el-table-column label="主键" align="center" prop="citySampleTestDetailsId" />-->
+
+      <el-table-column label="序号" align="center" prop="index">
+        <template slot-scope="scope">
+          {{ scope.$index + 1 }}
+        </template>
+      </el-table-column>
+
+      <!--      <el-table-column label="主键" align="center" prop="citySampleTestDetailsId" />-->
       <el-table-column label="样品编号" align="center" prop="sampleCode" />
       <el-table-column label="样品名称" align="center" prop="vegFruName" />
       <el-table-column label="抽样环节" align="center" prop="samplingStageType" />
@@ -291,82 +298,67 @@
         <el-form-item label="样品名称" prop="vegFruName">
           <el-input v-model="form.vegFruName" placeholder="请输入样品名称" />
         </el-form-item>
-        <el-form-item label="抽样地点" prop="samplingLocation">
-          <el-input v-model="form.samplingLocation" placeholder="请输入抽样地点" />
-        </el-form-item>
-        <el-form-item label="检测单位" prop="detectLocation">
-          <el-input v-model="form.detectLocation" placeholder="请输入检测单位" />
-        </el-form-item>
-        <el-form-item label="抽样数量" prop="samplingQuantity">
-          <el-input v-model="form.samplingQuantity" placeholder="请输入抽样数量（kg/个数）" />
-        </el-form-item>
-        <el-form-item label="抽样基数" prop="samplingBase">
-          <el-input v-model="form.samplingBase" placeholder="请输入抽样基数" />
-        </el-form-item>
         <el-form-item label="抽样环节" prop="samplingBase">
           <el-input v-model="form.samplingStageType" placeholder="请输入抽样环节" />
         </el-form-item>
+        <el-form-item label="抽样省" prop="samplingLocationProvince">
+          <el-input v-model="form.samplingLocationProvince" placeholder="请输入抽样省" />
+        </el-form-item>
+        <el-form-item label="抽样市" prop="samplingLocationCity">
+          <el-input v-model="form.samplingLocationCity" placeholder="请输入抽样市" />
+        </el-form-item>
+        <el-form-item label="抽样县" prop="samplingLocationCounty">
+          <el-input v-model="form.samplingLocationCounty" placeholder="请输入抽样县" />
+        </el-form-item>
+        <el-form-item label="抽样地址" prop="samplingLocation">
+          <el-input v-model="form.samplingLocation" placeholder="请输入抽样地址" />
+        </el-form-item>
         <el-form-item label="抽样日期" prop="samplingDate">
           <el-date-picker clearable
-            v-model="form.samplingDate"
-            type="date"
-            value-format="yyyy-MM-dd"
-            placeholder="请选择抽样日期">
+                          v-model="form.samplingDate"
+                          type="date"
+                          value-format="yyyy-MM-dd"
+                          placeholder="请选择抽样日期">
           </el-date-picker>
         </el-form-item>
-        <el-form-item label="国家标准" prop="chinaStandard">
-          <el-select v-model="form.chinaStandard" placeholder="请选择国家标准">
-            <el-option
-              v-for="dict in dict.type.pass_or_not"
-              :key="dict.value"
-              :label="dict.label"
-              :value="dict.value"
-            ></el-option>
-          </el-select>
+        <el-form-item label="企业名称/农户" prop="enterpriseName">
+          <el-input v-model="form.enterpriseName" placeholder="请输入企业名称/农户" />
         </el-form-item>
-        <el-form-item label="CAC标准" prop="cacStandard">
-          <el-select v-model="form.cacStandard" placeholder="请选择CAC标准">
-            <el-option
-              v-for="dict in dict.type.pass_or_not"
-              :key="dict.value"
-              :label="dict.label"
-              :value="dict.value"
-            ></el-option>
-          </el-select>
+        <el-form-item label="企业属性（绿色/有机/地理标志/GAP)" prop="enterpriseAttribute">
+          <el-input v-model="form.enterpriseAttribute" placeholder="请输入企业属性（绿色/有机/地理标志/GAP)" />
         </el-form-item>
-        <el-form-item label="日本标准" prop="japanStandard">
-          <el-select v-model="form.japanStandard" placeholder="请选择日本标准">
-            <el-option
-              v-for="dict in dict.type.pass_or_not"
-              :key="dict.value"
-              :label="dict.label"
-              :value="dict.value"
-            ></el-option>
-          </el-select>
+        <el-form-item label="企业信用代码/身份证号" prop="enterpriseCreditIdCode">
+          <el-input v-model="form.enterpriseCreditIdCode" placeholder="请输入企业信用代码/身份证号" />
         </el-form-item>
-        <el-form-item label="欧盟标准" prop="euStandard">
-          <el-select v-model="form.euStandard" placeholder="请选择欧盟标准">
-            <el-option
-              v-for="dict in dict.type.pass_or_not"
-              :key="dict.value"
-              :label="dict.label"
-              :value="dict.value"
-            ></el-option>
-          </el-select>
+        <el-form-item label="溯源省" prop="tracingProvince">
+          <el-input v-model="form.tracingProvince" placeholder="请输入溯源省" />
         </el-form-item>
-        <el-form-item label="美国标准" prop="usStandard">
-          <el-select v-model="form.usStandard" placeholder="请选择美国标准">
-            <el-option
-              v-for="dict in dict.type.pass_or_not"
-              :key="dict.value"
-              :label="dict.label"
-              :value="dict.value"
-            ></el-option>
-          </el-select>
+        <el-form-item label="溯源市" prop="tracingCity">
+          <el-input v-model="form.tracingCity" placeholder="请输入溯源市" />
+        </el-form-item>
+        <el-form-item label="溯源县" prop="tracingCounty">
+          <el-input v-model="form.tracingCounty" placeholder="请输入溯源县" />
+        </el-form-item>
+        <el-form-item label="溯源产地" prop="tracingArea">
+          <el-input v-model="form.tracingArea" placeholder="请输入溯源产地" />
         </el-form-item>
 
-        <el-form-item label="韩国标准" prop="koreaStandard">
-          <el-select v-model="form.koreaStandard" placeholder="请选择韩国标准">
+
+
+
+        <el-form-item label="检测单位" prop="detectLocation">
+          <el-input v-model="form.detectLocation" placeholder="请输入检测单位" />
+        </el-form-item>
+<!--        <el-form-item label="抽样数量" prop="samplingQuantity">-->
+<!--          <el-input v-model="form.samplingQuantity" placeholder="请输入抽样数量（kg/个数）" />-->
+<!--        </el-form-item>-->
+<!--        <el-form-item label="抽样基数" prop="samplingBase">-->
+<!--          <el-input v-model="form.samplingBase" placeholder="请输入抽样基数" />-->
+<!--        </el-form-item>-->
+
+
+        <el-form-item label="检测结果" prop="chinaStandard">
+          <el-select v-model="form.chinaStandard" placeholder="请选择国家标准的检测结果">
             <el-option
               v-for="dict in dict.type.pass_or_not"
               :key="dict.value"
@@ -375,6 +367,57 @@
             ></el-option>
           </el-select>
         </el-form-item>
+<!--        <el-form-item label="CAC标准" prop="cacStandard">-->
+<!--          <el-select v-model="form.cacStandard" placeholder="请选择CAC标准">-->
+<!--            <el-option-->
+<!--              v-for="dict in dict.type.pass_or_not"-->
+<!--              :key="dict.value"-->
+<!--              :label="dict.label"-->
+<!--              :value="dict.value"-->
+<!--            ></el-option>-->
+<!--          </el-select>-->
+<!--        </el-form-item>-->
+<!--        <el-form-item label="日本标准" prop="japanStandard">-->
+<!--          <el-select v-model="form.japanStandard" placeholder="请选择日本标准">-->
+<!--            <el-option-->
+<!--              v-for="dict in dict.type.pass_or_not"-->
+<!--              :key="dict.value"-->
+<!--              :label="dict.label"-->
+<!--              :value="dict.value"-->
+<!--            ></el-option>-->
+<!--          </el-select>-->
+<!--        </el-form-item>-->
+<!--        <el-form-item label="欧盟标准" prop="euStandard">-->
+<!--          <el-select v-model="form.euStandard" placeholder="请选择欧盟标准">-->
+<!--            <el-option-->
+<!--              v-for="dict in dict.type.pass_or_not"-->
+<!--              :key="dict.value"-->
+<!--              :label="dict.label"-->
+<!--              :value="dict.value"-->
+<!--            ></el-option>-->
+<!--          </el-select>-->
+<!--        </el-form-item>-->
+<!--        <el-form-item label="美国标准" prop="usStandard">-->
+<!--          <el-select v-model="form.usStandard" placeholder="请选择美国标准">-->
+<!--            <el-option-->
+<!--              v-for="dict in dict.type.pass_or_not"-->
+<!--              :key="dict.value"-->
+<!--              :label="dict.label"-->
+<!--              :value="dict.value"-->
+<!--            ></el-option>-->
+<!--          </el-select>-->
+<!--        </el-form-item>-->
+
+<!--        <el-form-item label="韩国标准" prop="koreaStandard">-->
+<!--          <el-select v-model="form.koreaStandard" placeholder="请选择韩国标准">-->
+<!--            <el-option-->
+<!--              v-for="dict in dict.type.pass_or_not"-->
+<!--              :key="dict.value"-->
+<!--              :label="dict.label"-->
+<!--              :value="dict.value"-->
+<!--            ></el-option>-->
+<!--          </el-select>-->
+<!--        </el-form-item>-->
 
 
 
@@ -552,7 +595,8 @@ export default {
         euStandard: null,
         usStandard: null,
         koreaStandard: null,
-        createdAt: null
+        createdAt: null,
+        samplingLocationProvince: null,
       };
       this.agriPesticideDetResultList = [];
       this.resetForm("form");
@@ -582,14 +626,23 @@ export default {
     },
     /** 修改按钮操作 */
     handleUpdate(row) {
+
+      //通过查询数据库回显数据
       this.reset();
       const citySampleTestDetailsId = row.citySampleTestDetailsId || this.ids
       getDetectionDetails(citySampleTestDetailsId).then(response => {
         this.form = response.data;
+        console.log(response.data)
         this.agriPesticideDetResultList = response.data.agriPesticideDetResultList;
         this.open = true;
         this.title = "修改各市样品检测结果详细";
       });
+
+      //下面这种方法不查数据库直接回显数据
+      // this.form = row;
+      // this.open = true;
+      // this.title = "修改各市样品检测结果详细";
+
     },
     /** 提交按钮 */
     submitForm() {

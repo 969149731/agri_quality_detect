@@ -21,6 +21,19 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="usStandard"    column="us_standard"    />
         <result property="koreaStandard"    column="korea_standard"    />
         <result property="createdAt"    column="created_at"    />
+
+        <result property="samplingLocationProvince"    column="sampling_location_province"    />
+        <result property="samplingLocationCity"    column="sampling_location_city"    />
+        <result property="samplingLocationCounty"    column="sampling_location_county"    />
+        <result property="enterpriseName"    column="enterprise_name"    />
+        <result property="enterpriseAttribute"    column="enterprise_attribute"    />
+        <result property="enterpriseCreditIdCode"    column="enterprise_credit_id_code"    />
+        <result property="tracingProvince"    column="tracing_province"    />
+        <result property="tracingCity"    column="tracing_city"    />
+        <result property="tracingCounty"    column="tracing_county"    />
+        <result property="tracingArea"    column="tracing_area"    />
+
+
     </resultMap>
 
     <resultMap id="agriCitySampleTestDetailsagriPesticideDetResultResult" type="agriCitySampleTestDetails" extends="agriCitySampleTestDetailsResult">
@@ -152,8 +165,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 
     <select id="selectagriCitySampleTestDetailsByCitySampleTestDetailsId" parameterType="Long" resultMap="agriCitySampleTestDetailsagriPesticideDetResultResult">
-        select a.city_sample_test_details_id, a.sample_code, a.veg_fru_name, a.sampling_location, a.detect_location, a.sampling_quantity, a.sampling_base, a.sampling_stage_type, a.sampling_date, a.china_standard, a.cac_standard, a.japan_standard, a.eu_standard, a.us_standard, a.korea_standard, a.created_at,
- b.pesticide_det_result_id as sub_pesticide_det_result_id, b.pesticide_name as sub_pesticide_name, b.pesticide_det_value as sub_pesticide_det_value, b.city_sample_test_details_id as sub_city_sample_test_details_id, b.created_at as sub_created_at
+        select a.enterprise_name,a.enterprise_attribute,a.enterprise_credit_id_code,a.tracing_province,a.tracing_city,a.tracing_county,a.tracing_area,a.sampling_location_province,a.sampling_location_city,a.sampling_location_county,a.city_sample_test_details_id,
+               a.sample_code, a.veg_fru_name, a.sampling_location, a.detect_location, a.sampling_quantity, a.sampling_base,
+               a.sampling_stage_type, a.sampling_date, a.china_standard, a.cac_standard, a.japan_standard, a.eu_standard,
+               a.us_standard, a.korea_standard, a.created_at,
+ b.pesticide_det_result_id as sub_pesticide_det_result_id, b.pesticide_name as sub_pesticide_name, b.pesticide_det_value
+     as sub_pesticide_det_value, b.city_sample_test_details_id as sub_city_sample_test_details_id, b.created_at as sub_created_at
         from agri_city_sample_test_details a
         left join agri_pesticide_det_result b on b.city_sample_test_details_id = a.city_sample_test_details_id
         where a.city_sample_test_details_id = #{citySampleTestDetailsId}
@@ -244,6 +261,16 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="usStandard != null">us_standard = #{usStandard},</if>
             <if test="koreaStandard != null">korea_standard = #{koreaStandard},</if>
             <if test="createdAt != null">created_at = #{createdAt},</if>
+            <if test="samplingLocationProvince != null">sampling_location_province= #{samplingLocationProvince},</if>
+            <if test="samplingLocationCity != null">sampling_location_city=#{samplingLocationCity},</if>
+            <if test="samplingLocationCounty != null">sampling_location_county=#{samplingLocationCounty},</if>
+            <if test="enterpriseName != null">enterprise_name=#{enterpriseName},</if>
+            <if test="enterpriseAttribute != null">enterprise_attribute=#{enterpriseAttribute},</if>
+            <if test="enterpriseCreditIdCode != null">enterprise_credit_id_code=#{enterpriseCreditIdCode},</if>
+            <if test="tracingProvince != null">tracing_province=#{tracingProvince},</if>
+            <if test="tracingCity != null">tracing_city=#{tracingCity},</if>
+            <if test="tracingCounty != null">tracing_county=#{tracingCounty},</if>
+            <if test="tracingArea != null">tracing_area=#{tracingArea},</if>
         </trim>
         where city_sample_test_details_id = #{citySampleTestDetailsId}
     </update>
