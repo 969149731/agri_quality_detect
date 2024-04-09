@@ -69,7 +69,7 @@ public class outFruVegQualificationController extends BaseController
     {
         outFruVegQualification outReturnTypeRecords=new outFruVegQualification();
         List<outFruVegQualification> list = outFruVegQualificationService.selectoutFruVegQualificationList(outFruVegQualification);
-        TemplateExportParams params = new TemplateExportParams("ruoyi-admin/src/main/java/com/ruoyi/excelOutTemplate/outFruVegQualification.xlsx");
+        TemplateExportParams params = new TemplateExportParams("excelOutTemplate/outFruVegQualification.xlsx");
         Map<String, Object> map = new HashMap<>();
         map.put("tableName", "5. 各类蔬菜水果合格率情况");
         map.put("maplist", list);

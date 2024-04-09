@@ -115,7 +115,7 @@ public class outDxDetectRecordsController extends BaseController
 
 
 //        System.out.println(statistics+"导出");
-        TemplateExportParams params = new TemplateExportParams("ruoyi-admin/src/main/java/com/ruoyi/excelOutTemplate/dxjc.xlsx");
+        TemplateExportParams params = new TemplateExportParams("excelOutTemplate/dxjc.xlsx");
         Map<String, Object> map = new HashMap<>();
         map.put("year", year);
         map.put("month1", month1);

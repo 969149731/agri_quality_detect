@@ -88,7 +88,7 @@ public class outStandComplianceController extends BaseController
 
 
 
-        TemplateExportParams params = new TemplateExportParams("ruoyi-admin/src/main/java/com/ruoyi/excelOutTemplate/outStandCompliance.xlsx");
+        TemplateExportParams params = new TemplateExportParams("excelOutTemplate/outStandCompliance.xlsx");
         Map<String, Object> map = new HashMap<>();
         map.put("tableName", "3.水果禁用农药检出及超标情况表");
         map.put("maplist", list);

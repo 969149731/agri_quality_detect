@@ -152,7 +152,7 @@ public class outDlDetectRecordsController extends BaseController
         }
 //        ExcelUtil<outDlDetectRecords> util = new ExcelUtil<outDlDetectRecords>(outDlDetectRecords.class);
 //        util.exportExcel(response, formResultList, "定量监测结果汇总数据");
-        TemplateExportParams params = new TemplateExportParams("ruoyi-admin/src/main/java/com/ruoyi/excelOutTemplate/outDlDetectRecorsExcelTemplate.xlsx");
+        TemplateExportParams params = new TemplateExportParams("excelOutTemplate/outDlDetectRecorsExcelTemplate.xlsx");
         Map<String, Object> map = new HashMap<>();
 //        map.put("date", System.currentTimeMillis());
         map.put("maplist", formResultList);

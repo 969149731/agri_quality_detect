@@ -68,7 +68,7 @@ public class outVegNoBanPesDetRecordsController extends BaseController
     public void export(HttpServletResponse response, outVegNoBanPesDetRecords outVegNoBanPesDetRecords)
     {
         List<outReturnType> list = outVegNoBanPesDetRecordsService.selectoutVegNoBanPesDetRecordsList2(outVegNoBanPesDetRecords);
-        TemplateExportParams params = new TemplateExportParams("ruoyi-admin/src/main/java/com/ruoyi/excelOutTemplate/outFruBanPesDetRecords.xlsx");
+        TemplateExportParams params = new TemplateExportParams("excelOutTemplate/outFruBanPesDetRecords.xlsx");
         Map<String, Object> map = new HashMap<>();
         map.put("tableName", "3.水果禁用农药检出及超标情况表");
         map.put("maplist", list);

@@ -73,7 +73,7 @@ public class outVegInventoryController extends BaseController
         int vegetableSeqNo=1;
         int fruitSeqNo=1;
 
-        TemplateExportParams params = new TemplateExportParams("ruoyi-admin/src/main/java/com/ruoyi/excelOutTemplate/outVegInventoryExcelTemplate.xlsx");
+        TemplateExportParams params = new TemplateExportParams("excelOutTemplate/outVegInventoryExcelTemplate.xlsx");
         Map<String, Object> map = new HashMap<>();
         List<VegFruStatistic> list = outVegFruInventoryService.selectVegFruStatistic(agriCitySampleTestDetails);
 

@@ -68,7 +68,7 @@ public class outSampleStageTypeController extends BaseController
     public void export(HttpServletResponse response, outSampleStageType outSampleStageType)
     {
         List<outSampleStageType> list = outSampleStageTypeService.selectoutSampleStageTypeList(outSampleStageType);
-        TemplateExportParams params = new TemplateExportParams("ruoyi-admin/src/main/java/com/ruoyi/excelOutTemplate/outSampleStageType.xlsx");
+        TemplateExportParams params = new TemplateExportParams("excelOutTemplate/outSampleStageType.xlsx");
         Map<String, Object> map = new HashMap<>();
         map.put("tableName", "7.被抽样环节数量统计");
         map.put("maplist", list);

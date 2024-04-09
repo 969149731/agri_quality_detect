@@ -87,7 +87,7 @@ public class outUndeterminedStandDetController extends BaseController
     @PostMapping("/export")
     public void export(HttpServletResponse response, agriCitySampleTestDetails agriCitySampleTestDetails) throws IOException {
         List<out2UndeterminedStandDet> out2UndeterminedStandDeList = outUndeterminedStandDetService.selectOutUndeterminedStandDetList(agriCitySampleTestDetails);
-        TemplateExportParams params = new TemplateExportParams("ruoyi-admin/src/main/java/com/ruoyi/excelOutTemplate/outUndeterminedStandDetExcelTemplate.xlsx");
+        TemplateExportParams params = new TemplateExportParams("excelOutTemplate/outUndeterminedStandDetExcelTemplate.xlsx");
         List<outUndeterminedStandDet> outUndeterminedStandDetlist = new ArrayList<>();
         for (out2UndeterminedStandDet out2UndeterminedStandDet:out2UndeterminedStandDeList){
             outUndeterminedStandDet outUndeterminedStandDet = new outUndeterminedStandDet();

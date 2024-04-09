@@ -66,7 +66,7 @@ public class outFruInventoryController extends BaseController
     public void export(HttpServletResponse response, outFruInventory outFruInventory, agriCitySampleTestDetails agriCitySampleTestDetails) throws IOException {
         int fruitSeqNo=1;
 
-        TemplateExportParams params = new TemplateExportParams("ruoyi-admin/src/main/java/com/ruoyi/excelOutTemplate/outFruInventoryExcelTemplate.xlsx");
+        TemplateExportParams params = new TemplateExportParams("excelOutTemplate/outFruInventoryExcelTemplate.xlsx");
         Map<String, Object> map = new HashMap<>();
         List<VegFruStatistic> list = outVegFruInventoryService.selectVegFruStatistic(agriCitySampleTestDetails);
 

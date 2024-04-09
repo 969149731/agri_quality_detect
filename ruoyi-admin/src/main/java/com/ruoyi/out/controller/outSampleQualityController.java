@@ -67,7 +67,7 @@ public class outSampleQualityController extends BaseController
     {
 
         List<outSampleQuality> list = outSampleQualityService.selectoutSampleQualityList(outSampleQuality);
-        TemplateExportParams params = new TemplateExportParams("ruoyi-admin/src/main/java/com/ruoyi/excelOutTemplate/outSampleQuality.xlsx");
+        TemplateExportParams params = new TemplateExportParams("excelOutTemplate/outSampleQuality.xlsx");
         Map<String, Object> map = new HashMap<>();
         map.put("tableName", "6.各抽样环节合格率情况");
         map.put("maplist", list);

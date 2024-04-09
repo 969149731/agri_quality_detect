@@ -71,7 +71,7 @@ public class outTeaBanPesDetRecordsController extends BaseController
 
         List<outReturnType> list = outTeaBanPesDetRecordsService.selectoutTeaBanPesDetRecordsList(outTeaBanPesDetRecords);
 
-        TemplateExportParams params = new TemplateExportParams("ruoyi-admin/src/main/java/com/ruoyi/excelOutTemplate/outFruBanPesDetRecords.xlsx");
+        TemplateExportParams params = new TemplateExportParams("excelOutTemplate/outFruBanPesDetRecords.xlsx");
         Map<String, Object> map = new HashMap<>();
         map.put("tableName", "茶叶禁用农药检出及超标情况表");
         map.put("maplist", list);

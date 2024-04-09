@@ -69,7 +69,7 @@ public class outVegFruInventoryController extends BaseController
 //        ExcelUtil<outVegFruInventory> util = new ExcelUtil<outVegFruInventory>(outVegFruInventory.class);
 //        util.exportExcel(response, list, "蔬菜水果种类及数量数据");
         Long index=1L;
-        TemplateExportParams params = new TemplateExportParams("ruoyi-admin/src/main/java/com/ruoyi/excelOutTemplate/outVegFruInventoryExcelTemplate.xlsx");
+        TemplateExportParams params = new TemplateExportParams("excelOutTemplate/outVegFruInventoryExcelTemplate.xlsx");
         Map<String, Object> map = new HashMap<>();
         List<VegFruStatistic> list = outVegFruInventoryService.selectVegFruStatistic(agriCitySampleTestDetails);
         //这边开到

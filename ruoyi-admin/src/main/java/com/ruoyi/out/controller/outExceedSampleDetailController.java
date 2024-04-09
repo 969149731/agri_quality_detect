@@ -79,7 +79,7 @@ public class outExceedSampleDetailController extends BaseController
     public void export(HttpServletResponse response, agriCitySampleTestDetails agriCitySampleTestDetails) throws IOException {
         //从out2ExceedSampleDetail里面获取值放到从outExceedSampleDetail中，out2ExceedSampleDetail用来前端展示，outExceedSampleDetail用来导出
         List<out2ExceedSampleDetail> out2ExceedSampleDetaiLlist = outExceedSampleDetailService.selectOutExceedSampleDetailList(agriCitySampleTestDetails);
-        TemplateExportParams params = new TemplateExportParams("ruoyi-admin/src/main/java/com/ruoyi/excelOutTemplate/outExceedSampleDetailExcelTemplate.xlsx");
+        TemplateExportParams params = new TemplateExportParams("excelOutTemplate/outExceedSampleDetailExcelTemplate.xlsx");
         List<outExceedSampleDetail> outExceedSampleDetaiLlist = new ArrayList<>();
         for (out2ExceedSampleDetail out2ExceedSampleDetai:out2ExceedSampleDetaiLlist){
             outExceedSampleDetail outExceedSampleDetail = new outExceedSampleDetail();

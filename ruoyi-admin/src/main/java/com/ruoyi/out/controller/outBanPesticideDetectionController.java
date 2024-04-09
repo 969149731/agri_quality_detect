@@ -77,7 +77,7 @@ public class outBanPesticideDetectionController extends BaseController
     @PostMapping("/export")
     public void export(HttpServletResponse response, agriCitySampleTestDetails agriCitySampleTestDetails) throws IOException {
         List<out2BanPesticideDetection> out2BanPesticideDetectionList = outBanPesticideDetectionService.selectOutBanPesticideDetectionList(agriCitySampleTestDetails);
-        TemplateExportParams params = new TemplateExportParams("ruoyi-admin/src/main/java/com/ruoyi/excelOutTemplate/outBanPesticideDetectionExcelTemplate.xlsx");
+        TemplateExportParams params = new TemplateExportParams("excelOutTemplate/outBanPesticideDetectionExcelTemplate.xlsx");
         List<outBanPesticideDetection> outBanPesticideDetectionLlist = new ArrayList<>();
         for (out2BanPesticideDetection out2BanPesticideDetection:out2BanPesticideDetectionList){
             outBanPesticideDetection outBanPesticideDet = new outBanPesticideDetection();
