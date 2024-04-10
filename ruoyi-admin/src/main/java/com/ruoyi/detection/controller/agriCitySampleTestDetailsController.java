@@ -94,6 +94,7 @@ public class agriCitySampleTestDetailsController extends BaseController
     {
         startPage();
         List<agriCitySampleTestDetails> list = agriCitySampleTestDetailsService.selectagriCitySampleTestDetailsList(agriCitySampleTestDetails);
+//        System.out.println("看看"+provinceCode);
         return getDataTable(list);
     }
 

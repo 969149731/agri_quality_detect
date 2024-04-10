@@ -1,11 +1,10 @@
 {
   "name": "ruoyi",
   "version": "3.8.7",
-  "description": "农产品质量检测系统",
+  "description": "若依管理系统",
   "author": "若依",
   "license": "MIT",
   "scripts": {
-    "serve": "set NODE_OPTIONS=--openssl-legacy-provider && vue-cli-service serve",
     "dev": "vue-cli-service serve",
     "build:prod": "vue-cli-service build",
     "build:stage": "vue-cli-service build --mode staging",
@@ -54,13 +53,15 @@
     "screenfull": "5.0.2",
     "sortablejs": "1.10.2",
     "vue": "2.6.12",
+    "vue-axios": "^3.5.2",
     "vue-count-to": "1.0.13",
     "vue-cropper": "0.5.5",
     "vue-meta": "2.4.0",
     "vue-router": "3.4.9",
     "vuedraggable": "2.24.3",
     "vuex": "3.6.0",
-    "xlsx": "^0.18.5"
+    "xlsx": "^0.18.5",
+    "xlsx-style": "^0.8.13"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "4.4.6",

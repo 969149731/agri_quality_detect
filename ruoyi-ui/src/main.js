@@ -38,6 +38,19 @@ import VueMeta from 'vue-meta'
 // 字典数据组件
 import DictData from '@/components/DictData'
 
+import axios from 'axios'
+import VueAxios from 'vue-axios'
+// element-ui 引入文件
+import ElementUI from 'element-ui';
+import 'element-ui/lib/theme-chalk/index.css';
+//注册 VueAxios, axios
+Vue.use(VueAxios, axios)
+Vue.use(ElementUI)
+
+
+
+
+
 // 全局方法挂载
 Vue.prototype.getDicts = getDicts
 Vue.prototype.getConfigKey = getConfigKey

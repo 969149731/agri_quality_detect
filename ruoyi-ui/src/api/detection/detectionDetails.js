@@ -1,4 +1,31 @@
 import request from '@/utils/request'
+import axios from "axios";
+
+
+
+//级联查询
+export function AddressProvince() {
+  return request({
+    url: '/detectInf/address',
+    method: 'get',
+  })
+}
+export function findByprovinceCode(provinceCode) {
+  return request({
+    url: '/detectInf/addressCity/'+provinceCode,
+    method: 'get'
+  })
+}
+
+export function findBycityCode(cityCode) {
+  return request({
+    url: '/detectInf/addressTown/'+cityCode,
+    method: 'get'
+  })
+}
+
+
+
 
 // 查询各市样品检测结果详细列表
 export function listDetectionDetails(query) {
@@ -8,6 +35,8 @@ export function listDetectionDetails(query) {
     params: query
   })
 }
+
+
 
 // 查询各市样品检测结果详细详细
 export function getDetectionDetails(citySampleTestDetailsId) {
