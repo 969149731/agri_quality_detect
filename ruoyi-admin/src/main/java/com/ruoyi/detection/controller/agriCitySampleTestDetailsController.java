@@ -90,11 +90,11 @@ public class agriCitySampleTestDetailsController extends BaseController
      */
     @PreAuthorize("@ss.hasPermi('detection:detectionDetails:list')")
     @GetMapping("/list")
-    public TableDataInfo list(agriCitySampleTestDetails agriCitySampleTestDetails)
+    public TableDataInfo list(agriCitySampleTestDetails agriCitySampleTestDetails,String provinceCode,String cityCode,String townCode)
     {
         startPage();
         List<agriCitySampleTestDetails> list = agriCitySampleTestDetailsService.selectagriCitySampleTestDetailsList(agriCitySampleTestDetails);
-//        System.out.println("看看"+provinceCode);
+        System.out.println("看看"+provinceCode+cityCode+townCode);
         return getDataTable(list);
     }
 

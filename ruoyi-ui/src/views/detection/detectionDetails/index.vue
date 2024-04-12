@@ -69,7 +69,7 @@
       <el-form-item label="抽样地点">
       <template>
         <div>
-          <el-select v-model="provinceCode" placeholder="省份" @change="changeProvince">
+          <el-select v-model="queryParams.provinceCode" placeholder="省份" @change="changeProvince">
             <el-option
               v-for="item in AddressProvince"
               :key="item.code"
@@ -78,7 +78,7 @@
             ></el-option>
           </el-select>
 
-          <el-select v-model="cityCode" placeholder="城市"  @change="changeCity">
+          <el-select v-model="queryParams.cityCode" placeholder="城市"  @change="changeCity">
             <el-option
               v-for="item  in AddressCity"
               :key="item.code"
@@ -86,7 +86,7 @@
               :value="item.code"
             ></el-option>
           </el-select>
-          <el-select v-model="value" placeholder="区域">
+          <el-select v-model="queryParams.townCode" placeholder="区域">
             <el-option
               v-for="item   in AddressTown"
               :key="item.code"
@@ -462,12 +462,12 @@ export default {
   dicts: ['pass_or_not'],
   data() {
     return {
-      AddressCity: [],//城市集合
       AddressProvince: [],//省份集合
+      AddressCity: [],//城市集合
       AddressTown: [],//区域集合
       provinceCode: '',//获取选中时的省份编号
       cityCode: '',//获取选中时的城市编号
-      value: '',//获取选中时区域的编号
+      townCode: '',//获取选中时区域的编号
 
       // 遮罩层
       loading: true,
@@ -512,6 +512,12 @@ export default {
         samplingLocationProvince:null,
         samplingLocationCity:null,
         samplingLocationCounty:null,
+
+
+        provinceCode:"450000",
+        cityCode:null,
+        townCode:null,
+
       },
         // 数据导入参数
       upload: {
@@ -540,49 +546,55 @@ export default {
     this.getList();
   },
 
-  watch: {//监控一个值的变换
-    provinceCode: { //
-      handler () {
-        //在选中省份发生变化时，清空后方城市和区域集合的值，和绑定编号的值，
-        //重新查询对应选中编号的城市和区域值
-        this.AddressCity = [];
-        this.AddressTown = [];
-        this.cityCode = "";
-        this.value = "";
-      }
-    },
-    cityCode: { //
-      handler () {
-        //在选中城市发生变化时，清空后方区域集合的值，和绑定编号的值，
-        //重新查询对应选中编号的区域值
-        this.AddressTown = [];
-        this.value = "";
-      }
-    }
-  },
-
-
   methods: {
-    init ()
+    // 原来的写法，不会初始化省份数据后，根据默认省份代码加载城市
+    // init ()
+    // {
+    //   AddressProvince().then((res)=>{
+    //     this.AddressProvince = res
+    //     console.log(res)
+    //     // console.log(this.AddressProvince)
+    //   })
+    // },
+    // changeProvince(val){
+    //   findByprovinceCode(val).then((res)=>{
+    //     this.AddressCity = res
+    //   })
+    // },
+    //
+    // changeCity(val){
+    //   findBycityCode(val).then((res)=>{
+    //     this.AddressTown = res
+    //   })
+    // },
+
+    init()
     {
-      AddressProvince().then((res)=>{
-        this.AddressProvince = res
-        console.log(res)
-        // console.log(this.AddressProvince)
-      })
+      AddressProvince().then((res) => {
+        this.AddressProvince = res;
+        console.log(res);
+        // 初始化省份数据后，根据默认省份代码加载城市
+        if (this.queryParams.provinceCode) {
+          this.changeProvince(this.queryParams.provinceCode);
+        }
+      });
     },
-    changeProvince(val){
-      findByprovinceCode(val).then((res)=>{
-        this.AddressCity = res
-      })
+    changeProvince(val) {
+      findByprovinceCode(val).then((res) => {
+        this.AddressCity = res;
+        // 清空之前选中的城市和区域信息
+        this.queryParams.cityCode = '';
+        this.queryParams.townCode = '';
+        // this.AddressTown = [];
+      });
     },
-
-    changeCity(val){
-      findBycityCode(val).then((res)=>{
-        this.AddressTown = res
-      })
+    changeCity(val) {
+      findBycityCode(val).then((res) => {
+        this.AddressTown = res;
+        // 清空之前选中的区域信息
+        this.queryParams.townCode = '';
+      });
     },
-
 
 
 
