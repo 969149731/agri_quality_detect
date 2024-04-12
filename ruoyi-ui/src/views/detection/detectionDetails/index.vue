@@ -53,58 +53,6 @@
         </el-select>
       </el-form-item>
 
-<!--      <el-form-item label="CAC标准" prop="cacStandard">-->
-<!--        <el-select v-model="queryParams.cacStandard" placeholder="请选择CAC标准" clearable>-->
-<!--          <el-option-->
-<!--            v-for="dict in dict.type.pass_or_not"-->
-<!--            :key="dict.value"-->
-<!--            :label="dict.label"-->
-<!--            :value="dict.value"-->
-<!--          />-->
-<!--        </el-select>-->
-<!--      </el-form-item>-->
-<!--      <el-form-item label="日本标准" prop="japanStandard">-->
-<!--        <el-select v-model="queryParams.japanStandard" placeholder="请选择日本标准" clearable>-->
-<!--          <el-option-->
-<!--            v-for="dict in dict.type.pass_or_not"-->
-<!--            :key="dict.value"-->
-<!--            :label="dict.label"-->
-<!--            :value="dict.value"-->
-<!--          />-->
-<!--        </el-select>-->
-<!--      </el-form-item>-->
-<!--      <el-form-item label="欧盟标准" prop="euStandard">-->
-<!--        <el-select v-model="queryParams.euStandard" placeholder="请选择欧盟标准" clearable>-->
-<!--          <el-option-->
-<!--            v-for="dict in dict.type.pass_or_not"-->
-<!--            :key="dict.value"-->
-<!--            :label="dict.label"-->
-<!--            :value="dict.value"-->
-<!--          />-->
-<!--        </el-select>-->
-<!--      </el-form-item>-->
-<!--      <el-form-item label="美国标准" prop="usStandard">-->
-<!--        <el-select v-model="queryParams.usStandard" placeholder="请选择美国标准" clearable>-->
-<!--          <el-option-->
-<!--            v-for="dict in dict.type.pass_or_not"-->
-<!--            :key="dict.value"-->
-<!--            :label="dict.label"-->
-<!--            :value="dict.value"-->
-<!--          />-->
-<!--        </el-select>-->
-<!--      </el-form-item>-->
-<!--      <el-form-item label="韩国标准" prop="koreaStandard">-->
-<!--        <el-select v-model="queryParams.koreaStandard" placeholder="请选择韩国标准" clearable>-->
-<!--          <el-option-->
-<!--            v-for="dict in dict.type.pass_or_not"-->
-<!--            :key="dict.value"-->
-<!--            :label="dict.label"-->
-<!--            :value="dict.value"-->
-<!--          />-->
-<!--        </el-select>-->
-<!--      </el-form-item>-->
-
-
       <el-form-item label="抽样日期">
         <el-date-picker
           v-model="dateRange"
@@ -116,6 +64,43 @@
           end-placeholder="结束日期"
         ></el-date-picker>
       </el-form-item>
+
+
+      <el-form-item label="抽样地点">
+      <template>
+        <div>
+          <el-select v-model="provinceCode" placeholder="省份" @change="changeProvince">
+            <el-option
+              v-for="item in AddressProvince"
+              :key="item.code"
+              :label="item.name"
+              :value="item.code"
+            ></el-option>
+          </el-select>
+
+          <el-select v-model="cityCode" placeholder="城市"  @change="changeCity">
+            <el-option
+              v-for="item  in AddressCity"
+              :key="item.code"
+              :label="item.name"
+              :value="item.code"
+            ></el-option>
+          </el-select>
+          <el-select v-model="value" placeholder="区域">
+            <el-option
+              v-for="item   in AddressTown"
+              :key="item.code"
+              :label="item.name"
+              :value="item.code"
+            ></el-option>
+          </el-select>
+        </div>
+      </template>
+      </el-form-item>
+
+
+
+
 
 
       <el-form-item>
@@ -233,31 +218,6 @@
           <dict-tag :options="dict.type.pass_or_not" :value="scope.row.chinaStandard"/>
         </template>
       </el-table-column>
-<!--      <el-table-column label="CAC标准" align="center" prop="cacStandard">-->
-<!--        <template slot-scope="scope">-->
-<!--          <dict-tag :options="dict.type.pass_or_not" :value="scope.row.cacStandard"/>-->
-<!--        </template>-->
-<!--      </el-table-column>-->
-<!--      <el-table-column label="日本标准" align="center" prop="japanStandard">-->
-<!--        <template slot-scope="scope">-->
-<!--          <dict-tag :options="dict.type.pass_or_not" :value="scope.row.japanStandard"/>-->
-<!--        </template>-->
-<!--      </el-table-column>-->
-<!--      <el-table-column label="欧盟标准" align="center" prop="euStandard">-->
-<!--        <template slot-scope="scope">-->
-<!--          <dict-tag :options="dict.type.pass_or_not" :value="scope.row.euStandard"/>-->
-<!--        </template>-->
-<!--      </el-table-column>-->
-<!--      <el-table-column label="美国标准" align="center" prop="usStandard">-->
-<!--        <template slot-scope="scope">-->
-<!--          <dict-tag :options="dict.type.pass_or_not" :value="scope.row.usStandard"/>-->
-<!--        </template>-->
-<!--      </el-table-column>-->
-<!--      <el-table-column label="韩国标准" align="center" prop="koreaStandard">-->
-<!--        <template slot-scope="scope">-->
-<!--          <dict-tag :options="dict.type.pass_or_not" :value="scope.row.koreaStandard"/>-->
-<!--        </template>-->
-<!--      </el-table-column>-->
 
 
 
@@ -484,15 +444,31 @@
 </template>
 
 <script>
-import { listDetectionDetails, getDetectionDetails, delDetectionDetails, addDetectionDetails, updateDetectionDetails } from "@/api/detection/detectionDetails";
+import {
+  listDetectionDetails,
+  getDetectionDetails,
+  delDetectionDetails,
+  addDetectionDetails,
+  updateDetectionDetails,
+  AddressProvince,
+  findByprovinceCode, findBycityCode
+} from "@/api/detection/detectionDetails";
 import { getToken } from "@/utils/auth";
 import {listUser} from "@/api/system/user";
+import axios from "axios";
 
 export default {
   name: "DetectionDetails",
   dicts: ['pass_or_not'],
   data() {
     return {
+      AddressCity: [],//城市集合
+      AddressProvince: [],//省份集合
+      AddressTown: [],//区域集合
+      provinceCode: '',//获取选中时的省份编号
+      cityCode: '',//获取选中时的城市编号
+      value: '',//获取选中时区域的编号
+
       // 遮罩层
       loading: true,
       // 选中数组
@@ -560,9 +536,56 @@ export default {
     };
   },
   created() {
+    this.init();
     this.getList();
   },
+
+  watch: {//监控一个值的变换
+    provinceCode: { //
+      handler () {
+        //在选中省份发生变化时，清空后方城市和区域集合的值，和绑定编号的值，
+        //重新查询对应选中编号的城市和区域值
+        this.AddressCity = [];
+        this.AddressTown = [];
+        this.cityCode = "";
+        this.value = "";
+      }
+    },
+    cityCode: { //
+      handler () {
+        //在选中城市发生变化时，清空后方区域集合的值，和绑定编号的值，
+        //重新查询对应选中编号的区域值
+        this.AddressTown = [];
+        this.value = "";
+      }
+    }
+  },
+
+
   methods: {
+    init ()
+    {
+      AddressProvince().then((res)=>{
+        this.AddressProvince = res
+        console.log(res)
+        // console.log(this.AddressProvince)
+      })
+    },
+    changeProvince(val){
+      findByprovinceCode(val).then((res)=>{
+        this.AddressCity = res
+      })
+    },
+
+    changeCity(val){
+      findBycityCode(val).then((res)=>{
+        this.AddressTown = res
+      })
+    },
+
+
+
+
     /** 查询各市样品检测结果详细列表 */
     getList() {
       this.loading = true;
@@ -570,6 +593,7 @@ export default {
         this.detectionDetailsList = response.rows;
         this.total = response.total;
         this.loading = false;
+
       });
     },
     // 取消按钮

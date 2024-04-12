@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.address.mapper.AddressProvinceMapper">
+    
+    <resultMap type="AddressProvince" id="AddressProvinceResult">
+        <result property="id"    column="id"    />
+        <result property="code"    column="code"    />
+        <result property="name"    column="name"    />
+    </resultMap>
+
+    <sql id="selectAddressProvinceVo">
+        select id, code, name from t_address_province
+    </sql>
+
+    <select id="selectAddressProvinceList" parameterType="AddressProvince" resultMap="AddressProvinceResult">
+        <include refid="selectAddressProvinceVo"/>
+        <where>  
+            <if test="code != null  and code != ''"> and code = #{code}</if>
+            <if test="name != null  and name != ''"> and name like concat('%', #{name}, '%')</if>
+        </where>
+    </select>
+    
+    <select id="selectAddressProvinceById" parameterType="Long" resultMap="AddressProvinceResult">
+        <include refid="selectAddressProvinceVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertAddressProvince" parameterType="AddressProvince" useGeneratedKeys="true" keyProperty="id">
+        insert into t_address_province
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="code != null and code != ''">code,</if>
+            <if test="name != null and name != ''">name,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="code != null and code != ''">#{code},</if>
+            <if test="name != null and name != ''">#{name},</if>
+         </trim>
+    </insert>
+
+    <update id="updateAddressProvince" parameterType="AddressProvince">
+        update t_address_province
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="code != null and code != ''">code = #{code},</if>
+            <if test="name != null and name != ''">name = #{name},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteAddressProvinceById" parameterType="Long">
+        delete from t_address_province where id = #{id}
+    </delete>
+
+    <delete id="deleteAddressProvinceByIds" parameterType="String">
+        delete from t_address_province where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+
+    <select id="selectAllAddressProvinceList"  resultMap="AddressProvinceResult">
+                select id, code, name from t_address_province
+    </select>
+
+</mapper>
