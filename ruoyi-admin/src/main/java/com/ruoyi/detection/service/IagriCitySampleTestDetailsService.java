@@ -3,6 +3,7 @@ package com.ruoyi.detection.service;
 import java.util.List;
 import java.util.Map;
 
+import com.ruoyi.address.domain.AddressUse;
 import com.ruoyi.detection.domain.agriCitySampleTestDetails;
 import com.ruoyi.detection.domain.agriOut2CitySampleTestDetails;
 import com.ruoyi.detection.domain.agriOutCitySampleTestDetails;
@@ -29,7 +30,7 @@ public interface IagriCitySampleTestDetailsService
      * @param agriCitySampleTestDetails 各市样品检测结果详细
      * @return 各市样品检测结果详细集合
      */
-    public List<agriCitySampleTestDetails> selectagriCitySampleTestDetailsList(agriCitySampleTestDetails agriCitySampleTestDetails);
+    public List<agriCitySampleTestDetails> selectagriCitySampleTestDetailsList(agriCitySampleTestDetails agriCitySampleTestDetails, AddressUse addressUse);
 
     /**
      * 新增各市样品检测结果详细

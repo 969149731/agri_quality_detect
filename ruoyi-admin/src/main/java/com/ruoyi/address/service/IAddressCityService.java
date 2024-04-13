@@ -62,4 +62,7 @@ public interface IAddressCityService
 
     public List<AddressCity> findAddressCityByProvinceCode(String provinceCode);
 
+    public String selectCityNameByCityCode(String CityCode);
+
+
 }

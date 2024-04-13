@@ -95,4 +95,9 @@ public class AddressTownServiceImpl implements IAddressTownService
     public List<AddressTown> findAddressTownByCityCode(String cityCode) {
         return addressTownMapper.findAddressTownByCityCode(cityCode);
     }
+
+    @Override
+    public String selectTownNameByTownCode(String TownCode) {
+        return addressTownMapper.selectTownNameByTownCode(TownCode);
+    }
 }

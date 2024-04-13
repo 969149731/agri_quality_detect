@@ -27,7 +27,7 @@ import java.util.List;
  * @date 2024-04-10
  */
 @RestController
-@RequestMapping("detectInf")
+@RequestMapping("addressInf")
 public class AddressController extends BaseController
 {
     @Autowired
@@ -72,6 +72,7 @@ public class AddressController extends BaseController
     public List<AddressTown> findBycityCode(@PathVariable("cityCode") String cityCode){
         return townService.findAddressTownByCityCode(cityCode);
     }
+
 
 
 

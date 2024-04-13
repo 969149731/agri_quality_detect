@@ -63,4 +63,5 @@ public interface AddressProvinceMapper
     public List<AddressProvince> selectAllAddressProvinceList();
 
 
+    String selectProvinceNameByProvinceCode(String provinceCode);
 }

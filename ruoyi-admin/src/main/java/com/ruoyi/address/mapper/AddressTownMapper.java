@@ -62,4 +62,5 @@ public interface AddressTownMapper
     public List<AddressTown> findAddressTownByCityCode(String cityCode);
 
 
+    String selectTownNameByTownCode(String townCode);
 }

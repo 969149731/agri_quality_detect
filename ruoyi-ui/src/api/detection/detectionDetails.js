@@ -3,26 +3,30 @@ import axios from "axios";
 
 
 
-//级联查询
-export function AddressProvince() {
+//级联查询(抽样地点)
+export function samplingAddressProvince() {
   return request({
-    url: '/detectInf/address',
+    url: '/addressInf/address',
     method: 'get',
   })
 }
-export function findByprovinceCode(provinceCode) {
+export function findBySamplingProvinceCode(provinceCode) {
   return request({
-    url: '/detectInf/addressCity/'+provinceCode,
+    url: '/addressInf/addressCity/'+provinceCode,
     method: 'get'
   })
 }
 
-export function findBycityCode(cityCode) {
+export function findBySamplingCityCode(cityCode) {
   return request({
-    url: '/detectInf/addressTown/'+cityCode,
+    url: '/addressInf/addressTown/'+cityCode,
     method: 'get'
   })
 }
+
+
+
+
 
 
 

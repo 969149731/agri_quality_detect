@@ -69,26 +69,26 @@
       <el-form-item label="抽样地点">
       <template>
         <div>
-          <el-select v-model="provinceCode" placeholder="省份" @change="changeProvince">
+          <el-select v-model="queryParams.samplingProvinceCode" placeholder="省份" @change="changeSamplingProvince">
             <el-option
-              v-for="item in AddressProvince"
+              v-for="item in samplingAddressProvince"
               :key="item.code"
               :label="item.name"
               :value="item.code"
             ></el-option>
           </el-select>
 
-          <el-select v-model="cityCode" placeholder="城市"  @change="changeCity">
+          <el-select v-model="queryParams.samplingCityCode" placeholder="城市"  @change="changeSamplingCity">
             <el-option
-              v-for="item  in AddressCity"
+              v-for="item  in samplingAddressCity"
               :key="item.code"
               :label="item.name"
               :value="item.code"
             ></el-option>
           </el-select>
-          <el-select v-model="value" placeholder="区域">
+          <el-select v-model="queryParams.samplingTownCode" placeholder="区域">
             <el-option
-              v-for="item   in AddressTown"
+              v-for="item   in samplingAddressTown"
               :key="item.code"
               :label="item.name"
               :value="item.code"
@@ -450,24 +450,28 @@ import {
   delDetectionDetails,
   addDetectionDetails,
   updateDetectionDetails,
-  AddressProvince,
-  findByprovinceCode, findBycityCode
+
+  samplingAddressProvince,
+  findBySamplingProvinceCode,
+  findBySamplingCityCode,
+
 } from "@/api/detection/detectionDetails";
 import { getToken } from "@/utils/auth";
 import {listUser} from "@/api/system/user";
 import axios from "axios";
+import log from "@/views/monitor/job/log.vue";
 
 export default {
   name: "DetectionDetails",
   dicts: ['pass_or_not'],
   data() {
     return {
-      AddressCity: [],//城市集合
-      AddressProvince: [],//省份集合
-      AddressTown: [],//区域集合
-      provinceCode: '',//获取选中时的省份编号
-      cityCode: '',//获取选中时的城市编号
-      value: '',//获取选中时区域的编号
+      samplingAddressProvince: [],//省份集合
+      samplingAddressCity: [],//城市集合
+      samplingAddressTown: [],//区域集合
+      samplingProvinceCode: '',//获取选中时的省份编号
+      samplingCityCode: '',//获取选中时的城市编号
+      samplingTownCode: '',//获取选中时区域的编号
 
       // 遮罩层
       loading: true,
@@ -512,6 +516,16 @@ export default {
         samplingLocationProvince:null,
         samplingLocationCity:null,
         samplingLocationCounty:null,
+
+
+
+        // provinceCode:"450000",
+        // cityCode:null,
+        // townCode:null,
+        samplingProvinceCode:"450000",
+        samplingCityCode:null,
+        samplingTownCode:null,
+
       },
         // 数据导入参数
       upload: {
@@ -540,56 +554,63 @@ export default {
     this.getList();
   },
 
-  watch: {//监控一个值的变换
-    provinceCode: { //
-      handler () {
-        //在选中省份发生变化时，清空后方城市和区域集合的值，和绑定编号的值，
-        //重新查询对应选中编号的城市和区域值
-        this.AddressCity = [];
-        this.AddressTown = [];
-        this.cityCode = "";
-        this.value = "";
-      }
-    },
-    cityCode: { //
-      handler () {
-        //在选中城市发生变化时，清空后方区域集合的值，和绑定编号的值，
-        //重新查询对应选中编号的区域值
-        this.AddressTown = [];
-        this.value = "";
-      }
-    }
-  },
-
-
   methods: {
-    init ()
+    // 原来的写法，不会初始化省份数据后，根据默认省份代码加载城市
+    // init ()
+    // {
+    //   AddressProvince().then((res)=>{
+    //     this.AddressProvince = res
+    //     console.log(res)
+    //     // console.log(this.AddressProvince)
+    //   })
+    // },
+    // changeProvince(val){
+    //   findByprovinceCode(val).then((res)=>{
+    //     this.AddressCity = res
+    //   })
+    // },
+    //
+    // changeCity(val){
+    //   findBycityCode(val).then((res)=>{
+    //     this.AddressTown = res
+    //   })
+    // },
+
+    init()
     {
-      AddressProvince().then((res)=>{
-        this.AddressProvince = res
+      samplingAddressProvince().then((res) => {
+        this.samplingAddressProvince = res;
         console.log(res)
-        // console.log(this.AddressProvince)
-      })
-    },
-    changeProvince(val){
-      findByprovinceCode(val).then((res)=>{
-        this.AddressCity = res
-      })
+        // 初始化省份数据后，根据默认省份代码加载城市
+        if (this.queryParams.samplingProvinceCode) {
+          this.changeSamplingProvince(this.queryParams.samplingProvinceCode);
+        }
+      });
     },
 
-    changeCity(val){
-      findBycityCode(val).then((res)=>{
-        this.AddressTown = res
-      })
+    changeSamplingProvince(val) {
+      findBySamplingProvinceCode(val).then((res) => {
+        this.samplingAddressCity = res;
+        // 清空之前选中的城市和区域信息
+        this.queryParams.samplingCityCode = '';
+        this.queryParams.samplingTownCode = '';
+      });
     },
-
+    changeSamplingCity(val) {
+      findBySamplingCityCode(val).then((res) => {
+        this.samplingAddressTown = res;
+        // 清空之前选中的区域信息
+        this.queryParams.samplingTownCode = '';
+      });
+    },
 
 
 
     /** 查询各市样品检测结果详细列表 */
     getList() {
       this.loading = true;
-      listDetectionDetails(this.addDateRange(this.queryParams, this.dateRange)).then(response => {
+      listDetectionDetails(this.addDateRange(this.queryParams, this.dateRange))
+        .then(response => {
         this.detectionDetailsList = response.rows;
         this.total = response.total;
         this.loading = false;
@@ -656,7 +677,7 @@ export default {
       const citySampleTestDetailsId = row.citySampleTestDetailsId || this.ids
       getDetectionDetails(citySampleTestDetailsId).then(response => {
         this.form = response.data;
-        console.log(response.data)
+        // console.log(response.data)
         this.agriPesticideDetResultList = response.data.agriPesticideDetResultList;
         this.open = true;
         this.title = "修改各市样品检测结果详细";
