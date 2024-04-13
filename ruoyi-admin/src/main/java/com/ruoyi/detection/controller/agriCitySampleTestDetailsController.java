@@ -7,6 +7,11 @@ import javax.servlet.http.HttpServletResponse;
 import cn.afterturn.easypoi.excel.ExcelImportUtil;
 import cn.afterturn.easypoi.excel.entity.ImportParams;
 import com.alibaba.fastjson2.JSON;
+import com.ruoyi.address.domain.AddressUse;
+import com.ruoyi.address.service.IAddressCityService;
+import com.ruoyi.address.service.IAddressProvinceService;
+import com.ruoyi.address.service.IAddressTownService;
+import com.ruoyi.address.service.impl.AddressProvinceServiceImpl;
 import com.ruoyi.detection.domain.agriOut2CitySampleTestDetails;
 import com.ruoyi.detection.domain.agriOutCitySampleTestDetails;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -41,6 +46,12 @@ public class agriCitySampleTestDetailsController extends BaseController
 {
     @Autowired
     private IagriCitySampleTestDetailsService agriCitySampleTestDetailsService;
+    @Autowired
+    private IAddressProvinceService addressProvinceService;
+    @Autowired
+    private IAddressCityService addressCityService;
+    @Autowired
+    private IAddressTownService addressTownService;
 
 
 //    改需求前用的导入
@@ -90,11 +101,19 @@ public class agriCitySampleTestDetailsController extends BaseController
      */
     @PreAuthorize("@ss.hasPermi('detection:detectionDetails:list')")
     @GetMapping("/list")
-    public TableDataInfo list(agriCitySampleTestDetails agriCitySampleTestDetails,String provinceCode,String cityCode,String townCode)
+    public TableDataInfo list(agriCitySampleTestDetails agriCitySampleTestDetails, AddressUse addressUse)
     {
         startPage();
-        List<agriCitySampleTestDetails> list = agriCitySampleTestDetailsService.selectagriCitySampleTestDetailsList(agriCitySampleTestDetails);
-        System.out.println("看看"+provinceCode+cityCode+townCode);
+
+//        String samplingProvinceName = addressProvinceService.selectProvinceNameByProvinceCode(addressUse.getSamplingProvinceCode());
+//        String samplingCityName = addressCityService.selectCityNameByCityCode(addressUse.getSamplingCityCode());
+//        String samplingTownName = addressTownService.selectTownNameByTownCode(addressUse.getSamplingTownCode());
+//
+//        agriCitySampleTestDetails.setSamplingLocationProvince(samplingProvinceName);
+//        agriCitySampleTestDetails.setSamplingLocationCity(samplingCityName);
+//        agriCitySampleTestDetails.setSamplingLocationCounty(samplingTownName);
+
+        List<agriCitySampleTestDetails> list = agriCitySampleTestDetailsService.selectagriCitySampleTestDetailsList(agriCitySampleTestDetails,addressUse);
         return getDataTable(list);
     }
 
@@ -104,9 +123,10 @@ public class agriCitySampleTestDetailsController extends BaseController
     @PreAuthorize("@ss.hasPermi('detection:detectionDetails:export')")
     @Log(title = "各市样品检测结果详细", businessType = BusinessType.EXPORT)
     @PostMapping("/export")
-    public void export(HttpServletResponse response, agriCitySampleTestDetails agriCitySampleTestDetails)
+    public void export(HttpServletResponse response, agriCitySampleTestDetails agriCitySampleTestDetails, AddressUse addressUse)
     {
-        List<agriCitySampleTestDetails> list = agriCitySampleTestDetailsService.selectagriCitySampleTestDetailsList(agriCitySampleTestDetails);
+
+        List<agriCitySampleTestDetails> list = agriCitySampleTestDetailsService.selectagriCitySampleTestDetailsList(agriCitySampleTestDetails,addressUse);
         ExcelUtil<agriCitySampleTestDetails> util = new ExcelUtil<agriCitySampleTestDetails>(agriCitySampleTestDetails.class);
         util.exportExcel(response, list, "各市样品检测结果详细数据");
     }

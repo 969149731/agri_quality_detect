@@ -95,4 +95,9 @@ public class AddressCityServiceImpl implements IAddressCityService
     public List<AddressCity> findAddressCityByProvinceCode(String provinceCode) {
         return addressCityMapper.findAddressCityByProvinceCode(provinceCode);
     }
+
+    @Override
+    public String selectCityNameByCityCode(String CityCode) {
+        return addressCityMapper.selectCityNameByCityCode(CityCode);
+    }
 }

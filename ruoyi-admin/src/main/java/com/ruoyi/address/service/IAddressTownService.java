@@ -62,4 +62,8 @@ public interface IAddressTownService
 
     public List<AddressTown> findAddressTownByCityCode(String cityCode);
 
+
+    public String selectTownNameByTownCode(String TownCode);
+
+
 }

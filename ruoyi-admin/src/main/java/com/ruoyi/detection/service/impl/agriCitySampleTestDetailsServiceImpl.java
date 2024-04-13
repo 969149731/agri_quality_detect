@@ -4,6 +4,10 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 
 import cn.afterturn.easypoi.excel.entity.ImportParams;
+import com.ruoyi.address.domain.AddressUse;
+import com.ruoyi.address.service.IAddressCityService;
+import com.ruoyi.address.service.IAddressProvinceService;
+import com.ruoyi.address.service.IAddressTownService;
 import com.ruoyi.common.exception.ServiceException;
 import com.ruoyi.detection.domain.agriOut2CitySampleTestDetails;
 import com.ruoyi.detection.domain.agriOutCitySampleTestDetails;
@@ -43,6 +47,14 @@ public class agriCitySampleTestDetailsServiceImpl implements IagriCitySampleTest
     @Autowired
     protected Validator validator;
 
+    @Autowired
+    private IAddressProvinceService addressProvinceService;
+    @Autowired
+    private IAddressCityService addressCityService;
+    @Autowired
+    private IAddressTownService addressTownService;
+
+
     /**
      * 查询各市样品检测结果详细
      * 
@@ -62,8 +74,16 @@ public class agriCitySampleTestDetailsServiceImpl implements IagriCitySampleTest
      * @return 各市样品检测结果详细
      */
     @Override
-    public List<agriCitySampleTestDetails> selectagriCitySampleTestDetailsList(agriCitySampleTestDetails agriCitySampleTestDetails)
+    public List<agriCitySampleTestDetails> selectagriCitySampleTestDetailsList(agriCitySampleTestDetails agriCitySampleTestDetails, AddressUse addressUse)
     {
+        String samplingProvinceName = addressProvinceService.selectProvinceNameByProvinceCode(addressUse.getSamplingProvinceCode());
+        String samplingCityName = addressCityService.selectCityNameByCityCode(addressUse.getSamplingCityCode());
+        String samplingTownName = addressTownService.selectTownNameByTownCode(addressUse.getSamplingTownCode());
+
+        agriCitySampleTestDetails.setSamplingLocationProvince(samplingProvinceName);
+        agriCitySampleTestDetails.setSamplingLocationCity(samplingCityName);
+        agriCitySampleTestDetails.setSamplingLocationCounty(samplingTownName);
+
         return agriCitySampleTestDetailsMapper.selectagriCitySampleTestDetailsList(agriCitySampleTestDetails);
     }
 

@@ -61,4 +61,6 @@ public interface IAddressProvinceService
 
     public List<AddressProvince> selectAllAddressProvinceList();
 
+    public String selectProvinceNameByProvinceCode(String ProvinceCode);
+
 }

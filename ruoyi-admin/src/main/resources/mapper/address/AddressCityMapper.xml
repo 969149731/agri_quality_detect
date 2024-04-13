@@ -68,4 +68,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         select id, code, name, provinceCode from t_address_city where provinceCode =#{provinceCode}
     </select>
 
+
+
+    <select id="selectCityNameByCityCode"  resultType="String">
+        select name from t_address_city Where code=#{cityCode}
+    </select>
+
 </mapper>

@@ -96,5 +96,10 @@ public class AddressProvinceServiceImpl implements IAddressProvinceService
         return addressProvinceMapper.selectAllAddressProvinceList();
     }
 
+    @Override
+    public String selectProvinceNameByProvinceCode(String ProvinceCode) {
+        return addressProvinceMapper.selectProvinceNameByProvinceCode(ProvinceCode);
+    }
+
 
 }

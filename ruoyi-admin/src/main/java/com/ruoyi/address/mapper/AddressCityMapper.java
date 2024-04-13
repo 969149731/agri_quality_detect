@@ -62,4 +62,5 @@ public interface AddressCityMapper
 
     public List<AddressCity> findAddressCityByProvinceCode(String provinceCode);
 
+    String selectCityNameByCityCode(String cityCode);
 }
