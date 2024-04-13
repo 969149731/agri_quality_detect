@@ -578,6 +578,11 @@ export default {
 
     init()
     {
+      this.queryParams.samplingLocationCounty='';
+      this.queryParams.samplingLocation=null;
+
+      this.queryParams.samplingLocationCity='';
+      this.queryParams.samplingCity=null;
       samplingAddressProvince().then((res) => {
         this.samplingAddressProvince = res;
         console.log(res)
@@ -585,8 +590,8 @@ export default {
         if (this.queryParams.samplingProvince.code) {
           let foundObject = this.samplingAddressProvince.find(obj => (obj.code===this.queryParams.samplingProvince.code));//找到对应省份对象
           this.changeSamplingProvince(foundObject);
+          this.queryParams.samplingLocationProvince=foundObject.name;
         }
-
       });
     },
 
@@ -670,7 +675,10 @@ export default {
     resetQuery() {
       this.dateRange = [];
       this.resetForm("queryForm");
+      this.init();
       this.handleQuery();
+
+
     },
     // 多选框选中数据
     handleSelectionChange(selection) {
