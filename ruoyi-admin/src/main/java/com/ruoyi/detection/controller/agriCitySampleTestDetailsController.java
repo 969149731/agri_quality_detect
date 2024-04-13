@@ -101,19 +101,10 @@ public class agriCitySampleTestDetailsController extends BaseController
      */
     @PreAuthorize("@ss.hasPermi('detection:detectionDetails:list')")
     @GetMapping("/list")
-    public TableDataInfo list(agriCitySampleTestDetails agriCitySampleTestDetails, AddressUse addressUse)
+    public TableDataInfo list(agriCitySampleTestDetails agriCitySampleTestDetails)
     {
         startPage();
-        System.out.println("打印一下前端传来的paras"+agriCitySampleTestDetails.getParams().toString());
-//        String samplingProvinceName = addressProvinceService.selectProvinceNameByProvinceCode(addressUse.getSamplingProvinceCode());
-//        String samplingCityName = addressCityService.selectCityNameByCityCode(addressUse.getSamplingCityCode());
-//        String samplingTownName = addressTownService.selectTownNameByTownCode(addressUse.getSamplingTownCode());
-//
-//        agriCitySampleTestDetails.setSamplingLocationProvince(samplingProvinceName);
-//        agriCitySampleTestDetails.setSamplingLocationCity(samplingCityName);
-//        agriCitySampleTestDetails.setSamplingLocationCounty(samplingTownName);
-
-        List<agriCitySampleTestDetails> list = agriCitySampleTestDetailsService.selectagriCitySampleTestDetailsList(agriCitySampleTestDetails,addressUse);
+        List<agriCitySampleTestDetails> list = agriCitySampleTestDetailsService.selectagriCitySampleTestDetailsList(agriCitySampleTestDetails);
         return getDataTable(list);
     }
 
@@ -126,7 +117,7 @@ public class agriCitySampleTestDetailsController extends BaseController
     public void export(HttpServletResponse response, agriCitySampleTestDetails agriCitySampleTestDetails, AddressUse addressUse)
     {
 
-        List<agriCitySampleTestDetails> list = agriCitySampleTestDetailsService.selectagriCitySampleTestDetailsList(agriCitySampleTestDetails,addressUse);
+        List<agriCitySampleTestDetails> list = agriCitySampleTestDetailsService.selectagriCitySampleTestDetailsList(agriCitySampleTestDetails);
         ExcelUtil<agriCitySampleTestDetails> util = new ExcelUtil<agriCitySampleTestDetails>(agriCitySampleTestDetails.class);
         util.exportExcel(response, list, "各市样品检测结果详细数据");
     }

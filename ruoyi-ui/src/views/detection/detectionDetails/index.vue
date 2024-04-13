@@ -514,24 +514,18 @@ export default {
         usStandard: null,
         koreaStandard: null,
 
+        //对应到实体类的名字
         samplingLocationProvince:null,
         samplingLocationCity:null,
         samplingLocationCounty:null,
 
 
+        //装对象的（v-model下拉框对象）
         samplingProvince: {code:"450000",name:"广西壮族自治区"},
         samplingCity:null,
         samplingTown:null,
-        // provinceCode:"450000",
-        // cityCode:null,
-        // townCode:null,
-        samplingProvinceCode:"450000",
-        samplingCityCode:null,
-        samplingTownCode:null,
 
-        samplingProvinceName:null,
-        samplingCityName:null,
-        samplingTownName:null,
+
       },
         // 数据导入参数
       upload: {
@@ -588,11 +582,8 @@ export default {
         this.samplingAddressProvince = res;
         console.log(res)
         //初始化省份数据后，根据默认省份代码加载城市
-        if (this.queryParams.samplingProvinceCode) {
-          let foundObject = this.samplingAddressProvince.find(obj => (obj.code===this.queryParams.samplingProvinceCode));//找到对应省份对象
-          // this.$set(this.samplingProvince,foundObject);
-          console.log("foundObject",foundObject)
-          console.log("this.samplingProvince",this.samplingProvince)
+        if (this.queryParams.samplingProvince.code) {
+          let foundObject = this.samplingAddressProvince.find(obj => (obj.code===this.queryParams.samplingProvince.code));//找到对应省份对象
           this.changeSamplingProvince(foundObject);
         }
 
@@ -606,14 +597,11 @@ export default {
         this.queryParams.samplingCity = '';
         this.queryParams.samplingTown = '';
         //下级表单清空
-        this.queryParams.samplingCityCode=null;
-        this.queryParams.samplingCityName=null;
-        this.queryParams.samplingTownCode=null;
-        this.queryParams.samplingTownName=null;
+        this.queryParams.samplingLocationCity=null;
+        this.queryParams.samplingTown=null;
       });
       //表单数据填充
-      this.queryParams.samplingProvinceCode=val.code;
-      this.queryParams.samplingProvinceName=val.name;
+      this.queryParams.samplingLocationProvince=val.name;
     },
     changeSamplingCity(val) {
       findBySamplingCityCode(val.code).then((res) => {
@@ -621,17 +609,14 @@ export default {
         // 清空之前选中的区域信息
         this.queryParams.samplingTown = null;
         //下级表单清空
-        this.queryParams.samplingTownCode=null;
-        this.queryParams.samplingTownName=null;
+        this.queryParams.samplingLocationCounty=null;
       });
       //表单数据填充
-      this.queryParams.samplingCityCode=val.code;
-      this.queryParams.samplingCityName=val.name;
+      this.queryParams.samplingLocationCity=val.name;
     },
     changeSamplingTown(val){
       //表单数据填充
-      this.queryParams.samplingTownCode=val.code;
-      this.queryParams.samplingTownName=val.name;
+      this.queryParams.samplingLocationCounty=val.name;
     },
 
 

@@ -27,6 +27,7 @@ import com.ruoyi.detection.service.IagriCitySampleTestDetailsService;
 
 import javax.validation.Validator;
 
+import static com.ruoyi.common.utils.PageUtils.startPage;
 import static com.ruoyi.framework.datasource.DynamicDataSourceContextHolder.log;
 
 /**
@@ -74,16 +75,10 @@ public class agriCitySampleTestDetailsServiceImpl implements IagriCitySampleTest
      * @return 各市样品检测结果详细
      */
     @Override
-    public List<agriCitySampleTestDetails> selectagriCitySampleTestDetailsList(agriCitySampleTestDetails agriCitySampleTestDetails, AddressUse addressUse)
+    public List<agriCitySampleTestDetails> selectagriCitySampleTestDetailsList(agriCitySampleTestDetails agriCitySampleTestDetails)
     {
-        String samplingProvinceName = addressProvinceService.selectProvinceNameByProvinceCode(addressUse.getSamplingProvinceCode());
-        String samplingCityName = addressCityService.selectCityNameByCityCode(addressUse.getSamplingCityCode());
-        String samplingTownName = addressTownService.selectTownNameByTownCode(addressUse.getSamplingTownCode());
 
-        agriCitySampleTestDetails.setSamplingLocationProvince(samplingProvinceName);
-        agriCitySampleTestDetails.setSamplingLocationCity(samplingCityName);
-        agriCitySampleTestDetails.setSamplingLocationCounty(samplingTownName);
-
+//        startPage();
         return agriCitySampleTestDetailsMapper.selectagriCitySampleTestDetailsList(agriCitySampleTestDetails);
     }
 

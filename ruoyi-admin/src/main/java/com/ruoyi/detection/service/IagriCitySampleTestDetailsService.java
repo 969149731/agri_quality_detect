@@ -30,7 +30,7 @@ public interface IagriCitySampleTestDetailsService
      * @param agriCitySampleTestDetails 各市样品检测结果详细
      * @return 各市样品检测结果详细集合
      */
-    public List<agriCitySampleTestDetails> selectagriCitySampleTestDetailsList(agriCitySampleTestDetails agriCitySampleTestDetails, AddressUse addressUse);
+    public List<agriCitySampleTestDetails> selectagriCitySampleTestDetailsList(agriCitySampleTestDetails agriCitySampleTestDetails);
 
     /**
      * 新增各市样品检测结果详细
