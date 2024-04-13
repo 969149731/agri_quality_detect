@@ -84,9 +84,13 @@ public class outFruVegQualificationServiceImpl implements IoutFruVegQualificatio
               createdAt=<null>
             */
             //获取蔬菜名//用于获取标准
+            try{
             if(item.detailType ==null){//必要条件不足，无法进行
                 System.out.println("当前检测样本信息不足 缺少蔬菜水果子类 如柑橘类"+" 当前："+item.detailType+" 样品编号:"+item.sampleCode);
                 continue;}
+//            if(resultMap.get(item.detailType)==null){
+//                System.out.println("当前检测样本信息不足 缺少蔬菜水果子类 如柑橘类"+" 当前："+item.detailType+" 样品编号:"+item.sampleCode);
+//                continue;}
             if(item.pesticideName==null && item.pesticideDetValue==null){//无农药检出，必定合格
                 if("其它类".equals(item.detailType)){item.detailType=item.vegFruType+item.detailType;}
                 System.out.println(item.detailType);
@@ -94,42 +98,47 @@ public class outFruVegQualificationServiceImpl implements IoutFruVegQualificatio
                 resultMap.get(item.detailType).addOneToPassNumber();//该类型合格数+1
                 System.out.println("当前检测样本无农药检出"+" 样品编号:"+item.sampleCode);
                 continue;}
-            String vegFruName = item.vegFruName;
-            String vegFruDetailType = item.detailType;if("其他类".equals(vegFruDetailType)){vegFruDetailType=item.vegFruType+vegFruDetailType;}
-            String pesticideName = item.pesticideName;
-            String stageName = item.samplingStageType;
-            agriPesticideResidueStandard firstStandard;
 
-            if (!isDataUseful(item)){
-                String msg = "<br/>" + "第"+ item.citySampleTestDetailsId +"条"+ "数据无法判断";
-                failureMsg.append(msg);
-                log.error(msg);
-                continue;//没通过数据可用审查，跳过当前的检测条目
-            }
+                String vegFruName = item.vegFruName;
+                String vegFruDetailType = item.detailType;if("其他类".equals(vegFruDetailType)){vegFruDetailType=item.vegFruType+vegFruDetailType;}
+                String pesticideName = item.pesticideName;
+                String stageName = item.samplingStageType;
+                agriPesticideResidueStandard firstStandard;
 
-            //获取对应标准//在这里可以获取多种标准
-            PageHelper.startPage(0,0,false,false,true);//分页方法，仅对之后第一个查询生效
-            List<agriPesticideResidueStandard> standardslist = outFruVegQualificationMapper.getagriPesticideResidueStandard(pesticideName, vegFruName);
-
-            if(!standardslist.isEmpty()){
-                firstStandard = standardslist.get(0);
-            }else {
-                String msg ="没有对应标准"+"/r/n蔬果名:"+vegFruName+"/n农药名:"+pesticideName;
-                failureMsg.append(msg);
-                log.error(msg);
-                continue;
-            }
-            if(resultMap.get(vegFruDetailType)!=null){//在检测的列表中
-                resultMap.get(vegFruDetailType).addOneToSamplingNumber(); //该类型抽样数+1
-                //超标记录
-                if (item.pesticideDetValue > firstStandard.standardValue) {//此处先仅对比第一个标准值
-                    System.out.println("超标记录");
-                    resultMap.get(vegFruDetailType).addInfoToexceedingSamples(item.vegFruName);//将超标样品写入格式如 空心菜（1）
-                    resultMap.get(vegFruDetailType).addInfoToexceedingPesticides(item.pesticideName);//超标农药写入
-                }else {
-                    resultMap.get(vegFruDetailType).addOneToPassNumber(); //该类型合格数数+1
+                if (!isDataUseful(item)){
+                    String msg = "<br/>" + "第"+ item.citySampleTestDetailsId +"条"+ "数据无法判断";
+                    failureMsg.append(msg);
+                    log.error(msg);
+                    continue;//没通过数据可用审查，跳过当前的检测条目
                 }
+
+                //获取对应标准//在这里可以获取多种标准
+                PageHelper.startPage(0,0,false,false,true);//分页方法，仅对之后第一个查询生效
+                List<agriPesticideResidueStandard> standardslist = outFruVegQualificationMapper.getagriPesticideResidueStandard(pesticideName, vegFruName);
+
+                if(!standardslist.isEmpty()){
+                    firstStandard = standardslist.get(0);
+                }else {
+                    String msg ="没有对应标准"+"/r/n蔬果名:"+vegFruName+"/n农药名:"+pesticideName;
+                    failureMsg.append(msg);
+                    log.error(msg);
+                    continue;
+                }
+                if(resultMap.get(vegFruDetailType)!=null){//在检测的列表中
+                    resultMap.get(vegFruDetailType).addOneToSamplingNumber(); //该类型抽样数+1
+                    //超标记录
+                    if (item.pesticideDetValue > firstStandard.standardValue) {//此处先仅对比第一个标准值
+                        System.out.println("超标记录");
+                        resultMap.get(vegFruDetailType).addInfoToexceedingSamples(item.vegFruName);//将超标样品写入格式如 空心菜（1）
+                        resultMap.get(vegFruDetailType).addInfoToexceedingPesticides(item.pesticideName);//超标农药写入
+                    }else {
+                        resultMap.get(vegFruDetailType).addOneToPassNumber(); //该类型合格数数+1
+                    }
+                }
+            }catch (Exception E){
+                System.out.println("捕获异常");
             }
+
         }
 
         //合计计算和比例计算

@@ -104,7 +104,7 @@ public class agriCitySampleTestDetailsController extends BaseController
     public TableDataInfo list(agriCitySampleTestDetails agriCitySampleTestDetails, AddressUse addressUse)
     {
         startPage();
-
+        System.out.println("打印一下前端传来的paras"+agriCitySampleTestDetails.getParams().toString());
 //        String samplingProvinceName = addressProvinceService.selectProvinceNameByProvinceCode(addressUse.getSamplingProvinceCode());
 //        String samplingCityName = addressCityService.selectCityNameByCityCode(addressUse.getSamplingCityCode());
 //        String samplingTownName = addressTownService.selectTownNameByTownCode(addressUse.getSamplingTownCode());

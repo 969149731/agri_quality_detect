@@ -69,29 +69,29 @@
       <el-form-item label="抽样地点">
       <template>
         <div>
-          <el-select v-model="queryParams.samplingProvinceCode" placeholder="省份" @change="changeSamplingProvince">
+          <el-select v-model="queryParams.samplingProvince" placeholder="省份" value-key="code" @change="changeSamplingProvince">
             <el-option
               v-for="item in samplingAddressProvince"
               :key="item.code"
               :label="item.name"
-              :value="item.code"
+              :value="item"
             ></el-option>
           </el-select>
 
-          <el-select v-model="queryParams.samplingCityCode" placeholder="城市"  @change="changeSamplingCity">
+          <el-select v-model="queryParams.samplingCity" placeholder="城市" value-key="code"  @change="changeSamplingCity">
             <el-option
               v-for="item  in samplingAddressCity"
               :key="item.code"
               :label="item.name"
-              :value="item.code"
+              :value="item"
             ></el-option>
           </el-select>
-          <el-select v-model="queryParams.samplingTownCode" placeholder="区域">
+          <el-select v-model="queryParams.samplingTown" placeholder="区域" value-key="code" @change="changeSamplingTown">
             <el-option
               v-for="item   in samplingAddressTown"
               :key="item.code"
               :label="item.name"
-              :value="item.code"
+              :value="item"
             ></el-option>
           </el-select>
         </div>
@@ -513,12 +513,15 @@ export default {
         euStandard: null,
         usStandard: null,
         koreaStandard: null,
+
         samplingLocationProvince:null,
         samplingLocationCity:null,
         samplingLocationCounty:null,
 
 
-
+        samplingProvince: {code:"450000",name:"广西壮族自治区"},
+        samplingCity:null,
+        samplingTown:null,
         // provinceCode:"450000",
         // cityCode:null,
         // townCode:null,
@@ -526,6 +529,9 @@ export default {
         samplingCityCode:null,
         samplingTownCode:null,
 
+        samplingProvinceName:null,
+        samplingCityName:null,
+        samplingTownName:null,
       },
         // 数据导入参数
       upload: {
@@ -581,34 +587,58 @@ export default {
       samplingAddressProvince().then((res) => {
         this.samplingAddressProvince = res;
         console.log(res)
-        // 初始化省份数据后，根据默认省份代码加载城市
+        //初始化省份数据后，根据默认省份代码加载城市
         if (this.queryParams.samplingProvinceCode) {
-          this.changeSamplingProvince(this.queryParams.samplingProvinceCode);
+          let foundObject = this.samplingAddressProvince.find(obj => (obj.code===this.queryParams.samplingProvinceCode));//找到对应省份对象
+          // this.$set(this.samplingProvince,foundObject);
+          console.log("foundObject",foundObject)
+          console.log("this.samplingProvince",this.samplingProvince)
+          this.changeSamplingProvince(foundObject);
         }
+
       });
     },
 
     changeSamplingProvince(val) {
-      findBySamplingProvinceCode(val).then((res) => {
+      findBySamplingProvinceCode(val.code).then((res) => {
         this.samplingAddressCity = res;
         // 清空之前选中的城市和区域信息
-        this.queryParams.samplingCityCode = '';
-        this.queryParams.samplingTownCode = '';
+        this.queryParams.samplingCity = '';
+        this.queryParams.samplingTown = '';
+        //下级表单清空
+        this.queryParams.samplingCityCode=null;
+        this.queryParams.samplingCityName=null;
+        this.queryParams.samplingTownCode=null;
+        this.queryParams.samplingTownName=null;
       });
+      //表单数据填充
+      this.queryParams.samplingProvinceCode=val.code;
+      this.queryParams.samplingProvinceName=val.name;
     },
     changeSamplingCity(val) {
-      findBySamplingCityCode(val).then((res) => {
+      findBySamplingCityCode(val.code).then((res) => {
         this.samplingAddressTown = res;
         // 清空之前选中的区域信息
-        this.queryParams.samplingTownCode = '';
+        this.queryParams.samplingTown = null;
+        //下级表单清空
+        this.queryParams.samplingTownCode=null;
+        this.queryParams.samplingTownName=null;
       });
+      //表单数据填充
+      this.queryParams.samplingCityCode=val.code;
+      this.queryParams.samplingCityName=val.name;
     },
-
+    changeSamplingTown(val){
+      //表单数据填充
+      this.queryParams.samplingTownCode=val.code;
+      this.queryParams.samplingTownName=val.name;
+    },
 
 
     /** 查询各市样品检测结果详细列表 */
     getList() {
       this.loading = true;
+      console.log("打印一下this.queryParams",this.queryParams);
       listDetectionDetails(this.addDateRange(this.queryParams, this.dateRange))
         .then(response => {
         this.detectionDetailsList = response.rows;

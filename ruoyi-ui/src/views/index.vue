@@ -173,7 +173,6 @@ export default {
           value: 1200,
           icon: 'success',
           color: '#2ec7c9',
-
         },
         {
           name: '定性监测',
