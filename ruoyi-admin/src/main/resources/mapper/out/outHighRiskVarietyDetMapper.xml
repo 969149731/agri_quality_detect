@@ -174,6 +174,18 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="params.endTime != null and params.endTime != ''">
                 AND date_format(a.sampling_date,'%y%m%d') &lt;= date_format(#{params.endTime},'%y%m%d')
             </if>
+
+            <if test="samplingLocationProvince != null  and samplingLocationProvince != ''"> and sampling_location_province = #{samplingLocationProvince}</if>
+            <if test="samplingLocationCity != null  and samplingLocationCity != ''"> and sampling_location_city = #{samplingLocationCity}</if>
+            <if test="samplingLocationCounty != null  and samplingLocationCounty != ''"> and sampling_location_county = #{samplingLocationCounty}</if>
+            <if test="enterpriseAttribute != null  and enterpriseAttribute != ''"> and enterprise_attribute = #{enterpriseAttribute}</if>
+            <if test="enterpriseCreditIdCode != null  and enterpriseCreditIdCode != ''"> and enterprise_credit_id_code = #{enterpriseCreditIdCode}</if>
+            <if test="tracingProvince != null  and tracingProvince != ''"> and tracing_province = #{tracingProvince}</if>
+            <if test="tracingCity != null  and tracingCity != ''"> and tracing_city = #{tracingCity}</if>
+            <if test="tracingCounty != null  and tracingCounty != ''"> and tracing_county = #{tracingCounty}</if>
+            <if test="tracingArea != null  and tracingArea != ''"> and tracing_area = #{tracingArea}</if>
+
+
         </where>
         GROUP BY
         a.detect_location, a.veg_fru_name

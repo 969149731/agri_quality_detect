@@ -1,5 +1,31 @@
 import request from '@/utils/request'
 
+
+
+
+//级联查询(抽样地点)
+export function samplingAddressProvince() {
+  return request({
+    url: '/addressInf/address',
+    method: 'get',
+  })
+}
+export function findBySamplingProvinceCode(provinceCode) {
+  return request({
+    url: '/addressInf/addressCity/'+provinceCode,
+    method: 'get'
+  })
+}
+
+export function findBySamplingCityCode(cityCode) {
+  return request({
+    url: '/addressInf/addressTown/'+cityCode,
+    method: 'get'
+  })
+}
+////////////////////////////////////////////////
+
+
 // 查询超标蔬菜水果样品明细列表
 export function listOutExceedSampleDetail(query) {
   return request({

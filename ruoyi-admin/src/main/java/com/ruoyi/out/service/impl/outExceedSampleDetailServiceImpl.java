@@ -124,15 +124,15 @@ public class outExceedSampleDetailServiceImpl implements IoutExceedSampleDetailS
                 System.out.println("注意！请在农药残留字典表中添加如下字典。【农药名字：["
                         + pesticideName + "],蔬菜名字：[" + vegFruName + "],标准：[" + standardCategory + "]】");
                 //因为limitValue是==null的，说明没有该字典，先尝试用 用户上传的中国标准的数据进行农药是否超标的判断
-//                String chinaStandard = sample.getChinaStandard();
-//                if (chinaStandard != null) {
-//                    if (chinaStandard == "合格") {
-//                        return true;
-//                    }
-//                    if (chinaStandard == "不合格") {
-//                        return false;
-//                    }
-//                }
+                String chinaStandard = sample.getChinaStandard();
+                if (chinaStandard != null) {
+                    if (chinaStandard.equals("合格")) {
+                        return true;
+                    }
+                    if (chinaStandard.equals("不合格")) {
+                        return false;
+                    }
+                }
             }
             if (pesticideDetValue == null) {
                 pesticideDetValue=0.0;//设为不超标
