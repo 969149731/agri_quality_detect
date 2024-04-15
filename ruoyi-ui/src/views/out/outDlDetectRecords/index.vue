@@ -1,14 +1,14 @@
 <template>
   <div class="app-container">
     <el-form :model="queryParams" ref="queryForm" size="small" :inline="true" v-show="showSearch" label-width="68px">
-      <el-form-item label="抽样地点" prop="samplingLocation">
-        <el-input
-          v-model="queryParams.samplingLocation"
-          placeholder="请输入抽样地点"
-          clearable
-          @keyup.enter.native="handleQuery"
-        />
-      </el-form-item>
+<!--      <el-form-item label="抽样地点" prop="samplingLocation">-->
+<!--        <el-input-->
+<!--          v-model="queryParams.samplingLocation"-->
+<!--          placeholder="请输入抽样地点"-->
+<!--          clearable-->
+<!--          @keyup.enter.native="handleQuery"-->
+<!--        />-->
+<!--      </el-form-item>-->
       <!--      <el-form-item label="抽样日期" prop="samplingDate">-->
       <!--        <el-date-picker clearable-->
       <!--          v-model="queryParams.samplingDate"-->
