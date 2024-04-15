@@ -8,37 +8,25 @@ export function listOutSampleQuality(query) {
     params: query
   })
 }
-
-// 查询各抽样环节合格率情况详细
-export function getOutSampleQuality(sampleQualityId) {
+///////////////////////////////////////////
+//级联查询(抽样地点)
+export function samplingAddressProvince() {
   return request({
-    url: '/out/outSampleQuality/' + sampleQualityId,
+    url: '/addressInf/address',
+    method: 'get',
+  })
+}
+export function findBySamplingProvinceCode(provinceCode) {
+  return request({
+    url: '/addressInf/addressCity/'+provinceCode,
     method: 'get'
   })
 }
 
-// 新增各抽样环节合格率情况
-export function addOutSampleQuality(data) {
+export function findBySamplingCityCode(cityCode) {
   return request({
-    url: '/out/outSampleQuality',
-    method: 'post',
-    data: data
+    url: '/addressInf/addressTown/'+cityCode,
+    method: 'get'
   })
 }
-
-// 修改各抽样环节合格率情况
-export function updateOutSampleQuality(data) {
-  return request({
-    url: '/out/outSampleQuality',
-    method: 'put',
-    data: data
-  })
-}
-
-// 删除各抽样环节合格率情况
-export function delOutSampleQuality(sampleQualityId) {
-  return request({
-    url: '/out/outSampleQuality/' + sampleQualityId,
-    method: 'delete'
-  })
-}
+////////////////////////////////////////////////

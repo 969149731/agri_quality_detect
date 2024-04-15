@@ -4,7 +4,6 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 import java.net.URLEncoder;
-import java.sql.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -12,27 +11,19 @@ import javax.servlet.http.HttpServletResponse;
 
 import cn.afterturn.easypoi.excel.ExcelExportUtil;
 import cn.afterturn.easypoi.excel.entity.TemplateExportParams;
-import com.ruoyi.framework.web.domain.server.Sys;
-import com.ruoyi.out.domain.outHighRiskVarietyDet;
+import com.ruoyi.detection.domain.agriCitySampleTestDetails;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.ss.util.CellRangeAddress;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import com.ruoyi.common.annotation.Log;
 import com.ruoyi.common.core.controller.BaseController;
-import com.ruoyi.common.core.domain.AjaxResult;
 import com.ruoyi.common.enums.BusinessType;
-import com.ruoyi.out.domain.outFruBanPesDetRecords;
-import com.ruoyi.out.service.IoutFruBanPesDetRecordsService;
-import com.ruoyi.common.utils.poi.ExcelUtil;
+import com.ruoyi.out.service.IoutFruPesDetRecordsService;
 import com.ruoyi.common.core.page.TableDataInfo;
 
 import com.ruoyi.out.domain.outReturnType;
@@ -48,17 +39,31 @@ import com.ruoyi.out.domain.outReturnType;
 public class outFruBanPesDetRecordsController extends BaseController
 {
     @Autowired
-    private IoutFruBanPesDetRecordsService outFruBanPesDetRecordsService;
+    private IoutFruPesDetRecordsService outFruBanPesDetRecordsService;
 
     /**
      * 查询水果禁用农药检出及超标情况列表
      */
     @PreAuthorize("@ss.hasPermi('out:outFruBanPesDetRecords:list')")
     @GetMapping("/list")
-    public TableDataInfo list(outFruBanPesDetRecords outFruBanPesDetRecords)
+    public TableDataInfo list(agriCitySampleTestDetails agriCitySampleTestDetails, Integer year, Integer season)
     {
         startPage();
-        List<outFruBanPesDetRecords> list = outFruBanPesDetRecordsService.selectoutFruBanPesDetRecordsList(outFruBanPesDetRecords);
+//        int month1 = 0;
+//        int month2 = 0;
+//        int month3 = 0;
+//        if(season==1){
+//            month1 = 1;month2 = 2;month3 = 3;
+//        }else if(season==2){
+//            month1 = 4;month2 = 5;month3 = 6;
+//        }else if(season==3){
+//            month1 = 7;month2 = 8;month3 = 9;
+//        }else if(season==4){
+//            month1 = 10;month2 = 11;month3 = 12;
+//        }
+//        Date startDate=new Date(2022,month1,1);
+//        Date endDate=new Date(2022,month3,0);//获取月份最后一天
+        List<outReturnType> list = outFruBanPesDetRecordsService.selectoutFruBPesDetRecordsList(agriCitySampleTestDetails,"禁用");
         return getDataTable(list);
     }
 
@@ -68,14 +73,9 @@ public class outFruBanPesDetRecordsController extends BaseController
     @PreAuthorize("@ss.hasPermi('out:outFruBanPesDetRecords:export')")
     @Log(title = "水果禁用农药检出及超标情况", businessType = BusinessType.EXPORT)
     @PostMapping("/export")
-    public void export(HttpServletResponse response, outFruBanPesDetRecords outFruBanPesDetRecords)
+    public void export(HttpServletResponse response,agriCitySampleTestDetails agriCitySampleTestDetails)
     {
-//        List<outFruBanPesDetRecords> list = outFruBanPesDetRecordsService.selectoutFruBanPesDetRecordsList(outFruBanPesDetRecords);
-//        ExcelUtil<outFruBanPesDetRecords> util = new ExcelUtil<outFruBanPesDetRecords>(outFruBanPesDetRecords.class);
-//        util.exportExcel(response, list, "水果禁用农药检出及超标情况数据");
-        outReturnType outReturnTypeRecords=new outReturnType();
-        outReturnTypeRecords.setParams(outFruBanPesDetRecords.getParams());
-        List<outReturnType> list = outFruBanPesDetRecordsService.selectoutFruBanPesDetRecordsList2(outReturnTypeRecords);
+        List<outReturnType> list = outFruBanPesDetRecordsService.selectoutFruBPesDetRecordsList(agriCitySampleTestDetails,"禁用");
 
         TemplateExportParams params = new TemplateExportParams("excelOutTemplate/outFruBanPesDetRecords.xlsx");
         Map<String, Object> map = new HashMap<>();
@@ -116,72 +116,6 @@ public class outFruBanPesDetRecordsController extends BaseController
         } catch (Exception e) {
             e.printStackTrace();
         }
-    }
-
-    /**
-     * 获取水果禁用农药检出及超标情况详细信息
-     */
-    @PreAuthorize("@ss.hasPermi('out:outFruBanPesDetRecords:query')")
-    @GetMapping(value = "/{fruBanPesDetRecordsId}")
-    public AjaxResult getInfo(@PathVariable("fruBanPesDetRecordsId") Long fruBanPesDetRecordsId)
-    {
-        return success(outFruBanPesDetRecordsService.selectoutFruBanPesDetRecordsByFruBanPesDetRecordsId(fruBanPesDetRecordsId));
-    }
-
-    /**
-     * 新增水果禁用农药检出及超标情况
-     */
-    @PreAuthorize("@ss.hasPermi('out:outFruBanPesDetRecords:add')")
-    @Log(title = "水果禁用农药检出及超标情况", businessType = BusinessType.INSERT)
-    @PostMapping
-    public AjaxResult add(@RequestBody outFruBanPesDetRecords outFruBanPesDetRecords)
-    {
-        return toAjax(outFruBanPesDetRecordsService.insertoutFruBanPesDetRecords(outFruBanPesDetRecords));
-    }
-
-    /**
-     * 修改水果禁用农药检出及超标情况
-     */
-    @PreAuthorize("@ss.hasPermi('out:outFruBanPesDetRecords:edit')")
-    @Log(title = "水果禁用农药检出及超标情况", businessType = BusinessType.UPDATE)
-    @PutMapping
-    public AjaxResult edit(@RequestBody outFruBanPesDetRecords outFruBanPesDetRecords)
-    {
-        return toAjax(outFruBanPesDetRecordsService.updateoutFruBanPesDetRecords(outFruBanPesDetRecords));
-    }
-
-    /**
-     * 删除水果禁用农药检出及超标情况
-     */
-    @PreAuthorize("@ss.hasPermi('out:outFruBanPesDetRecords:remove')")
-    @Log(title = "水果禁用农药检出及超标情况", businessType = BusinessType.DELETE)
-	@DeleteMapping("/{fruBanPesDetRecordsIds}")
-    public AjaxResult remove(@PathVariable Long[] fruBanPesDetRecordsIds)
-    {
-        return toAjax(outFruBanPesDetRecordsService.deleteoutFruBanPesDetRecordsByFruBanPesDetRecordsIds(fruBanPesDetRecordsIds));
-    }
-
-    @PreAuthorize("@ss.hasPermi('out:outFruBanPesDetRecords:list')")
-    @GetMapping("/listNew")
-    public TableDataInfo listNew(outReturnType outReturnTypeRecords,Integer year,Integer season)
-    {//水果禁用表新表的接口
-        startPage();
-        int month1 = 0;
-        int month2 = 0;
-        int month3 = 0;
-        if(season==1){
-            month1 = 1;month2 = 2;month3 = 3;
-        }else if(season==2){
-            month1 = 4;month2 = 5;month3 = 6;
-        }else if(season==3){
-            month1 = 7;month2 = 8;month3 = 9;
-        }else if(season==4){
-            month1 = 10;month2 = 11;month3 = 12;
-        }
-        Date startDate=new Date(2022,month1,1);
-        Date endDate=new Date(2022,month3,0);//获取月份最后一天
-        List<outReturnType> list = outFruBanPesDetRecordsService.selectoutFruBanPesDetRecordsList2(outReturnTypeRecords);
-        return getDataTable(list);
     }
 
     //工具方法

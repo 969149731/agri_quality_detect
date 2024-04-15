@@ -157,6 +157,10 @@ public class outFruVegQualification extends BaseEntity
         if(this.samplingNumber >0){
             Double percentage=(double)((double)this.passNumber/(double)this.samplingNumber)*100;
             this.passRate= new BigDecimal(decimalFormat.format(percentage).toString());
+        }else if (this.samplingNumber ==0){//分母异常为0
+            this.passRate= new BigDecimal(decimalFormat.format(100).toString());
+        }else {//分母异常为负
+            this.passRate= new BigDecimal(decimalFormat.format(0).toString());
         }
     };
     @Override

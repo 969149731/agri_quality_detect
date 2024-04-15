@@ -9,36 +9,25 @@ export function listOutFruVegQualification(query) {
   })
 }
 
-// 查询各类蔬菜水果合格率情况详细
-export function getOutFruVegQualification(fruVegQualificationId) {
+///////////////////////////////////////////
+//级联查询(抽样地点)
+export function samplingAddressProvince() {
   return request({
-    url: '/out/outFruVegQualification/' + fruVegQualificationId,
+    url: '/addressInf/address',
+    method: 'get',
+  })
+}
+export function findBySamplingProvinceCode(provinceCode) {
+  return request({
+    url: '/addressInf/addressCity/'+provinceCode,
     method: 'get'
   })
 }
 
-// 新增各类蔬菜水果合格率情况
-export function addOutFruVegQualification(data) {
+export function findBySamplingCityCode(cityCode) {
   return request({
-    url: '/out/outFruVegQualification',
-    method: 'post',
-    data: data
+    url: '/addressInf/addressTown/'+cityCode,
+    method: 'get'
   })
 }
-
-// 修改各类蔬菜水果合格率情况
-export function updateOutFruVegQualification(data) {
-  return request({
-    url: '/out/outFruVegQualification',
-    method: 'put',
-    data: data
-  })
-}
-
-// 删除各类蔬菜水果合格率情况
-export function delOutFruVegQualification(fruVegQualificationId) {
-  return request({
-    url: '/out/outFruVegQualification/' + fruVegQualificationId,
-    method: 'delete'
-  })
-}
+////////////////////////////////////////////////

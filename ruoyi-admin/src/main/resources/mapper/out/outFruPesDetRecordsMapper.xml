@@ -2,24 +2,21 @@
 <!DOCTYPE mapper
 PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.ruoyi.out.mapper.outVegPesDetRecordsMapper">
+<mapper namespace="com.ruoyi.out.mapper.outFruPesDetRecordsMapper">
     
-    <resultMap type="outVegBanPesDetRecords" id="outVegBanPesDetRecordsResult">
-        <result property="vegBanPesDetRecordsId"    column="veg_ban_pes_det_records_id"    />
+    <resultMap type="outFruBanPesDetRecords" id="outFruBanPesDetRecordsResult">
+        <result property="fruBanPesDetRecordsId"    column="fru_ban_pes_det_records_id"    />
         <result property="pesticideName"    column="pesticide_name"    />
         <result property="methamidophos"    column="methamidophos"    />
         <result property="acephate"    column="acephate"    />
         <result property="phorate"    column="phorate"    />
         <result property="dimethoate"    column="dimethoate"    />
-        <result property="chlorpyrifos"    column="chlorpyrifos"    />
-        <result property="fenthion"    column="fenthion"    />
-        <result property="triazophos"    column="triazophos"    />
         <result property="isocarbophos"    column="isocarbophos"    />
-        <result property="trichlorfon"    column="trichlorfon"    />
         <result property="dichlorvos"    column="dichlorvos"    />
         <result property="methylParathion"    column="methyl_parathion"    />
         <result property="flucythrinate"    column="flucythrinate"    />
         <result property="carbaryl"    column="carbaryl"    />
+        <result property="permethrin"    column="permethrin"    />
         <result property="deteNum"    column="dete_num"    />
         <result property="exDetNum"    column="ex_det_num"    />
         <result property="productionInspectCount"    column="production_inspect_count"    />
@@ -31,23 +28,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="createdDate"    column="created_date"    />
     </resultMap>
 
-    <resultMap type="agriPesticideResidueStandard" id="agriPesticideResidueStandardType">
-        <result property="standardID"    column="id"    />
-        <result property="pesticideName"    column="pesticide_name"    />
-        <result property="vegFruName"    column="veg_fru_name"    />
-        <result property="standardCategory"    column="standard_category"    />
-        <result property="standardValue"    column="standard_value"    />
-    </resultMap>
-
-    <resultMap type="agriPesticideDetResult" id="agriPesticideDetResultResult">
-        <result property="pesticideDetResultId"    column="sub_pesticide_det_result_id"    />
-        <result property="pesticideName"    column="sub_pesticide_name"    />
-        <result property="pesticideDetValue"    column="sub_pesticide_det_value"    />
-        <result property="citySampleTestDetailsId"    column="sub_city_sample_test_details_id"    />
-        <result property="createdAt"    column="sub_created_at"    />
-    </resultMap>
-
-    <resultMap type="outFruVegSelectType" id="outFruVegSelectType">
+    <resultMap type="outFruVegSelectType" id="outFruVegSelectTypeInfo">
         <result property="citySampleTestDetailsId"    column="city_sample_test_details_id"    />
         <result property="sampleCode"    column="sample_code"    />
         <result property="vegFruName"    column="veg_fru_name"    />
@@ -74,34 +55,61 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="tracingArea" column="tracing_area"/>
     </resultMap>
 
-    <sql id="selectoutVegBanPesDetRecordsVo">
-        select veg_ban_pes_det_records_id, pesticide_name, methamidophos, acephate, phorate, dimethoate, chlorpyrifos, fenthion, triazophos, isocarbophos, trichlorfon, dichlorvos, methyl_parathion, flucythrinate, carbaryl, dete_num, ex_det_num, production_inspect_count, production_exceed_count, wholesale_inspect_count, wholesale_exceed_count, vehicle_inspect_count, vehicle_exceed_count, created_date from out_veg_ban_pes_det_records
+    <resultMap type="agriPesticideResidueStandard" id="agriPesticideResidueStandardType">
+        <result property="standardID"    column="id"    />
+        <result property="pesticideName"    column="pesticide_name"    />
+        <result property="vegFruName"    column="veg_fru_name"    />
+        <result property="standardCategory"    column="standard_category"    />
+        <result property="standardValue"    column="standard_value"    />
+    </resultMap>
+
+    <resultMap type="agriPesticideDetResult" id="agriPesticideDetResultResult">
+        <result property="pesticideDetResultId"    column="sub_pesticide_det_result_id"    />
+        <result property="pesticideName"    column="sub_pesticide_name"    />
+        <result property="pesticideDetValue"    column="sub_pesticide_det_value"    />
+        <result property="citySampleTestDetailsId"    column="sub_city_sample_test_details_id"    />
+        <result property="createdAt"    column="sub_created_at"    />
+    </resultMap>
+
+    <sql id="selectoutFruBanPesDetRecordsVo">
+        select fru_ban_pes_det_records_id, pesticide_name, methamidophos, acephate, phorate, dimethoate, isocarbophos, dichlorvos, methyl_parathion, flucythrinate, carbaryl, permethrin,
+               production_inspect_count+wholesale_inspect_count+vehicle_inspect_count as dete_num,
+               production_exceed_count+wholesale_exceed_count+vehicle_exceed_count as ex_det_num,
+               production_inspect_count, production_exceed_count, wholesale_inspect_count, wholesale_exceed_count, vehicle_inspect_count, vehicle_exceed_count, created_date
+        from out_fru_ban_pes_det_records
     </sql>
 
 
 
-    <select id="getVegBanPesticideList">
+    <select id="getFruBanPesticideList">
         select pesticide_name
         from agri_pesticide
-        where veg_pet_permit=0
-    </select>
-    <select id="getVegBanNoPesticideList">
-        select pesticide_name
-        from agri_pesticide
-        where veg_pet_permit=1
+        where fru_pet_permit=0
     </select>
 
-    <select id="getFruVegDetResultList" resultMap="outFruVegSelectType">
-        select agric.city_sample_test_details_id,agric.sample_code,agric.veg_fru_name,agric.sampling_location,agric.detect_location,agric.sampling_stage_type,agric.sampling_date,
+    <select id="getFruNoBanPesticideList">
+        select pesticide_name
+        from agri_pesticide
+        where fru_pet_permit=1
+    </select>
+
+    <select id="getagriPesticideResidueStandard" resultMap="agriPesticideResidueStandardType">
+        select *
+        from agri_pesticide_residue_standard
+        where pesticide_name=#{arg0} and veg_fru_name=#{arg1}
+    </select>
+
+    <select id="getFruVegDetResultList" resultMap="outFruVegSelectTypeInfo">
+        SELECT agric.city_sample_test_details_id,agric.sample_code,agric.veg_fru_name,agric.sampling_location,agric.detect_location,agric.sampling_stage_type,agric.sampling_date,
                agrip.pesticide_det_result_id,agrip.pesticide_name,agrip.pesticide_det_value,
                agriv.vegetable_fruit_id,agriv.veg_fru_type,agriv.detail_type
-        from agri_city_sample_test_details agric
-        left join agri_pesticide_det_result agrip
-        on agric.city_sample_test_details_id = agrip.city_sample_test_details_id
-        left join agri_vegetable_fruit agriv
-        on agric.veg_fru_name = agriv.veg_fru_name
+        FROM agri_city_sample_test_details agric
+        LEFT JOIN agri_pesticide_det_result agrip
+        ON agric.city_sample_test_details_id = agrip.city_sample_test_details_id
+        LEFT JOIN agri_vegetable_fruit agriv
+        ON agric.veg_fru_name = agriv.veg_fru_name
         <where>
-            AND agriv.veg_fru_type='蔬菜'
+            AND agriv.veg_fru_type='水果'
             <if test="samplingLocationProvince != null  and samplingLocationProvince != ''"> and agric.sampling_location_province = #{samplingLocationProvince}</if>
             <if test="samplingLocationCity != null  and samplingLocationCity != ''"> and agric.sampling_location_city = #{samplingLocationCity}</if>
             <if test="samplingLocationCounty != null  and samplingLocationCounty != ''"> and agric.sampling_location_county = #{samplingLocationCounty}</if>
@@ -119,12 +127,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
                 AND date_format(sampling_date,'%y%m%d') &lt;= date_format(#{params.endTime},'%y%m%d')
             </if>
         </where>
-    </select>
-
-    <select id="getagriPesticideResidueStandard" resultMap="agriPesticideResidueStandardType">
-        select *
-        from agri_pesticide_residue_standard
-        where pesticide_name=#{arg0} and veg_fru_name=#{arg1}
     </select>
 
 </mapper>

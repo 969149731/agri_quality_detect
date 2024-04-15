@@ -1,6 +1,5 @@
 import request from '@/utils/request'
-
-// 查询蔬菜上非禁止使用农药检出及超标情况列表
+// 查询蔬菜上非禁止使用农药检出及超标情况列表新方法
 export function listOutVegNoBanPesDetRecords(query) {
   return request({
     url: '/out/outVegNoBanPesDetRecords/list',
@@ -8,48 +7,26 @@ export function listOutVegNoBanPesDetRecords(query) {
     params: query
   })
 }
-
-// 查询蔬菜上非禁止使用农药检出及超标情况详细
-export function getOutVegNoBanPesDetRecords(vegNoBanPesDetRecordsId) {
+///////////////////////////////////////////
+//级联查询(抽样地点)
+export function samplingAddressProvince() {
   return request({
-    url: '/out/outVegNoBanPesDetRecords/' + vegNoBanPesDetRecordsId,
+    url: '/addressInf/address',
+    method: 'get',
+  })
+}
+export function findBySamplingProvinceCode(provinceCode) {
+  return request({
+    url: '/addressInf/addressCity/'+provinceCode,
     method: 'get'
   })
 }
 
-// 新增蔬菜上非禁止使用农药检出及超标情况
-export function addOutVegNoBanPesDetRecords(data) {
+export function findBySamplingCityCode(cityCode) {
   return request({
-    url: '/out/outVegNoBanPesDetRecords',
-    method: 'post',
-    data: data
+    url: '/addressInf/addressTown/'+cityCode,
+    method: 'get'
   })
 }
-
-// 修改蔬菜上非禁止使用农药检出及超标情况
-export function updateOutVegNoBanPesDetRecords(data) {
-  return request({
-    url: '/out/outVegNoBanPesDetRecords',
-    method: 'put',
-    data: data
-  })
-}
-
-// 删除蔬菜上非禁止使用农药检出及超标情况
-export function delOutVegNoBanPesDetRecords(vegNoBanPesDetRecordsId) {
-  return request({
-    url: '/out/outVegNoBanPesDetRecords/' + vegNoBanPesDetRecordsId,
-    method: 'delete'
-  })
-}
-
-
-// 查询蔬菜上非禁止使用农药检出及超标情况列表新方法
-export function listOutVegNoBanPesDetRecords2(query) {
-  return request({
-    url: '/out/outVegNoBanPesDetRecords/listNew',
-    method: 'get',
-    params: query
-  })
-}
+////////////////////////////////////////////////
 

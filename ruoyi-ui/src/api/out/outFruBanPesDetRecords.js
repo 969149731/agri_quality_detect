@@ -1,6 +1,5 @@
 import request from '@/utils/request'
 
-// 查询水果禁用农药检出及超标情况列表
 export function listOutFruBanPesDetRecords(query) {
   return request({
     url: '/out/outFruBanPesDetRecords/list',
@@ -9,44 +8,25 @@ export function listOutFruBanPesDetRecords(query) {
   })
 }
 
-// 查询水果禁用农药检出及超标情况详细
-export function getOutFruBanPesDetRecords(fruBanPesDetRecordsId) {
+///////////////////////////////////////////
+//级联查询(抽样地点)
+export function samplingAddressProvince() {
   return request({
-    url: '/out/outFruBanPesDetRecords/' + fruBanPesDetRecordsId,
+    url: '/addressInf/address',
+    method: 'get',
+  })
+}
+export function findBySamplingProvinceCode(provinceCode) {
+  return request({
+    url: '/addressInf/addressCity/'+provinceCode,
     method: 'get'
   })
 }
 
-// 新增水果禁用农药检出及超标情况
-export function addOutFruBanPesDetRecords(data) {
+export function findBySamplingCityCode(cityCode) {
   return request({
-    url: '/out/outFruBanPesDetRecords',
-    method: 'post',
-    data: data
+    url: '/addressInf/addressTown/'+cityCode,
+    method: 'get'
   })
 }
-
-// 修改水果禁用农药检出及超标情况
-export function updateOutFruBanPesDetRecords(data) {
-  return request({
-    url: '/out/outFruBanPesDetRecords',
-    method: 'put',
-    data: data
-  })
-}
-
-// 删除水果禁用农药检出及超标情况
-export function delOutFruBanPesDetRecords(fruBanPesDetRecordsId) {
-  return request({
-    url: '/out/outFruBanPesDetRecords/' + fruBanPesDetRecordsId,
-    method: 'delete'
-  })
-}
-
-export function listOutFruBanPesDetRecords2(query) {
-  return request({
-    url: '/out/outFruBanPesDetRecords/listNew',
-    method: 'get',
-    params: query
-  })
-}
+////////////////////////////////////////////////

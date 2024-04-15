@@ -10,7 +10,9 @@ public class agriPesticideResidueStandard {
     public String standardCategory;
     public Double standardValue;
 
-
+    public agriPesticideResidueStandard(){
+        this.standardValue=0.0;
+    }
     public Long getStandardID() {
         return standardID;
     }

@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import cn.afterturn.easypoi.excel.ExcelExportUtil;
 import cn.afterturn.easypoi.excel.entity.TemplateExportParams;
+import com.ruoyi.detection.domain.agriCitySampleTestDetails;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.ss.util.CellRangeAddress;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -50,10 +51,10 @@ public class outSampleQualityController extends BaseController
      */
     @PreAuthorize("@ss.hasPermi('out:outSampleQuality:list')")
     @GetMapping("/list")
-    public TableDataInfo list(outSampleQuality outSampleQuality)
+    public TableDataInfo list(agriCitySampleTestDetails agriCitySampleTestDetails)
     {
         startPage();
-        List<outSampleQuality> list = outSampleQualityService.selectoutSampleQualityList(outSampleQuality);
+        List<outSampleQuality> list = outSampleQualityService.selectoutSampleQualityList(agriCitySampleTestDetails);
         return getDataTable(list);
     }
 
@@ -63,10 +64,10 @@ public class outSampleQualityController extends BaseController
     @PreAuthorize("@ss.hasPermi('out:outSampleQuality:export')")
     @Log(title = "各抽样环节合格率情况", businessType = BusinessType.EXPORT)
     @PostMapping("/export")
-    public void export(HttpServletResponse response, outSampleQuality outSampleQuality)
+    public void export(HttpServletResponse response, agriCitySampleTestDetails agriCitySampleTestDetails)
     {
 
-        List<outSampleQuality> list = outSampleQualityService.selectoutSampleQualityList(outSampleQuality);
+        List<outSampleQuality> list = outSampleQualityService.selectoutSampleQualityList(agriCitySampleTestDetails);
         TemplateExportParams params = new TemplateExportParams("excelOutTemplate/outSampleQuality.xlsx");
         Map<String, Object> map = new HashMap<>();
         map.put("tableName", "6.各抽样环节合格率情况");
@@ -106,49 +107,6 @@ public class outSampleQualityController extends BaseController
         } catch (Exception e) {
             e.printStackTrace();
         }
-    }
-
-    /**
-     * 获取各抽样环节合格率情况详细信息
-     */
-    @PreAuthorize("@ss.hasPermi('out:outSampleQuality:query')")
-    @GetMapping(value = "/{sampleQualityId}")
-    public AjaxResult getInfo(@PathVariable("sampleQualityId") Long sampleQualityId)
-    {
-        return success(outSampleQualityService.selectoutSampleQualityBySampleQualityId(sampleQualityId));
-    }
-
-    /**
-     * 新增各抽样环节合格率情况
-     */
-    @PreAuthorize("@ss.hasPermi('out:outSampleQuality:add')")
-    @Log(title = "各抽样环节合格率情况", businessType = BusinessType.INSERT)
-    @PostMapping
-    public AjaxResult add(@RequestBody outSampleQuality outSampleQuality)
-    {
-        return toAjax(outSampleQualityService.insertoutSampleQuality(outSampleQuality));
-    }
-
-    /**
-     * 修改各抽样环节合格率情况
-     */
-    @PreAuthorize("@ss.hasPermi('out:outSampleQuality:edit')")
-    @Log(title = "各抽样环节合格率情况", businessType = BusinessType.UPDATE)
-    @PutMapping
-    public AjaxResult edit(@RequestBody outSampleQuality outSampleQuality)
-    {
-        return toAjax(outSampleQualityService.updateoutSampleQuality(outSampleQuality));
-    }
-
-    /**
-     * 删除各抽样环节合格率情况
-     */
-    @PreAuthorize("@ss.hasPermi('out:outSampleQuality:remove')")
-    @Log(title = "各抽样环节合格率情况", businessType = BusinessType.DELETE)
-	@DeleteMapping("/{sampleQualityIds}")
-    public AjaxResult remove(@PathVariable Long[] sampleQualityIds)
-    {
-        return toAjax(outSampleQualityService.deleteoutSampleQualityBySampleQualityIds(sampleQualityIds));
     }
 
     //工具方法合并表格

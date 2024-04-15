@@ -1,23 +1,52 @@
 <template>
   <div class="app-container">
     <el-form :model="queryParams" ref="queryForm" size="small" :inline="true" v-show="showSearch" label-width="68px">
-<!--      <el-form-item label="抽样年份" prop="year">-->
-<!--        <el-input-->
-<!--          v-model="queryParams.year"-->
-<!--          placeholder="请输入抽样年份"-->
-<!--          clearable-->
-<!--          @keyup.enter.native="handleQuery"-->
-<!--        />-->
-<!--      </el-form-item>-->
 
-<!--      <el-form-item label="抽样季度" prop="season">-->
-<!--        <el-input-->
-<!--          v-model="queryParams.season"-->
-<!--          placeholder="请输入抽样季度"-->
-<!--          clearable-->
-<!--          @keyup.enter.native="handleQuery"-->
-<!--        />-->
-<!--      </el-form-item>-->
+      <el-row :gutter="10" class="mb8">
+        <el-col :span="1.5">
+          <el-button
+            type="warning"
+            plain
+            icon="el-icon-download"
+            size="mini"
+            @click="handleExport"
+            v-hasPermi="['out:outTeaBanPesDetRecords:export']"
+          >导出</el-button>
+        </el-col>
+        <right-toolbar :showSearch.sync="showSearch" @queryTable="getList"></right-toolbar>
+      </el-row>
+
+      <el-form-item label="抽样地点">
+        <template>
+          <div>
+            <el-select v-model="queryParams.samplingProvince" placeholder="省份" value-key="code" @change="changeSamplingProvince">
+              <el-option
+                v-for="item in samplingAddressProvince"
+                :key="item.code"
+                :label="item.name"
+                :value="item"
+              ></el-option>
+            </el-select>
+
+            <el-select v-model="queryParams.samplingCity" placeholder="城市" value-key="code"  @change="changeSamplingCity">
+              <el-option
+                v-for="item  in samplingAddressCity"
+                :key="item.code"
+                :label="item.name"
+                :value="item"
+              ></el-option>
+            </el-select>
+            <el-select v-model="queryParams.samplingTown" placeholder="区域" value-key="code" @change="changeSamplingTown">
+              <el-option
+                v-for="item   in samplingAddressTown"
+                :key="item.code"
+                :label="item.name"
+                :value="item"
+              ></el-option>
+            </el-select>
+          </div>
+        </template>
+      </el-form-item>
       <el-form-item label="抽样日期">
         <el-date-picker
           v-model="dateRange"
@@ -30,45 +59,11 @@
         ></el-date-picker>
       </el-form-item>
       <el-form-item>
-
         <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery">搜索</el-button>
         <el-button icon="el-icon-refresh" size="mini" @click="resetQuery">重置</el-button>
       </el-form-item>
     </el-form>
-
     <el-row :gutter="10" class="mb8">
-<!--      <el-col :span="1.5">-->
-<!--        <el-button-->
-<!--          type="primary"-->
-<!--          plain-->
-<!--          icon="el-icon-plus"-->
-<!--          size="mini"-->
-<!--          @click="handleAdd"-->
-<!--          v-hasPermi="['out:outVegNoBanPesDetRecords:add']"-->
-<!--        >新增</el-button>-->
-<!--      </el-col>-->
-<!--      <el-col :span="1.5">-->
-<!--        <el-button-->
-<!--          type="success"-->
-<!--          plain-->
-<!--          icon="el-icon-edit"-->
-<!--          size="mini"-->
-<!--          :disabled="single"-->
-<!--          @click="handleUpdate"-->
-<!--          v-hasPermi="['out:outVegNoBanPesDetRecords:edit']"-->
-<!--        >修改</el-button>-->
-<!--      </el-col>-->
-<!--      <el-col :span="1.5">-->
-<!--        <el-button-->
-<!--          type="danger"-->
-<!--          plain-->
-<!--          icon="el-icon-delete"-->
-<!--          size="mini"-->
-<!--          :disabled="multiple"-->
-<!--          @click="handleDelete"-->
-<!--          v-hasPermi="['out:outVegNoBanPesDetRecords:remove']"-->
-<!--        >删除</el-button>-->
-<!--      </el-col>-->
       <el-col :span="1.5">
         <el-button
           type="warning"
@@ -81,7 +76,6 @@
       </el-col>
       <right-toolbar :showSearch.sync="showSearch" @queryTable="getList"></right-toolbar>
     </el-row>
-
 
     <el-table
       v-loading="loading"
@@ -112,152 +106,12 @@
         </template>
       </el-table-column>
     </el-table>
-
-    <pagination
-      v-show="total>0"
-      :total="total"
-      :page.sync="queryParams.pageNum"
-      :limit.sync="queryParams.pageSize"
-      @pagination="getList"
-    />
-
-    <!-- 添加或修改蔬菜上非禁止使用农药检出及超标情况对话框 -->
-    <el-dialog :title="title" :visible.sync="open" width="500px" append-to-body>
-      <el-form ref="form" :model="form" :rules="rules" label-width="80px">
-        <el-form-item label="农药名称" prop="pesticideName">
-          <el-input v-model="form.pesticideName" placeholder="请输入农药名称" />
-        </el-form-item>
-        <el-form-item label="联苯菊酯" prop="bifenthrin">
-          <el-input v-model="form.bifenthrin" placeholder="请输入联苯菊酯" />
-        </el-form-item>
-        <el-form-item label="氯氟氰菊酯" prop="chlorfluazuron">
-          <el-input v-model="form.chlorfluazuron" placeholder="请输入氯氟氰菊酯" />
-        </el-form-item>
-        <el-form-item label="氟氯氰菊酯" prop="flucycloxuron">
-          <el-input v-model="form.flucycloxuron" placeholder="请输入氟氯氰菊酯" />
-        </el-form-item>
-        <el-form-item label="氯氰菊酯" prop="lambdaCyhalothrin">
-          <el-input v-model="form.lambdaCyhalothrin" placeholder="请输入氯氰菊酯" />
-        </el-form-item>
-        <el-form-item label="甲氰菊酯" prop="fenvalerate">
-          <el-input v-model="form.fenvalerate" placeholder="请输入甲氰菊酯" />
-        </el-form-item>
-        <el-form-item label="溴氰菊酯" prop="deltamethrin">
-          <el-input v-model="form.deltamethrin" placeholder="请输入溴氰菊酯" />
-        </el-form-item>
-        <el-form-item label="三唑酮" prop="triazolone">
-          <el-input v-model="form.triazolone" placeholder="请输入三唑酮" />
-        </el-form-item>
-        <el-form-item label="百菌清" prop="carbendazim">
-          <el-input v-model="form.carbendazim" placeholder="请输入百菌清" />
-        </el-form-item>
-        <el-form-item label="腐霉利" prop="metalaxyl">
-          <el-input v-model="form.metalaxyl" placeholder="请输入腐霉利" />
-        </el-form-item>
-        <el-form-item label="丙溴磷" prop="profenofos">
-          <el-input v-model="form.profenofos" placeholder="请输入丙溴磷" />
-        </el-form-item>
-        <el-form-item label="多菌灵" prop="carbaryl">
-          <el-input v-model="form.carbaryl" placeholder="请输入多菌灵" />
-        </el-form-item>
-        <el-form-item label="啶虫脒" prop="imidacloprid">
-          <el-input v-model="form.imidacloprid" placeholder="请输入啶虫脒" />
-        </el-form-item>
-        <el-form-item label="苯醚甲环唑" prop="myclobutanil">
-          <el-input v-model="form.myclobutanil" placeholder="请输入苯醚甲环唑" />
-        </el-form-item>
-        <el-form-item label="阿维菌素" prop="abamectin">
-          <el-input v-model="form.abamectin" placeholder="请输入阿维菌素" />
-        </el-form-item>
-        <el-form-item label="甲氨基阿维菌素苯甲酸盐" prop="emamectinBenzoate">
-          <el-input v-model="form.emamectinBenzoate" placeholder="请输入甲氨基阿维菌素苯甲酸盐" />
-        </el-form-item>
-        <el-form-item label="氟啶脲" prop="fludioxonil">
-          <el-input v-model="form.fludioxonil" placeholder="请输入氟啶脲" />
-        </el-form-item>
-        <el-form-item label="灭幼脲" prop="diflubenzuron">
-          <el-input v-model="form.diflubenzuron" placeholder="请输入灭幼脲" />
-        </el-form-item>
-        <el-form-item label="灭蝇胺" prop="cyromazine">
-          <el-input v-model="form.cyromazine" placeholder="请输入灭蝇胺" />
-        </el-form-item>
-        <el-form-item label="噻虫嗪" prop="thiamethoxam">
-          <el-input v-model="form.thiamethoxam" placeholder="请输入噻虫嗪" />
-        </el-form-item>
-        <el-form-item label="甲霜灵" prop="mancozeb">
-          <el-input v-model="form.mancozeb" placeholder="请输入甲霜灵" />
-        </el-form-item>
-        <el-form-item label="霜霉威" prop="metalaxylM">
-          <el-input v-model="form.metalaxylM" placeholder="请输入霜霉威" />
-        </el-form-item>
-        <el-form-item label="吡唑醚菌酯" prop="pyraclostrobin">
-          <el-input v-model="form.pyraclostrobin" placeholder="请输入吡唑醚菌酯" />
-        </el-form-item>
-        <el-form-item label="氯吡脲" prop="chlorantraniliprole">
-          <el-input v-model="form.chlorantraniliprole" placeholder="请输入氯吡脲" />
-        </el-form-item>
-        <el-form-item label="嘧霉胺" prop="azoxystrobin">
-          <el-input v-model="form.azoxystrobin" placeholder="请输入嘧霉胺" />
-        </el-form-item>
-        <el-form-item label="吡虫啉" prop="imidaclothiz">
-          <el-input v-model="form.imidaclothiz" placeholder="请输入吡虫啉" />
-        </el-form-item>
-        <el-form-item label="呋虫胺" prop="flonicamid">
-          <el-input v-model="form.flonicamid" placeholder="请输入呋虫胺" />
-        </el-form-item>
-        <el-form-item label="虱螨脲" prop="lufenuron">
-          <el-input v-model="form.lufenuron" placeholder="请输入虱螨脲" />
-        </el-form-item>
-        <el-form-item label="倍硫磷" prop="phosalone">
-          <el-input v-model="form.phosalone" placeholder="请输入倍硫磷" />
-        </el-form-item>
-        <el-form-item label="抑霉唑" prop="difenoconazole">
-          <el-input v-model="form.difenoconazole" placeholder="请输入抑霉唑" />
-        </el-form-item>
-        <el-form-item label="检出次数" prop="deteNum">
-          <el-input v-model="form.deteNum" placeholder="请输入检出次数" />
-        </el-form-item>
-        <el-form-item label="超标次数" prop="exDetNum">
-          <el-input v-model="form.exDetNum" placeholder="请输入超标次数" />
-        </el-form-item>
-        <el-form-item label="记录生产基地的检查次数" prop="productionInspectCount">
-          <el-input v-model="form.productionInspectCount" placeholder="请输入记录生产基地的检查次数" />
-        </el-form-item>
-        <el-form-item label="记录生产基地的超标次数" prop="productionExceedCount">
-          <el-input v-model="form.productionExceedCount" placeholder="请输入记录生产基地的超标次数" />
-        </el-form-item>
-        <el-form-item label="记录批发市场的检查次数" prop="wholesaleInspectCount">
-          <el-input v-model="form.wholesaleInspectCount" placeholder="请输入记录批发市场的检查次数" />
-        </el-form-item>
-        <el-form-item label="记录批发市场的超标次数" prop="wholesaleExceedCount">
-          <el-input v-model="form.wholesaleExceedCount" placeholder="请输入记录批发市场的超标次数" />
-        </el-form-item>
-        <el-form-item label="记录运输车的检查次数" prop="vehicleInspectCount">
-          <el-input v-model="form.vehicleInspectCount" placeholder="请输入记录运输车的检查次数" />
-        </el-form-item>
-        <el-form-item label="记录运输车的超标次数" prop="vehicleExceedCount">
-          <el-input v-model="form.vehicleExceedCount" placeholder="请输入记录运输车的超标次数" />
-        </el-form-item>
-        <el-form-item label="记录创建时间" prop="createdDate">
-          <el-date-picker clearable
-            v-model="form.createdDate"
-            type="date"
-            value-format="yyyy-MM-dd"
-            placeholder="请选择记录创建的时间">
-          </el-date-picker>
-        </el-form-item>
-      </el-form>
-      <div slot="footer" class="dialog-footer">
-        <el-button type="primary" @click="submitForm">确 定</el-button>
-        <el-button @click="cancel">取 消</el-button>
-      </div>
-    </el-dialog>
   </div>
 </template>
 
 <script>
-import { listOutVegNoBanPesDetRecords2,listOutVegNoBanPesDetRecords, getOutVegNoBanPesDetRecords, delOutVegNoBanPesDetRecords, addOutVegNoBanPesDetRecords, updateOutVegNoBanPesDetRecords } from "@/api/out/outVegNoBanPesDetRecords";
-import FileSaver from 'file-saver'
+import { listOutVegNoBanPesDetRecords,samplingAddressProvince,findBySamplingProvinceCode,findBySamplingCityCode} from "@/api/out/outVegNoBanPesDetRecords";
+
 export default {
   name: "OutVegNoBanPesDetRecords",
   data() {
@@ -285,35 +139,17 @@ export default {
         pageNum: 1,
         pageSize: 10,
         pesticideName: null,
-        bifenthrin: null,
-        chlorfluazuron: null,
-        flucycloxuron: null,
-        lambdaCyhalothrin: null,
-        fenvalerate: null,
-        deltamethrin: null,
-        triazolone: null,
-        carbendazim: null,
-        metalaxyl: null,
-        profenofos: null,
-        carbaryl: null,
-        imidacloprid: null,
-        myclobutanil: null,
-        abamectin: null,
-        emamectinBenzoate: null,
-        fludioxonil: null,
-        diflubenzuron: null,
-        cyromazine: null,
-        thiamethoxam: null,
-        mancozeb: null,
-        metalaxylM: null,
-        pyraclostrobin: null,
-        chlorantraniliprole: null,
-        azoxystrobin: null,
-        imidaclothiz: null,
-        flonicamid: null,
-        lufenuron: null,
-        phosalone: null,
-        difenoconazole: null,
+
+        //对应到实体类的名字
+        samplingLocationProvince:null,
+        samplingLocationCity:null,
+        samplingLocationCounty:null,
+
+        //装对象的（v-model下拉框对象）
+        samplingProvince: {code:"450000",name:"广西壮族自治区"},
+        samplingCity:null,
+        samplingTown:null,
+
         deteNum: null,
         exDetNum: null,
         productionInspectCount: null,
@@ -370,59 +206,32 @@ export default {
         },
       ],
       pesticideNameList: [],
+      //地区级联
+      samplingAddressProvince: [],//省份集合
+      samplingAddressCity: [],//城市集合
+      samplingAddressTown: [],//区域集合
     };
   },
   created() {
+    this.init();
     this.getList();
   },
   methods: {
     /** 查询蔬菜上非禁止使用农药检出及超标情况列表 */
     getList() {
        this.loading = true;
-      listOutVegNoBanPesDetRecords2(this.addDateRange(this.queryParams, this.dateRange)).then(response => {//二维表使用的列表获取
+      listOutVegNoBanPesDetRecords(this.addDateRange(this.queryParams, this.dateRange)).then(response => {//二维表使用的列表获取
         this.pesticideNameList = response.rows;
         this.loading = false;
       });
     },
-    // 取消按钮
-    cancel() {
-      this.open = false;
-      this.reset();
-    },
+
     // 表单重置
     reset() {
       this.form = {
         vegNoBanPesDetRecordsId: null,
         pesticideName: null,
-        bifenthrin: null,
-        chlorfluazuron: null,
-        flucycloxuron: null,
-        lambdaCyhalothrin: null,
-        fenvalerate: null,
-        deltamethrin: null,
-        triazolone: null,
-        carbendazim: null,
-        metalaxyl: null,
-        profenofos: null,
-        carbaryl: null,
-        imidacloprid: null,
-        myclobutanil: null,
-        abamectin: null,
-        emamectinBenzoate: null,
-        fludioxonil: null,
-        diflubenzuron: null,
-        cyromazine: null,
-        thiamethoxam: null,
-        mancozeb: null,
-        metalaxylM: null,
-        pyraclostrobin: null,
-        chlorantraniliprole: null,
-        azoxystrobin: null,
-        imidaclothiz: null,
-        flonicamid: null,
-        lufenuron: null,
-        phosalone: null,
-        difenoconazole: null,
+
         deteNum: null,
         exDetNum: null,
         productionInspectCount: null,
@@ -445,58 +254,7 @@ export default {
       this.dateRange=[];
       this.resetForm("queryForm");
       this.handleQuery();
-    },
-    // 多选框选中数据
-    handleSelectionChange(selection) {
-      this.ids = selection.map(item => item.vegNoBanPesDetRecordsId)
-      this.single = selection.length!==1
-      this.multiple = !selection.length
-    },
-    /** 新增按钮操作 */
-    handleAdd() {
-      this.reset();
-      this.open = true;
-      this.title = "添加蔬菜上非禁止使用农药检出及超标情况";
-    },
-    /** 修改按钮操作 */
-    handleUpdate(row) {
-      this.reset();
-      const vegNoBanPesDetRecordsId = row.vegNoBanPesDetRecordsId || this.ids
-      getOutVegNoBanPesDetRecords(vegNoBanPesDetRecordsId).then(response => {
-        this.form = response.data;
-        this.open = true;
-        this.title = "修改蔬菜上非禁止使用农药检出及超标情况";
-      });
-    },
-    /** 提交按钮 */
-    submitForm() {
-      this.$refs["form"].validate(valid => {
-        if (valid) {
-          if (this.form.vegNoBanPesDetRecordsId != null) {
-            updateOutVegNoBanPesDetRecords(this.form).then(response => {
-              this.$modal.msgSuccess("修改成功");
-              this.open = false;
-              this.getList();
-            });
-          } else {
-            addOutVegNoBanPesDetRecords(this.form).then(response => {
-              this.$modal.msgSuccess("新增成功");
-              this.open = false;
-              this.getList();
-            });
-          }
-        }
-      });
-    },
-    /** 删除按钮操作 */
-    handleDelete(row) {
-      const vegNoBanPesDetRecordsIds = row.vegNoBanPesDetRecordsId || this.ids;
-      this.$modal.confirm('是否确认删除蔬菜上非禁止使用农药检出及超标情况编号为"' + vegNoBanPesDetRecordsIds + '"的数据项？').then(function() {
-        return delOutVegNoBanPesDetRecords(vegNoBanPesDetRecordsIds);
-      }).then(() => {
-        this.getList();
-        this.$modal.msgSuccess("删除成功");
-      }).catch(() => {});
+      this.init();
     },
     /** 导出按钮操作 */
     handleExport() {
@@ -504,6 +262,54 @@ export default {
         ...this.queryParams
       }, `outVegNoBanPesDetRecords_${new Date().getTime()}.xlsx`)
     },
+    //地区级联数据初始化
+    init()
+    {
+      this.queryParams.samplingLocationCounty='';
+      this.queryParams.samplingLocation=null;
+
+      this.queryParams.samplingLocationCity='';
+      this.queryParams.samplingCity=null;
+      samplingAddressProvince().then((res) => {
+        this.samplingAddressProvince = res;
+        console.log(res)
+        //初始化省份数据后，根据默认省份代码加载城市
+        if (this.queryParams.samplingProvince.code) {
+          let foundObject = this.samplingAddressProvince.find(obj => (obj.code===this.queryParams.samplingProvince.code));//找到对应省份对象
+          this.changeSamplingProvince(foundObject);
+          this.queryParams.samplingLocationProvince=foundObject.name;
+        }
+      });
+    },
+    changeSamplingProvince(val) {
+      findBySamplingProvinceCode(val.code).then((res) => {
+        this.samplingAddressCity = res;
+        // 清空之前选中的城市和区域信息
+        this.queryParams.samplingCity = '';
+        this.queryParams.samplingTown = '';
+        //下级表单清空
+        this.queryParams.samplingLocationCity=null;
+        this.queryParams.samplingTown=null;
+      });
+      //表单数据填充
+      this.queryParams.samplingLocationProvince=val.name;
+    },
+    changeSamplingCity(val) {
+      findBySamplingCityCode(val.code).then((res) => {
+        this.samplingAddressTown = res;
+        // 清空之前选中的区域信息
+        this.queryParams.samplingTown = null;
+        //下级表单清空
+        this.queryParams.samplingLocationCounty=null;
+      });
+      //表单数据填充
+      this.queryParams.samplingLocationCity=val.name;
+    },
+    changeSamplingTown(val){
+      //表单数据填充
+      this.queryParams.samplingLocationCounty=val.name;
+    },
+
     /*表头行的合并*/
     headerStyle({ row, column, rowIndex, columnIndex }) {
       const comStyle = {

@@ -9,36 +9,25 @@ export function listOutTeaNoBanPesDetRecords(query) {
   })
 }
 
-// 查询茶叶上非禁止使用农药检出及超标情况详细
-export function getOutTeaNoBanPesDetRecords(teaNoBanPesDetRecordsId) {
+///////////////////////////////////////////
+//级联查询(抽样地点)
+export function samplingAddressProvince() {
   return request({
-    url: '/out/outTeaNoBanPesDetRecords/' + teaNoBanPesDetRecordsId,
+    url: '/addressInf/address',
+    method: 'get',
+  })
+}
+export function findBySamplingProvinceCode(provinceCode) {
+  return request({
+    url: '/addressInf/addressCity/'+provinceCode,
     method: 'get'
   })
 }
 
-// 新增茶叶上非禁止使用农药检出及超标情况
-export function addOutTeaNoBanPesDetRecords(data) {
+export function findBySamplingCityCode(cityCode) {
   return request({
-    url: '/out/outTeaNoBanPesDetRecords',
-    method: 'post',
-    data: data
+    url: '/addressInf/addressTown/'+cityCode,
+    method: 'get'
   })
 }
-
-// 修改茶叶上非禁止使用农药检出及超标情况
-export function updateOutTeaNoBanPesDetRecords(data) {
-  return request({
-    url: '/out/outTeaNoBanPesDetRecords',
-    method: 'put',
-    data: data
-  })
-}
-
-// 删除茶叶上非禁止使用农药检出及超标情况
-export function delOutTeaNoBanPesDetRecords(teaNoBanPesDetRecordsId) {
-  return request({
-    url: '/out/outTeaNoBanPesDetRecords/' + teaNoBanPesDetRecordsId,
-    method: 'delete'
-  })
-}
+////////////////////////////////////////////////
