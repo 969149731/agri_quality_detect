@@ -125,24 +125,58 @@
       <!--        </el-date-picker>-->
       <!--      </el-form-item>-->
 
-      <el-form-item label="检测地点" prop="detectLocation">
-        <!--        <el-input-->
-        <!--          v-model="queryParams.detectLocation"-->
-        <!--          placeholder="请输入检测单位"-->
-        <!--          clearable-->
-        <!--          @keyup.enter.native="handleQuery"-->
-        <!--        />-->
+  <!--      <el-form-item label="检测地点" prop="detectLocation">-->
+  <!--        &lt;!&ndash;        <el-input&ndash;&gt;-->
+  <!--        &lt;!&ndash;          v-model="queryParams.detectLocation"&ndash;&gt;-->
+  <!--        &lt;!&ndash;          placeholder="请输入检测单位"&ndash;&gt;-->
+  <!--        &lt;!&ndash;          clearable&ndash;&gt;-->
+  <!--        &lt;!&ndash;          @keyup.enter.native="handleQuery"&ndash;&gt;-->
+  <!--        &lt;!&ndash;        />&ndash;&gt;-->
+  <!--        <el-select v-model="queryParams.detectLocation" placeholder="城市" clearable>-->
+  <!--          <el-option-->
+  <!--            v-for="dict in dict.type.city"-->
+  <!--            :key="dict.value"-->
+  <!--            :label="dict.label"-->
+  <!--            :value="dict.value"-->
+  <!--          />-->
+  <!--        </el-select>-->
+  <!--      </el-form-item>-->
 
-        <el-select v-model="queryParams.detectLocation" placeholder="城市" clearable>
-          <el-option
-            v-for="dict in dict.type.city"
-            :key="dict.value"
-            :label="dict.label"
-            :value="dict.value"
-          />
-        </el-select>
 
+      <el-form-item label="抽样地点">
+        <template>
+          <div>
+            <el-select v-model="queryParams.samplingProvince" placeholder="省份" value-key="code" @change="changeSamplingProvince">
+              <el-option
+                v-for="item in samplingAddressProvince"
+                :key="item.code"
+                :label="item.name"
+                :value="item"
+              ></el-option>
+            </el-select>
+
+            <el-select v-model="queryParams.samplingCity" placeholder="城市" value-key="code"  @change="changeSamplingCity">
+              <el-option
+                v-for="item  in samplingAddressCity"
+                :key="item.code"
+                :label="item.name"
+                :value="item"
+              ></el-option>
+            </el-select>
+            <el-select v-model="queryParams.samplingTown" placeholder="区域" value-key="code" @change="changeSamplingTown">
+              <el-option
+                v-for="item   in samplingAddressTown"
+                :key="item.code"
+                :label="item.name"
+                :value="item"
+              ></el-option>
+            </el-select>
+          </div>
+        </template>
       </el-form-item>
+
+
+
 
       <el-form-item>
         <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery">搜索</el-button>
@@ -207,7 +241,7 @@
     <el-table v-loading="loading" :data="outDlDetectRecordsList" @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="55" align="center" />
       <!--      <el-table-column label="唯一标识符，自增" align="center" prop="recordDlId" />-->
-      <el-table-column label="被检单位" align="center" prop="samplingLocation" />
+      <el-table-column label="抽样地点" align="center" prop="samplingLocation" />
       <!--      <el-table-column label="抽样日期" align="center" prop="samplingDate" width="180">-->
       <!--        <template slot-scope="scope">-->
       <!--          <span>{{ parseTime(scope.row.samplingDate, '{y}-{m}-{d}') }}</span>-->
@@ -222,6 +256,10 @@
       <el-table-column label="水果抽样数(个)" width="70" align="center" prop="fruSamplingCount" />
       <el-table-column label="水果合格数(个)" width="70" align="center" prop="fruQualifiedCount" />
       <el-table-column label="水果合格率(%)" width="70" align="center" prop="fruPassRate" />
+      <el-table-column label="   " width="70" align="center" prop="" />
+      <el-table-column label="茶叶抽样数(个)" width="70" align="center" prop="teaSamplingCount" />
+      <el-table-column label="茶叶合格数(个)" width="70" align="center" prop="teaQualifiedCount" />
+      <el-table-column label="茶叶合格率(%)" width="70" align="center" prop="teaPassRate" />
       <el-table-column label="   " width="70" align="center" prop="" />
       <el-table-column label="总抽样数(个)" width="70" align="center" prop="allSamplingCount" />
       <el-table-column label="总合格数(个)" width="70" align="center" prop="allQualifiedCount" />
@@ -251,13 +289,13 @@
       <!--      </el-table-column>-->
     </el-table>
 
-    <pagination
-      v-show="total>0"
-      :total="total"
-      :page.sync="queryParams.pageNum"
-      :limit.sync="queryParams.pageSize"
-      @pagination="getList"
-    />
+<!--    <pagination-->
+<!--      v-show="total>0"-->
+<!--      :total="total"-->
+<!--      :page.sync="queryParams.pageNum"-->
+<!--      :limit.sync="queryParams.pageSize"-->
+<!--      @pagination="getList"-->
+<!--    />-->
 
     <!-- 添加或修改定量监测结果汇总对话框 -->
     <!--    <el-dialog :title="title" :visible.sync="open" width="500px" append-to-body>-->
@@ -324,13 +362,25 @@
 </template>
 
 <script>
-import { listOutDlDetectRecords, getOutDlDetectRecords, delOutDlDetectRecords, addOutDlDetectRecords, updateOutDlDetectRecords } from "@/api/out/outDlDetectRecords";
+import { listOutDlDetectRecords, getOutDlDetectRecords, delOutDlDetectRecords, addOutDlDetectRecords, updateOutDlDetectRecords,
+  samplingAddressProvince,
+  findBySamplingProvinceCode,
+  findBySamplingCityCode,
+} from "@/api/out/outDlDetectRecords";
 
 export default {
   name: "OutDlDetectRecords",
   dicts: ['city'],
   data() {
     return {
+      samplingAddressProvince: [],//省份集合
+      samplingAddressCity: [],//城市集合
+      samplingAddressTown: [],//区域集合
+      samplingProvinceCode: '',//获取选中时的省份编号
+      samplingCityCode: '',//获取选中时的城市编号
+      samplingTownCode: '',//获取选中时区域的编号
+
+
       // 遮罩层
       loading: true,
       // 选中数组
@@ -365,10 +415,28 @@ export default {
         fruSamplingCount: null,
         fruQualifiedCount: null,
         fruPassRate: null,
+
+        teaSamplingCount:null,
+        teaPassCount:null,
+        teaPassRate:null,
+
         allSamplingCount: null,
         allQualifiedCount: null,
         allPassRate: null,
-        createdDate: null
+        createdDate: null,
+
+        //对应到实体类的名字
+        samplingLocationProvince:null,
+        samplingLocationCity:null,
+        samplingLocationCounty:null,
+
+
+        //装对象的（v-model下拉框对象）
+        samplingProvince: {code:"450000",name:"广西壮族自治区"},
+        samplingCity:null,
+        samplingTown:null,
+
+
       },
       // 表单参数
       form: {},
@@ -378,15 +446,68 @@ export default {
     };
   },
   created() {
+    this.init();
     this.getList();
   },
   methods: {
+    init()
+    {
+      this.queryParams.samplingLocationCounty='';
+      this.queryParams.samplingLocation=null;
+
+      this.queryParams.samplingLocationCity='';
+      this.queryParams.samplingCity=null;
+      samplingAddressProvince().then((res) => {
+        this.samplingAddressProvince = res;
+        // console.log(res)
+        //初始化省份数据后，根据默认省份代码加载城市
+        if (this.queryParams.samplingProvince.code) {
+          let foundObject = this.samplingAddressProvince.find(obj => (obj.code===this.queryParams.samplingProvince.code));//找到对应省份对象
+          this.changeSamplingProvince(foundObject);
+          this.queryParams.samplingLocationProvince=foundObject.name;
+        }
+      });
+    },
+
+    changeSamplingProvince(val) {
+      findBySamplingProvinceCode(val.code).then((res) => {
+        this.samplingAddressCity = res;
+        // 清空之前选中的城市和区域信息
+        this.queryParams.samplingCity = '';
+        this.queryParams.samplingTown = '';
+        //下级表单清空
+        this.queryParams.samplingLocationCity=null;
+        this.queryParams.samplingTown=null;
+      });
+      //表单数据填充
+      this.queryParams.samplingLocationProvince=val.name;
+    },
+    changeSamplingCity(val) {
+      findBySamplingCityCode(val.code).then((res) => {
+        this.samplingAddressTown = res;
+        // 清空之前选中的区域信息
+        this.queryParams.samplingTown = null;
+        //下级表单清空
+        this.queryParams.samplingLocationCounty=null;
+      });
+      //表单数据填充
+      this.queryParams.samplingLocationCity=val.name;
+    },
+    changeSamplingTown(val){
+      //表单数据填充
+      this.queryParams.samplingLocationCounty=val.name;
+    },
+
+
+
+
     /** 查询定量监测结果汇总列表 */
     getList() {
       this.loading = true;
       // listOutDlDetectRecords(this.queryParams).then(response => {
       listOutDlDetectRecords(this.addDateRange(this.queryParams, this.dateRange)).then(response => {
         this.outDlDetectRecordsList = response.rows;
+        console.log(this.outDlDetectRecordsList)
         this.total = response.total;
         this.loading = false;
       });
@@ -426,6 +547,7 @@ export default {
     resetQuery() {
       this.dateRange = [];
       this.resetForm("queryForm");
+      this.init();
       this.handleQuery();
     },
     // 多选框选中数据

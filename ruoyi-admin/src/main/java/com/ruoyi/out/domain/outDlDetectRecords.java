@@ -62,9 +62,22 @@ public class outDlDetectRecords extends BaseEntity
     @Excel(name = "水果合格率")
     private Double fruPassRate;
 
+
+
+    /** 茶叶抽样数 */
+    private Long teaSamplingCount;
+
+    /** 茶叶合格数 */
+    private Long teaQualifiedCount;
+
+    /** 茶叶合格率 */
+    private Double teaPassRate;
+
+
     /** 总抽样数 */
     @Excel(name = "总抽样数")
     private Long allSamplingCount;
+
 
     /** 总合格数 */
     @Excel(name = "总合格数")
@@ -79,7 +92,32 @@ public class outDlDetectRecords extends BaseEntity
 //    @Excel(name = "记录创建的时间", width = 30, dateFormat = "yyyy-MM-dd")
     private Date createdDate;
 
-    public void setRecordDlId(Long recordDlId) 
+
+    public Long getTeaSamplingCount() {
+        return teaSamplingCount;
+    }
+
+    public void setTeaSamplingCount(Long teaSamplingCount) {
+        this.teaSamplingCount = teaSamplingCount;
+    }
+
+    public Long getTeaQualifiedCount() {
+        return teaQualifiedCount;
+    }
+
+    public void setTeaQualifiedCount(Long teaQualifiedCount) {
+        this.teaQualifiedCount = teaQualifiedCount;
+    }
+
+    public Double getTeaPassRate() {
+        return teaPassRate;
+    }
+
+    public void setTeaPassRate(Double teaPassRate) {
+        this.teaPassRate = teaPassRate;
+    }
+
+    public void setRecordDlId(Long recordDlId)
     {
         this.recordDlId = recordDlId;
     }

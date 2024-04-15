@@ -31,6 +31,19 @@ public class dlDetRecordSampleRes {
     @Excel(name = "水果合格率")
     private Double fruPassRate;
 
+
+    /** 茶叶抽样数 */
+    private Integer teaSamplingCount;
+
+    /** 茶叶合格数 */
+    private Integer teaPassCount;
+
+    /** 茶叶合格率 */
+    private Double teaPassRate;
+
+
+
+
     /** 总抽样数 */
     @Excel(name = "总抽样数")
     private Integer allSamplingCount=0;
@@ -46,16 +59,43 @@ public class dlDetRecordSampleRes {
     public dlDetRecordSampleRes() {
     }
 
-    public dlDetRecordSampleRes(Integer vegSamplingCount, Integer vegPassCount, Double vegPassRate, Integer fruSamplingCount, Integer fruPassCount, Double fruPassRate, Integer allSamplingCount, Integer allPassCount, Double allPassRate) {
+    public dlDetRecordSampleRes(Integer vegSamplingCount, Integer vegPassCount, Double vegPassRate, Integer fruSamplingCount, Integer fruPassCount, Double fruPassRate, Integer teaSamplingCount, Integer teaPassCount, Double teaPassRate, Integer allSamplingCount, Integer allPassCount, Double allPassRate) {
         this.vegSamplingCount = vegSamplingCount;
         this.vegPassCount = vegPassCount;
         this.vegPassRate = vegPassRate;
         this.fruSamplingCount = fruSamplingCount;
         this.fruPassCount = fruPassCount;
         this.fruPassRate = fruPassRate;
+        this.teaSamplingCount = teaSamplingCount;
+        this.teaPassCount = teaPassCount;
+        this.teaPassRate = teaPassRate;
         this.allSamplingCount = allSamplingCount;
         this.allPassCount = allPassCount;
         this.allPassRate = allPassRate;
+    }
+
+    public Integer getTeaSamplingCount() {
+        return teaSamplingCount;
+    }
+
+    public void setTeaSamplingCount(Integer teaSamplingCount) {
+        this.teaSamplingCount = teaSamplingCount;
+    }
+
+    public Integer getTeaPassCount() {
+        return teaPassCount;
+    }
+
+    public void setTeaPassCount(Integer teaPassCount) {
+        this.teaPassCount = teaPassCount;
+    }
+
+    public Double getTeaPassRate() {
+        return teaPassRate;
+    }
+
+    public void setTeaPassRate(Double teaPassRate) {
+        this.teaPassRate = teaPassRate;
     }
 
     public Integer getVegSamplingCount() {
@@ -139,6 +179,9 @@ public class dlDetRecordSampleRes {
                 ", fruSamplingCount=" + fruSamplingCount +
                 ", fruPassCount=" + fruPassCount +
                 ", fruPassRate=" + fruPassRate +
+                ", teaSamplingCount=" + teaSamplingCount +
+                ", teaPassCount=" + teaPassCount +
+                ", teaPassRate=" + teaPassRate +
                 ", allSamplingCount=" + allSamplingCount +
                 ", allPassCount=" + allPassCount +
                 ", allPassRate=" + allPassRate +

@@ -70,6 +70,8 @@ public class outDlDetectRecordsServiceImpl implements IoutDlDetectRecordsService
             return 0;
         } else if("水果".equals(type)) {
             return 1;
+        }else if("茶叶".equals(type)) {
+            return 2;
         }else{
 //            System.out.println("样品："+sampleName+"，未知是蔬菜还是水果，请在蔬果字典中添加该样品是属于蔬菜还是水果。");
 //            // 下面的代码是把不知道是水果还是蔬菜的样本输出到C盘中，方便查看添加。
@@ -625,22 +627,9 @@ public class outDlDetectRecordsServiceImpl implements IoutDlDetectRecordsService
             {CitySampleTestDetail.setSamplingLocation("运输车");}
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
             //如果被检测单位是第一次出现
             if(!res.containsKey(CitySampleTestDetail.getSamplingLocation())){
-                dlDetRecordSampleRes vegOrFruRes = new dlDetRecordSampleRes(0,0,0.0,0,0,0.0,0,0,0.0);
+                dlDetRecordSampleRes vegOrFruRes = new dlDetRecordSampleRes(0,0,0.0,0,0,0.0,0,0,0.0,0,0,0.0);
                 //计算蔬菜结果
                 //如果是蔬菜 按照样本名称 从类型表中判断该样本是蔬菜还是水果，调用check_type(样品名称) --> 0-蔬菜 1-水果
                 if(0 == check_type(CitySampleTestDetail.getVegFruName())){
@@ -662,11 +651,27 @@ public class outDlDetectRecordsServiceImpl implements IoutDlDetectRecordsService
                         vegOrFruRes.setFruPassCount(1);
                     }
                     vegOrFruRes.setFruPassRate((double) (vegOrFruRes.getFruPassCount()/vegOrFruRes.getFruSamplingCount()));
-                }else{
-                    System.out.println("到这里的话说明获取到样本的具体名字没有找到其是蔬菜还是水果的类型，提醒用户加入对应字典");
+                }
+                //如果是茶叶
+                else if(2 == check_type(CitySampleTestDetail.getVegFruName())){
+//                    System.out.println("到茶叶了");
+                    vegOrFruRes.setTeaSamplingCount(1);
+                    vegOrFruRes.setAllSamplingCount(vegOrFruRes.getAllSamplingCount() + 1);
+                    if (checkPesticideIsPass(CitySampleTestDetail)){
+                        vegOrFruRes.setTeaPassCount(1);
+                    }
+                    vegOrFruRes.setTeaPassRate((double) (vegOrFruRes.getTeaPassCount()/vegOrFruRes.getTeaSamplingCount()));
+                }
+
+                else{
+                    System.out.println("到这里的话说明获取到样本的具体名字没有找到其是蔬菜还是水果还是茶叶的类型，提醒用户加入对应字典");
                 }
                 vegOrFruRes.setAllPassCount(vegOrFruRes.getFruPassCount()+ vegOrFruRes.getVegPassCount());
-                vegOrFruRes.setAllPassRate((double) (vegOrFruRes.getAllPassCount()/vegOrFruRes.getAllSamplingCount()));
+
+                Integer allSamplingCount = vegOrFruRes.getAllSamplingCount();
+                if(allSamplingCount!=0){
+                    vegOrFruRes.setAllPassRate((double) (vegOrFruRes.getAllPassCount()/allSamplingCount));
+                }
                 current_res.add(vegOrFruRes);
 //                System.out.println("current_res的list里面的值："+current_res);
 //                System.out.println("current_res.get(0)的值："+current_res.get(0));
@@ -704,7 +709,22 @@ public class outDlDetectRecordsServiceImpl implements IoutDlDetectRecordsService
                     }
                     // 更新水果合格率
                     vegOrFruRes.setFruPassRate((double) vegOrFruRes.getFruPassCount() / vegOrFruRes.getFruSamplingCount());
-                }else {
+                }
+                //如果是茶叶
+                else if(2 == check_type(CitySampleTestDetail.getVegFruName())){
+                    // 更新水果采样数和总采样数
+                    vegOrFruRes.setTeaSamplingCount(vegOrFruRes.getTeaSamplingCount() + 1);
+                    vegOrFruRes.setAllSamplingCount(vegOrFruRes.getAllSamplingCount() + 1);
+
+                    // 检测是否超标
+                    if(checkPesticideIsPass(CitySampleTestDetail)){
+                        // 更新水果合格数
+                        vegOrFruRes.setTeaPassCount(vegOrFruRes.getTeaPassCount() + 1);
+                    }
+                    // 更新水果合格率
+                    vegOrFruRes.setTeaPassRate((double) vegOrFruRes.getTeaPassCount() / vegOrFruRes.getTeaSamplingCount());
+                }
+                else {
                     System.out.println("到这里的话说明获取到样本的具体名字没有找到其是蔬菜还是水果的类型，提醒用户加入对应字典");
                 }
 
