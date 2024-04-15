@@ -70,6 +70,39 @@
         ></el-date-picker>
       </el-form-item>
 
+      <el-form-item label="抽样地点">
+        <template>
+          <div>
+            <el-select v-model="queryParams.samplingProvince" placeholder="省份" value-key="code" @change="changeSamplingProvince">
+              <el-option
+                v-for="item in samplingAddressProvince"
+                :key="item.code"
+                :label="item.name"
+                :value="item"
+              ></el-option>
+            </el-select>
+
+            <el-select v-model="queryParams.samplingCity" placeholder="城市" value-key="code"  @change="changeSamplingCity">
+              <el-option
+                v-for="item  in samplingAddressCity"
+                :key="item.code"
+                :label="item.name"
+                :value="item"
+              ></el-option>
+            </el-select>
+            <el-select v-model="queryParams.samplingTown" placeholder="区域" value-key="code" @change="changeSamplingTown">
+              <el-option
+                v-for="item   in samplingAddressTown"
+                :key="item.code"
+                :label="item.name"
+                :value="item"
+              ></el-option>
+            </el-select>
+          </div>
+        </template>
+      </el-form-item>
+
+
 
       <el-form-item>
         <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery">搜索</el-button>
@@ -218,13 +251,25 @@
 </template>
 
 <script>
-import { listOutUndeterminedStandDet, getOutUndeterminedStandDet, delOutUndeterminedStandDet, addOutUndeterminedStandDet, updateOutUndeterminedStandDet } from "@/api/out/outUndeterminedStandDet";
+import { listOutUndeterminedStandDet, getOutUndeterminedStandDet, delOutUndeterminedStandDet, addOutUndeterminedStandDet, updateOutUndeterminedStandDet,
+  samplingAddressProvince,
+  findBySamplingProvinceCode,
+  findBySamplingCityCode,
+} from "@/api/out/outUndeterminedStandDet";
 import {listOutExceedSampleDetail} from "@/api/out/outExceedSampleDetail";
 
 export default {
   name: "OutUndeterminedStandDet",
   data() {
     return {
+      samplingAddressProvince: [],//省份集合
+      samplingAddressCity: [],//城市集合
+      samplingAddressTown: [],//区域集合
+      samplingProvinceCode: '',//获取选中时的省份编号
+      samplingCityCode: '',//获取选中时的城市编号
+      samplingTownCode: '',//获取选中时区域的编号
+
+
       // 遮罩层
       loading: true,
       // 选中数组
@@ -256,7 +301,19 @@ export default {
         detPesticideName: null,
         detPesticideValue: null,
         remarks: null,
-        createdDate: null
+        createdDate: null,
+
+        //对应到实体类的名字
+        samplingLocationProvince:null,
+        samplingLocationCity:null,
+        samplingLocationCounty:null,
+
+
+        //装对象的（v-model下拉框对象）
+        samplingProvince: {code:"450000",name:"广西壮族自治区"},
+        samplingCity:null,
+        samplingTown:null,
+
       },
       // 表单参数
       form: {},
@@ -266,10 +323,60 @@ export default {
     };
   },
   created() {
+    this.init();
     this.getList();
   },
   methods: {
-    /** 查询无判定标准检出值详细列表 */
+      init()
+      {
+        this.queryParams.samplingLocationCounty='';
+        this.queryParams.samplingLocation=null;
+
+        this.queryParams.samplingLocationCity='';
+        this.queryParams.samplingCity=null;
+        samplingAddressProvince().then((res) => {
+          this.samplingAddressProvince = res;
+          // console.log(res)
+          //初始化省份数据后，根据默认省份代码加载城市
+          if (this.queryParams.samplingProvince.code) {
+            let foundObject = this.samplingAddressProvince.find(obj => (obj.code===this.queryParams.samplingProvince.code));//找到对应省份对象
+            this.changeSamplingProvince(foundObject);
+            this.queryParams.samplingLocationProvince=foundObject.name;
+          }
+        });
+      },
+
+      changeSamplingProvince(val) {
+        findBySamplingProvinceCode(val.code).then((res) => {
+          this.samplingAddressCity = res;
+          // 清空之前选中的城市和区域信息
+          this.queryParams.samplingCity = '';
+          this.queryParams.samplingTown = '';
+          //下级表单清空
+          this.queryParams.samplingLocationCity=null;
+          this.queryParams.samplingTown=null;
+        });
+        //表单数据填充
+        this.queryParams.samplingLocationProvince=val.name;
+      },
+      changeSamplingCity(val) {
+        findBySamplingCityCode(val.code).then((res) => {
+          this.samplingAddressTown = res;
+          // 清空之前选中的区域信息
+          this.queryParams.samplingTown = null;
+          //下级表单清空
+          this.queryParams.samplingLocationCounty=null;
+        });
+        //表单数据填充
+        this.queryParams.samplingLocationCity=val.name;
+      },
+      changeSamplingTown(val){
+        //表单数据填充
+        this.queryParams.samplingLocationCounty=val.name;
+      },
+
+
+      /** 查询无判定标准检出值详细列表 */
     getList() {
       this.loading = true;
       listOutUndeterminedStandDet(this.addDateRange(this.queryParams, this.dateRange)).then(response => {
@@ -307,6 +414,7 @@ export default {
     resetQuery() {
       this.dateRange = [];
       this.resetForm("queryForm");
+      this.init();
       this.handleQuery();
     },
     // 多选框选中数据

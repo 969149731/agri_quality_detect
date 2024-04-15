@@ -76,9 +76,9 @@ public class outDlDetectRecordsController extends BaseController
         for (dlMapToListResult result : resultList) {
             outDlDetectRecords outDlDetectRecords=new outDlDetectRecords();
             outDlDetectRecords.setSamplingLocation(result.getSamplingLocation());
+
             outDlDetectRecords.setVegSamplingCount((long) result.getSampleRes().getVegSamplingCount());
             outDlDetectRecords.setVegQualifiedCount((long) result.getSampleRes().getVegPassCount());
-
             // 假设 result.getSampleRes().getVegPassRate() 返回的是 Double 类型的值
             Double vegPassRate = result.getSampleRes().getVegPassRate();
             // 将 Double 转换为 BigDecimal，并且乘以 100
@@ -88,9 +88,10 @@ public class outDlDetectRecordsController extends BaseController
             // 如果你需要再次将其转换为 Double
             double finalVegPassRatePercent = roundedVegPassRatePercent.doubleValue();
             outDlDetectRecords.setVegPassRate(finalVegPassRatePercent);
+
+
             outDlDetectRecords.setFruSamplingCount((long)result.getSampleRes().getFruSamplingCount() );
             outDlDetectRecords.setFruQualifiedCount((long)result.getSampleRes().getFruPassCount());
-
             // 假设 result.getSampleRes().getFruPassRate() 返回的是 Double 类型的值
             Double fruPassRate = result.getSampleRes().getFruPassRate();
             // 将 Double 转换为 BigDecimal，并且乘以 100
@@ -101,19 +102,41 @@ public class outDlDetectRecordsController extends BaseController
             double finalFruPassRatePercent = roundedFruPassRatePercent.doubleValue();
             // 使用 finalFruPassRatePercent 根据需要进行进一步的操作
             outDlDetectRecords.setFruPassRate(finalFruPassRatePercent);
+
+
+            outDlDetectRecords.setTeaSamplingCount((long)result.getSampleRes().getTeaSamplingCount() );
+            outDlDetectRecords.setTeaQualifiedCount((long)result.getSampleRes().getTeaPassCount());
+            // 假设 result.getSampleRes().getFruPassRate() 返回的是 Double 类型的值
+            Double teaPassRate = result.getSampleRes().getTeaPassRate();
+            // 将 Double 转换为 BigDecimal，并且乘以 100
+            BigDecimal teaPassRatePercent = BigDecimal.valueOf(teaPassRate * 100);
+            // 设置四舍五入模式为 HALF_UP（四舍五入）并保留两位小数
+            BigDecimal roundedTeaPassRatePercent = teaPassRatePercent.setScale(2, BigDecimal.ROUND_HALF_UP);
+            // 如果你需要再次将其转换为 Double
+            double finalTeaPassRatePercent = roundedTeaPassRatePercent.doubleValue();
+            // 使用 finalFruPassRatePercent 根据需要进行进一步的操作
+            outDlDetectRecords.setTeaPassRate(finalTeaPassRatePercent);
+
+
+
             outDlDetectRecords.setAllSamplingCount((long)result.getSampleRes().getAllSamplingCount());
             outDlDetectRecords.setAllQualifiedCount((long)result.getSampleRes().getAllPassCount());
-
             // 假设 result.getSampleRes().getAllPassRate() 返回的是 Double 类型的值
             Double allPassRate = result.getSampleRes().getAllPassRate();
-            // 将 Double 转换为 BigDecimal，并且乘以 100
-            BigDecimal allPassRatePercent = BigDecimal.valueOf(allPassRate * 100);
-            // 设置四舍五入模式为 HALF_UP（四舍五入）并保留两位小数
-            BigDecimal roundedAllPassRatePercent = allPassRatePercent.setScale(2, BigDecimal.ROUND_HALF_UP);
-            // 如果你需要再次将其转换为 Double
-            double finalAllPassRatePercent = roundedAllPassRatePercent.doubleValue();
-            // 现在 finalAllPassRatePercent 是四舍五入后保留两位小数的结果，可以根据需要使用它
-            outDlDetectRecords.setAllPassRate(finalAllPassRatePercent);
+            try {
+                // 将 Double 转换为 BigDecimal，并且乘以 100
+                BigDecimal allPassRatePercent = BigDecimal.valueOf(allPassRate * 100);
+                // 设置四舍五入模式为 HALF_UP（四舍五入）并保留两位小数
+                BigDecimal roundedAllPassRatePercent = allPassRatePercent.setScale(2, BigDecimal.ROUND_HALF_UP);
+                // 如果你需要再次将其转换为 Double
+                double finalAllPassRatePercent = roundedAllPassRatePercent.doubleValue();
+                // 现在 finalAllPassRatePercent 是四舍五入后保留两位小数的结果，可以根据需要使用它
+                outDlDetectRecords.setAllPassRate(finalAllPassRatePercent);
+            }catch (NumberFormatException e){
+                System.out.println("字符串中包含非数字字符，无法转换为整数");
+            }
+
+
             formResultList.add(outDlDetectRecords);
         }
         return getDataTable(formResultList);
