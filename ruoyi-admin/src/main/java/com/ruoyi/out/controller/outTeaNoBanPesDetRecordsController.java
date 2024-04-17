@@ -11,7 +11,9 @@ import javax.servlet.http.HttpServletResponse;
 
 import cn.afterturn.easypoi.excel.ExcelExportUtil;
 import cn.afterturn.easypoi.excel.entity.TemplateExportParams;
+import com.ruoyi.detection.domain.agriCitySampleTestDetails;
 import com.ruoyi.out.domain.outReturnType;
+import com.ruoyi.out.service.IoutTeaPesDetRecordsService;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.ss.usermodel.WorkbookFactory;
@@ -29,8 +31,6 @@ import com.ruoyi.common.annotation.Log;
 import com.ruoyi.common.core.controller.BaseController;
 import com.ruoyi.common.core.domain.AjaxResult;
 import com.ruoyi.common.enums.BusinessType;
-import com.ruoyi.out.domain.outTeaNoBanPesDetRecords;
-import com.ruoyi.out.service.IoutTeaNoBanPesDetRecordsService;
 import com.ruoyi.common.utils.poi.ExcelUtil;
 import com.ruoyi.common.core.page.TableDataInfo;
 
@@ -45,17 +45,17 @@ import com.ruoyi.common.core.page.TableDataInfo;
 public class outTeaNoBanPesDetRecordsController extends BaseController
 {
     @Autowired
-    private IoutTeaNoBanPesDetRecordsService outTeaNoBanPesDetRecordsService;
+    private IoutTeaPesDetRecordsService outTeaPesDetRecordsService;
 
     /**
      * 查询茶叶上非禁止使用农药检出及超标情况列表
      */
     @PreAuthorize("@ss.hasPermi('out:outTeaNoBanPesDetRecords:list')")
     @GetMapping("/list")
-    public TableDataInfo list(outTeaNoBanPesDetRecords outTeaNoBanPesDetRecords)
+    public TableDataInfo list(agriCitySampleTestDetails agriCitySampleTestDetails)
     {
         startPage();
-        List<outReturnType> list = outTeaNoBanPesDetRecordsService.selectoutTeaNoBanPesDetRecordsList(outTeaNoBanPesDetRecords);
+        List<outReturnType> list = outTeaPesDetRecordsService.selectoutTeaPesDetRecordsList(agriCitySampleTestDetails,"非禁用");
         return getDataTable(list);
     }
 
@@ -65,11 +65,9 @@ public class outTeaNoBanPesDetRecordsController extends BaseController
     @PreAuthorize("@ss.hasPermi('out:outTeaNoBanPesDetRecords:export')")
     @Log(title = "茶叶上非禁止使用农药检出及超标情况", businessType = BusinessType.EXPORT)
     @PostMapping("/export")
-    public void export(HttpServletResponse response, outTeaNoBanPesDetRecords outTeaNoBanPesDetRecords)
+    public void export(HttpServletResponse response, agriCitySampleTestDetails agriCitySampleTestDetails)
     {
-        outReturnType outReturnTypeRecords=new outReturnType();
-        outReturnTypeRecords.setParams(outTeaNoBanPesDetRecords.getParams());
-        List<outReturnType> list = outTeaNoBanPesDetRecordsService.selectoutTeaNoBanPesDetRecordsList(outTeaNoBanPesDetRecords);
+        List<outReturnType> list = outTeaPesDetRecordsService.selectoutTeaPesDetRecordsList(agriCitySampleTestDetails,"非禁用");
 
         TemplateExportParams params = new TemplateExportParams("excelOutTemplate/outFruBanPesDetRecords.xlsx");
         Map<String, Object> map = new HashMap<>();
@@ -112,46 +110,4 @@ public class outTeaNoBanPesDetRecordsController extends BaseController
         }
     }
 
-    /**
-     * 获取茶叶上非禁止使用农药检出及超标情况详细信息
-     */
-    @PreAuthorize("@ss.hasPermi('out:outTeaNoBanPesDetRecords:query')")
-    @GetMapping(value = "/{teaNoBanPesDetRecordsId}")
-    public AjaxResult getInfo(@PathVariable("teaNoBanPesDetRecordsId") Long teaNoBanPesDetRecordsId)
-    {
-        return success(outTeaNoBanPesDetRecordsService.selectoutTeaNoBanPesDetRecordsByTeaNoBanPesDetRecordsId(teaNoBanPesDetRecordsId));
-    }
-
-    /**
-     * 新增茶叶上非禁止使用农药检出及超标情况
-     */
-    @PreAuthorize("@ss.hasPermi('out:outTeaNoBanPesDetRecords:add')")
-    @Log(title = "茶叶上非禁止使用农药检出及超标情况", businessType = BusinessType.INSERT)
-    @PostMapping
-    public AjaxResult add(@RequestBody outTeaNoBanPesDetRecords outTeaNoBanPesDetRecords)
-    {
-        return toAjax(outTeaNoBanPesDetRecordsService.insertoutTeaNoBanPesDetRecords(outTeaNoBanPesDetRecords));
-    }
-
-    /**
-     * 修改茶叶上非禁止使用农药检出及超标情况
-     */
-    @PreAuthorize("@ss.hasPermi('out:outTeaNoBanPesDetRecords:edit')")
-    @Log(title = "茶叶上非禁止使用农药检出及超标情况", businessType = BusinessType.UPDATE)
-    @PutMapping
-    public AjaxResult edit(@RequestBody outTeaNoBanPesDetRecords outTeaNoBanPesDetRecords)
-    {
-        return toAjax(outTeaNoBanPesDetRecordsService.updateoutTeaNoBanPesDetRecords(outTeaNoBanPesDetRecords));
-    }
-
-    /**
-     * 删除茶叶上非禁止使用农药检出及超标情况
-     */
-    @PreAuthorize("@ss.hasPermi('out:outTeaNoBanPesDetRecords:remove')")
-    @Log(title = "茶叶上非禁止使用农药检出及超标情况", businessType = BusinessType.DELETE)
-	@DeleteMapping("/{teaNoBanPesDetRecordsIds}")
-    public AjaxResult remove(@PathVariable Long[] teaNoBanPesDetRecordsIds)
-    {
-        return toAjax(outTeaNoBanPesDetRecordsService.deleteoutTeaNoBanPesDetRecordsByTeaNoBanPesDetRecordsIds(teaNoBanPesDetRecordsIds));
-    }
 }

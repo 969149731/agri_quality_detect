@@ -11,7 +11,9 @@ import javax.servlet.http.HttpServletResponse;
 
 import cn.afterturn.easypoi.excel.ExcelExportUtil;
 import cn.afterturn.easypoi.excel.entity.TemplateExportParams;
+import com.ruoyi.detection.domain.agriCitySampleTestDetails;
 import com.ruoyi.out.domain.outReturnType;
+import com.ruoyi.out.service.IoutVegPesDetRecordsService;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.ss.usermodel.WorkbookFactory;
@@ -19,19 +21,12 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import com.ruoyi.common.annotation.Log;
 import com.ruoyi.common.core.controller.BaseController;
-import com.ruoyi.common.core.domain.AjaxResult;
 import com.ruoyi.common.enums.BusinessType;
 import com.ruoyi.out.domain.outVegNoBanPesDetRecords;
-import com.ruoyi.out.service.IoutVegNoBanPesDetRecordsService;
-import com.ruoyi.common.utils.poi.ExcelUtil;
 import com.ruoyi.common.core.page.TableDataInfo;
 
 /**
@@ -45,17 +40,17 @@ import com.ruoyi.common.core.page.TableDataInfo;
 public class outVegNoBanPesDetRecordsController extends BaseController
 {
     @Autowired
-    private IoutVegNoBanPesDetRecordsService outVegNoBanPesDetRecordsService;
+    private IoutVegPesDetRecordsService outVegPesDetRecordsService;
 
     /**
      * 查询蔬菜上非禁止使用农药检出及超标情况列表
      */
     @PreAuthorize("@ss.hasPermi('out:outVegNoBanPesDetRecords:list')")
     @GetMapping("/list")
-    public TableDataInfo list(outVegNoBanPesDetRecords outVegNoBanPesDetRecords)
+    public TableDataInfo list(agriCitySampleTestDetails agriCitySampleTestDetails)
     {
         startPage();
-        List<outVegNoBanPesDetRecords> list = outVegNoBanPesDetRecordsService.selectoutVegNoBanPesDetRecordsList(outVegNoBanPesDetRecords);
+        List<outReturnType> list = outVegPesDetRecordsService.selectoutVegPesDetRecordsList(agriCitySampleTestDetails,"非禁用");
         return getDataTable(list);
     }
 
@@ -65,9 +60,9 @@ public class outVegNoBanPesDetRecordsController extends BaseController
     @PreAuthorize("@ss.hasPermi('out:outVegNoBanPesDetRecords:export')")
     @Log(title = "蔬菜上非禁止使用农药检出及超标情况", businessType = BusinessType.EXPORT)
     @PostMapping("/export")
-    public void export(HttpServletResponse response, outVegNoBanPesDetRecords outVegNoBanPesDetRecords)
+    public void export(HttpServletResponse response, agriCitySampleTestDetails agriCitySampleTestDetails)
     {
-        List<outReturnType> list = outVegNoBanPesDetRecordsService.selectoutVegNoBanPesDetRecordsList2(outVegNoBanPesDetRecords);
+        List<outReturnType> list = outVegPesDetRecordsService.selectoutVegPesDetRecordsList(agriCitySampleTestDetails,"非禁用");
         TemplateExportParams params = new TemplateExportParams("excelOutTemplate/outFruBanPesDetRecords.xlsx");
         Map<String, Object> map = new HashMap<>();
         map.put("tableName", "3.水果禁用农药检出及超标情况表");
@@ -109,55 +104,4 @@ public class outVegNoBanPesDetRecordsController extends BaseController
         }
     }
 
-    /**
-     * 获取蔬菜上非禁止使用农药检出及超标情况详细信息
-     */
-    @PreAuthorize("@ss.hasPermi('out:outVegNoBanPesDetRecords:query')")
-    @GetMapping(value = "/{vegNoBanPesDetRecordsId}")
-    public AjaxResult getInfo(@PathVariable("vegNoBanPesDetRecordsId") Long vegNoBanPesDetRecordsId)
-    {
-        return success(outVegNoBanPesDetRecordsService.selectoutVegNoBanPesDetRecordsByVegNoBanPesDetRecordsId(vegNoBanPesDetRecordsId));
-    }
-
-    /**
-     * 新增蔬菜上非禁止使用农药检出及超标情况
-     */
-    @PreAuthorize("@ss.hasPermi('out:outVegNoBanPesDetRecords:add')")
-    @Log(title = "蔬菜上非禁止使用农药检出及超标情况", businessType = BusinessType.INSERT)
-    @PostMapping
-    public AjaxResult add(@RequestBody outVegNoBanPesDetRecords outVegNoBanPesDetRecords)
-    {
-        return toAjax(outVegNoBanPesDetRecordsService.insertoutVegNoBanPesDetRecords(outVegNoBanPesDetRecords));
-    }
-
-    /**
-     * 修改蔬菜上非禁止使用农药检出及超标情况
-     */
-    @PreAuthorize("@ss.hasPermi('out:outVegNoBanPesDetRecords:edit')")
-    @Log(title = "蔬菜上非禁止使用农药检出及超标情况", businessType = BusinessType.UPDATE)
-    @PutMapping
-    public AjaxResult edit(@RequestBody outVegNoBanPesDetRecords outVegNoBanPesDetRecords)
-    {
-        return toAjax(outVegNoBanPesDetRecordsService.updateoutVegNoBanPesDetRecords(outVegNoBanPesDetRecords));
-    }
-
-    /**
-     * 删除蔬菜上非禁止使用农药检出及超标情况
-     */
-    @PreAuthorize("@ss.hasPermi('out:outVegNoBanPesDetRecords:remove')")
-    @Log(title = "蔬菜上非禁止使用农药检出及超标情况", businessType = BusinessType.DELETE)
-	@DeleteMapping("/{vegNoBanPesDetRecordsIds}")
-    public AjaxResult remove(@PathVariable Long[] vegNoBanPesDetRecordsIds)
-    {
-        return toAjax(outVegNoBanPesDetRecordsService.deleteoutVegNoBanPesDetRecordsByVegNoBanPesDetRecordsIds(vegNoBanPesDetRecordsIds));
-    }
-
-    @PreAuthorize("@ss.hasPermi('out:outVegNoBanPesDetRecords:list')")
-    @GetMapping("/listNew")
-    public TableDataInfo listNew(outVegNoBanPesDetRecords outVegNoBanPesDetRecords)
-    {
-        startPage();
-        List<outReturnType> list = outVegNoBanPesDetRecordsService.selectoutVegNoBanPesDetRecordsList2(outVegNoBanPesDetRecords);
-        return getDataTable(list);
-    }
 }

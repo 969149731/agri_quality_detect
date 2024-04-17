@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import cn.afterturn.easypoi.excel.ExcelExportUtil;
 import cn.afterturn.easypoi.excel.entity.TemplateExportParams;
+import com.ruoyi.detection.domain.agriCitySampleTestDetails;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.ss.usermodel.WorkbookFactory;
@@ -51,10 +52,10 @@ public class outFruVegQualificationController extends BaseController
      */
     @PreAuthorize("@ss.hasPermi('out:outFruVegQualification:list')")
     @GetMapping("/list")
-    public TableDataInfo list(outFruVegQualification outFruVegQualification)
+    public TableDataInfo list(agriCitySampleTestDetails agriCitySampleTestDetails)
     {
         startPage();
-        List<outFruVegQualification> list = outFruVegQualificationService.selectoutFruVegQualificationList(outFruVegQualification);
+        List<outFruVegQualification> list = outFruVegQualificationService.selectoutFruVegQualificationList(agriCitySampleTestDetails);
         if (list==null) return null;//奇怪的报错，有空注意一下//可能是其他模块的返回值是带参数的，这个貌似不带
         return getDataTable(list);
     }
@@ -65,10 +66,10 @@ public class outFruVegQualificationController extends BaseController
     @PreAuthorize("@ss.hasPermi('out:outFruVegQualification:export')")
     @Log(title = "各类蔬菜水果合格率情况", businessType = BusinessType.EXPORT)
     @PostMapping("/export")
-    public void export(HttpServletResponse response, outFruVegQualification outFruVegQualification)
+    public void export(HttpServletResponse response, agriCitySampleTestDetails agriCitySampleTestDetails)
     {
         outFruVegQualification outReturnTypeRecords=new outFruVegQualification();
-        List<outFruVegQualification> list = outFruVegQualificationService.selectoutFruVegQualificationList(outFruVegQualification);
+        List<outFruVegQualification> list = outFruVegQualificationService.selectoutFruVegQualificationList(agriCitySampleTestDetails);
         TemplateExportParams params = new TemplateExportParams("excelOutTemplate/outFruVegQualification.xlsx");
         Map<String, Object> map = new HashMap<>();
         map.put("tableName", "5. 各类蔬菜水果合格率情况");
@@ -110,46 +111,4 @@ public class outFruVegQualificationController extends BaseController
         }
     }
 
-    /**
-     * 获取各类蔬菜水果合格率情况详细信息
-     */
-    @PreAuthorize("@ss.hasPermi('out:outFruVegQualification:query')")
-    @GetMapping(value = "/{fruVegQualificationId}")
-    public AjaxResult getInfo(@PathVariable("fruVegQualificationId") Long fruVegQualificationId)
-    {
-        return success(outFruVegQualificationService.selectoutFruVegQualificationByFruVegQualificationId(fruVegQualificationId));
-    }
-
-    /**
-     * 新增各类蔬菜水果合格率情况
-     */
-    @PreAuthorize("@ss.hasPermi('out:outFruVegQualification:add')")
-    @Log(title = "各类蔬菜水果合格率情况", businessType = BusinessType.INSERT)
-    @PostMapping
-    public AjaxResult add(@RequestBody outFruVegQualification outFruVegQualification)
-    {
-        return toAjax(outFruVegQualificationService.insertoutFruVegQualification(outFruVegQualification));
-    }
-
-    /**
-     * 修改各类蔬菜水果合格率情况
-     */
-    @PreAuthorize("@ss.hasPermi('out:outFruVegQualification:edit')")
-    @Log(title = "各类蔬菜水果合格率情况", businessType = BusinessType.UPDATE)
-    @PutMapping
-    public AjaxResult edit(@RequestBody outFruVegQualification outFruVegQualification)
-    {
-        return toAjax(outFruVegQualificationService.updateoutFruVegQualification(outFruVegQualification));
-    }
-
-    /**
-     * 删除各类蔬菜水果合格率情况
-     */
-    @PreAuthorize("@ss.hasPermi('out:outFruVegQualification:remove')")
-    @Log(title = "各类蔬菜水果合格率情况", businessType = BusinessType.DELETE)
-	@DeleteMapping("/{fruVegQualificationIds}")
-    public AjaxResult remove(@PathVariable Long[] fruVegQualificationIds)
-    {
-        return toAjax(outFruVegQualificationService.deleteoutFruVegQualificationByFruVegQualificationIds(fruVegQualificationIds));
-    }
 }

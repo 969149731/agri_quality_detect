@@ -1,7 +1,37 @@
 <template>
   <div class="app-container">
     <el-form :model="queryParams" ref="queryForm" size="small" :inline="true" v-show="showSearch" label-width="68px">
+      <el-form-item label="抽样地点">
+        <template>
+          <div>
+            <el-select v-model="queryParams.samplingProvince" placeholder="省份" value-key="code" @change="changeSamplingProvince">
+              <el-option
+                v-for="item in samplingAddressProvince"
+                :key="item.code"
+                :label="item.name"
+                :value="item"
+              ></el-option>
+            </el-select>
 
+            <el-select v-model="queryParams.samplingCity" placeholder="城市" value-key="code"  @change="changeSamplingCity">
+              <el-option
+                v-for="item  in samplingAddressCity"
+                :key="item.code"
+                :label="item.name"
+                :value="item"
+              ></el-option>
+            </el-select>
+            <el-select v-model="queryParams.samplingTown" placeholder="区域" value-key="code" @change="changeSamplingTown">
+              <el-option
+                v-for="item   in samplingAddressTown"
+                :key="item.code"
+                :label="item.name"
+                :value="item"
+              ></el-option>
+            </el-select>
+          </div>
+        </template>
+      </el-form-item>
       <el-form-item label="抽样日期">
         <el-date-picker
           v-model="dateRange"
@@ -70,21 +100,15 @@
       @pagination="getList"
     />
 
-    <!-- 添加或修改茶叶禁用农药检出及超标情况对话框 -->
-    <el-dialog :title="title" :visible.sync="open" width="500px" append-to-body>
-      <el-form ref="form" :model="form" :rules="rules" label-width="80px">
-      </el-form>
-      <div slot="footer" class="dialog-footer">
-        <el-button type="primary" @click="submitForm">确 定</el-button>
-        <el-button @click="cancel">取 消</el-button>
-      </div>
-    </el-dialog>
 
   </div>
 </template>
 
 <script>
-import { listOutTeaBanPesDetRecords, getOutTeaBanPesDetRecords, delOutTeaBanPesDetRecords, addOutTeaBanPesDetRecords, updateOutTeaBanPesDetRecords } from "@/api/out/outTeaBanPesDetRecords";
+import {
+  listOutTeaBanPesDetRecords
+  ,samplingAddressProvince,findBySamplingProvinceCode,findBySamplingCityCode
+} from "@/api/out/outTeaBanPesDetRecords";
 
 export default {
   name: "OutTeaBanPesDetRecords",
@@ -109,32 +133,34 @@ export default {
       open: false,
       // 查询参数
       queryParams: {
+        //分页参数
         pageNum: 1,
         pageSize: 10,
         pesticideName: null,
-        methamidophos: null,
-        acephate: null,
-        phorate: null,
-        dimethoate: null,
-        chlorpyrifos: null,
-        fenthion: null,
-        triazophos: null,
-        isocarbophos: null,
-        trichlorfon: null,
-        dichlorvos: null,
-        methylParathion: null,
-        flucythrinate: null,
-        carbaryl: null,
-        deteNum: null,
-        exDetNum: null,
+
+        deteNum: 10,
+        exDetNum: 11,
         productionInspectCount: null,
         productionExceedCount: null,
         wholesaleInspectCount: null,
         wholesaleExceedCount: null,
         vehicleInspectCount: null,
         vehicleExceedCount: null,
-        createdDate: null
+        createdDate: null,
+
+        //对应到实体类的名字
+        samplingLocationProvince:null,
+        samplingLocationCity:null,
+        samplingLocationCounty:null,
+
+
+        //装对象的（v-model下拉框对象）
+        samplingProvince: {code:"450000",name:"广西壮族自治区"},
+        samplingCity:null,
+        samplingTown:null,
       },
+      // 日期范围
+      dateRange: [],
       // 表单参数
       form: {},
       // 表单校验
@@ -181,16 +207,21 @@ export default {
       ],
       // 茶叶禁用农药检出及超标情况表格数据
       pesticideNameList: [],
+      //地区级联
+      samplingAddressProvince: [],//省份集合
+      samplingAddressCity: [],//城市集合
+      samplingAddressTown: [],//区域集合
     };
   },
   created() {
+    this.init();
     this.getList();
   },
   methods: {
     /** 查询茶叶禁用农药检出及超标情况列表 */
     getList() {
       this.loading = true;
-      listOutTeaBanPesDetRecords(this.queryParams).then(response => {
+      listOutTeaBanPesDetRecords(this.addDateRange(this.queryParams, this.dateRange)).then(response => {
         this.pesticideNameList = response.rows;
         this.total = response.total;
         this.loading = false;
@@ -241,64 +272,61 @@ export default {
       this.resetForm("queryForm");
       this.handleQuery();
     },
-    // 多选框选中数据
-    handleSelectionChange(selection) {
-      this.ids = selection.map(item => item.teaBanPesDetRecordsId)
-      this.single = selection.length!==1
-      this.multiple = !selection.length
-    },
-    /** 新增按钮操作 */
-    handleAdd() {
-      this.reset();
-      this.open = true;
-      this.title = "添加茶叶禁用农药检出及超标情况";
-    },
-    /** 修改按钮操作 */
-    handleUpdate(row) {
-      this.reset();
-      const teaBanPesDetRecordsId = row.teaBanPesDetRecordsId || this.ids
-      getOutTeaBanPesDetRecords(teaBanPesDetRecordsId).then(response => {
-        this.form = response.data;
-        this.open = true;
-        this.title = "修改茶叶禁用农药检出及超标情况";
-      });
-    },
-    /** 提交按钮 */
-    submitForm() {
-      this.$refs["form"].validate(valid => {
-        if (valid) {
-          if (this.form.teaBanPesDetRecordsId != null) {
-            updateOutTeaBanPesDetRecords(this.form).then(response => {
-              this.$modal.msgSuccess("修改成功");
-              this.open = false;
-              this.getList();
-            });
-          } else {
-            addOutTeaBanPesDetRecords(this.form).then(response => {
-              this.$modal.msgSuccess("新增成功");
-              this.open = false;
-              this.getList();
-            });
-          }
-        }
-      });
-    },
-    /** 删除按钮操作 */
-    handleDelete(row) {
-      const teaBanPesDetRecordsIds = row.teaBanPesDetRecordsId || this.ids;
-      this.$modal.confirm('是否确认删除茶叶禁用农药检出及超标情况编号为"' + teaBanPesDetRecordsIds + '"的数据项？').then(function() {
-        return delOutTeaBanPesDetRecords(teaBanPesDetRecordsIds);
-      }).then(() => {
-        this.getList();
-        this.$modal.msgSuccess("删除成功");
-      }).catch(() => {});
-    },
     /** 导出按钮操作 */
     handleExport() {
       this.download('out/outTeaBanPesDetRecords/export', {
         ...this.queryParams
       }, `outTeaBanPesDetRecords_${new Date().getTime()}.xlsx`)
     },
+    //地区级联数据初始化
+    init()
+    {
+      this.queryParams.samplingLocationCounty='';
+      this.queryParams.samplingLocation=null;
+
+      this.queryParams.samplingLocationCity='';
+      this.queryParams.samplingCity=null;
+      samplingAddressProvince().then((res) => {
+        this.samplingAddressProvince = res;
+        console.log(res)
+        //初始化省份数据后，根据默认省份代码加载城市
+        if (this.queryParams.samplingProvince.code) {
+          let foundObject = this.samplingAddressProvince.find(obj => (obj.code===this.queryParams.samplingProvince.code));//找到对应省份对象
+          this.changeSamplingProvince(foundObject);
+          this.queryParams.samplingLocationProvince=foundObject.name;
+        }
+      });
+    },
+    changeSamplingProvince(val) {
+      findBySamplingProvinceCode(val.code).then((res) => {
+        this.samplingAddressCity = res;
+        // 清空之前选中的城市和区域信息
+        this.queryParams.samplingCity = '';
+        this.queryParams.samplingTown = '';
+        //下级表单清空
+        this.queryParams.samplingLocationCity=null;
+        this.queryParams.samplingLocationCounty=null;
+      });
+      //表单数据填充
+      this.queryParams.samplingLocationProvince=val.name;
+    },
+    changeSamplingCity(val) {
+      findBySamplingCityCode(val.code).then((res) => {
+        this.samplingAddressTown = res;
+        // 清空之前选中的区域信息
+        this.queryParams.samplingTown = null;
+        //下级表单清空
+        this.queryParams.samplingLocationCounty=null;
+      });
+      //表单数据填充
+      this.queryParams.samplingLocationCity=val.name;
+    },
+    changeSamplingTown(val){
+      //表单数据填充
+      this.queryParams.samplingLocationCounty=val.name;
+    },
+
+    //表格样式
     /*表头行的合并*/
     headerStyle({ row, column, rowIndex, columnIndex }) {
       const comStyle = {

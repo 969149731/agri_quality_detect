@@ -1,6 +1,5 @@
 import request from '@/utils/request'
-
-// 查询水果非禁止使用农药检出及超标情况列表
+// 查询水果非禁止使用农药检出及超标情况列表,新方法
 export function listOutFruNoBanPesDetRecords(query) {
   return request({
     url: '/out/outFruNoBanPesDetRecords/list',
@@ -8,46 +7,25 @@ export function listOutFruNoBanPesDetRecords(query) {
     params: query
   })
 }
-
-// 查询水果非禁止使用农药检出及超标情况详细
-export function getOutFruNoBanPesDetRecords(fruNoBanPesDetRecordsId) {
+///////////////////////////////////////////
+//级联查询(抽样地点)
+export function samplingAddressProvince() {
   return request({
-    url: '/out/outFruNoBanPesDetRecords/' + fruNoBanPesDetRecordsId,
+    url: '/addressInf/address',
+    method: 'get',
+  })
+}
+export function findBySamplingProvinceCode(provinceCode) {
+  return request({
+    url: '/addressInf/addressCity/'+provinceCode,
     method: 'get'
   })
 }
 
-// 新增水果非禁止使用农药检出及超标情况
-export function addOutFruNoBanPesDetRecords(data) {
+export function findBySamplingCityCode(cityCode) {
   return request({
-    url: '/out/outFruNoBanPesDetRecords',
-    method: 'post',
-    data: data
+    url: '/addressInf/addressTown/'+cityCode,
+    method: 'get'
   })
 }
-
-// 修改水果非禁止使用农药检出及超标情况
-export function updateOutFruNoBanPesDetRecords(data) {
-  return request({
-    url: '/out/outFruNoBanPesDetRecords',
-    method: 'put',
-    data: data
-  })
-}
-
-// 删除水果非禁止使用农药检出及超标情况
-export function delOutFruNoBanPesDetRecords(fruNoBanPesDetRecordsId) {
-  return request({
-    url: '/out/outFruNoBanPesDetRecords/' + fruNoBanPesDetRecordsId,
-    method: 'delete'
-  })
-}
-// 查询水果非禁止使用农药检出及超标情况列表,新方法
-export function listOutFruNoBanPesDetRecords2(query) {
-  return request({
-    url: '/out/outFruNoBanPesDetRecords/listNew',
-    method: 'get',
-    params: query
-  })
-}
-
+////////////////////////////////////////////////

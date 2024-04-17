@@ -322,24 +322,17 @@ public class outSampleQuality extends BaseEntity
     }
 
     //自加接口
-    public void vegSamplingCountAddOne(){
-        this.vegSamplingCount+=1;
+    public void SamplingCountAddOne(String type){
+        if (type.equals("蔬菜")) this.vegSamplingCount+=1;
+        if (type.equals("水果")) this.fruSamplingCount+=1;
+        if (type.equals("合计")) this.totalSamplingCount+=1;
     }
-    public void vegQualifiedCountAddOne(){
-        this.vegQualifiedCount+=1;
+    public void QualifiedCountAddOne(String type){
+        if (type.equals("蔬菜")) this.vegQualifiedCount+=1;
+        if (type.equals("水果")) this.fruQualifiedCount+=1;
+        if (type.equals("合计")) this.totalQualifiedCount+=1;
     }
-    public void fruSamplingCountAddOne(){
-        this.fruSamplingCount+=1;
-    }
-    public void fruQualifiedCountAddOne(){
-        this.fruQualifiedCount+=1;
-    }
-    public void totalSamplingCountAddOne(){
-        this.totalSamplingCount+=1;
-    }
-    public void totalQualifiedCountAddOne(){
-        this.totalQualifiedCount+=1;
-    }
+
     public void addToTotal(outSampleQuality otherOne){
         this.vegSamplingCount+=otherOne.vegSamplingCount;
         this.fruSamplingCount+=otherOne.fruSamplingCount;
