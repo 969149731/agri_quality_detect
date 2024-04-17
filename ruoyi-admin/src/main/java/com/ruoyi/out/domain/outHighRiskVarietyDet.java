@@ -25,6 +25,18 @@ public class outHighRiskVarietyDet extends BaseEntity
     @Excel(name = "抽样地点", readConverterExp = "被=检单位")
     private String samplingLocation;
 
+
+    @Excel(name = "抽样省")
+    private String samplingLocationProvince;
+
+    @Excel(name = "抽样市")
+    private String samplingLocationCity;
+
+    @Excel(name = "抽样县")
+    private String samplingLocationCounty;
+
+
+
     /** 检测单位（承检单位） */
     @Excel(name = "检测单位", readConverterExp = "承=检单位")
     private String detectLocation;
@@ -59,6 +71,10 @@ public class outHighRiskVarietyDet extends BaseEntity
     @Excel(name = "备注", readConverterExp = "可=选字段")
     private String remarks;
 
+
+    public outHighRiskVarietyDet() {
+    }
+
     public outHighRiskVarietyDet(String samplingLocation, String detectLocation, String vegFruName, Long totalSamples, Long qualifiedNumber, BigDecimal qualificationRate, String prohibitedPesticideDetection, String routinePesticideExceedance) {
         this.samplingLocation = samplingLocation;
         this.detectLocation = detectLocation;
@@ -75,6 +91,31 @@ public class outHighRiskVarietyDet extends BaseEntity
     @Excel(name = "记录创建的时间", width = 30, dateFormat = "yyyy-MM-dd")
 
     private Date createdDate;
+
+
+    public String getSamplingLocationProvince() {
+        return samplingLocationProvince;
+    }
+
+    public void setSamplingLocationProvince(String samplingLocationProvince) {
+        this.samplingLocationProvince = samplingLocationProvince;
+    }
+
+    public String getSamplingLocationCity() {
+        return samplingLocationCity;
+    }
+
+    public void setSamplingLocationCity(String samplingLocationCity) {
+        this.samplingLocationCity = samplingLocationCity;
+    }
+
+    public String getSamplingLocationCounty() {
+        return samplingLocationCounty;
+    }
+
+    public void setSamplingLocationCounty(String samplingLocationCounty) {
+        this.samplingLocationCounty = samplingLocationCounty;
+    }
 
     public String getSamplingLocation() {
         return samplingLocation;
@@ -168,6 +209,9 @@ public class outHighRiskVarietyDet extends BaseEntity
     public String toString() {
         return "outHighRiskVarietyDet{" +
                 "samplingLocation='" + samplingLocation + '\'' +
+                ", samplingLocationProvince='" + samplingLocationProvince + '\'' +
+                ", samplingLocationCity='" + samplingLocationCity + '\'' +
+                ", samplingLocationCounty='" + samplingLocationCounty + '\'' +
                 ", detectLocation='" + detectLocation + '\'' +
                 ", vegFruName='" + vegFruName + '\'' +
                 ", totalSamples=" + totalSamples +

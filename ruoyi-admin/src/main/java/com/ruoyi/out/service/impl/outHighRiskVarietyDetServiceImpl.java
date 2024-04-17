@@ -385,6 +385,8 @@ public class outHighRiskVarietyDetServiceImpl implements IoutHighRiskVarietyDetS
         List<outHighRiskVarietyDet> finalRes = new ArrayList<>();
         //开始遍历获取到的outHighRiskVarietyDets
         for (outHighRiskVarietyDet highRiskVarietyDet : outHighRiskVarietyDets) {
+
+
             //从det_res中获取信息进行禁用农药和农药超标的判断
             // 按逗号分割数据
             String[] entries = highRiskVarietyDet.getDet_res().split(",");
@@ -458,9 +460,15 @@ public class outHighRiskVarietyDetServiceImpl implements IoutHighRiskVarietyDetS
             highRiskVarietyDet.setProhibitedPesticideDetection(jinyong.toString());
             highRiskVarietyDet.setRoutinePesticideExceedance(chaobiao.toString());
 
-            String detectLocation = highRiskVarietyDet.getDetectLocation();
-            String city = detectLocation.substring(0, 3);
-            highRiskVarietyDet.setSamplingLocation(city);
+
+//            String detectLocation = highRiskVarietyDet.getDetectLocation();
+//            String city = detectLocation.substring(0, 3);
+//            highRiskVarietyDet.setSamplingLocation(city);
+//            highRiskVarietyDet.setSamplingLocation(highRiskVarietyDet.getSamplingLocationCity());
+
+            highRiskVarietyDet.setSamplingLocation(highRiskVarietyDet.getSamplingLocationCity());
+
+
 
             finalRes.add(highRiskVarietyDet);
 //            System.out.println("我要看的"+highRiskVarietyDet);

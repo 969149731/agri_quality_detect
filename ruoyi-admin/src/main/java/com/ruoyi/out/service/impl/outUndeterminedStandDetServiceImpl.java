@@ -2,6 +2,7 @@ package com.ruoyi.out.service.impl;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import com.github.pagehelper.PageHelper;
 import com.ruoyi.common.core.page.PageDomain;
@@ -129,7 +130,12 @@ public class outUndeterminedStandDetServiceImpl implements IoutUndeterminedStand
                 //获取上传的数据中有检测出有值的农药名
                 String pesticideName = agriPesticideDetResult.getPesticideName();
                 //获取上传的数据中有检测出有值的农药检测值
-                Double pesticideDetValue = Double.valueOf(agriPesticideDetResult.getPesticideDetValue());
+                double pesticideDetValue=0.0;
+                if(!Objects.equals(agriPesticideDetResult.getPesticideDetValue(), "")){
+                     pesticideDetValue = Double.parseDouble(agriPesticideDetResult.getPesticideDetValue());
+
+                }
+
                 //获取上传的数据中具体的样品名【蔬菜水果名】，用查询该样品农药限量值
                 String vegFruName = CitySampleTestDetail.getVegFruName();
                 //标准，默认依据国家标准
