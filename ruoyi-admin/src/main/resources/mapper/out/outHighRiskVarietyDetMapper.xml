@@ -122,6 +122,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result column="qualificationRate" property="qualificationRate" />
         <result column="prohibitedPesticideDetection" property="prohibitedPesticideDetection" />
         <result column="routinePesticideExceedance" property="routinePesticideExceedance" />
+
+        <result property="samplingLocationProvince" column="samplingLocationProvince"/>
+        <result property="samplingLocationCity" column="samplingLocationCity"/>
+        <result property="samplingLocationCounty" column="samplingLocationCounty"/>
+
     </resultMap>
 
 <!--    <原来没有加日期区间搜索的写法   select id="selectHighRiskSampleList" resultMap="SampleTestDetailResultMap">-->
@@ -145,6 +150,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
     <select id="selectHighRiskSampleList" resultMap="SampleTestDetailResultMap">
         SELECT
+        a.sampling_location_province AS samplingLocationProvince,
+        a.sampling_location_city AS samplingLocationCity,
+        a.sampling_location_county AS samplingLocationCounty,
         a.detect_location AS detectLocation,
         a.veg_fru_name AS vegFruName,
         GROUP_CONCAT(IFNULL(CONCAT(a.sample_code, '-', COALESCE(b.pesticide_name, CONCAT(a.city_sample_test_details_id, '-没有检测到农药')), ':', b.pesticide_det_value), CONCAT(a.sample_code, '-没有检测到农药:0'))) AS det_res,
@@ -188,9 +196,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
         </where>
         GROUP BY
-        a.detect_location, a.veg_fru_name
+        a.detect_location, a.veg_fru_name,a.sampling_location_province,a.sampling_location_city,a.sampling_location_county
         ORDER BY
-        a.detect_location, a.veg_fru_name;
+        a.sampling_location_city;
     </select>
 
 
