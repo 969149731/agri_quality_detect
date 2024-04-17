@@ -99,6 +99,16 @@ public class outStandardReturnType extends BaseEntity {
             case "韩国":this.KR+=1;break;
         }
     }
+
+    public void AlladdOne(){
+         this.CN+=1;
+         this.CAC+=1;
+         this.JPN+=1;
+         this.EU+=1;
+         this.US+=1;
+         this.KR+=1;
+
+    }
     public void setOne(String StandardName,int setTonum){//对其进行值的设定
         switch (StandardName){
             case "国家标准":this.CN=setTonum;break;

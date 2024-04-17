@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import cn.afterturn.easypoi.excel.ExcelExportUtil;
 import cn.afterturn.easypoi.excel.entity.TemplateExportParams;
+import com.ruoyi.detection.domain.agriCitySampleTestDetails;
 import com.ruoyi.out.domain.outStandardReturnType;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.ss.util.CellRangeAddress;
@@ -66,11 +67,9 @@ public class outStandComplianceController extends BaseController
     @PreAuthorize("@ss.hasPermi('out:outStandCompliance:export')")
     @Log(title = "参照国际组织或国家标准合格率情况", businessType = BusinessType.EXPORT)
     @PostMapping("/export")
-    public void export(HttpServletResponse response, outStandCompliance outStandCompliance)
+    public void export(HttpServletResponse response, agriCitySampleTestDetails agriCitySampleTestDetails)
     {
-        outStandardReturnType NewOne=new outStandardReturnType();//可能后续会用到传参的，目前传空的
-        NewOne.setParams(outStandCompliance.getParams());
-        List<outStandardReturnType> list = outStandComplianceService.selectoutStandComplianceList2(NewOne);
+        List<outStandardReturnType> list = outStandComplianceService.selectoutStandComplianceList2(agriCitySampleTestDetails);
         //计算合格率
         outStandardReturnType SampleNum=list.get(list.size()-2);
         outStandardReturnType passNum=list.get(list.size()-1);
@@ -187,10 +186,10 @@ public class outStandComplianceController extends BaseController
 
     @PreAuthorize("@ss.hasPermi('out:outStandCompliance:list')")
     @GetMapping("/listNew")
-    public TableDataInfo listNew(outStandardReturnType outStandardReturnType)
+    public TableDataInfo listNew(agriCitySampleTestDetails agriCitySampleTestDetails)
     {
         startPage();
-        List<outStandardReturnType> list = outStandComplianceService.selectoutStandComplianceList2(outStandardReturnType);
+        List<outStandardReturnType> list = outStandComplianceService.selectoutStandComplianceList2(agriCitySampleTestDetails);
         return getDataTable(list);
     }
     //工具方法

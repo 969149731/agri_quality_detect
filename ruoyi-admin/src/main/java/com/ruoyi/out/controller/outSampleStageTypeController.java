@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import cn.afterturn.easypoi.excel.ExcelExportUtil;
 import cn.afterturn.easypoi.excel.entity.TemplateExportParams;
+import com.ruoyi.detection.domain.agriCitySampleTestDetails;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.ss.usermodel.WorkbookFactory;
@@ -52,10 +53,10 @@ public class outSampleStageTypeController extends BaseController
      */
     @PreAuthorize("@ss.hasPermi('out:outSampleStageType:list')")
     @GetMapping("/list")
-    public TableDataInfo list(outSampleStageType outSampleStageType)
+    public TableDataInfo list(agriCitySampleTestDetails agriCitySampleTestDetails)
     {
         startPage();
-        List<outSampleStageType> list = outSampleStageTypeService.selectoutSampleStageTypeList(outSampleStageType);
+        List<outSampleStageType> list = outSampleStageTypeService.selectoutSampleStageTypeList(agriCitySampleTestDetails);
         return getDataTable(list);
     }
 
@@ -65,9 +66,9 @@ public class outSampleStageTypeController extends BaseController
     @PreAuthorize("@ss.hasPermi('out:outSampleStageType:export')")
     @Log(title = "被抽样环节数量统计", businessType = BusinessType.EXPORT)
     @PostMapping("/export")
-    public void export(HttpServletResponse response, outSampleStageType outSampleStageType)
+    public void export(HttpServletResponse response,agriCitySampleTestDetails agriCitySampleTestDetails)
     {
-        List<outSampleStageType> list = outSampleStageTypeService.selectoutSampleStageTypeList(outSampleStageType);
+        List<outSampleStageType> list = outSampleStageTypeService.selectoutSampleStageTypeList(agriCitySampleTestDetails);
         TemplateExportParams params = new TemplateExportParams("excelOutTemplate/outSampleStageType.xlsx");
         Map<String, Object> map = new HashMap<>();
         map.put("tableName", "7.被抽样环节数量统计");
@@ -109,48 +110,6 @@ public class outSampleStageTypeController extends BaseController
         }
     }
 
-    /**
-     * 获取被抽样环节数量统计详细信息
-     */
-    @PreAuthorize("@ss.hasPermi('out:outSampleStageType:query')")
-    @GetMapping(value = "/{sampleQualityId}")
-    public AjaxResult getInfo(@PathVariable("sampleQualityId") Long sampleQualityId)
-    {
-        return success(outSampleStageTypeService.selectoutSampleStageTypeBySampleQualityId(sampleQualityId));
-    }
-
-    /**
-     * 新增被抽样环节数量统计
-     */
-    @PreAuthorize("@ss.hasPermi('out:outSampleStageType:add')")
-    @Log(title = "被抽样环节数量统计", businessType = BusinessType.INSERT)
-    @PostMapping
-    public AjaxResult add(@RequestBody outSampleStageType outSampleStageType)
-    {
-        return toAjax(outSampleStageTypeService.insertoutSampleStageType(outSampleStageType));
-    }
-
-    /**
-     * 修改被抽样环节数量统计
-     */
-    @PreAuthorize("@ss.hasPermi('out:outSampleStageType:edit')")
-    @Log(title = "被抽样环节数量统计", businessType = BusinessType.UPDATE)
-    @PutMapping
-    public AjaxResult edit(@RequestBody outSampleStageType outSampleStageType)
-    {
-        return toAjax(outSampleStageTypeService.updateoutSampleStageType(outSampleStageType));
-    }
-
-    /**
-     * 删除被抽样环节数量统计
-     */
-    @PreAuthorize("@ss.hasPermi('out:outSampleStageType:remove')")
-    @Log(title = "被抽样环节数量统计", businessType = BusinessType.DELETE)
-	@DeleteMapping("/{sampleQualityIds}")
-    public AjaxResult remove(@PathVariable Long[] sampleQualityIds)
-    {
-        return toAjax(outSampleStageTypeService.deleteoutSampleStageTypeBySampleQualityIds(sampleQualityIds));
-    }
     //工具方法
     private static void mergeCells(Sheet sheet) {//合并表头单元格
         //生产基地、批发市场、运输车、合计

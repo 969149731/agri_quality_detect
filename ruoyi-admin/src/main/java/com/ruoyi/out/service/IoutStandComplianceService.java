@@ -1,6 +1,8 @@
 package com.ruoyi.out.service;
 
 import java.util.List;
+
+import com.ruoyi.detection.domain.agriCitySampleTestDetails;
 import com.ruoyi.out.domain.outStandCompliance;
 import com.ruoyi.out.domain.outStandardReturnType;
 
@@ -61,5 +63,5 @@ public interface IoutStandComplianceService
     public int deleteoutStandComplianceByInterStandId(Long interStandId);
 
 
-    public List<outStandardReturnType> selectoutStandComplianceList2(outStandardReturnType outStandardReturnType);
+    public List<outStandardReturnType> selectoutStandComplianceList2(agriCitySampleTestDetails agriCitySampleTestDetails);
 }
