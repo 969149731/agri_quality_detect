@@ -24,6 +24,7 @@ public class outStandComplianceServiceImpl implements IoutStandComplianceService
 {
     @Autowired
     private outStandComplianceMapper outStandComplianceMapper;
+    private StringBuilder feedBack;
 
     /**
      * 查询参照国际组织或国家标准合格率情况
@@ -97,8 +98,9 @@ public class outStandComplianceServiceImpl implements IoutStandComplianceService
         return outStandComplianceMapper.deleteoutStandComplianceByInterStandId(interStandId);
     }
 
-    public List<outStandardReturnType> selectoutStandComplianceList2(agriCitySampleTestDetails agriCitySampleTestDetails)
+    public List<outStandardReturnType> selectoutStandComplianceList2(agriCitySampleTestDetails agriCitySampleTestDetails,StringBuilder feedBackMsg)
     {//为避免多一次交互,将合格率计算放到前端进行
+        initMsg(feedBackMsg);
 
         List<outStandardReturnType> resultList = new ArrayList<>();//生成原始返回值结果，农药名及全为0的其他值
         outStandardReturnType sampleNum= new outStandardReturnType("抽样数");//最后才放入结果
@@ -117,7 +119,7 @@ public class outStandComplianceServiceImpl implements IoutStandComplianceService
         List<outFruVegSelectType2> SelectList = outStandComplianceMapper.getFruVegDetResultList(agriCitySampleTestDetails);//获取农药检测结果表
         if (SelectList.isEmpty()){System.out.println("样本查询结果为空");}
         if(SelectList.isEmpty()){
-            System.out.println("查询出的样本列表为空");
+            log.debug("查询出的样本列表为空");
             return returnFinalList(resultMap,pesticideList,resultList,sampleNum,passNum);
         }
         //先遍历所有获取到的结果//以id标识一组检测结果（即一个样本）,所以默认id是存在的，事实上id由数据库生成，肯定存在
@@ -156,7 +158,7 @@ public class outStandComplianceServiceImpl implements IoutStandComplianceService
         }
         outFruVegSelectType2 firstitem =itemList.get(0);//初步审查，由于整个农药结果列表是拼接到样本表生成的，第一个的样本信息即是整个列表的样本信息
         if (itemList.size()==1 && firstitem.pesticideName==null && firstitem.pesticideDetValue==null){//无农药检出，必定合格
-            System.out.println("该条目下无检出农药"+"/r/n蔬果名:"+firstitem.vegFruName+"样品编号"+firstitem.sampleCode);
+            log.debug("该条目下无检出农药"+"/r/n蔬果名:"+firstitem.vegFruName+"样品编号"+firstitem.sampleCode);
             return result;//退出
         }
         for (outFruVegSelectType2 item: itemList){//遍历所有检出的农药
@@ -167,6 +169,7 @@ public class outStandComplianceServiceImpl implements IoutStandComplianceService
                 case 1://缺少必要信息
                     return IsPassUnderAllStandard(item);//默认合格？，返回初始均为合格的情况
                 case 2:
+                    log.debug("该农药不在检测范围中");
                     continue;//该农药不在检测范围中，请检查
             }
 
@@ -175,7 +178,7 @@ public class outStandComplianceServiceImpl implements IoutStandComplianceService
             List<agriPesticideResidueStandard> standardslist = outStandComplianceMapper.getagriPesticideResidueStandard(pesticideName, vegFruName);
             if (standardslist.isEmpty()){
 //                result=IsPassUnderAllStandard(item);//如果不计入农药超标数的话（也确实无法判断）这样写就足够了
-                System.out.println("没有任何标准" + "/r/n蔬果名:" + item.vegFruName + "/n农药名:" + item.pesticideName+ "/n样本编号:" + item.sampleCode);
+                addMsg("没有任何标准"+ "样本编号:" + item.sampleCode + "蔬果名:" + item.vegFruName + "农药名:" + item.pesticideName);
                 continue;//该检测结果没有对应标准
             }
             //计算相应属性
@@ -224,19 +227,20 @@ public class outStandComplianceServiceImpl implements IoutStandComplianceService
         //末尾加2个，前端会将其删除
         resultList.add(sampleNum);
         resultList.add(passNum);
-        System.out.println("当前农药数数"+pesticideList.size());
+//        System.out.println("当前农药数数"+pesticideList.size());
         return resultList;
     }
     public int checkIsUseful(outFruVegSelectType2 item,Map<String, outStandardReturnType> resultMap){
         try{
             if(item.pesticideName==null||item.pesticideName.equals("") || item.pesticideDetValue==null ||item.vegFruName==null||item.vegFruName.equals("")){//农药名或
-                System.out.println("该检测结果缺少必要信息 "+"/r/n蔬果名:"+item.vegFruName+"/r/n农药名:"+item.pesticideName+"/r/n农药检出值:"+item.vegFruName+"样品编号"+item.sampleCode);
+                addMsg("该检测结果缺少必要信息 "+" 样品编号"+item.sampleCode+" 蔬果名:"+item.vegFruName+" 农药名:"+item.pesticideName+" 农药检出值:"+item.pesticideDetValue);
                 return 1;
             }
             if(resultMap.get(item.pesticideName)==null){
                 return 2;//不在检测范围内
             }
         }catch (Exception e){
+            log.error("捕获异常",e);
             return -1;//有异常
         }
         return 0;//到此说明数据可用
@@ -285,5 +289,12 @@ public class outStandComplianceServiceImpl implements IoutStandComplianceService
                 if (sample.japanStandard!=null &&sample.japanStandard.equals("合格")) ;
                 else answer.setOne("日本",0);
         return answer;
+    }
+    public void initMsg(StringBuilder feedBackMsg){
+        feedBack = feedBackMsg;
+    }
+    public void addMsg(String inputMsg){//目前仅仅是为了增加”<br/>“
+        String msg = "<br/>"+inputMsg;
+        feedBack.append(msg);
     }
 }

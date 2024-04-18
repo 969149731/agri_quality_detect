@@ -14,7 +14,7 @@ import org.springframework.stereotype.Service;
 import com.ruoyi.out.mapper.outSampleStageTypeMapper;
 import com.ruoyi.out.domain.outSampleStageType;
 import com.ruoyi.out.service.IoutSampleStageTypeService;
-
+import static com.ruoyi.framework.datasource.DynamicDataSourceContextHolder.log;
 /**
  * 被抽样环节数量统计Service业务层处理
  * 
@@ -26,7 +26,7 @@ public class outSampleStageTypeServiceImpl implements IoutSampleStageTypeService
 {
     @Autowired
     private outSampleStageTypeMapper outSampleStageTypeMapper;
-
+    private StringBuilder feedBack;
     /**
      * 查询被抽样环节数量统计列表
      * 
@@ -34,10 +34,10 @@ public class outSampleStageTypeServiceImpl implements IoutSampleStageTypeService
      * @return 被抽样环节数量统计
      */
     @Override
-    public List<outSampleStageType> selectoutSampleStageTypeList(agriCitySampleTestDetails agriCitySampleTestDetails)
+    public List<outSampleStageType> selectoutSampleStageTypeList(agriCitySampleTestDetails agriCitySampleTestDetails,StringBuilder feedBackMsg)
     {
+        initFeedBack(feedBackMsg);
         List<outSampleStageType> resultList=new ArrayList<>();
-
         //结果列表Map
         List<String> StageType= Arrays.asList("生产基地", "无公害产品基地","地标生产基地","绿色产品基地","有机产品基地","散户","其他基地","批发市场","运输车");//合计在最后加入
         List<String> StageIncludingType= Arrays.asList("无公害产品基地", "地标生产基地","绿色产品基地","有机产品基地","散户","其他基地");
@@ -62,7 +62,7 @@ public class outSampleStageTypeServiceImpl implements IoutSampleStageTypeService
         List<agriCitySampleTestDetails> SampleList= outSampleStageTypeMapper.getCitySampleResultList(agriCitySampleTestDetails);
         //查出来就是一个样本而不是一个农药条目
         if(SampleList.isEmpty()){
-            System.out.println("样本列表为空");
+            log.debug("样本列表为空");
             return returnFinalList(resultMap,resultList,StageType);
             }
         for(agriCitySampleTestDetails sample:SampleList){
@@ -92,15 +92,14 @@ public class outSampleStageTypeServiceImpl implements IoutSampleStageTypeService
                     StageTypeUnitMap.get(itemStageTyep).add(unitName);//将新的单位计入
                 }
         }catch (Exception e){
-
-            System.out.println("捕获异常"+e.getMessage());
+            log.error("捕获异常",e);
         }
 
     }
     public int checkIsUseful(agriCitySampleTestDetails sample,List<String> StageType){
         try{
             if (sample.getSamplingStageType()==null){
-                System.out.println("该条目没有相应生产环节信息 生产环节"+sample.getSamplingStageType()+" 样本编号:"+sample.getSampleCode());
+                addMsg("该条目没有相应生产环节信息"+" 样本编号:"+sample.getSampleCode()+"生产环节"+sample.getSamplingStageType());
                 return 1;
             }
 
@@ -113,10 +112,11 @@ public class outSampleStageTypeServiceImpl implements IoutSampleStageTypeService
             }
 
             if (!StageType.contains(sample.getSamplingStageType())){
-                System.out.println("生产环节不在统计列表中 当前样本生产环节为："+sample.getSamplingStageType()+" 样本编号:"+sample.getSampleCode());
+                //样本的生产环节不在统计列表
                 return 2;
             }
         }catch (Exception e){
+            log.error("捕获异常",e);
             return -1;//有异常
         }
         return 0;//到此说明数据可用
@@ -132,7 +132,17 @@ public class outSampleStageTypeServiceImpl implements IoutSampleStageTypeService
             allCount.addTotalTogether(resultMap.get(StageTypeName));
         }
         resultList.add(allCount);
-        System.out.println("打印结果列表"+resultList);
+//        System.out.println("打印结果列表"+resultList);
         return resultList;
+    }
+    public void initFeedBack(StringBuilder feedBackMSg){
+        feedBack=feedBackMSg;
+    }
+    public void clearMsg(){
+        feedBack=new StringBuilder();
+    }
+    public void addMsg(String inputMsg){//目前仅仅是为了增加”<br/>“
+        String msg = "<br/>"+inputMsg;
+        feedBack.append(msg);
     }
 }

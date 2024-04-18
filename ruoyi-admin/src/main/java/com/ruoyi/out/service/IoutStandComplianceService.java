@@ -63,5 +63,5 @@ public interface IoutStandComplianceService
     public int deleteoutStandComplianceByInterStandId(Long interStandId);
 
 
-    public List<outStandardReturnType> selectoutStandComplianceList2(agriCitySampleTestDetails agriCitySampleTestDetails);
+    public List<outStandardReturnType> selectoutStandComplianceList2(agriCitySampleTestDetails agriCitySampleTestDetails,StringBuilder feedBackMsg);
 }

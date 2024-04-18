@@ -14,7 +14,6 @@ import com.ruoyi.out.domain.outFruVegSelectType;
 import com.ruoyi.out.domain.agriPesticideResidueStandard;
 
 import static com.ruoyi.framework.datasource.DynamicDataSourceContextHolder.log;
-
 /**
  * 水果禁用农药检出及超标情况Service业务层处理
  * 
@@ -26,17 +25,24 @@ public class outFruPesDetRecordsServiceImpl implements IoutFruPesDetRecordsServi
 {
     @Autowired
     private outFruPesDetRecordsMapper outFruPesDetRecordsMapper;
+    StringBuilder failureMsg = new StringBuilder();
 
     @Override
-    public List<outReturnType> selectoutFruPesDetRecordsList(agriCitySampleTestDetails agriCitySampleTestDetails, String type)
+    public List<outReturnType> selectoutFruPesDetRecordsList(agriCitySampleTestDetails agriCitySampleTestDetails, String type,StringBuilder feedBackMsg)
     {
+        clearMsg();//对failureMsg进行清空
         //初始化模块
         List<outReturnType> resultList = new ArrayList<outReturnType>();//用于存放结果的列表，当前为空
+        //反馈信息
+//        StringBuilder successMsg = new StringBuilder();
+//        StringBuilder failureMsg = new StringBuilder();
 
         //查询农药列表
         PageHelper.startPage(0,0,false,false,true);//分页方法，仅对之后第一个查询生效
         List<String> pesticideList = getPesticideList(type);//可以在此处设置农药列表//也可查询获取列表
-        if(pesticideList.isEmpty()){System.out.println("查询出的农药列表为空");return resultList;}
+        if(pesticideList.isEmpty()){
+            addMsg("查询出的农药列表为空");
+            System.out.println("查询出的农药列表为空");return resultList;}
         Map<String, outReturnType> pesticideResultMap = new TreeMap<String, outReturnType>();//使用字典存储
         for (String pesticideName : pesticideList) {//初始化
             pesticideResultMap.put(pesticideName, new outReturnType(pesticideName));
@@ -45,13 +51,12 @@ public class outFruPesDetRecordsServiceImpl implements IoutFruPesDetRecordsServi
         //查询结果列表
         PageHelper.startPage(0,0,false,false,true);//分页方法，仅对之后第一个查询生效
         List<outFruVegSelectType> SelectList = outFruPesDetRecordsMapper.getFruVegDetResultList(agriCitySampleTestDetails);//获取所有符合条件的农药检测结果表//在此处进行各类条件查询
-        if(SelectList.isEmpty()){System.out.println("查询出的检测结果列表为空");
+        if(SelectList.isEmpty()){
+            System.out.println("查询出的检测结果列表为空");
+            log.debug("查询出的检测结果列表为空",SelectList);
             return returnFinalList(pesticideResultMap);
         }
 
-        //反馈信息
-        StringBuilder successMsg = new StringBuilder();
-        StringBuilder failureMsg = new StringBuilder();
 
         //遍历所有获取到的结果
         for (outFruVegSelectType item : SelectList) {
@@ -70,9 +75,6 @@ public class outFruPesDetRecordsServiceImpl implements IoutFruPesDetRecordsServi
                 //对蔬果名、农药名、生产环节进行数据审查
                 //审查不通过
                 case (1)://缺少农药名和生产环节，无法填入数据
-                    String msg = "<br/>" + "第"+ item.citySampleTestDetailsId +"条"+ "数据无法判断";
-                    failureMsg.append(msg);
-                    log.error(msg);
                     continue;//没通过数据可用审查，跳过当前的检测条目
                 case (2)://蔬菜名或检测值缺失，无法进行超标判断//但仍可以进行检出判断
                     if(pesticideResultMap.get(item.pesticideName)!=null){//在检测的列表中
@@ -81,7 +83,6 @@ public class outFruPesDetRecordsServiceImpl implements IoutFruPesDetRecordsServi
                     }
                     continue;
                 case (-1)://异常检出
-                    System.out.println("异常检出");
                     continue;
                 case (0):
                     //通过
@@ -89,7 +90,6 @@ public class outFruPesDetRecordsServiceImpl implements IoutFruPesDetRecordsServi
                     break;
             }
             if(!pesticideList.contains(item.pesticideName)){//对应农药是否在要求检测的列表内
-                System.out.println("该农药不在检测列表中");
                 continue;
             }
 
@@ -109,6 +109,8 @@ public class outFruPesDetRecordsServiceImpl implements IoutFruPesDetRecordsServi
             //计算相应属性//计算的逻辑可能还需要更改
             compute(pesticideResultMap,item,firstStandard);
         }
+        feedBackMsg.append(failureMsg.toString());
+        clearMsg();//对failureMsg进行清空
         //返回结果
         return returnFinalList(pesticideResultMap);
     }
@@ -130,15 +132,16 @@ public class outFruPesDetRecordsServiceImpl implements IoutFruPesDetRecordsServi
     public int checkIsUseful(outFruVegSelectType item){
         try{
             //生产环节和农药名为必须 最终展示时由这两个属性确定在表格中的位置
-            if (item.samplingStageType==null || item.pesticideName==null || item.samplingStageType=="" || item.pesticideName==""){
-                System.out.println("农药名或生产环节缺失："+"/r/n农药名:"+item.pesticideName+"生产环节"+item.samplingStageType+"样品编号"+item.sampleCode);
+            if (item.samplingStageType==null || item.pesticideName==null || item.samplingStageType.equals("") || item.pesticideName.equals("")){
+                addMsg("农药名或生产环节缺失： "+" 农药名:"+item.pesticideName+" 生产环节:"+item.samplingStageType+" 样品编号:"+item.sampleCode);
                 return 1;
             }
             if (item.vegFruName==null || item.pesticideDetValue==null){//蔬菜名或检测值缺失，无法进行超标判断
-                System.out.println("蔬菜名缺失："+"/r/n蔬果名:"+item.vegFruName+"检测值"+item.pesticideDetValue+"样品编号"+item.sampleCode);
+                addMsg("蔬菜名缺失： "+" 蔬果名:"+item.vegFruName+" 检测值:"+item.pesticideDetValue+" 样品编号:"+item.sampleCode);
                 return 2;
             }
         }catch (Exception e){
+            log.error("在检查环节出现异常",e);
             return -1;//错误
         }
         return 0;//到此说明数据可用
@@ -159,8 +162,9 @@ public class outFruPesDetRecordsServiceImpl implements IoutFruPesDetRecordsServi
     public agriPesticideResidueStandard getUsefulStandard(List<agriPesticideResidueStandard> standardList,outFruVegSelectType item){
         try {//在数据审查阶段进行异常捕捉
             if (standardList.isEmpty()) {//无任何标准
-                String msg = "没有对应国家标准" + "/r/n蔬果名:" + item.vegFruName + "/n农药名:" + item.pesticideName;
+                String msg = "没有对应国家标准"+ "/r/n样品编号:" + item.sampleCode + "/r/n蔬果名:" + item.vegFruName + "/n农药名:" + item.pesticideName;
                 log.error(msg);
+                addMsg(msg);
                 return null;//没有任何标准返回空
             }
             for (agriPesticideResidueStandard standard : standardList) {
@@ -171,6 +175,7 @@ public class outFruPesDetRecordsServiceImpl implements IoutFruPesDetRecordsServi
             //没有国家标准
             return null;//返回空
         } catch (Exception e) {
+            log.error("标准数据审查时出错");
             return null;//出错，返回空
         }
     }
@@ -178,5 +183,12 @@ public class outFruPesDetRecordsServiceImpl implements IoutFruPesDetRecordsServi
         if(type.equals("禁用"))
             return outFruPesDetRecordsMapper.getFruBanPesticideList();//禁用
         else return outFruPesDetRecordsMapper.getFruNoBanPesticideList();//非禁用
+    }
+    public void clearMsg(){
+        failureMsg=new StringBuilder();
+    }
+    public void addMsg(String inputMsg){//目前仅仅是为了增加”<br/>“
+        String msg = "<br/>"+inputMsg;
+        failureMsg.append(msg);
     }
 }

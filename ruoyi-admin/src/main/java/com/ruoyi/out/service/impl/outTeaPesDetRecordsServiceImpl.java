@@ -25,17 +25,18 @@ public class outTeaPesDetRecordsServiceImpl implements IoutTeaPesDetRecordsServi
 {
     @Autowired
     private outTeaPesDetRecordsMapper outTeaPesDetRecordsMapper;
-
+    private StringBuilder feedBack;
 
     /**
      * 查询茶叶禁用农药检出及超标情况列表
      * 
-     * @param outTeaBanPesDetRecords 茶叶禁用农药检出及超标情况
+     * @param agriCitySampleTestDetails 茶叶禁用农药检出及超标情况
      * @return 茶叶禁用农药检出及超标情况
      */
     @Override
-    public List<outReturnType> selectoutTeaPesDetRecordsList(agriCitySampleTestDetails agriCitySampleTestDetails, String type)
+    public List<outReturnType> selectoutTeaPesDetRecordsList(agriCitySampleTestDetails agriCitySampleTestDetails, String type,StringBuilder feedBackMsg)
     {
+        initMsg(feedBackMsg);
         //初始化模块
         List<outReturnType> resultList = new ArrayList<outReturnType>();//用于存放结果的列表，当前为空
 
@@ -72,30 +73,26 @@ public class outTeaPesDetRecordsServiceImpl implements IoutTeaPesDetRecordsServi
             //预设标准
             agriPesticideResidueStandard firstStandard =new agriPesticideResidueStandard();//默认限值设定为0.0，无对应标准名
             //检测结果可用性检查
-                switch (checkIsUseful(item)){
-                    //对蔬果名、农药名、生产环节进行数据审查
-                    //审查不通过
-                    case (1)://缺少农药名和生产环节，无法填入数据
-                        String msg = "<br/>" + "第"+ item.citySampleTestDetailsId +"条"+ "数据无法判断";
-                        failureMsg.append(msg);
-                        log.error(msg);
-                        continue;//没通过数据可用审查，跳过当前的检测条目
-                    case (2)://蔬菜名或检测值缺失，无法进行超标判断//但仍可以进行检出判断
-                        if(pesticideResultMap.get(item.pesticideName)!=null){//在检测的列表中
-                            pesticideResultMap.get(item.pesticideName).totalDet += 1;//总检出
-                            pesticideResultMap.get(item.pesticideName).addOneToStageName(item.samplingStageType);//加到对应属性上
-                        }
-                        continue;
-                    case (-1)://异常检出
-                        System.out.println("异常检出");
-                        continue;
-                    case (0):
-                        //通过
-                        item.fixData();//数据修正，主要是修正生产基地名称
-                        break;
-                }
+            switch (checkIsUseful(item)){
+                //对蔬果名、农药名、生产环节进行数据审查
+                //审查不通过
+                case (1)://缺少农药名和生产环节，无法填入数据
+                    continue;//没通过数据可用审查，跳过当前的检测条目
+                case (2)://蔬菜名或检测值缺失，无法进行超标判断//但仍可以进行检出判断
+                    if(pesticideResultMap.get(item.pesticideName)!=null){//在检测的列表中
+                        pesticideResultMap.get(item.pesticideName).totalDet += 1;//总检出
+                        pesticideResultMap.get(item.pesticideName).addOneToStageName(item.samplingStageType);//加到对应属性上
+                    }
+                    continue;
+                case (-1)://异常检出
+                    continue;
+                case (0):
+                    //通过
+                    item.fixData();//数据修正，主要是修正生产基地名称
+                    break;
+            }
                 if(!pesticideList.contains(item.pesticideName)){//对应农药是否在要求检测的列表内
-                    System.out.println("该农药不在检测列表中");
+//                    System.out.println("该农药不在检测列表中");
                     continue;
                 }
 
@@ -137,15 +134,16 @@ public class outTeaPesDetRecordsServiceImpl implements IoutTeaPesDetRecordsServi
     public int checkIsUseful(outFruVegSelectType item){
         try{
             //生产环节和农药名为必须 最终展示时由这两个属性确定在表格中的位置
-            if (item.samplingStageType==null || item.pesticideName==null || item.samplingStageType=="" || item.pesticideName==""){
-                System.out.println("农药名或生产环节缺失："+"/r/n农药名:"+item.pesticideName+"生产环节"+item.samplingStageType+"样品编号"+item.sampleCode);
+            if (item.samplingStageType==null || item.pesticideName==null || item.samplingStageType.equals("") || item.pesticideName.equals("")){
+                addMsg("农药名或生产环节缺失： "+" 农药名:"+item.pesticideName+" 生产环节:"+item.samplingStageType+" 样品编号:"+item.sampleCode);
                 return 1;
             }
             if (item.vegFruName==null || item.pesticideDetValue==null){//蔬菜名或检测值缺失，无法进行超标判断
-                System.out.println("蔬菜名缺失："+"/r/n蔬果名:"+item.vegFruName+"检测值"+item.pesticideDetValue+"样品编号"+item.sampleCode);
+                addMsg("蔬菜名缺失： "+" 蔬果名:"+item.vegFruName+" 检测值:"+item.pesticideDetValue+" 样品编号:"+item.sampleCode);
                 return 2;
             }
         }catch (Exception e){
+            log.error("在检查环节出现异常",e);
             return -1;//错误
         }
         return 0;//到此说明数据可用
@@ -168,6 +166,7 @@ public class outTeaPesDetRecordsServiceImpl implements IoutTeaPesDetRecordsServi
             if (standardList.isEmpty()) {//无任何标准
                 String msg = "没有对应国家标准" + "/r/n蔬果名:" + item.vegFruName + "/n农药名:" + item.pesticideName;
                 log.error(msg);
+                addMsg(msg);
                 return null;//没有任何标准返回空
             }
             for (agriPesticideResidueStandard standard : standardList) {
@@ -186,5 +185,13 @@ public class outTeaPesDetRecordsServiceImpl implements IoutTeaPesDetRecordsServi
         if(type.equals("禁用"))
             return outTeaPesDetRecordsMapper.getTeaBanPesticideList();//禁用
         else return outTeaPesDetRecordsMapper.getTeaNoBanPesticideList();//非禁用
+    }
+
+    public void initMsg(StringBuilder feedBackMsg){
+        feedBack=feedBackMsg;
+    }
+    public void addMsg(String inputMsg){//目前仅仅是为了增加”<br/>“
+        String msg = "<br/>"+inputMsg;
+        feedBack.append(msg);
     }
 }

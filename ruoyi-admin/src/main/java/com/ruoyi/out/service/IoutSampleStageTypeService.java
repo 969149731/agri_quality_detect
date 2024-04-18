@@ -19,6 +19,6 @@ public interface IoutSampleStageTypeService
      * @param outSampleStageType 被抽样环节数量统计
      * @return 被抽样环节数量统计集合
      */
-    public List<outSampleStageType> selectoutSampleStageTypeList(agriCitySampleTestDetails agriCitySampleTestDetails);
+    public List<outSampleStageType> selectoutSampleStageTypeList(agriCitySampleTestDetails agriCitySampleTestDetails,StringBuilder feedBackMsg);
 
 }

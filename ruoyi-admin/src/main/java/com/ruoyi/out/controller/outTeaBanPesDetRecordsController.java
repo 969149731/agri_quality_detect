@@ -50,9 +50,12 @@ public class outTeaBanPesDetRecordsController extends BaseController
     public TableDataInfo list(agriCitySampleTestDetails agriCitySampleTestDetails,outTeaBanPesDetRecords outTeaBanPesDetRecords)
     {
         startPage();
+        StringBuilder feedBackMsg =new StringBuilder();
         System.out.println(outTeaBanPesDetRecords);
-        List<outReturnType> list = outTeaBanPesDetRecordsService.selectoutTeaPesDetRecordsList(agriCitySampleTestDetails,"禁用");
-        return getDataTable(list);
+        List<outReturnType> list = outTeaBanPesDetRecordsService.selectoutTeaPesDetRecordsList(agriCitySampleTestDetails,"禁用",feedBackMsg);
+        TableDataInfo result = getDataTable(list);
+        result.setMsg(feedBackMsg.toString());
+        return result;
     }
 
     /**
@@ -65,7 +68,7 @@ public class outTeaBanPesDetRecordsController extends BaseController
     {
 //        util.exportExcel(response, list, "茶叶禁用农药检出及超标情况数据");
 
-        List<outReturnType> list = outTeaBanPesDetRecordsService.selectoutTeaPesDetRecordsList(agriCitySampleTestDetails,"禁用");
+        List<outReturnType> list = outTeaBanPesDetRecordsService.selectoutTeaPesDetRecordsList(agriCitySampleTestDetails,"禁用",new StringBuilder());
 
         TemplateExportParams params = new TemplateExportParams("excelOutTemplate/outFruBanPesDetRecords.xlsx");
         Map<String, Object> map = new HashMap<>();

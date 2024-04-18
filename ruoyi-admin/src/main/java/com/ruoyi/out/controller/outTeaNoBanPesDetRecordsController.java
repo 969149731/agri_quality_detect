@@ -55,8 +55,11 @@ public class outTeaNoBanPesDetRecordsController extends BaseController
     public TableDataInfo list(agriCitySampleTestDetails agriCitySampleTestDetails)
     {
         startPage();
-        List<outReturnType> list = outTeaPesDetRecordsService.selectoutTeaPesDetRecordsList(agriCitySampleTestDetails,"非禁用");
-        return getDataTable(list);
+        StringBuilder feedBackMsg =new StringBuilder();
+        List<outReturnType> list = outTeaPesDetRecordsService.selectoutTeaPesDetRecordsList(agriCitySampleTestDetails,"非禁用",feedBackMsg);
+        TableDataInfo result = getDataTable(list);
+        result.setMsg(feedBackMsg.toString());
+        return result;
     }
 
     /**
@@ -67,7 +70,7 @@ public class outTeaNoBanPesDetRecordsController extends BaseController
     @PostMapping("/export")
     public void export(HttpServletResponse response, agriCitySampleTestDetails agriCitySampleTestDetails)
     {
-        List<outReturnType> list = outTeaPesDetRecordsService.selectoutTeaPesDetRecordsList(agriCitySampleTestDetails,"非禁用");
+        List<outReturnType> list = outTeaPesDetRecordsService.selectoutTeaPesDetRecordsList(agriCitySampleTestDetails,"非禁用",new StringBuilder());
 
         TemplateExportParams params = new TemplateExportParams("excelOutTemplate/outFruBanPesDetRecords.xlsx");
         Map<String, Object> map = new HashMap<>();

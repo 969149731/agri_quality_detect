@@ -216,6 +216,7 @@ export default {
       samplingAddressProvince: [],//省份集合
       samplingAddressCity: [],//城市集合
       samplingAddressTown: [],//区域集合
+      returnFeedBack:true,
     };
   },
   created() {
@@ -256,6 +257,11 @@ export default {
         }
         this.pesticideNameList.splice(this.pesticideNameList.length-2, 2);//将多出的两列除去
         this.loading = false;
+
+        if(this.returnFeedBack &&response.msg!=null && response.msg!=""){
+          this.$alert("<div style='overflow: auto;overflow-x: hidden;max-height: 70vh;padding: 10px 20px 0;'>" + response.msg + "</div>", "返回信息", { dangerouslyUseHTMLString: true });
+          this.returnFeedBack=false;
+        }
       });
     },
     // 表单重置

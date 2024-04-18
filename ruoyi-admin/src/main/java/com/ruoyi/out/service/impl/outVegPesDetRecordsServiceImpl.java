@@ -26,16 +26,19 @@ public class outVegPesDetRecordsServiceImpl implements IoutVegPesDetRecordsServi
 {
     @Autowired
     private outVegPesDetRecordsMapper outVegPesDetRecordsMapper;
-
-    public List<outReturnType> selectoutVegPesDetRecordsList(agriCitySampleTestDetails agriCitySampleTestDetails, String type)
+    private StringBuilder feedBack;
+    public List<outReturnType> selectoutVegPesDetRecordsList(agriCitySampleTestDetails agriCitySampleTestDetails, String type,StringBuilder feedBackMsg)
     {
+        initMsg(feedBackMsg);
         //初始化模块
         List<outReturnType> resultList = new ArrayList<outReturnType>();//用于存放结果的列表，当前为空
 
         //查询农药列表
         PageHelper.startPage(0,0,false,false,true);//分页方法，仅对之后第一个查询生效
         List<String> pesticideList =getPesticideList(type);//可以在此处设置农药列表//也可查询获取列表
-        if(pesticideList.isEmpty()){System.out.println("查询出的农药列表为空");return resultList;}
+        if(pesticideList.isEmpty()){
+           log.debug("查询出的农药列表为空");return resultList;
+        }
         Map<String, outReturnType> pesticideResultMap = new TreeMap<String, outReturnType>();//使用字典存储
         for (String pesticideName : pesticideList) {//初始化
             pesticideResultMap.put(pesticideName, new outReturnType(pesticideName));
@@ -69,9 +72,6 @@ public class outVegPesDetRecordsServiceImpl implements IoutVegPesDetRecordsServi
                 //对蔬果名、农药名、生产环节进行数据审查
                 //审查不通过
                 case (1)://缺少农药名和生产环节，无法填入数据
-                    String msg = "<br/>" + "第"+ item.citySampleTestDetailsId +"条"+ "数据无法判断";
-                    failureMsg.append(msg);
-                    log.error(msg);
                     continue;//没通过数据可用审查，跳过当前的检测条目
                 case (2)://蔬菜名或检测值缺失，无法进行超标判断//但仍可以进行检出判断
                     if(pesticideResultMap.get(item.pesticideName)!=null){//在检测的列表中
@@ -80,7 +80,6 @@ public class outVegPesDetRecordsServiceImpl implements IoutVegPesDetRecordsServi
                     }
                     continue;
                 case (-1)://异常检出
-                    System.out.println("异常检出");
                     continue;
                 case (0):
                     //通过
@@ -88,7 +87,7 @@ public class outVegPesDetRecordsServiceImpl implements IoutVegPesDetRecordsServi
                     break;
             }
             if(!pesticideList.contains(item.pesticideName)){//对应农药是否在要求检测的列表内
-                System.out.println("该农药不在检测列表中");
+                log.debug("该农药不在检测列表中");
                 continue;
             }
 
@@ -129,15 +128,16 @@ public class outVegPesDetRecordsServiceImpl implements IoutVegPesDetRecordsServi
     public int checkIsUseful(outFruVegSelectType item){
         try{
             //生产环节和农药名为必须 最终展示时由这两个属性确定在表格中的位置
-            if (item.samplingStageType==null || item.pesticideName==null || item.samplingStageType=="" || item.pesticideName==""){
-                System.out.println("农药名或生产环节缺失："+"/r/n农药名:"+item.pesticideName+"生产环节"+item.samplingStageType+"样品编号"+item.sampleCode);
+            if (item.samplingStageType==null || item.pesticideName==null || item.samplingStageType.equals("") || item.pesticideName.equals("")){
+                addMsg("农药名或生产环节缺失： "+" 农药名:"+item.pesticideName+" 生产环节:"+item.samplingStageType+" 样品编号:"+item.sampleCode);
                 return 1;
             }
             if (item.vegFruName==null || item.pesticideDetValue==null){//蔬菜名或检测值缺失，无法进行超标判断
-                System.out.println("蔬菜名缺失："+"/r/n蔬果名:"+item.vegFruName+"检测值"+item.pesticideDetValue+"样品编号"+item.sampleCode);
+                addMsg("蔬菜名缺失： "+" 蔬果名:"+item.vegFruName+" 检测值:"+item.pesticideDetValue+" 样品编号:"+item.sampleCode);
                 return 2;
             }
         }catch (Exception e){
+            log.error("在检查环节出现异常",e);
             return -1;//错误
         }
         return 0;//到此说明数据可用
@@ -160,6 +160,7 @@ public class outVegPesDetRecordsServiceImpl implements IoutVegPesDetRecordsServi
             if (standardList.isEmpty()) {//无任何标准
                 String msg = "没有对应国家标准" + "/r/n蔬果名:" + item.vegFruName + "/n农药名:" + item.pesticideName;
                 log.error(msg);
+                addMsg(msg);
                 return null;//没有任何标准返回空
             }
             for (agriPesticideResidueStandard standard : standardList) {
@@ -177,5 +178,12 @@ public class outVegPesDetRecordsServiceImpl implements IoutVegPesDetRecordsServi
         if(type.equals("禁用"))
             return outVegPesDetRecordsMapper.getVegBanPesticideList();//禁用
         else return outVegPesDetRecordsMapper.getVegBanNoPesticideList();//非禁用
+    }
+    public void initMsg(StringBuilder feedBackMsg){
+        feedBack=feedBackMsg;
+    }
+    public void addMsg(String inputMsg){//目前仅仅是为了增加”<br/>“
+        String msg = "<br/>"+inputMsg;
+        feedBack.append(msg);
     }
 }

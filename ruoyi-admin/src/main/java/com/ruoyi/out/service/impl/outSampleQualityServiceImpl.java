@@ -23,7 +23,7 @@ public class outSampleQualityServiceImpl implements IoutSampleQualityService
 {
     @Autowired
     private outSampleQualityMapper outSampleQualityMapper;
-
+    private StringBuilder feedBack =new StringBuilder();
     /**
      * 查询各抽样环节合格率情况列表
      * 
@@ -31,8 +31,9 @@ public class outSampleQualityServiceImpl implements IoutSampleQualityService
      * @return 各抽样环节合格率情况
      */
     @Override
-    public List<outSampleQuality> selectoutSampleQualityList(agriCitySampleTestDetails agriCitySampleTestDetails)
+    public List<outSampleQuality> selectoutSampleQualityList(agriCitySampleTestDetails agriCitySampleTestDetails,StringBuilder feedBackMsg)
     {
+        clearMsg();
         //初始化列表
         List<outSampleQuality> resultList = new ArrayList<>();
         List<String> StageType= Arrays.asList("生产基地", "无公害产品基地","地标生产基地","绿色产品基地","有机产品基地","散户","其他基地","批发市场","运输车");//合计在最后加入
@@ -51,7 +52,7 @@ public class outSampleQualityServiceImpl implements IoutSampleQualityService
         PageHelper.startPage(0,0,false,false,true);//分页方法，仅对之后第一个查询生效
         List<outFruVegSelectType2> SelectList = outSampleQualityMapper.getFruVegDetResultList(agriCitySampleTestDetails);//获取农药检测结果表
         if(SelectList.isEmpty()){
-            System.out.println("查询出的样本列表为空");
+            log.debug("查询出的样本列表为空");
             return returnFinalList(resultMap,resultList,StageType);
         }
         //先遍历所有获取到的结果//以id标识一组检测结果（即一个样本）,所以默认id是存在的，事实上id由数据库生成，肯定存在
@@ -70,6 +71,7 @@ public class outSampleQualityServiceImpl implements IoutSampleQualityService
         }
         compute(resultMap,itemList);//当仅有一个样本，或是最后一个样本，没有下一个不同的id触发，compute，在此计算
 
+        feedBackMsg.append(feedBack);
         return returnFinalList(resultMap,resultList,StageType);
     }
 
@@ -96,20 +98,23 @@ public class outSampleQualityServiceImpl implements IoutSampleQualityService
         try{
             //情形一。生产环节和蔬果类型称为必须
             if(item.samplingStageType ==null ||item.vegFruType==null){//缺失生产环节或蔬果类型,必要条件不足，无法进行
-                System.out.println("当前检测样本信息有误 缺少生产环节或蔬果类型"+" 当前生产环节："+item.samplingStageType+" 当前蔬果类型："+item.vegFruType+" 样品编号:"+item.sampleCode);
+                addMsg("当前检测样本信息有误 缺少生产环节或蔬果类型"+" 样品编号:"+item.sampleCode+" 当前生产环节："+item.samplingStageType+" 当前蔬果类型："+item.vegFruType);
                 return 1;}
             //情形二，生产环节不在检测范围内
             if(!resultMap.containsKey(item.samplingStageType)){//不在检测列表中
-                System.out.println("当前检测样本信息有误 该类别不在检测列表中 如柑橘类"+" 当前生产环节类型："+item.samplingStageType+" 样品编号:"+item.sampleCode);
+                addMsg("当前检测样本信息有误 该类别不在检测列表中 如柑橘类"+" 样品编号:"+item.sampleCode+" 当前生产环节类型："+item.samplingStageType);
                 return 1;}
             //情形四，无蔬菜名，无法查询标准
-            if(item.vegFruName==null ||item.vegFruName=="" ){//没有对应蔬菜名，整个列表都无法进行超标判断
+            if(item.vegFruName==null ||item.vegFruName.equals("") ){//没有对应蔬菜名，整个列表都无法进行超标判断
+                addMsg("缺少蔬菜名"+" 样品编号:"+item.sampleCode+" 蔬菜名:"+item.vegFruName);
                 return 2;
             }
-            if(item.pesticideName==null ||item.pesticideName=="" ){//没有对应蔬菜名，整个列表都无法进行超标判断
+            if(item.pesticideName==null ||item.pesticideName.equals("") ){//没有对应农药名
+                addMsg("缺少农药名"+" 样品编号:"+item.sampleCode+" 农药名:"+item.pesticideName);
                 return 3;
             }
         }catch (Exception e){
+            log.error("在数据检查时产生异常",e);
             return -1;//有异常
         }
         return 0;//到此说明数据可用
@@ -173,7 +178,7 @@ public class outSampleQualityServiceImpl implements IoutSampleQualityService
             }
 
         }catch (Exception e){
-
+            log.error("在统计时产生异常",e);
             System.out.println("捕获异常"+e.getMessage());
         }
 
@@ -197,5 +202,13 @@ public class outSampleQualityServiceImpl implements IoutSampleQualityService
         } catch (Exception e) {
             return null;//出错，返回空
         }
+    }
+
+    public void clearMsg(){
+        feedBack=new StringBuilder();
+    }
+    public void addMsg(String inputMsg){//目前仅仅是为了增加”<br/>“
+        String msg = "<br/>"+inputMsg;
+        feedBack.append(msg);
     }
 }

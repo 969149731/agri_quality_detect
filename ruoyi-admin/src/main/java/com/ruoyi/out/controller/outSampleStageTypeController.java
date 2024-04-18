@@ -56,8 +56,11 @@ public class outSampleStageTypeController extends BaseController
     public TableDataInfo list(agriCitySampleTestDetails agriCitySampleTestDetails)
     {
         startPage();
-        List<outSampleStageType> list = outSampleStageTypeService.selectoutSampleStageTypeList(agriCitySampleTestDetails);
-        return getDataTable(list);
+        StringBuilder feedBackMsg = new StringBuilder();
+        List<outSampleStageType> list = outSampleStageTypeService.selectoutSampleStageTypeList(agriCitySampleTestDetails,feedBackMsg);
+        TableDataInfo result = getDataTable(list);
+        result.setMsg(feedBackMsg.toString());
+        return result;
     }
 
     /**
@@ -68,7 +71,7 @@ public class outSampleStageTypeController extends BaseController
     @PostMapping("/export")
     public void export(HttpServletResponse response,agriCitySampleTestDetails agriCitySampleTestDetails)
     {
-        List<outSampleStageType> list = outSampleStageTypeService.selectoutSampleStageTypeList(agriCitySampleTestDetails);
+        List<outSampleStageType> list = outSampleStageTypeService.selectoutSampleStageTypeList(agriCitySampleTestDetails,new StringBuilder());//临时占用StingBuilder
         TemplateExportParams params = new TemplateExportParams("excelOutTemplate/outSampleStageType.xlsx");
         Map<String, Object> map = new HashMap<>();
         map.put("tableName", "7.被抽样环节数量统计");

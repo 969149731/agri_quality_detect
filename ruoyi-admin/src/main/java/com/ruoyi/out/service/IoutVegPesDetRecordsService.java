@@ -17,5 +17,5 @@ public interface IoutVegPesDetRecordsService
     /*
     * 获取经过处理后的农药返回值列表
     * */
-    List<outReturnType> selectoutVegPesDetRecordsList(agriCitySampleTestDetails agriCitySampleTestDetails,String type);
+    List<outReturnType> selectoutVegPesDetRecordsList(agriCitySampleTestDetails agriCitySampleTestDetails,String type,StringBuilder feedBackMsg);
 }

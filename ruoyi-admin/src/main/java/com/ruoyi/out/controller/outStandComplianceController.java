@@ -69,7 +69,7 @@ public class outStandComplianceController extends BaseController
     @PostMapping("/export")
     public void export(HttpServletResponse response, agriCitySampleTestDetails agriCitySampleTestDetails)
     {
-        List<outStandardReturnType> list = outStandComplianceService.selectoutStandComplianceList2(agriCitySampleTestDetails);
+        List<outStandardReturnType> list = outStandComplianceService.selectoutStandComplianceList2(agriCitySampleTestDetails,new StringBuilder());
         //计算合格率
         outStandardReturnType SampleNum=list.get(list.size()-2);
         outStandardReturnType passNum=list.get(list.size()-1);
@@ -189,8 +189,11 @@ public class outStandComplianceController extends BaseController
     public TableDataInfo listNew(agriCitySampleTestDetails agriCitySampleTestDetails)
     {
         startPage();
-        List<outStandardReturnType> list = outStandComplianceService.selectoutStandComplianceList2(agriCitySampleTestDetails);
-        return getDataTable(list);
+        StringBuilder feedBackMsg = new StringBuilder();
+        List<outStandardReturnType> list = outStandComplianceService.selectoutStandComplianceList2(agriCitySampleTestDetails,feedBackMsg);
+        TableDataInfo result = getDataTable(list);
+        result.setMsg(feedBackMsg.toString());
+        return result;
     }
     //工具方法
     private static void mergeCells(Sheet sheet,int pesticideNum) {//合并表头单元格
