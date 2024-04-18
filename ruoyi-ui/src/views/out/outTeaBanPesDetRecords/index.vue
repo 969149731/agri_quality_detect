@@ -189,11 +189,11 @@ export default {
           StageId: 'productBaseEx'
         },
         {
-          StageName: '各类市场检出',
+          StageName: '批发市场检出',
           StageId: 'market'
         },
         {
-          StageName: '各类市场超标',
+          StageName: '批发市场超标',
           StageId: 'marketEx'
         },
         {
@@ -221,6 +221,7 @@ export default {
     /** 查询茶叶禁用农药检出及超标情况列表 */
     getList() {
       this.loading = true;
+      this.pesticideNameList = [];
       listOutTeaBanPesDetRecords(this.addDateRange(this.queryParams, this.dateRange)).then(response => {
         this.pesticideNameList = response.rows;
         this.total = response.total;

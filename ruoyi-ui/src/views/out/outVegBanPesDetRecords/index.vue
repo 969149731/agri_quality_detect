@@ -190,11 +190,11 @@ export default {
           StageId: 'productBaseEx'
         },
         {
-          StageName: '各类市场检出',
+          StageName: '批发市场检出',
           StageId: 'market'
         },
         {
-          StageName: '各类市场超标',
+          StageName: '批发市场超标',
           StageId: 'marketEx'
         },
         {
@@ -220,6 +220,8 @@ export default {
   methods: {
     /** 查询蔬菜禁用农药检出及超标情况列表 */
     getList() {
+      console.log("打印参数",this.queryParams);
+      this.pesticideNameList=[];
       this.loading = true;
       listOutVegBanPesDetRecords(this.addDateRange(this.queryParams, this.dateRange)).then(response => {//二维表使用的列表获取
         this.pesticideNameList = response.rows;
@@ -284,7 +286,7 @@ export default {
         this.queryParams.samplingTown = '';
         //下级表单清空
         this.queryParams.samplingLocationCity=null;
-        this.queryParams.samplingTown=null;
+        this.queryParams.samplingLocationCounty=null;
       });
       //表单数据填充
       this.queryParams.samplingLocationProvince=val.name;

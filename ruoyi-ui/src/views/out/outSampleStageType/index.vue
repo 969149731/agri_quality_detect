@@ -154,6 +154,7 @@ export default {
     /** 查询被抽样环节数量统计列表 */
     getList() {
       this.loading = true;
+      this.outSampleStageTypeList = [];
       listOutSampleStageType(this.addDateRange(this.queryParams, this.dateRange)).then(response => {
         this.outSampleStageTypeList = response.rows;
         this.total = response.total;
@@ -199,7 +200,7 @@ export default {
         this.queryParams.samplingTown = '';
         //下级表单清空
         this.queryParams.samplingLocationCity=null;
-        this.queryParams.samplingTown=null;
+        this.queryParams.samplingLocationCounty=null;
       });
       //表单数据填充
       this.queryParams.samplingLocationProvince=val.name;

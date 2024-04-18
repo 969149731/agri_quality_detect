@@ -89,6 +89,20 @@ public class outSampleQuality extends BaseEntity
     @Excel(name = "水果的合格率，以百分比表示")
     private BigDecimal fruQualificationRate;
 
+
+    /**茶叶**/
+    /** 茶叶的抽样数 */
+    @Excel(name = "茶叶的抽样数")
+    private Long teaSamplingCount;
+
+    /** 茶叶的合格数 */
+    @Excel(name = "茶叶的合格数")
+    private Long teaQualifiedCount;
+
+    /** 茶叶的合格率，以百分比表示 */
+    @Excel(name = "茶叶的合格率，以百分比表示")
+    private BigDecimal teaQualificationRate;
+
     /** 总抽样数（蔬菜和水果的总和） */
     @Excel(name = "总抽样数", readConverterExp = "蔬=菜和水果的总和")
     private Long totalSamplingCount;
@@ -119,9 +133,13 @@ public class outSampleQuality extends BaseEntity
         this.fruSamplingCount=0L;
         this.fruQualifiedCount=0L;
         this.fruQualificationRate=new BigDecimal("0.0");
+        this.teaSamplingCount=0L;
+        this.teaQualifiedCount=0L;
+        this.teaQualificationRate=new BigDecimal("0.0");
         this.totalSamplingCount=0L;
         this.totalQualifiedCount=0L;
         this.totalQualificationRate=new BigDecimal("0.0");
+
     };
     public void setSampleQualityId(Long sampleQualityId) 
     {
@@ -276,6 +294,29 @@ public class outSampleQuality extends BaseEntity
     {
         return fruQualificationRate;
     }
+    public Long getTeaSamplingCount() {
+        return teaSamplingCount;
+    }
+
+    public void setTeaSamplingCount(Long teaSamplingCount) {
+        this.teaSamplingCount = teaSamplingCount;
+    }
+
+    public Long getTeaQualifiedCount() {
+        return teaQualifiedCount;
+    }
+
+    public void setTeaQualifiedCount(Long teaQualifiedCount) {
+        this.teaQualifiedCount = teaQualifiedCount;
+    }
+
+    public BigDecimal getTeaQualificationRate() {
+        return teaQualificationRate;
+    }
+
+    public void setTeaQualificationRate(BigDecimal teaQualificationRate) {
+        this.teaQualificationRate = teaQualificationRate;
+    }
     public void setTotalSamplingCount(Long totalSamplingCount) 
     {
         this.totalSamplingCount = totalSamplingCount;
@@ -325,11 +366,13 @@ public class outSampleQuality extends BaseEntity
     public void SamplingCountAddOne(String type){
         if (type.equals("蔬菜")) this.vegSamplingCount+=1;
         if (type.equals("水果")) this.fruSamplingCount+=1;
+        if (type.equals("茶叶")) this.teaSamplingCount+=1;
         if (type.equals("合计")) this.totalSamplingCount+=1;
     }
     public void QualifiedCountAddOne(String type){
         if (type.equals("蔬菜")) this.vegQualifiedCount+=1;
         if (type.equals("水果")) this.fruQualifiedCount+=1;
+        if (type.equals("茶叶")) this.teaQualifiedCount+=1;
         if (type.equals("合计")) this.totalQualifiedCount+=1;
     }
 
@@ -338,12 +381,14 @@ public class outSampleQuality extends BaseEntity
         this.fruSamplingCount+=otherOne.fruSamplingCount;
         this.vegQualifiedCount+=otherOne.vegQualifiedCount;
         this.fruQualifiedCount+=otherOne.fruQualifiedCount;
+        this.teaSamplingCount+=otherOne.teaSamplingCount;
+        this.teaQualifiedCount+=otherOne.teaQualifiedCount;
         this.totalSamplingCount+=otherOne.totalSamplingCount;
         this.totalQualifiedCount+=otherOne.totalQualifiedCount;
     }
     public void addToSelfTotal(){
-        this.totalSamplingCount=this.fruSamplingCount+this.vegSamplingCount;
-        this.totalQualifiedCount=this.fruQualifiedCount+this.vegQualifiedCount;
+        this.totalSamplingCount=this.fruSamplingCount+this.vegSamplingCount+teaSamplingCount;
+        this.totalQualifiedCount=this.fruQualifiedCount+this.vegQualifiedCount+teaQualifiedCount;
     }
     public void computeQualificationRate(){
         DecimalFormat decimalFormat = new DecimalFormat("0.00");
@@ -354,6 +399,10 @@ public class outSampleQuality extends BaseEntity
         if(this.fruSamplingCount !=0) {
             Double percentage=(double)((double)this.fruQualifiedCount/(double)this.fruSamplingCount)*100;
             this.fruQualificationRate = new BigDecimal(decimalFormat.format(percentage).toString());
+        }
+        if(this.teaSamplingCount !=0) {
+            Double percentage=(double)((double)this.teaQualifiedCount/(double)this.teaSamplingCount)*100;
+            this.teaQualificationRate = new BigDecimal(decimalFormat.format(percentage).toString());
         }
         if(this.totalSamplingCount !=0) {
             Double percentage=(double)((double)this.totalQualifiedCount/(double)this.totalSamplingCount)*100;
@@ -381,6 +430,9 @@ public class outSampleQuality extends BaseEntity
             .append("fruSamplingCount", getFruSamplingCount())
             .append("fruQualifiedCount", getFruQualifiedCount())
             .append("fruQualificationRate", getFruQualificationRate())
+            .append("teaSamplingCount", getTeaSamplingCount())
+            .append("teaQualifiedCount", getTeaQualifiedCount())
+            .append("teaQualificationRate", getTeaQualificationRate())
             .append("totalSamplingCount", getTotalSamplingCount())
             .append("totalQualifiedCount", getTotalQualifiedCount())
             .append("totalQualificationRate", getTotalQualificationRate())

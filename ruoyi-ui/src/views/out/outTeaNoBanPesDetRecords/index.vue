@@ -177,11 +177,11 @@ export default {
           StageId: 'productBaseEx'
         },
         {
-          StageName: '各类市场检出',
+          StageName: '批发市场检出',
           StageId: 'market'
         },
         {
-          StageName: '各类市场超标',
+          StageName: '批发市场超标',
           StageId: 'marketEx'
         },
         {
@@ -280,7 +280,7 @@ export default {
         this.queryParams.samplingTown = '';
         //下级表单清空
         this.queryParams.samplingLocationCity=null;
-        this.queryParams.samplingTown=null;
+        this.queryParams.samplingLocationCounty=null;
       });
       //表单数据填充
       this.queryParams.samplingLocationProvince=val.name;

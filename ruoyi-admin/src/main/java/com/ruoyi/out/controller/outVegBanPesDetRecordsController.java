@@ -47,7 +47,7 @@ public class outVegBanPesDetRecordsController extends BaseController
      */
     @PreAuthorize("@ss.hasPermi('out:outVegBanPesDetRecords:list')")
     @GetMapping("/list")
-    public TableDataInfo listNew(agriCitySampleTestDetails agriCitySampleTestDetails)
+    public TableDataInfo list(agriCitySampleTestDetails agriCitySampleTestDetails)
     {
         startPage();
         List<outReturnType> list = outVegBanPesDetRecordsService.selectoutVegPesDetRecordsList(agriCitySampleTestDetails,"禁用");

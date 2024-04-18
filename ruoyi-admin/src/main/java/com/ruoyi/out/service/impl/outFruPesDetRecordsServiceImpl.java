@@ -28,7 +28,7 @@ public class outFruPesDetRecordsServiceImpl implements IoutFruPesDetRecordsServi
     private outFruPesDetRecordsMapper outFruPesDetRecordsMapper;
 
     @Override
-    public List<outReturnType> selectoutFruBPesDetRecordsList(agriCitySampleTestDetails agriCitySampleTestDetails,String type)
+    public List<outReturnType> selectoutFruPesDetRecordsList(agriCitySampleTestDetails agriCitySampleTestDetails, String type)
     {
         //初始化模块
         List<outReturnType> resultList = new ArrayList<outReturnType>();//用于存放结果的列表，当前为空

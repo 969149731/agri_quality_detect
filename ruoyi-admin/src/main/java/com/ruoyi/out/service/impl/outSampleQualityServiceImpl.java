@@ -58,7 +58,7 @@ public class outSampleQualityServiceImpl implements IoutSampleQualityService
         List<outFruVegSelectType2> itemList=new ArrayList<>();//初始化
         Long sampleId = SelectList.get(0).citySampleTestDetailsId;//对于经过编译器生成的列表对象而言，其执行顺序的正确性是保证的，列表的第一个等同于for中执行的第一个
         for (outFruVegSelectType2 item : SelectList) {
-            if (item.citySampleTestDetailsId==sampleId){
+            if (item.citySampleTestDetailsId.equals(sampleId)){
                 itemList.add(item);
             }
             else{
@@ -106,6 +106,9 @@ public class outSampleQualityServiceImpl implements IoutSampleQualityService
             if(item.vegFruName==null ||item.vegFruName=="" ){//没有对应蔬菜名，整个列表都无法进行超标判断
                 return 2;
             }
+            if(item.pesticideName==null ||item.pesticideName=="" ){//没有对应蔬菜名，整个列表都无法进行超标判断
+                return 3;
+            }
         }catch (Exception e){
             return -1;//有异常
         }
@@ -115,7 +118,7 @@ public class outSampleQualityServiceImpl implements IoutSampleQualityService
         try {
             boolean isPass=true;//默认通过//仅存在超标时显示不合格
             if(itemList.size()==0)
-                return;
+                return;//为0是不正常的样本
             outFruVegSelectType2 firstitem =itemList.get(0);//初步审查，由于整个农药结果列表是拼接到样本表生成的，第一个的样本信息即是整个列表的样本信息
             for (outFruVegSelectType2 item:itemList){
                 //数据审查
@@ -125,9 +128,11 @@ public class outSampleQualityServiceImpl implements IoutSampleQualityService
                     case 2://缺少蔬果名称，整个样本无法进行合格判断//但可以记录抽样数
                         resultMap.get(firstitem.detailType).SamplingCountAddOne(firstitem.vegFruType); //该类型抽样数+1
                         if ("合格".equals(item.chinaStandard)) {
-                            resultMap.get(firstitem.detailType).QualifiedCountAddOne(firstitem.vegFruType); //该类型抽样数+1
+                            resultMap.get(firstitem.detailType).QualifiedCountAddOne(firstitem.vegFruType); //该类型合格数+1
                         }//如果合格则保持该样本的isPass
                         return;
+                    case 3://缺失农药名
+                        continue;//报错，注意返回提示信息
                     case-1:
                         return;//报错，注意返回提示信息
                     case 0:
@@ -137,8 +142,10 @@ public class outSampleQualityServiceImpl implements IoutSampleQualityService
                 String vegFruType=firstitem.vegFruType;
                 //获取对应标准//在这里可以获取多种标准
                 PageHelper.startPage(0,0,false,false,true);//分页方法，仅对之后第一个查询生效
-                List<agriPesticideResidueStandard> standardslist = outSampleQualityMapper.getagriPesticideResidueStandard(firstitem.pesticideName, firstitem.vegFruName);
+                List<agriPesticideResidueStandard> standardslist = outSampleQualityMapper.getagriPesticideResidueStandard(item.pesticideName, item.vegFruName);
                 agriPesticideResidueStandard chineseStandard =getUsefulStandard(standardslist,item);
+
+
                 if(chineseStandard!=null){//在工具方法中判断了是否为国家标准
                     //计算相应属性
                     if (item.pesticideDetValue>chineseStandard.standardValue){

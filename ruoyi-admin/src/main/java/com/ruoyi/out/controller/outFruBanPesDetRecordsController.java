@@ -63,7 +63,7 @@ public class outFruBanPesDetRecordsController extends BaseController
 //        }
 //        Date startDate=new Date(2022,month1,1);
 //        Date endDate=new Date(2022,month3,0);//获取月份最后一天
-        List<outReturnType> list = outFruBanPesDetRecordsService.selectoutFruBPesDetRecordsList(agriCitySampleTestDetails,"禁用");
+        List<outReturnType> list = outFruBanPesDetRecordsService.selectoutFruPesDetRecordsList(agriCitySampleTestDetails,"禁用");
         return getDataTable(list);
     }
 
@@ -75,7 +75,7 @@ public class outFruBanPesDetRecordsController extends BaseController
     @PostMapping("/export")
     public void export(HttpServletResponse response,agriCitySampleTestDetails agriCitySampleTestDetails)
     {
-        List<outReturnType> list = outFruBanPesDetRecordsService.selectoutFruBPesDetRecordsList(agriCitySampleTestDetails,"禁用");
+        List<outReturnType> list = outFruBanPesDetRecordsService.selectoutFruPesDetRecordsList(agriCitySampleTestDetails,"禁用");
 
         TemplateExportParams params = new TemplateExportParams("excelOutTemplate/outFruBanPesDetRecords.xlsx");
         Map<String, Object> map = new HashMap<>();

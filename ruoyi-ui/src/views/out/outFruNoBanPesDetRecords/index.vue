@@ -194,11 +194,11 @@ export default {
           StageId: 'productBaseEx'
         },
         {
-          StageName: '各类市场检出',
+          StageName: '批发市场检出',
           StageId: 'market'
         },
         {
-          StageName: '各类市场超标',
+          StageName: '批发市场超标',
           StageId: 'marketEx'
         },
         {
@@ -225,7 +225,7 @@ export default {
     /** 查询水果非禁止使用农药检出及超标情况列表 */
     getList() {
       this.loading = true;
-      console.log("检验",this.queryParams.samplingLocationProvince)
+      this.pesticideNameList = [];
       listOutFruNoBanPesDetRecords(this.addDateRange(this.queryParams, this.dateRange)).then(response => {//二维表使用的列表获取
         this.pesticideNameList = response.rows;
         this.loading = false;
@@ -295,7 +295,7 @@ export default {
         this.queryParams.samplingTown = '';
         //下级表单清空
         this.queryParams.samplingLocationCity=null;
-        this.queryParams.samplingTown=null;
+        this.queryParams.samplingLocationCounty=null;
       });
       //表单数据填充
       this.queryParams.samplingLocationProvince=val.name;
