@@ -19,6 +19,6 @@ public interface IoutTeaPesDetRecordsService
      * @param outTeaBanPesDetRecords 茶叶禁用农药检出及超标情况
      * @return 茶叶禁用农药检出及超标情况集合
      */
-    public List<outReturnType> selectoutTeaPesDetRecordsList(agriCitySampleTestDetails agriCitySampleTestDetails, String type);
+    public List<outReturnType> selectoutTeaPesDetRecordsList(agriCitySampleTestDetails agriCitySampleTestDetails, String type,StringBuilder feedBackMsg);
 
 }

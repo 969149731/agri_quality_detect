@@ -36,92 +36,23 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="usStandard"    column="us_standard"    />
         <result property="koreaStandard"    column="korea_standard"    />
         <result property="createdAt"    column="created_at"    />
+
+        <result property="samplingLocationProvince" column="sampling_location_province"/>
+        <result property="samplingLocationCity" column="sampling_location_city"/>
+        <result property="samplingLocationCounty" column="sampling_location_county"/>
+        <result property="enterpriseName" column="enterprise_name"/>
+        <result property="enterpriseAttribute" column="enterprise_attribute"/>
+        <result property="enterpriseCreditIdCode" column="enterprise_credit_id_code"/>
+        <result property="tracingProvince" column="tracing_province"/>
+        <result property="tracingCity" column="tracing_city"/>
+        <result property="tracingCounty" column="tracing_county"/>
+        <result property="tracingArea" column="tracing_area"/>
     </resultMap>
 
     <sql id="selectoutSampleStageTypeVo">
         select sample_quality_id, sampling_stage_type, ollution_free_base, landmark_product_base, green_product_base, organic_product_base, individual_household, other_base, wholesale_market, transport_vehicle, all_count, created_date from out_sample_stage_type
     </sql>
 
-    <select id="selectoutSampleStageTypeList" parameterType="outSampleStageType" resultMap="outSampleStageTypeResult">
-        <include refid="selectoutSampleStageTypeVo"/>
-        <where>  
-            <if test="samplingStageType != null  and samplingStageType != ''"> and sampling_stage_type = #{samplingStageType}</if>
-            <if test="ollutionFreeBase != null "> and ollution_free_base = #{ollutionFreeBase}</if>
-            <if test="landmarkProductBase != null "> and landmark_product_base = #{landmarkProductBase}</if>
-            <if test="greenProductBase != null "> and green_product_base = #{greenProductBase}</if>
-            <if test="organicProductBase != null "> and organic_product_base = #{organicProductBase}</if>
-            <if test="individualHousehold != null "> and individual_household = #{individualHousehold}</if>
-            <if test="otherBase != null "> and other_base = #{otherBase}</if>
-            <if test="wholesaleMarket != null "> and wholesale_market = #{wholesaleMarket}</if>
-            <if test="transportVehicle != null "> and transport_vehicle = #{transportVehicle}</if>
-            <if test="allCount != null "> and all_count = #{allCount}</if>
-            <if test="createdDate != null "> and created_date = #{createdDate}</if>
-        </where>
-    </select>
-    
-    <select id="selectoutSampleStageTypeBySampleQualityId" parameterType="Long" resultMap="outSampleStageTypeResult">
-        <include refid="selectoutSampleStageTypeVo"/>
-        where sample_quality_id = #{sampleQualityId}
-    </select>
-        
-    <insert id="insertoutSampleStageType" parameterType="outSampleStageType" useGeneratedKeys="true" keyProperty="sampleQualityId">
-        insert into out_sample_stage_type
-        <trim prefix="(" suffix=")" suffixOverrides=",">
-            <if test="samplingStageType != null">sampling_stage_type,</if>
-            <if test="ollutionFreeBase != null">ollution_free_base,</if>
-            <if test="landmarkProductBase != null">landmark_product_base,</if>
-            <if test="greenProductBase != null">green_product_base,</if>
-            <if test="organicProductBase != null">organic_product_base,</if>
-            <if test="individualHousehold != null">individual_household,</if>
-            <if test="otherBase != null">other_base,</if>
-            <if test="wholesaleMarket != null">wholesale_market,</if>
-            <if test="transportVehicle != null">transport_vehicle,</if>
-            <if test="allCount != null">all_count,</if>
-            <if test="createdDate != null">created_date,</if>
-         </trim>
-        <trim prefix="values (" suffix=")" suffixOverrides=",">
-            <if test="samplingStageType != null">#{samplingStageType},</if>
-            <if test="ollutionFreeBase != null">#{ollutionFreeBase},</if>
-            <if test="landmarkProductBase != null">#{landmarkProductBase},</if>
-            <if test="greenProductBase != null">#{greenProductBase},</if>
-            <if test="organicProductBase != null">#{organicProductBase},</if>
-            <if test="individualHousehold != null">#{individualHousehold},</if>
-            <if test="otherBase != null">#{otherBase},</if>
-            <if test="wholesaleMarket != null">#{wholesaleMarket},</if>
-            <if test="transportVehicle != null">#{transportVehicle},</if>
-            <if test="allCount != null">#{allCount},</if>
-            <if test="createdDate != null">#{createdDate},</if>
-         </trim>
-    </insert>
-
-    <update id="updateoutSampleStageType" parameterType="outSampleStageType">
-        update out_sample_stage_type
-        <trim prefix="SET" suffixOverrides=",">
-            <if test="samplingStageType != null">sampling_stage_type = #{samplingStageType},</if>
-            <if test="ollutionFreeBase != null">ollution_free_base = #{ollutionFreeBase},</if>
-            <if test="landmarkProductBase != null">landmark_product_base = #{landmarkProductBase},</if>
-            <if test="greenProductBase != null">green_product_base = #{greenProductBase},</if>
-            <if test="organicProductBase != null">organic_product_base = #{organicProductBase},</if>
-            <if test="individualHousehold != null">individual_household = #{individualHousehold},</if>
-            <if test="otherBase != null">other_base = #{otherBase},</if>
-            <if test="wholesaleMarket != null">wholesale_market = #{wholesaleMarket},</if>
-            <if test="transportVehicle != null">transport_vehicle = #{transportVehicle},</if>
-            <if test="allCount != null">all_count = #{allCount},</if>
-            <if test="createdDate != null">created_date = #{createdDate},</if>
-        </trim>
-        where sample_quality_id = #{sampleQualityId}
-    </update>
-
-    <delete id="deleteoutSampleStageTypeBySampleQualityId" parameterType="Long">
-        delete from out_sample_stage_type where sample_quality_id = #{sampleQualityId}
-    </delete>
-
-    <delete id="deleteoutSampleStageTypeBySampleQualityIds" parameterType="String">
-        delete from out_sample_stage_type where sample_quality_id in 
-        <foreach item="sampleQualityId" collection="array" open="(" separator="," close=")">
-            #{sampleQualityId}
-        </foreach>
-    </delete>
 
 
 
@@ -129,6 +60,16 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         select *
         from agri_city_sample_test_details
         <where>
+            <if test="samplingLocationProvince != null  and samplingLocationProvince != ''"> and agric.sampling_location_province = #{samplingLocationProvince}</if>
+            <if test="samplingLocationCity != null  and samplingLocationCity != ''"> and agric.sampling_location_city = #{samplingLocationCity}</if>
+            <if test="samplingLocationCounty != null  and samplingLocationCounty != ''"> and agric.sampling_location_county = #{samplingLocationCounty}</if>
+            <if test="enterpriseAttribute != null  and enterpriseAttribute != ''"> and agric.enterprise_attribute = #{enterpriseAttribute}</if>
+            <if test="enterpriseCreditIdCode != null  and enterpriseCreditIdCode != ''"> and agric.enterprise_credit_id_code = #{enterpriseCreditIdCode}</if>
+            <if test="tracingProvince != null  and tracingProvince != ''"> and agric.tracing_province = #{tracingProvince}</if>
+            <if test="tracingCity != null  and tracingCity != ''"> and agric.tracing_city = #{tracingCity}</if>
+            <if test="tracingCounty != null  and tracingCounty != ''"> and agric.tracing_county = #{tracingCounty}</if>
+            <if test="tracingArea != null  and tracingArea != ''"> and agric.tracing_area = #{tracingArea}</if>
+
             <if test="params.beginTime != null and params.beginTime != ''"><!-- 开始时间检索 -->
                 AND date_format(sampling_date,'%y%m%d') &gt;= date_format(#{params.beginTime},'%y%m%d')
             </if>

@@ -2,20 +2,6 @@
   <div class="app-container">
     <el-form :model="queryParams" ref="queryForm" size="small" :inline="true" v-show="showSearch" label-width="68px">
 
-      <el-row :gutter="10" class="mb8">
-        <el-col :span="1.5">
-          <el-button
-            type="warning"
-            plain
-            icon="el-icon-download"
-            size="mini"
-            @click="handleExport"
-            v-hasPermi="['out:outTeaBanPesDetRecords:export']"
-          >导出</el-button>
-        </el-col>
-        <right-toolbar :showSearch.sync="showSearch" @queryTable="getList"></right-toolbar>
-      </el-row>
-
       <el-form-item label="抽样地点">
         <template>
           <div>
@@ -194,11 +180,11 @@ export default {
           StageId: 'productBaseEx'
         },
         {
-          StageName: '各类市场检出',
+          StageName: '批发市场检出',
           StageId: 'market'
         },
         {
-          StageName: '各类市场超标',
+          StageName: '批发市场超标',
           StageId: 'marketEx'
         },
         {
@@ -215,6 +201,7 @@ export default {
       samplingAddressProvince: [],//省份集合
       samplingAddressCity: [],//城市集合
       samplingAddressTown: [],//区域集合
+      returnFeedBack:true,
     };
   },
   created() {
@@ -225,10 +212,14 @@ export default {
     /** 查询水果非禁止使用农药检出及超标情况列表 */
     getList() {
       this.loading = true;
-      console.log("检验",this.queryParams.samplingLocationProvince)
+      this.pesticideNameList = [];
       listOutFruNoBanPesDetRecords(this.addDateRange(this.queryParams, this.dateRange)).then(response => {//二维表使用的列表获取
         this.pesticideNameList = response.rows;
         this.loading = false;
+        if(this.returnFeedBack &&response.msg!=null && response.msg!=""){
+          this.$alert("<div style='overflow: auto;overflow-x: hidden;max-height: 70vh;padding: 10px 20px 0;'>" + response.msg + "</div>", "返回信息", { dangerouslyUseHTMLString: true });
+          this.returnFeedBack=false;
+        }
       });
     },
 
@@ -295,7 +286,7 @@ export default {
         this.queryParams.samplingTown = '';
         //下级表单清空
         this.queryParams.samplingLocationCity=null;
-        this.queryParams.samplingTown=null;
+        this.queryParams.samplingLocationCounty=null;
       });
       //表单数据填充
       this.queryParams.samplingLocationProvince=val.name;

@@ -19,5 +19,5 @@ public interface IoutSampleQualityService
      * @param outSampleQuality 各抽样环节合格率情况
      * @return 各抽样环节合格率情况集合
      */
-    public List<outSampleQuality> selectoutSampleQualityList(agriCitySampleTestDetails agriCitySampleTestDetails);
+    public List<outSampleQuality> selectoutSampleQualityList(agriCitySampleTestDetails agriCitySampleTestDetails,StringBuilder feedBackMsg);
 }

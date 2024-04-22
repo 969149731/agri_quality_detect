@@ -54,8 +54,12 @@ public class outSampleQualityController extends BaseController
     public TableDataInfo list(agriCitySampleTestDetails agriCitySampleTestDetails)
     {
         startPage();
-        List<outSampleQuality> list = outSampleQualityService.selectoutSampleQualityList(agriCitySampleTestDetails);
-        return getDataTable(list);
+        StringBuilder feedBackMsg =new StringBuilder();
+        List<outSampleQuality> list = outSampleQualityService.selectoutSampleQualityList(agriCitySampleTestDetails,feedBackMsg);
+        TableDataInfo result = getDataTable(list);
+        if (feedBackMsg!=null)
+            result.setMsg(feedBackMsg.toString());
+        return result;
     }
 
     /**
@@ -66,8 +70,8 @@ public class outSampleQualityController extends BaseController
     @PostMapping("/export")
     public void export(HttpServletResponse response, agriCitySampleTestDetails agriCitySampleTestDetails)
     {
-
-        List<outSampleQuality> list = outSampleQualityService.selectoutSampleQualityList(agriCitySampleTestDetails);
+        StringBuilder feedBack =new StringBuilder();
+        List<outSampleQuality> list = outSampleQualityService.selectoutSampleQualityList(agriCitySampleTestDetails,feedBack);
         TemplateExportParams params = new TemplateExportParams("excelOutTemplate/outSampleQuality.xlsx");
         Map<String, Object> map = new HashMap<>();
         map.put("tableName", "6.各抽样环节合格率情况");

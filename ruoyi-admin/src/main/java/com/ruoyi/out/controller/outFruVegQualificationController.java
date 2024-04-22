@@ -55,9 +55,12 @@ public class outFruVegQualificationController extends BaseController
     public TableDataInfo list(agriCitySampleTestDetails agriCitySampleTestDetails)
     {
         startPage();
-        List<outFruVegQualification> list = outFruVegQualificationService.selectoutFruVegQualificationList(agriCitySampleTestDetails);
+        StringBuilder feedBackMsg=new StringBuilder();
+        List<outFruVegQualification> list = outFruVegQualificationService.selectoutFruVegQualificationList(agriCitySampleTestDetails,feedBackMsg);
         if (list==null) return null;//奇怪的报错，有空注意一下//可能是其他模块的返回值是带参数的，这个貌似不带
-        return getDataTable(list);
+        TableDataInfo result = getDataTable(list);
+        result.setMsg(feedBackMsg.toString());
+        return result;
     }
 
     /**
@@ -68,8 +71,8 @@ public class outFruVegQualificationController extends BaseController
     @PostMapping("/export")
     public void export(HttpServletResponse response, agriCitySampleTestDetails agriCitySampleTestDetails)
     {
-        outFruVegQualification outReturnTypeRecords=new outFruVegQualification();
-        List<outFruVegQualification> list = outFruVegQualificationService.selectoutFruVegQualificationList(agriCitySampleTestDetails);
+        StringBuilder feedBack =new StringBuilder();
+        List<outFruVegQualification> list = outFruVegQualificationService.selectoutFruVegQualificationList(agriCitySampleTestDetails,feedBack);
         TemplateExportParams params = new TemplateExportParams("excelOutTemplate/outFruVegQualification.xlsx");
         Map<String, Object> map = new HashMap<>();
         map.put("tableName", "5. 各类蔬菜水果合格率情况");

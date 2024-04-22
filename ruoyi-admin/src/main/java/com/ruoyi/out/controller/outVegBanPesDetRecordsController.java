@@ -47,11 +47,14 @@ public class outVegBanPesDetRecordsController extends BaseController
      */
     @PreAuthorize("@ss.hasPermi('out:outVegBanPesDetRecords:list')")
     @GetMapping("/list")
-    public TableDataInfo listNew(agriCitySampleTestDetails agriCitySampleTestDetails)
+    public TableDataInfo list(agriCitySampleTestDetails agriCitySampleTestDetails)
     {
         startPage();
-        List<outReturnType> list = outVegBanPesDetRecordsService.selectoutVegPesDetRecordsList(agriCitySampleTestDetails,"禁用");
-        return getDataTable(list);
+        StringBuilder feedBackMsg = new StringBuilder();
+        List<outReturnType> list = outVegBanPesDetRecordsService.selectoutVegPesDetRecordsList(agriCitySampleTestDetails,"禁用",feedBackMsg);
+        TableDataInfo result = getDataTable(list);
+        result.setMsg(feedBackMsg.toString());
+        return result;
     }
 
     /**
@@ -62,7 +65,7 @@ public class outVegBanPesDetRecordsController extends BaseController
     @PostMapping("/export")
     public void export(HttpServletResponse response,agriCitySampleTestDetails agriCitySampleTestDetails)
     {
-        List<outReturnType> list = outVegBanPesDetRecordsService.selectoutVegPesDetRecordsList(agriCitySampleTestDetails,"禁用");
+        List<outReturnType> list = outVegBanPesDetRecordsService.selectoutVegPesDetRecordsList(agriCitySampleTestDetails,"禁用",new StringBuilder());
         TemplateExportParams params = new TemplateExportParams("excelOutTemplate/outFruBanPesDetRecords.xlsx");
         Map<String, Object> map = new HashMap<>();
         map.put("tableName", "1.蔬菜禁用农药检出及超标情况");

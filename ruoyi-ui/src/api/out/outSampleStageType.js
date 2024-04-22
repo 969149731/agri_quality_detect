@@ -8,37 +8,25 @@ export function listOutSampleStageType(query) {
     params: query
   })
 }
-
-// 查询被抽样环节数量统计详细
-export function getOutSampleStageType(sampleQualityId) {
+///////////////////////////////////////////
+//级联查询(抽样地点)
+export function samplingAddressProvince() {
   return request({
-    url: '/out/outSampleStageType/' + sampleQualityId,
+    url: '/addressInf/address',
+    method: 'get',
+  })
+}
+export function findBySamplingProvinceCode(provinceCode) {
+  return request({
+    url: '/addressInf/addressCity/'+provinceCode,
     method: 'get'
   })
 }
 
-// 新增被抽样环节数量统计
-export function addOutSampleStageType(data) {
+export function findBySamplingCityCode(cityCode) {
   return request({
-    url: '/out/outSampleStageType',
-    method: 'post',
-    data: data
+    url: '/addressInf/addressTown/'+cityCode,
+    method: 'get'
   })
 }
-
-// 修改被抽样环节数量统计
-export function updateOutSampleStageType(data) {
-  return request({
-    url: '/out/outSampleStageType',
-    method: 'put',
-    data: data
-  })
-}
-
-// 删除被抽样环节数量统计
-export function delOutSampleStageType(sampleQualityId) {
-  return request({
-    url: '/out/outSampleStageType/' + sampleQualityId,
-    method: 'delete'
-  })
-}
+////////////////////////////////////////////////

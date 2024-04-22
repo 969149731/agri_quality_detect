@@ -19,6 +19,6 @@ public interface IoutFruVegQualificationService
      * @param outFruVegQualification 各类蔬菜水果合格率情况
      * @return 各类蔬菜水果合格率情况集合
      */
-    public List<outFruVegQualification> selectoutFruVegQualificationList(agriCitySampleTestDetails agriCitySampleTestDetails);
+    public List<outFruVegQualification> selectoutFruVegQualificationList(agriCitySampleTestDetails agriCitySampleTestDetails,StringBuilder feedBackMsg);
 
 }

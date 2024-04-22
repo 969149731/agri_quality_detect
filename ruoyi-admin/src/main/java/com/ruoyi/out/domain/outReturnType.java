@@ -129,8 +129,8 @@ public class outReturnType extends BaseEntity {
         switch (StageName){
             case "生产基地":this.productBase+=1;break;
             case "生产基地Ex":this.productBaseEx+=1;break;
-            case "各类市场":this.market+=1;break;
-            case "各类市场Ex":this.market+=1;break;
+            case "批发市场":this.market+=1;break;
+            case "批发市场Ex":this.marketEx+=1;break;
             case "运输车":this.vehicle+=1;break;
             case "运输车Ex":this.vehicleEx+=1;break;
             case "散户":this.retail+=1;break;

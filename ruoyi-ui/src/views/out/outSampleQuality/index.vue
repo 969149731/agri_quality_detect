@@ -89,6 +89,11 @@
         <el-table-column label="合格数" prop="fruQualifiedCount"/>
         <el-table-column label="合格率(%)" prop="fruQualificationRate"/>
       </el-table-column>
+      <el-table-column label="茶叶" prop="StandardLable" width="100px" align="center">
+        <el-table-column label="抽样数" prop="teaSamplingCount"/>
+        <el-table-column label="合格数" prop="teaQualifiedCount"/>
+        <el-table-column label="合格率(%)" prop="teaQualificationRate"/>
+      </el-table-column>
       <el-table-column label="合计" prop="StandardLable" width="100px" align="center">
         <el-table-column label="抽样数" prop="totalSamplingCount"/>
         <el-table-column label="合格数" prop="totalQualifiedCount"/>
@@ -208,6 +213,7 @@ export default {
       samplingAddressProvince: [],//省份集合
       samplingAddressCity: [],//城市集合
       samplingAddressTown: [],//区域集合
+      returnFeedBack:true,
     };
   },
   created() {
@@ -223,6 +229,10 @@ export default {
         this.outSampleQualityList = response.rows;
         this.total = response.total;
         this.loading = false;
+        if(this.returnFeedBack && response.msg!=null && response.msg!=""){
+          this.$alert("<div style='overflow: auto;overflow-x: hidden;max-height: 70vh;padding: 10px 20px 0;'>" + response.msg + "</div>", "返回信息", { dangerouslyUseHTMLString: true });
+          this.returnFeedBack=false;
+        }
       });
     },
     // 表单重置
@@ -298,7 +308,7 @@ export default {
         this.queryParams.samplingTown = '';
         //下级表单清空
         this.queryParams.samplingLocationCity=null;
-        this.queryParams.samplingTown=null;
+        this.queryParams.samplingLocationCounty=null;
       });
       //表单数据填充
       this.queryParams.samplingLocationProvince=val.name;

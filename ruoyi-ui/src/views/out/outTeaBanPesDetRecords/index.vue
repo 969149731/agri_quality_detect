@@ -189,11 +189,11 @@ export default {
           StageId: 'productBaseEx'
         },
         {
-          StageName: '各类市场检出',
+          StageName: '批发市场检出',
           StageId: 'market'
         },
         {
-          StageName: '各类市场超标',
+          StageName: '批发市场超标',
           StageId: 'marketEx'
         },
         {
@@ -211,6 +211,7 @@ export default {
       samplingAddressProvince: [],//省份集合
       samplingAddressCity: [],//城市集合
       samplingAddressTown: [],//区域集合
+      returnFeedBack:true,
     };
   },
   created() {
@@ -221,10 +222,15 @@ export default {
     /** 查询茶叶禁用农药检出及超标情况列表 */
     getList() {
       this.loading = true;
+      this.pesticideNameList = [];
       listOutTeaBanPesDetRecords(this.addDateRange(this.queryParams, this.dateRange)).then(response => {
         this.pesticideNameList = response.rows;
         this.total = response.total;
         this.loading = false;
+        if(this.returnFeedBack &&response.msg!=null && response.msg!=""){
+          this.$alert("<div style='overflow: auto;overflow-x: hidden;max-height: 70vh;padding: 10px 20px 0;'>" + response.msg + "</div>", "返回信息", { dangerouslyUseHTMLString: true });
+          this.returnFeedBack=false;
+        }
       });
     },
     // 取消按钮

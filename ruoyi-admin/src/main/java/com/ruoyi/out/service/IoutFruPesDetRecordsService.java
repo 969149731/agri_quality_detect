@@ -16,5 +16,5 @@ public interface IoutFruPesDetRecordsService
 
     /*使用新方法获取列表
     */
-    public List<outReturnType> selectoutFruBPesDetRecordsList(agriCitySampleTestDetails agriCitySampleTestDetails,String type);
+    public List<outReturnType> selectoutFruPesDetRecordsList(agriCitySampleTestDetails agriCitySampleTestDetails, String type,StringBuilder feeaBackMsg);
 }
