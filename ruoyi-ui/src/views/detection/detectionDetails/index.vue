@@ -413,6 +413,15 @@
 
     <!-- 数据导入对话框 -->
     <el-dialog :title="upload.title" :visible.sync="upload.open" width="400px" append-to-body>
+
+      <!-- 添加数据时候选择检测单位 -->
+<!--      <el-form ref="form" :model="form" :rules="rules" label-width="80px">-->
+<!--        <el-form-item label="检测单位" prop="detectLocation">-->
+<!--          <el-input v-model="form.detectLocation"></el-input>-->
+<!--        </el-form-item>-->
+<!--      </el-form>-->
+      <!-- 添加数据时候选择检测单位 -->
+
       <el-upload
         ref="upload"
         :limit="1"
@@ -435,11 +444,15 @@
           <el-link type="primary" :underline="false" style="font-size:12px;vertical-align: baseline;" @click="importTemplate">下载模板</el-link>
         </div>
       </el-upload>
+
+
       <div slot="footer" class="dialog-footer">
         <el-button type="primary" @click="submitFileForm">确 定</el-button>
         <el-button @click="upload.open = false">取 消</el-button>
       </div>
     </el-dialog>
+
+
   </div>
 </template>
 

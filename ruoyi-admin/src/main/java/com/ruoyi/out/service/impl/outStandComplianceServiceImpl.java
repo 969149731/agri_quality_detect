@@ -178,7 +178,7 @@ public class outStandComplianceServiceImpl implements IoutStandComplianceService
             List<agriPesticideResidueStandard> standardslist = outStandComplianceMapper.getagriPesticideResidueStandard(pesticideName, vegFruName);
             if (standardslist.isEmpty()){
 //                result=IsPassUnderAllStandard(item);//如果不计入农药超标数的话（也确实无法判断）这样写就足够了
-                addMsg("没有任何标准"+ "样本编号:" + item.sampleCode + "蔬果名:" + item.vegFruName + "农药名:" + item.pesticideName);
+                addMsg("没有任何标准"+ "------样本编号:" + item.sampleCode + "------蔬果名:" + item.vegFruName + "------农药名:" + item.pesticideName);
                 continue;//该检测结果没有对应标准
             }
             //计算相应属性

@@ -211,7 +211,7 @@ public class outFruVegQualificationServiceImpl implements IoutFruVegQualificatio
                 firstStandard=getUsefulStandard(standardslist,item);
                 if (firstStandard==null){
                     //没有可用标准//输出错误信息
-                    addMsg("该农药没有任何标准"+ "/r/n样品编号:" + item.sampleCode + "/r/n蔬果名:" + item.vegFruName + "/n农药名:" + item.pesticideName);
+                    addMsg("没有任何标准"+ "------样本编号:" + item.sampleCode + "------蔬果名:" + item.vegFruName + "------农药名:" + item.pesticideName);
                     continue;//下一个农药条目
                 }
                 //超标记录
