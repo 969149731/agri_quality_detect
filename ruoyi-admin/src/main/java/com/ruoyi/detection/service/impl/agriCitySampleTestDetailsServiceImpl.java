@@ -739,7 +739,9 @@ public class agriCitySampleTestDetailsServiceImpl implements IagriCitySampleTest
                 String username = authentication.getName();
                 //通过当前登录的用户名查询到当前登录的用户所存在的部门
                 String deptName = agriCitySampleTestDetailsMapper.selectUserDepByUserName(username);
-                agriCitySampleTestDetails.setDetectLocation(deptName);
+                if(agriCitySampleTestDetails.getDetectLocation()==null){
+                    agriCitySampleTestDetails.setDetectLocation(deptName);
+                }
 
 //                agriCitySampleTestDetails.setSamplingQuantity(samplingQuantity);
 //                agriCitySampleTestDetails.setSamplingBase(samplingBase);
