@@ -215,7 +215,7 @@ export default {
         this.pesticideNameList = response.rows;
         this.loading = false;
         if(this.returnFeedBack &&response.msg!=null && response.msg!=""){
-          this.$alert("<div style='overflow: auto;overflow-x: hidden;max-height: 70vh;padding: 10px 20px 0;'>" + response.msg + "</div>", "返回信息", { dangerouslyUseHTMLString: true });
+          this.$alert("<div style='overflow: auto; overflow-x: hidden;width: 800px;'>" + response.msg + "</div>", "返回信息", { dangerouslyUseHTMLString: true ,customClass:'message_box_alert'});
           this.returnFeedBack=false;
         }
 
@@ -371,5 +371,11 @@ export default {
   position: absolute;
   top: -150px;
   width: 100%;
+}
+
+</style>
+<style>
+.message_box_alert {/*注意scoped会使样式失效*/
+  width: 700px;
 }
 </style>
