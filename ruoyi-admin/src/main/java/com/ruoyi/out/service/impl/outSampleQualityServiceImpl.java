@@ -126,6 +126,17 @@ public class outSampleQualityServiceImpl implements IoutSampleQualityService
             if(itemList.size()==0)
                 return;//为0是不正常的样本
             outFruVegSelectType2 firstitem =itemList.get(0);//初步审查，由于整个农药结果列表是拼接到样本表生成的，第一个的样本信息即是整个列表的样本信息
+
+            if (itemList.size()==1 && (firstitem.pesticideName==null||firstitem.pesticideName.equals("")) && (firstitem.pesticideDetValue==null||firstitem.pesticideDetValue==0)){//无农药检出，必定合格
+                if (resultMap.get(firstitem.samplingStageType)!=null){
+                    if (firstitem.samplingStageType!=null && firstitem.vegFruType !=null){
+                        resultMap.get(firstitem.samplingStageType).SamplingCountAddOne(firstitem.vegFruType); //该类型抽样数+1
+                        resultMap.get(firstitem.samplingStageType).QualifiedCountAddOne(firstitem.vegFruType); //该类型合格数+1
+                    }else
+                        log.error("样本的信息有误"+" 生产环节"+firstitem.samplingStageType+" 蔬果类型"+firstitem.vegFruType);
+                }
+                return;//退出
+            }
             for (outFruVegSelectType2 item:itemList){
                 //预处理
                 item.fixData();//数据修正，主要是修正生产基地名称
@@ -146,6 +157,7 @@ public class outSampleQualityServiceImpl implements IoutSampleQualityService
                     case 0:
                         break;
                 }//脱离swtch表示其信息齐全
+
                 String stageName=firstitem.samplingStageType;
                 String vegFruType=firstitem.vegFruType;
                 //获取对应标准//在这里可以获取多种标准
