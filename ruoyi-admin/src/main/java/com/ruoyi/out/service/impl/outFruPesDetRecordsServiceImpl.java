@@ -73,6 +73,7 @@ public class outFruPesDetRecordsServiceImpl implements IoutFruPesDetRecordsServi
             */
             //预设标准
             agriPesticideResidueStandard firstStandard =new agriPesticideResidueStandard();//默认限值设定为0.0，无对应标准名
+            item.fixData();//数据修正，主要是修正生产基地名称
             //检测结果可用性检查
             switch (checkIsUseful(item)){
                 //对蔬果名、农药名、生产环节进行数据审查
@@ -89,7 +90,6 @@ public class outFruPesDetRecordsServiceImpl implements IoutFruPesDetRecordsServi
                     continue;
                 case (0):
                     //通过
-                    item.fixData();//数据修正，主要是修正生产基地名称
                     break;
             }
             if(!pesticideList.contains(item.pesticideName)){//对应农药是否在要求检测的列表内
@@ -166,7 +166,8 @@ public class outFruPesDetRecordsServiceImpl implements IoutFruPesDetRecordsServi
             if (standardList.isEmpty()) {//无任何标准
                 String msg = "没有对应国家标准"+ "/r/n样品编号:" + item.sampleCode + "/r/n蔬果名:" + item.vegFruName + "/n农药名:" + item.pesticideName;
                 log.error(msg);
-                MsgHandler.addMsg("没有对应国家标准，请在标准中添加", " 蔬果名:" + item.vegFruName + " 农药名:" + item.pesticideName+" 样品编号:" + item.sampleCode);
+                MsgHandler.addMsgTitle("没有国家标准","下列对应蔬果对应农药没有对应国家标准，请在标准中添加");
+                MsgHandler.addMsg("没有国家标准", " 蔬果名:" + item.vegFruName + " 农药名:" + item.pesticideName+" 样品编号:" + item.sampleCode);
                 return null;//没有任何标准返回空
             }
             for (agriPesticideResidueStandard standard : standardList) {

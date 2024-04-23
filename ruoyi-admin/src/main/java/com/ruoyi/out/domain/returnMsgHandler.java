@@ -17,10 +17,12 @@ public class returnMsgHandler {
         this.MsgTitleList = new HashMap<>();
         this.MsgTitleList.put("信息有误","部分信息有误,请在定量检测导入表中检查下列样本的信息:");
     }
+
     public void initReturnMsg(StringBuilder Msg){
         this.MsgList =new HashMap<>();//重置MsgList
         this.returnMsg= Msg;//将上级传来的Msg作为内置Msg
     }
+
     public void addMsg(String MsgType,String Msg){
         if (MsgList.containsKey(MsgType)){/*空*/}
         else MsgList.put(MsgType,new StringBuilder());

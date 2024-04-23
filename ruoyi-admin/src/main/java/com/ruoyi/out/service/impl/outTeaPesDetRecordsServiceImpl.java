@@ -7,6 +7,7 @@ import com.ruoyi.detection.domain.agriCitySampleTestDetails;
 import com.ruoyi.out.domain.agriPesticideResidueStandard;
 import com.ruoyi.out.domain.outFruVegSelectType;
 import com.ruoyi.out.domain.outReturnType;
+import com.ruoyi.out.domain.returnMsgHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.ruoyi.out.mapper.outTeaPesDetRecordsMapper;
@@ -25,7 +26,7 @@ public class outTeaPesDetRecordsServiceImpl implements IoutTeaPesDetRecordsServi
 {
     @Autowired
     private outTeaPesDetRecordsMapper outTeaPesDetRecordsMapper;
-    private StringBuilder feedBack;
+    returnMsgHandler MsgHandler = new returnMsgHandler();
 
     /**
      * 查询茶叶禁用农药检出及超标情况列表
@@ -36,7 +37,7 @@ public class outTeaPesDetRecordsServiceImpl implements IoutTeaPesDetRecordsServi
     @Override
     public List<outReturnType> selectoutTeaPesDetRecordsList(agriCitySampleTestDetails agriCitySampleTestDetails, String type,StringBuilder feedBackMsg)
     {
-        initMsg(feedBackMsg);
+        MsgHandler.initReturnMsg(feedBackMsg);
         //初始化模块
         List<outReturnType> resultList = new ArrayList<outReturnType>();//用于存放结果的列表，当前为空
 
@@ -72,6 +73,7 @@ public class outTeaPesDetRecordsServiceImpl implements IoutTeaPesDetRecordsServi
             */
             //预设标准
             agriPesticideResidueStandard firstStandard =new agriPesticideResidueStandard();//默认限值设定为0.0，无对应标准名
+            item.fixData();//数据修正，主要是修正生产基地名称
             //检测结果可用性检查
             switch (checkIsUseful(item)){
                 //对蔬果名、农药名、生产环节进行数据审查
@@ -88,7 +90,6 @@ public class outTeaPesDetRecordsServiceImpl implements IoutTeaPesDetRecordsServi
                     continue;
                 case (0):
                     //通过
-                    item.fixData();//数据修正，主要是修正生产基地名称
                     break;
             }
                 if(!pesticideList.contains(item.pesticideName)){//对应农药是否在要求检测的列表内
@@ -135,11 +136,12 @@ public class outTeaPesDetRecordsServiceImpl implements IoutTeaPesDetRecordsServi
         try{
             //生产环节和农药名为必须 最终展示时由这两个属性确定在表格中的位置
             if (item.samplingStageType==null || item.pesticideName==null || item.samplingStageType.equals("") || item.pesticideName.equals("")){
-                addMsg("农药名或生产环节缺失： "+" 农药名:"+item.pesticideName+" 生产环节:"+item.samplingStageType+" 样品编号:"+item.sampleCode);
+                MsgHandler.addMsgTitle("信息缺失","下列样本存在信息缺失，请在定量检测导入表中检查样本信息");
+                MsgHandler.addMsg("信息缺失",item.sampleCode+" 农药名:"+item.pesticideName+" 生产环节:"+item.samplingStageType+" 样品编号:"+"农药名或生产环节缺失");
                 return 1;
             }
             if (item.vegFruName==null || item.pesticideDetValue==null){//蔬菜名或检测值缺失，无法进行超标判断
-                addMsg("蔬菜名缺失： "+" 蔬果名:"+item.vegFruName+" 检测值:"+item.pesticideDetValue+" 样品编号:"+item.sampleCode);
+                MsgHandler.addMsg("信息缺失"," 样品编号:"+item.sampleCode+" 蔬果名:"+item.vegFruName+" 检测值:"+item.pesticideDetValue+"(蔬菜名或检测值缺失)");
                 return 2;
             }
         }catch (Exception e){
@@ -166,7 +168,8 @@ public class outTeaPesDetRecordsServiceImpl implements IoutTeaPesDetRecordsServi
             if (standardList.isEmpty()) {//无任何标准
                 String msg = "没有对应国家标准" + "/r/n蔬果名:" + item.vegFruName + "/n农药名:" + item.pesticideName;
                 log.error(msg);
-                addMsg(msg);
+                MsgHandler.addMsgTitle("没有国家标准","下列对应蔬果对应农药没有对应国家标准，请在标准中添加");
+                MsgHandler.addMsg("没有国家标准", " 蔬果名:" + item.vegFruName + " 农药名:" + item.pesticideName+" 样品编号:" + item.sampleCode);
                 return null;//没有任何标准返回空
             }
             for (agriPesticideResidueStandard standard : standardList) {
@@ -187,11 +190,4 @@ public class outTeaPesDetRecordsServiceImpl implements IoutTeaPesDetRecordsServi
         else return outTeaPesDetRecordsMapper.getTeaNoBanPesticideList();//非禁用
     }
 
-    public void initMsg(StringBuilder feedBackMsg){
-        feedBack=feedBackMsg;
-    }
-    public void addMsg(String inputMsg){//目前仅仅是为了增加”<br/>“
-        String msg = "<br/>"+inputMsg;
-        feedBack.append(msg);
-    }
 }

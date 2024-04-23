@@ -127,6 +127,8 @@ public class outSampleQualityServiceImpl implements IoutSampleQualityService
                 return;//为0是不正常的样本
             outFruVegSelectType2 firstitem =itemList.get(0);//初步审查，由于整个农药结果列表是拼接到样本表生成的，第一个的样本信息即是整个列表的样本信息
             for (outFruVegSelectType2 item:itemList){
+                //预处理
+                item.fixData();//数据修正，主要是修正生产基地名称
                 //数据审查
                 switch (checkIsUseful(item,resultMap)){
                     case 1://缺少重要信息//该样本无法参与统计

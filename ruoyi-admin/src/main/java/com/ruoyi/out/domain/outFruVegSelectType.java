@@ -140,13 +140,17 @@ public class outFruVegSelectType extends BaseEntity {
 
     public void fixData(){//数据预处理，主要是对生产环节进行纠正
         //注意生产基地不要放前面，否则先识别出来其他的生产基地子类就无法识别了
-        List<String> StageType= Arrays.asList( "无公害产品基地","地标生产基地","绿色产品基地","有机产品基地","生产基地","散户","其他基地","批发市场","运输车");//生产环节类型
+        List<String> StageType= Arrays.asList( "无公害产品基地","地标生产基地","绿色产品基地","有机产品基地","散户","其他基地","批发市场","运输车");//生产环节类型
+
         for (String item : StageType){
             if(this.samplingStageType!=null && this.samplingStageType.contains(item)){
                 this.samplingStageType=item;//将所有数据清洗为规范格式
                 return;//找到一个即可返回
             }
-
+            if(this.samplingStageType!=null && this.samplingStageType.contains("生产基地")){//不是上述类型，但是包含生产基地，应为其他基地类型
+                this.samplingStageType="其他基地";//将所有数据清洗为规范格式
+                return;//找到一个即可返回
+            }
         }
     }
     public boolean checkIsUseful(){

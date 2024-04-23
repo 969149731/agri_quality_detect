@@ -172,6 +172,8 @@ public class outFruVegQualificationServiceImpl implements IoutFruVegQualificatio
             return;
         String vegFruDetailType;
         outFruVegSelectType firstitem =itemList.get(0);//初步审查，由于整个农药结果列表是拼接到样本表生成的，第一个的样本信息即是整个列表的样本信息
+
+
         switch (checkIsUseful(firstitem,resultMap)){
             case 1://必要条件不足，注意输出提示信息
                 return;//没有子类信息或不在检测范围中，无法填入表格
@@ -181,7 +183,7 @@ public class outFruVegQualificationServiceImpl implements IoutFruVegQualificatio
             case 0://农药名，蔬菜名，子类名，检测值均通过，可以检测是否超标
                 break;
         }
-        if (itemList.size()==1 && firstitem.pesticideName==null && firstitem.pesticideDetValue==null){//无农药检出，必定合格
+        if (itemList.size()==1 && (firstitem.pesticideName==null||firstitem.pesticideName.equals("")) && (firstitem.pesticideDetValue==null||firstitem.pesticideDetValue==0)){//无农药检出，必定合格
             if("其它类".equals(firstitem.detailType)){firstitem.detailType=firstitem.vegFruType+firstitem.detailType;}
             resultMap.get(firstitem.detailType).addOneToSamplingNumber(); //该类型抽样数+1
             resultMap.get(firstitem.detailType).addOneToPassNumber();//该类型合格数+1

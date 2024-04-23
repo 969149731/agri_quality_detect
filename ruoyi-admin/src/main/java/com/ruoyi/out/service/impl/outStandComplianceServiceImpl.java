@@ -24,7 +24,7 @@ public class outStandComplianceServiceImpl implements IoutStandComplianceService
 {
     @Autowired
     private outStandComplianceMapper outStandComplianceMapper;
-    private StringBuilder feedBack;
+    returnMsgHandler MsgHandler = new returnMsgHandler();
 
     /**
      * 查询参照国际组织或国家标准合格率情况
@@ -100,7 +100,7 @@ public class outStandComplianceServiceImpl implements IoutStandComplianceService
 
     public List<outStandardReturnType> selectoutStandComplianceList2(agriCitySampleTestDetails agriCitySampleTestDetails,StringBuilder feedBackMsg)
     {//为避免多一次交互,将合格率计算放到前端进行
-        initMsg(feedBackMsg);
+        MsgHandler.initReturnMsg(feedBackMsg);
 
         List<outStandardReturnType> resultList = new ArrayList<>();//生成原始返回值结果，农药名及全为0的其他值
         outStandardReturnType sampleNum= new outStandardReturnType("抽样数");//最后才放入结果
@@ -142,6 +142,7 @@ public class outStandComplianceServiceImpl implements IoutStandComplianceService
         passNum.addAll(answer);//使用方法传回的该样本在不同标准下的合格情况，农药的超标情况在内部统计
         sampleNum.AlladdOne();//抽样数+1
 
+        MsgHandler.turnToStr();
         return returnFinalList(resultMap,pesticideList,resultList,sampleNum,passNum);
     }
 
@@ -178,7 +179,8 @@ public class outStandComplianceServiceImpl implements IoutStandComplianceService
             List<agriPesticideResidueStandard> standardslist = outStandComplianceMapper.getagriPesticideResidueStandard(pesticideName, vegFruName);
             if (standardslist.isEmpty()){
 //                result=IsPassUnderAllStandard(item);//如果不计入农药超标数的话（也确实无法判断）这样写就足够了
-                addMsg("没有任何标准"+ "------样本编号:" + item.sampleCode + "------蔬果名:" + item.vegFruName + "------农药名:" + item.pesticideName);
+                MsgHandler.addMsgTitle("没有任何标准","没有任何标准，请在农药标准字典中添加或检查样本的农药名和蔬菜名");
+                MsgHandler.addMsg("没有任何标准", " 样本编号:" + item.sampleCode + " 蔬果名:" + item.vegFruName + " 农药名:" + item.pesticideName);
                 continue;//该检测结果没有对应标准
             }
             //计算相应属性
@@ -233,7 +235,8 @@ public class outStandComplianceServiceImpl implements IoutStandComplianceService
     public int checkIsUseful(outFruVegSelectType2 item,Map<String, outStandardReturnType> resultMap){
         try{
             if(item.pesticideName==null||item.pesticideName.equals("") || item.pesticideDetValue==null ||item.vegFruName==null||item.vegFruName.equals("")){//农药名或
-                addMsg("该检测结果缺少必要信息 "+" 样品编号"+item.sampleCode+" 蔬果名:"+item.vegFruName+" 农药名:"+item.pesticideName+" 农药检出值:"+item.pesticideDetValue);
+                MsgHandler.addMsgTitle("信息缺失","该检测结果缺少必要信息，请在定量检测导入表中检查样本的信息是否正确:");
+                MsgHandler.addMsg("信息缺失"," 样品编号"+item.sampleCode+" 蔬果名:"+item.vegFruName+" 农药名:"+item.pesticideName+" 农药检出值:"+item.pesticideDetValue+"(信息缺失)");
                 return 1;
             }
             if(resultMap.get(item.pesticideName)==null){
@@ -289,12 +292,5 @@ public class outStandComplianceServiceImpl implements IoutStandComplianceService
                 if (sample.japanStandard!=null &&sample.japanStandard.equals("合格")) ;
                 else answer.setOne("日本",0);
         return answer;
-    }
-    public void initMsg(StringBuilder feedBackMsg){
-        feedBack = feedBackMsg;
-    }
-    public void addMsg(String inputMsg){//目前仅仅是为了增加”<br/>“
-        String msg = "<br/>"+inputMsg;
-        feedBack.append(msg);
     }
 }
