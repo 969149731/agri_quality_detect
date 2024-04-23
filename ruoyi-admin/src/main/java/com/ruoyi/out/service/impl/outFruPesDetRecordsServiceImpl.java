@@ -26,30 +26,18 @@ public class outFruPesDetRecordsServiceImpl implements IoutFruPesDetRecordsServi
 {
     @Autowired
     private outFruPesDetRecordsMapper outFruPesDetRecordsMapper;
+    ///////////业务模块全局变量
+    List<outReturnType> resultList;//用于存放结果的列表，当前为空
+    Map<String, outReturnType> pesticideResultMap;//各个农药检出情况
+    List<String> pesticideList;//农药列表
     returnMsgHandler MsgHandler = new returnMsgHandler();
 
     @Override
     public List<outReturnType> selectoutFruPesDetRecordsList(agriCitySampleTestDetails agriCitySampleTestDetails, String type,StringBuilder feedBackMsg)
     {
-        MsgHandler.initReturnMsg(feedBackMsg);//把上级传入的feedBackMsg作为内部的变量
-        //初始化模块
-        List<outReturnType> resultList = new ArrayList<outReturnType>();//用于存放结果的列表，当前为空
-        //反馈信息
-//        StringBuilder successMsg = new StringBuilder();
-//        StringBuilder failureMsg = new StringBuilder();
-
-        //查询农药列表
-        PageHelper.startPage(0,0,false,false,true);//分页方法，仅对之后第一个查询生效
-        List<String> pesticideList = getPesticideList(type);//可以在此处设置农药列表//也可查询获取列表
-        if(pesticideList.isEmpty()){
-            MsgHandler.addMsg("错误","没有水果"+type+"农药，请检查农药字典中是否有水果"+type+"类型的农药");//在农药表中没有水果禁用/非禁用农药
-            log.error("查询出的农药列表为空");
-            return resultList;//返回空表
-        }
-        Map<String, outReturnType> pesticideResultMap = new TreeMap<String, outReturnType>();//使用字典存储
-        for (String pesticideName : pesticideList) {//初始化
-            pesticideResultMap.put(pesticideName, new outReturnType(pesticideName));
-        }
+        //模块初始化
+        if(initModule(feedBackMsg,type)){
+        }else return returnFinalList();
 
         //查询结果列表
         PageHelper.startPage(0,0,false,false,true);//分页方法，仅对之后第一个查询生效
@@ -57,20 +45,10 @@ public class outFruPesDetRecordsServiceImpl implements IoutFruPesDetRecordsServi
         if(SelectList.isEmpty()){
             MsgHandler.addMsg("警告","在当前条件下没有检测结果");//在农药表中没有水果禁用/非禁用农药
             log.debug("查询出的检测结果列表为空",SelectList);
-            return returnFinalList(pesticideResultMap);
+            return returnFinalList();
         }
-
-
         //遍历所有获取到的结果
         for (outFruVegSelectType item : SelectList) {
-            /*
-            * 样式为
-            * pesticideDetResultId=2
-              pesticideName=甲胺磷
-              pesticideDetValue=11.0
-              citySampleTestDetailsId=1
-              createdAt=<null>
-            */
             //预设标准
             agriPesticideResidueStandard firstStandard =new agriPesticideResidueStandard();//默认限值设定为0.0，无对应标准名
             item.fixData();//数据修正，主要是修正生产基地名称
@@ -78,17 +56,17 @@ public class outFruPesDetRecordsServiceImpl implements IoutFruPesDetRecordsServi
             switch (checkIsUseful(item)){
                 //对蔬果名、农药名、生产环节进行数据审查
                 //审查不通过
-                case (1)://缺少农药名和生产环节，无法填入数据
+                case 1://缺少农药名和生产环节，无法填入数据
                     continue;//没通过数据可用审查，跳过当前的检测条目
-                case (2)://蔬菜名或检测值缺失，无法进行超标判断//但仍可以进行检出判断
+                case 2://蔬菜名或检测值缺失，无法进行超标判断//但仍可以进行检出判断
                     if(pesticideResultMap.get(item.pesticideName)!=null){//在检测的列表中
                         pesticideResultMap.get(item.pesticideName).totalDet += 1;//总检出
                         pesticideResultMap.get(item.pesticideName).addOneToStageName(item.samplingStageType);//加到对应属性上
                     }
                     continue;
-                case (-1)://异常检出
+                case -1://异常检出
                     continue;
-                case (0):
+                case 0:
                     //通过
                     break;
             }
@@ -110,16 +88,34 @@ public class outFruPesDetRecordsServiceImpl implements IoutFruPesDetRecordsServi
                 continue;
             }
             //计算相应属性//计算的逻辑可能还需要更改
-            compute(pesticideResultMap,item,firstStandard);
+            compute(item,firstStandard);
         }
         MsgHandler.turnToStr();//将所有信息传给上级的Msg
         //返回结果
-        return returnFinalList(pesticideResultMap);
+        return returnFinalList();
     }
+public boolean initModule(StringBuilder feedBackMsg,String type){
+    //初始化模块
+    MsgHandler.initReturnMsg(feedBackMsg);//把上级传入的feedBackMsg作为内部的变量
 
+    //查询农药列表
+    PageHelper.startPage(0,0,false,false,true);//分页方法，仅对之后第一个查询生效
+    pesticideList = getPesticideList(type);//可以在此处设置农药列表//也可查询获取列表
+
+    pesticideResultMap = new TreeMap<String, outReturnType>();//使用字典存储
+    for (String pesticideName : pesticideList) {//初始化
+        pesticideResultMap.put(pesticideName, new outReturnType(pesticideName));
+    }
+    if(pesticideList.isEmpty()){
+        MsgHandler.addMsg("错误","没有水果"+type+"农药，请检查农药字典中是否有水果"+type+"类型的农药");//在农药表中没有水果禁用/非禁用农药
+        log.error("查询出的农药列表为空");
+        return false;//返回空表
+    }
+    return true;
+}
 
     //工具方法
-    public List<outReturnType> returnFinalList(Map<String, outReturnType> pesticideResultMap){
+    public List<outReturnType> returnFinalList(){
         List<outReturnType> resultList = new ArrayList<outReturnType>();
         Set<Map.Entry<String, outReturnType>> entrySet=pesticideResultMap.entrySet();
         outReturnType total =new outReturnType("合计");
@@ -148,7 +144,7 @@ public class outFruPesDetRecordsServiceImpl implements IoutFruPesDetRecordsServi
         }
         return 0;//到此说明数据可用
     }
-    public void compute(Map<String, outReturnType> pesticideResultMap,outFruVegSelectType item,agriPesticideResidueStandard standard){
+    public void compute(outFruVegSelectType item,agriPesticideResidueStandard standard){
         //计算相应属性//计算的逻辑可能还需要更改
         if(pesticideResultMap.get(item.pesticideName)!=null){//在检测的列表中
             pesticideResultMap.get(item.pesticideName).totalDet += 1;//总检出

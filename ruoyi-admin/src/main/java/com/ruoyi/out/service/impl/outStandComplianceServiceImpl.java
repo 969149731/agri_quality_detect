@@ -24,6 +24,12 @@ public class outStandComplianceServiceImpl implements IoutStandComplianceService
 {
     @Autowired
     private outStandComplianceMapper outStandComplianceMapper;
+    /////////查询时使用的全局变量
+    List<String> pesticideList;//可以在此处设置农药列表//也可查询获取列表
+    Map<String, outStandardReturnType> resultMap;//使用字典存储
+    List<outStandardReturnType> resultList;//生成原始返回值结果，农药名及全为0的其他值
+    outStandardReturnType sampleNum;//最后才放入结果
+    outStandardReturnType passNum;//最后才放入结果
     returnMsgHandler MsgHandler = new returnMsgHandler();
 
     /**
@@ -100,19 +106,8 @@ public class outStandComplianceServiceImpl implements IoutStandComplianceService
 
     public List<outStandardReturnType> selectoutStandComplianceList2(agriCitySampleTestDetails agriCitySampleTestDetails,StringBuilder feedBackMsg)
     {//为避免多一次交互,将合格率计算放到前端进行
-        MsgHandler.initReturnMsg(feedBackMsg);
-
-        List<outStandardReturnType> resultList = new ArrayList<>();//生成原始返回值结果，农药名及全为0的其他值
-        outStandardReturnType sampleNum= new outStandardReturnType("抽样数");//最后才放入结果
-        outStandardReturnType passNum= new outStandardReturnType("合格数");//最后才放入结果
-
-        //结果初始化
-        PageHelper.startPage(0,0,false,false,true);//解除分页方法，仅对之后第一个查询生效
-        List<String> pesticideList = outStandComplianceMapper.getAllPesticideList();//可以在此处设置农药列表//也可查询获取列表
-        Map<String, outStandardReturnType> resultMap = new TreeMap<>();//使用字典存储
-        for (String pesticideName : pesticideList) {//初始化
-            resultMap.put(pesticideName, new outStandardReturnType(pesticideName));
-        }
+        if (initModule(feedBackMsg));
+        else return returnFinalList();
 
         //获取所有检测结果
         PageHelper.startPage(0,0,false,false,true);//解除分页方法，仅对之后第一个查询生效
@@ -120,8 +115,9 @@ public class outStandComplianceServiceImpl implements IoutStandComplianceService
         if (SelectList.isEmpty()){System.out.println("样本查询结果为空");}
         if(SelectList.isEmpty()){
             log.debug("查询出的样本列表为空");
-            return returnFinalList(resultMap,pesticideList,resultList,sampleNum,passNum);
+            return returnFinalList();
         }
+
         //先遍历所有获取到的结果//以id标识一组检测结果（即一个样本）,所以默认id是存在的，事实上id由数据库生成，肯定存在
         List<outFruVegSelectType2> itemList=new ArrayList<>();//初始化
         Long sampleId = SelectList.get(0).getCitySampleTestDetailsId();//对于经过编译器生成的列表对象而言，其执行顺序的正确性是保证的，列表的第一个等同于for中执行的第一个
@@ -130,57 +126,65 @@ public class outStandComplianceServiceImpl implements IoutStandComplianceService
                 itemList.add(item);
             }
             else{
-                outStandardReturnType answer = SamplePasscCheck(resultMap,itemList);
-                sampleNum.AlladdOne();//抽样数+1
-                passNum.addAll(answer);//使用方法传回的该样本在不同标准下的合格情况，农药的超标情况在内部统计
+                SamplePasscCheck(itemList);
                 itemList=new ArrayList<>();//重置
                 itemList.add(item);//把当前item加入
                 sampleId=item.citySampleTestDetailsId;
             }
         }
-        outStandardReturnType answer = SamplePasscCheck(resultMap,itemList);
-        passNum.addAll(answer);//使用方法传回的该样本在不同标准下的合格情况，农药的超标情况在内部统计
-        sampleNum.AlladdOne();//抽样数+1
+        SamplePasscCheck(itemList);
+
 
         MsgHandler.turnToStr();
-        return returnFinalList(resultMap,pesticideList,resultList,sampleNum,passNum);
+        return returnFinalList();
     }
 
     //工具方法
     //判断样本是否合格，1为合格，0为不合格
-    outStandardReturnType SamplePasscCheck(Map<String, outStandardReturnType> resultMap,List<outFruVegSelectType2> itemList){
+    void SamplePasscCheck(List<outFruVegSelectType2> itemList){
         outStandardReturnType result =new outStandardReturnType();
         result.setAll(1);//初始均为合格
         List<String> standardType= Arrays.asList("国家标准", "CAC","欧盟","美国","日本","韩国");//用于遍历
-        //获取该样本下所有农药的检测结果
-        if (itemList.isEmpty()){
-            //防止返回空的情况，一般不会为空
-            return result;//检测合格，返回初始的均为合格的情况
+        switch (sampleCheck(itemList)){
+            case 1:
+                return;
+            case 0:
+                break;
+            case -1:
+                return;
         }
-        outFruVegSelectType2 firstitem =itemList.get(0);//初步审查，由于整个农药结果列表是拼接到样本表生成的，第一个的样本信息即是整个列表的样本信息
-        if (itemList.size()==1 && firstitem.pesticideName==null && firstitem.pesticideDetValue==null){//无农药检出，必定合格
-            log.debug("该条目下无检出农药"+"/r/n蔬果名:"+firstitem.vegFruName+"样品编号"+firstitem.sampleCode);
-            return result;//退出
-        }
-        for (outFruVegSelectType2 item: itemList){//遍历所有检出的农药
+
+        for (outFruVegSelectType2 item: itemList){
+            //遍历所有检出的农药
             //获取蔬菜名//用于获取标准
             String vegFruName = item.vegFruName;
             String pesticideName = item.pesticideName;
-            switch (checkIsUseful(item,resultMap)){
+            switch (checkIsUseful(item)){
                 case 1://缺少必要信息
-                    return IsPassUnderAllStandard(item);//默认合格？，返回初始均为合格的情况
+                   continue;//默认合格？，返回初始均为合格的情况
                 case 2:
                     log.debug("该农药不在检测范围中");
                     continue;//该农药不在检测范围中，请检查
+                case 0:
+                    break;
+                case -1://错误
+                    continue;
             }
 
             //获取对应标准//可能取得多个标准
             PageHelper.startPage(0,0,false,false,true);//分页方法，仅对之后第一个查询生效
             List<agriPesticideResidueStandard> standardslist = outStandComplianceMapper.getagriPesticideResidueStandard(pesticideName, vegFruName);
             if (standardslist.isEmpty()){
-//                result=IsPassUnderAllStandard(item);//如果不计入农药超标数的话（也确实无法判断）这样写就足够了
                 MsgHandler.addMsgTitle("没有任何标准","没有任何标准，请在农药标准字典中添加或检查样本的农药名和蔬菜名");
                 MsgHandler.addMsg("没有任何标准", " 样本编号:" + item.sampleCode + " 蔬果名:" + item.vegFruName + " 农药名:" + item.pesticideName);
+                for (String standardName:standardType){
+                    if (IsPassUnderTheStandard(standardName,item)){//使用用户输入的信息，为空时也视为不合格
+                    }else {
+                        outStandardReturnType pesticide = resultMap.get(pesticideName);
+                        pesticide.addOne(standardName);//对应农药的对应标准超标数+1
+                        result.setOne(standardName,0);
+                    }
+                }
                 continue;//该检测结果没有对应标准
             }
             //计算相应属性
@@ -210,37 +214,74 @@ public class outStandComplianceServiceImpl implements IoutStandComplianceService
                 }
             }
         }
-        return result;//正常退出//该样本在所有标准下的结果均体现在其中
+        sampleNum.AlladdOne();
+        passNum.addAll(result);
+        return ;//正常退出//该样本在所有标准下的结果均体现在其中
+    }
+    public boolean initModule(StringBuilder feedBackMsg){
+        try {
+            MsgHandler.initReturnMsg(feedBackMsg);
+
+            resultList = new ArrayList<>();//生成原始返回值结果，农药名及全为0的其他值
+            sampleNum= new outStandardReturnType("抽样数");//最后才放入结果
+            passNum= new outStandardReturnType("合格数");//最后才放入结果
+
+            //结果初始化
+            PageHelper.startPage(0,0,false,false,true);//解除分页方法，仅对之后第一个查询生效
+            pesticideList = outStandComplianceMapper.getAllPesticideList();//可以在此处设置农药列表//也可查询获取列表
+            resultMap = new TreeMap<>();//使用字典存储
+            for (String pesticideName : pesticideList) {//初始化
+                resultMap.put(pesticideName, new outStandardReturnType(pesticideName));
+            }
+            return true;
+        }catch (Exception e){
+            return false;
+        }
     }
 
-    public List<outStandardReturnType> returnFinalList(Map<String, outStandardReturnType> resultMap,List<String> pesticideList,List<outStandardReturnType> resultList,
-    outStandardReturnType sampleNum,outStandardReturnType passNum){
-        //先打包
-        for (String pesticideName : pesticideList) {//初始化
-            resultList.add(resultMap.get(pesticideName));
-        }
 
-        //计算抽样数合格数，合格率在前端计算，因为合格率要保留小数，但是传去的类型为int
-        outStandardReturnType totalEx= new outStandardReturnType("各国超标数");//不放入结果
-        for (outStandardReturnType oneOfList : resultList) {//初始化
-            totalEx.addAll(oneOfList);
-        }
+    public int sampleCheck(List<outFruVegSelectType2> itemList){
+        if (itemList==null) return 1;
+        if(itemList.size()==0) return 1;//为0是不正常的样本
+        outFruVegSelectType2 firstitem =itemList.get(0);//样本整体审查，第一个的样本信息能够代表整个列表的样本信息
 
-        //末尾加2个，前端会将其删除
-        resultList.add(sampleNum);
-        resultList.add(passNum);
-//        System.out.println("当前农药数数"+pesticideList.size());
-        return resultList;
-    }
-    public int checkIsUseful(outFruVegSelectType2 item,Map<String, outStandardReturnType> resultMap){
+        firstitem.fixData();
         try{
-            if(item.pesticideName==null||item.pesticideName.equals("") || item.pesticideDetValue==null ||item.vegFruName==null||item.vegFruName.equals("")){//农药名或
+            if (itemList.size()==1 && firstitem.pesticideName==null && firstitem.pesticideDetValue==null){//无农药检出，必定合格
+                log.debug("该条目下无检出农药"+"/r/n蔬果名:"+firstitem.vegFruName+"样品编号"+firstitem.sampleCode);
+                sampleNum.AlladdOne();
+                passNum.AlladdOne();
+                return 1;//退出
+            }
+            if (firstitem.vegFruName==null||firstitem.vegFruName.equals("")){//缺少蔬菜名，整个样本无法进行超标判断
+                    MsgHandler.addMsg("部分信息有误,请在定量检测导入表中检查下列样本的信息:"," 样品编号:"+firstitem.sampleCode+" 蔬果名:"+firstitem.vegFruName+"(蔬菜名缺失)");
+
+                    return 2;
+
+            }
+            return 0;//通过
+        }
+        catch (NullPointerException nullE){
+            MsgHandler.addMsg("错误","出现空指针请在定量检测导入表中检查样本:"+" 样本id"+firstitem.citySampleTestDetailsId);
+            log.error("出现空指针错误",nullE);
+            return -1;
+        }
+        catch (Exception e){
+            MsgHandler.addMsg("错误","出现未知错误请联系管理员"+" 样本id"+firstitem.citySampleTestDetailsId);
+            log.error("出现未知错误",e);
+            return -1;
+        }
+    }
+    public int checkIsUseful(outFruVegSelectType2 item){
+        try{
+            if(item.pesticideName==null||item.pesticideName.equals("") || item.pesticideDetValue==null){//农药名
                 MsgHandler.addMsgTitle("信息缺失","该检测结果缺少必要信息，请在定量检测导入表中检查样本的信息是否正确:");
                 MsgHandler.addMsg("信息缺失"," 样品编号"+item.sampleCode+" 蔬果名:"+item.vegFruName+" 农药名:"+item.pesticideName+" 农药检出值:"+item.pesticideDetValue+"(信息缺失)");
                 return 1;
             }
             if(resultMap.get(item.pesticideName)==null){
-                return 2;//不在检测范围内
+                log.debug("改农药不在当前检测范围内"+item.pesticideName);
+                return 1;//不在检测范围内
             }
         }catch (Exception e){
             log.error("捕获异常",e);
@@ -292,5 +333,26 @@ public class outStandComplianceServiceImpl implements IoutStandComplianceService
                 if (sample.japanStandard!=null &&sample.japanStandard.equals("合格")) ;
                 else answer.setOne("日本",0);
         return answer;
+    }
+    public List<outStandardReturnType> returnFinalList(){
+
+        outStandardReturnType sampleNum= new outStandardReturnType("抽样数");//最后才放入结果
+        outStandardReturnType passNum= new outStandardReturnType("合格数");//最后才放入结果
+        //先打包
+        for (String pesticideName : pesticideList) {//初始化
+            resultList.add(resultMap.get(pesticideName));
+        }
+
+        //计算抽样数合格数，合格率在前端计算，因为合格率要保留小数，但是传去的类型为int
+        outStandardReturnType totalEx= new outStandardReturnType("各国超标数");//不放入结果
+        for (outStandardReturnType oneOfList : resultList) {//初始化
+            totalEx.addAll(oneOfList);
+        }
+
+        //末尾加2个，前端会将其删除
+        resultList.add(sampleNum);
+        resultList.add(passNum);
+//        System.out.println("当前农药数数"+pesticideList.size());
+        return resultList;
     }
 }

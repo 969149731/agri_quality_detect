@@ -26,6 +26,12 @@ public class outFruVegQualificationServiceImpl implements IoutFruVegQualificatio
 {
     @Autowired
     private outFruVegQualificationMapper outFruVegQualificationMapper;
+    ///
+    List<outFruVegQualification> resultList;
+    List<String> VegDetailType;
+    List<String> FruDetailType;
+    List<String> AllType;
+    Map<String, outFruVegQualification> resultMap;
     returnMsgHandler MsgHandler = new returnMsgHandler();
     /**
      * 查询各类蔬菜水果合格率情况列表
@@ -36,35 +42,8 @@ public class outFruVegQualificationServiceImpl implements IoutFruVegQualificatio
     @Override
     public List<outFruVegQualification> selectoutFruVegQualificationList(agriCitySampleTestDetails agriCitySampleTestDetails,StringBuilder feedBackMsg)
     {
-        //初始化
-        MsgHandler.initReturnMsg(feedBackMsg);
-        List<outFruVegQualification> resultList = new ArrayList<>();
-//        List<String> AllType= Arrays.asList("瓜果类", "叶菜类", "豆类","根茎类","蔬菜其它类","蔬菜小计","柑橘类","浆果类","核果类","水果其它类","水果小计","合计");
-//        List<String> VegDetailType= Arrays.asList("瓜果类", "叶菜类", "豆类","根茎类","蔬菜其它类");
-//        List<String> FruDetailType= Arrays.asList("柑橘类","浆果类","核果类","水果其它类");
-
-
-        List<String> VegDetailType= outFruVegQualificationMapper.getVegSubType();
-        VegDetailType.remove("其它类");
-        VegDetailType.add("蔬菜其它类");
-        List<String> FruDetailType= outFruVegQualificationMapper.getFruSubType();
-        FruDetailType.remove("其它类");
-        FruDetailType.add("水果其它类");
-        System.out.println("蔬菜子类列表"+VegDetailType);
-        System.out.println("水果子类列表"+FruDetailType);
-        List<String> AllType =new ArrayList<>();
-        AllType.addAll(VegDetailType);
-        AllType.add("蔬菜小计");
-        AllType.addAll(FruDetailType);
-        AllType.add("水果小计");
-        AllType.add("合计");
-        System.out.println("所有子类列表"+AllType);
-
-        Map<String, outFruVegQualification> resultMap = new TreeMap<String, outFruVegQualification>();//使用字典存储
-        //结果初始化
-        for (String Typename : AllType) {
-            resultMap.put(Typename, new outFruVegQualification(Typename));
-        }
+        if (initModule(feedBackMsg));
+        else return returnFinalList();
 
 
         //查询所有样本的检测结果
@@ -72,7 +51,7 @@ public class outFruVegQualificationServiceImpl implements IoutFruVegQualificatio
         List<outFruVegSelectType> selectReturnList = outFruVegQualificationMapper.getFruVegDetResultList(agriCitySampleTestDetails);
         if(selectReturnList.isEmpty()){
             log.debug("查询出的样本列表为空");
-            return returnFinalList(resultMap,resultList,AllType,VegDetailType,FruDetailType);
+            return returnFinalList();
             }
         //先遍历所有获取到的结果//以id标识一组检测结果（即一个样本）,所以默认id是必定存在的，事实上id由数据库生成，肯定存在
         List<outFruVegSelectType> itemList=new ArrayList<outFruVegSelectType>();//初始化
@@ -82,22 +61,59 @@ public class outFruVegQualificationServiceImpl implements IoutFruVegQualificatio
                 itemList.add(item);
             }
             else{
-                compute(resultMap,itemList);
+                compute(itemList);
                 itemList=new ArrayList<>();//重置
                 itemList.add(item);//把当前item加入
                 sampleId=item.citySampleTestDetailsId;
             }
         }
-        compute(resultMap,itemList);//当仅有一个样本，或是最后一个样本，没有下一个不同的id触发，compute，在此计算
+        compute(itemList);//当仅有一个样本，或是最后一个样本，没有下一个不同的id触发，compute，在此计算
 
         MsgHandler.turnToStr();
-        return returnFinalList(resultMap,resultList,AllType,VegDetailType,FruDetailType);
+        return returnFinalList();
     }
 
 
     //工具方法
-    public List<outFruVegQualification> returnFinalList(Map<String, outFruVegQualification> resultMap,List<outFruVegQualification> resultList,
-                                                        List<String> AllType,List<String> VegDetailType,List<String> FruDetailType){
+    public boolean initModule(StringBuilder feedBackMsg){
+        try {
+            //初始化
+            MsgHandler.initReturnMsg(feedBackMsg);
+//        List<String> AllType= Arrays.asList("瓜果类", "叶菜类", "豆类","根茎类","蔬菜其它类","蔬菜小计","柑橘类","浆果类","核果类","水果其它类","水果小计","合计");
+//        List<String> VegDetailType= Arrays.asList("瓜果类", "叶菜类", "豆类","根茎类","蔬菜其它类");
+//        List<String> FruDetailType= Arrays.asList("柑橘类","浆果类","核果类","水果其它类");
+
+
+            VegDetailType= outFruVegQualificationMapper.getVegSubType();
+            VegDetailType.remove("其它类");
+            VegDetailType.add("蔬菜其它类");
+            FruDetailType= outFruVegQualificationMapper.getFruSubType();
+            FruDetailType.remove("其它类");
+            FruDetailType.add("水果其它类");
+            System.out.println("蔬菜子类列表"+VegDetailType);
+            System.out.println("水果子类列表"+FruDetailType);
+            AllType =new ArrayList<>();
+            AllType.addAll(VegDetailType);
+            AllType.add("蔬菜小计");
+            AllType.addAll(FruDetailType);
+            AllType.add("水果小计");
+            AllType.add("合计");
+            System.out.println("所有子类列表"+AllType);
+
+            resultMap = new TreeMap<String, outFruVegQualification>();//使用字典存储
+            //结果初始化
+            for (String Typename : AllType) {
+                resultMap.put(Typename, new outFruVegQualification(Typename));
+            }
+            return true;
+        }catch (Exception e){
+            log.error("模块初始化时出错",e);
+            return false;
+        }
+
+    }
+    public List<outFruVegQualification> returnFinalList(){
+        resultList = new ArrayList<>();
         //合计计算和比例计算
         outFruVegQualification vegTotal =resultMap.get("蔬菜小计");
         for(String vDetail:VegDetailType){
@@ -134,71 +150,95 @@ public class outFruVegQualificationServiceImpl implements IoutFruVegQualificatio
         resultList.get(10).setVegFruType("小计");
         return resultList;
     }
-    public int checkIsUseful(outFruVegSelectType item,Map<String, outFruVegQualification> resultMap){
+    public int sampleCheck(List<outFruVegSelectType> itemList){
+        if (itemList==null) return 1;
+        if(itemList.size()==0) return 1;//为0是不正常的样本
+        outFruVegSelectType firstitem =itemList.get(0);//样本整体审查，第一个的样本信息能够代表整个列表的样本信息
+
+        firstitem.fixData();
         try{
+            //无检出农药，为合格
+            if (itemList.size()==1 && (firstitem.pesticideName==null||firstitem.pesticideName.equals("")) && (firstitem.pesticideDetValue==null||firstitem.pesticideDetValue==0)){//无农药检出，必定合格
+                if("其它类".equals(firstitem.detailType)){firstitem.detailType=firstitem.vegFruType+firstitem.detailType;}
+                resultMap.get(firstitem.detailType).addOneToSamplingNumber(); //该类型抽样数+1
+                resultMap.get(firstitem.detailType).addOneToPassNumber();//该类型合格数+1
+                return 1;//退出
+            }
             //情形一。子类名称为必须
-            if(item.detailType ==null ){//必要条件不足，无法进行
-                if("其他类".equals(item.detailType)){item.detailType=item.vegFruType+item.detailType;}//重命名其他类
-                MsgHandler.addMsg("信息有误","样品编号:"+item.sampleCode+" 当前子类名称："+item.detailType+"(缺少蔬菜水果子类)");
+            if(firstitem.detailType ==null ){//必要条件不足，无法进行
+                if("其他类".equals(firstitem.detailType)){firstitem.detailType=firstitem.vegFruType+firstitem.detailType;}//重命名其他类
+                MsgHandler.addMsg("信息有误","样品编号:"+firstitem.sampleCode+" 当前子类名称："+firstitem.detailType+"(缺少蔬菜水果子类)");
                 return 1;}
 
             //情形二，子类为其它类，要求前置大类存在
-            if("其它类".equals(item.detailType)){
-                if(item.vegFruType==null){
-                    MsgHandler.addMsg("信息有误"," 样品编号:"+item.sampleCode+" 当前子类："+item.detailType+" 当前大类："+item.vegFruType+" 其它类需要配合大类使用(如蔬菜或水果)");
+            if("其它类".equals(firstitem.detailType)){
+                if(firstitem.vegFruType==null){
+                    MsgHandler.addMsg("信息有误"," 样品编号:"+firstitem.sampleCode+" 当前子类："+firstitem.detailType+" 当前大类："+firstitem.vegFruType+" 其它类需要配合大类使用(如蔬菜或水果)");
                     return 1;
                 }
-                item.detailType=item.vegFruType+item.detailType;
+                firstitem.detailType=firstitem.vegFruType+firstitem.detailType;
             }//重命名其他类
             //情形三，当前子类不在检测范围内
-            if(!resultMap.containsKey(item.detailType)){//不在检测列表中
-                //System.out.println("当前检测样本信息有误 该类别不在检测列表中"+" 当前子类："+item.detailType+" 当前大类："+item.vegFruType+" 样品编号:"+item.sampleCode);
+            if(!resultMap.containsKey(firstitem.detailType)){//不在检测列表中
+                //System.out.println("当前检测样本信息有误 该类别不在检测列表中"+" 当前子类："+firstitem.detailType+" 当前大类："+firstitem.vegFruType+" 样品编号:"+firstitem.sampleCode);
                 return 1;}
 
             //情形四，无蔬菜名，无法查询标准
-            if(item.vegFruName==null ||item.vegFruName.equals("") ){//没有对应蔬菜名，整个列表都无法进行超标判断
-                MsgHandler.addMsg("信息有误"," 样品编号:"+item.sampleCode+" 蔬菜名："+item.vegFruName+"（无蔬菜名无法判断）");
-                return 2;
+            if(firstitem.vegFruName==null ||firstitem.vegFruName.equals("") ){//没有对应蔬菜名，整个列表都无法进行超标判断
+                resultMap.get(firstitem.detailType).addOneToSamplingNumber(); //该类型抽样数+1
+                MsgHandler.addMsg("信息有误"," 样品编号:"+firstitem.sampleCode+" 蔬菜名："+firstitem.vegFruName+"（无蔬菜名无法判断）");
+                return 1;
             }
-
+            return 0;
+        }
+        catch (NullPointerException nullE){
+            MsgHandler.addMsg("错误","出现空指针请在定量检测导入表中检查样本:"+" 样本id"+firstitem.citySampleTestDetailsId);
+            log.error("出现空指针错误",nullE);
+            return -1;
+        }
+        catch (Exception e){
+            MsgHandler.addMsg("错误","出现未知错误请联系管理员"+" 样本id"+firstitem.citySampleTestDetailsId);
+            log.error("出现未知错误",e);
+            return -1;
+        }
+    }
+    public int checkIsUseful(outFruVegSelectType item){
+        try{
+            if (item.pesticideName==null ||item.pesticideName.equals("")||item.pesticideDetValue==null){//单个条目无农药名或无检测值，无法判断是否超标
+                MsgHandler.addMsgTitle("无农药检测值","无农药检测值,请在农药检测结果表中检查下列样本");
+                MsgHandler.addMsg("无农药检测值"," 样品编号:"+item.sampleCode+" 农药名："+item.pesticideName+" 检测值："+item.pesticideDetValue);
+                return 1;
+            }
         }catch (Exception e){
+            log.error("在单个检测结果数据审查时报错",e);
             return -1;//有异常
         }
         return 0;//到此说明数据可用
     }
-    public void compute(Map<String, outFruVegQualification> resultMap,List<outFruVegSelectType> itemList){//按一个检测样本进行统计
+    public void compute(List<outFruVegSelectType> itemList){//按一个检测样本进行统计
         boolean isPass=true;//默认通过//仅存在超标时显示不合格
-        if(itemList.size()==0)
-            return;
-        String vegFruDetailType;
-        outFruVegSelectType firstitem =itemList.get(0);//初步审查，由于整个农药结果列表是拼接到样本表生成的，第一个的样本信息即是整个列表的样本信息
-
-
-        switch (checkIsUseful(firstitem,resultMap)){
-            case 1://必要条件不足，注意输出提示信息
-                return;//没有子类信息或不在检测范围中，无法填入表格
-            case 2://必要条件存在（子类存在），但蔬菜名不存在，整个列表无法进行超标判断
-                resultMap.get(firstitem.detailType).addOneToSamplingNumber(); //该类型抽样数+1
+        switch (sampleCheck(itemList)){
+            case 1://
                 return;
-            case 0://农药名，蔬菜名，子类名，检测值均通过，可以检测是否超标
+            case 0:
+                //通过审查
                 break;
-        }
-        if (itemList.size()==1 && (firstitem.pesticideName==null||firstitem.pesticideName.equals("")) && (firstitem.pesticideDetValue==null||firstitem.pesticideDetValue==0)){//无农药检出，必定合格
-            if("其它类".equals(firstitem.detailType)){firstitem.detailType=firstitem.vegFruType+firstitem.detailType;}
-            resultMap.get(firstitem.detailType).addOneToSamplingNumber(); //该类型抽样数+1
-            resultMap.get(firstitem.detailType).addOneToPassNumber();//该类型合格数+1
-            return;//退出
+            case -1:
+                return;//报错
         }
 
-        //这个句子放在switch里会报错无法编译，故放在此
-        vegFruDetailType =firstitem.detailType;if("其他类".equals(vegFruDetailType)){vegFruDetailType=firstitem.vegFruType+vegFruDetailType;}
+        outFruVegSelectType firstitem =itemList.get(0);//初步审查，由于整个农药结果列表是拼接到样本表生成的，第一个的样本信息即是整个列表的样本信息
+        String vegFruDetailType =firstitem.detailType;if("其他类".equals(vegFruDetailType)){vegFruDetailType=firstitem.vegFruType+vegFruDetailType;}
         try{
             //遍历列表
             for (outFruVegSelectType item :itemList){
-                if (item.pesticideName==null ||item.pesticideName.equals("")||item.pesticideDetValue==null){//单个条目无农药名或无检测值，无法判断是否超标
-                    MsgHandler.addMsgTitle("无农药检测值","无农药检测值,请在农药检测结果表中检查下列样本");
-                    MsgHandler.addMsg("无农药检测值"," 样品编号:"+item.sampleCode+" 农药名："+item.pesticideName+" 检测值："+item.pesticideDetValue);
-                    continue;//下一个农药
+                switch (checkIsUseful(item)){
+                    case 1:
+                        continue;//下一个农药
+                    case 0:
+                        break;//通过
+                    case -1:
+                        continue;//报错
                 }
                 String vegFruName = item.pesticideName;
                 String pesticideName = item.pesticideName;
@@ -237,7 +277,8 @@ public class outFruVegQualificationServiceImpl implements IoutFruVegQualificatio
         try {//在数据审查阶段进行异常捕捉
             if (standardList.isEmpty()) {//无任何标准
                 String msg = "没有对应国家标准" + "/r/n蔬果名:" + item.vegFruName + "/n农药名:" + item.pesticideName;
-                log.error(msg);
+                log.debug(msg);
+                MsgHandler.addMsg("没有对应国家标准"," 样本编号"+item.sampleCode+" 蔬果名:" + item.vegFruName + " 农药名:" + item.pesticideName);
                 return null;//没有任何标准返回空
             }
             for (agriPesticideResidueStandard standard : standardList) {
@@ -248,6 +289,7 @@ public class outFruVegQualificationServiceImpl implements IoutFruVegQualificatio
             //没有国家标准
             return null;//返回空
         } catch (Exception e) {
+            log.error("获取可用标准时出错",e);
             return null;//出错，返回空
         }
     }

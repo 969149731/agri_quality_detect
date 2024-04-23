@@ -43,7 +43,6 @@ public class returnMsgHandler {
                 returnMsg.append(entryItem.getKey());//以key为标题
             }
             returnMsg.append(entryItem.getValue());//将每一个消息类的内容传进去
-            returnMsg.append(frontFix);//在此用<br/>空一行
         }
     }
 

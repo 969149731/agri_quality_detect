@@ -208,7 +208,7 @@ public class outFruVegSelectType2 {//比原始的多一个国家标准的属性
     public void fixData(){//数据预处理，主要是对生产环节进行纠正
         //注意生产基地不要放前面，否则先识别出来其他的生产基地子类就无法识别了
         List<String> StageType= Arrays.asList( "无公害产品基地","地标生产基地","绿色产品基地","有机产品基地","散户","其他基地","批发市场","运输车");//生产环节类型
-        if(this.samplingStageType!=null && this.samplingStageType.equals("生产基地")){ //生产基地比较特殊
+        if(this.samplingStageType!=null && this.samplingStageType.equals("生产基地")){ //生产基地比较特殊//有很多会直接用生产基地
             return;
         }
         for (String item : StageType){
