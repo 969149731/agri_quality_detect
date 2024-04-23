@@ -138,9 +138,7 @@ public class outSampleStageTypeServiceImpl implements IoutSampleStageTypeService
     public void initFeedBack(StringBuilder feedBackMSg){
         feedBack=feedBackMSg;
     }
-    public void clearMsg(){
-        feedBack=new StringBuilder();
-    }
+
     public void addMsg(String inputMsg){//目前仅仅是为了增加”<br/>“
         String msg = "<br/>"+inputMsg;
         feedBack.append(msg);

@@ -23,7 +23,7 @@ public class outSampleQualityServiceImpl implements IoutSampleQualityService
 {
     @Autowired
     private outSampleQualityMapper outSampleQualityMapper;
-    private StringBuilder feedBack =new StringBuilder();
+    returnMsgHandler MsgHandler = new returnMsgHandler();
     /**
      * 查询各抽样环节合格率情况列表
      * 
@@ -33,7 +33,7 @@ public class outSampleQualityServiceImpl implements IoutSampleQualityService
     @Override
     public List<outSampleQuality> selectoutSampleQualityList(agriCitySampleTestDetails agriCitySampleTestDetails,StringBuilder feedBackMsg)
     {
-        clearMsg();
+        MsgHandler.initReturnMsg(feedBackMsg);
         //初始化列表
         List<outSampleQuality> resultList = new ArrayList<>();
         List<String> StageType= Arrays.asList("生产基地", "无公害产品基地","地标生产基地","绿色产品基地","有机产品基地","散户","其他基地","批发市场","运输车");//合计在最后加入
@@ -71,7 +71,7 @@ public class outSampleQualityServiceImpl implements IoutSampleQualityService
         }
         compute(resultMap,itemList);//当仅有一个样本，或是最后一个样本，没有下一个不同的id触发，compute，在此计算
 
-        feedBackMsg.append(feedBack);
+        MsgHandler.turnToStr();
         return returnFinalList(resultMap,resultList,StageType);
     }
 
@@ -98,19 +98,20 @@ public class outSampleQualityServiceImpl implements IoutSampleQualityService
         try{
             //情形一。生产环节和蔬果类型称为必须
             if(item.samplingStageType ==null ||item.vegFruType==null){//缺失生产环节或蔬果类型,必要条件不足，无法进行
-                addMsg("当前检测样本信息有误 缺少生产环节或蔬果类型"+" 样品编号:"+item.sampleCode+" 当前生产环节："+item.samplingStageType+" 当前蔬果类型："+item.vegFruType);
+                MsgHandler.addMsgTitle("信息有误","当前检测样本信息有误,请在定量检测导入表中检查对应内容");
+                MsgHandler.addMsg("信息有误"," 样品编号:"+item.sampleCode+" 当前生产环节："+item.samplingStageType+" 当前蔬果类型："+item.vegFruType+"(缺少生产环节或蔬果类型)");
                 return 1;}
             //情形二，生产环节不在检测范围内
             if(!resultMap.containsKey(item.samplingStageType)){//不在检测列表中
-                addMsg("当前检测样本信息有误 该类别不在检测列表中 如柑橘类"+" 样品编号:"+item.sampleCode+" 当前生产环节类型："+item.samplingStageType);
+                MsgHandler.addMsg("信息有误"," 样品编号:"+item.sampleCode+" 当前生产环节类型："+item.samplingStageType+"(当前生产类型不在检查范围中)");
                 return 1;}
             //情形四，无蔬菜名，无法查询标准
             if(item.vegFruName==null ||item.vegFruName.equals("") ){//没有对应蔬菜名，整个列表都无法进行超标判断
-                addMsg("缺少蔬菜名"+" 样品编号:"+item.sampleCode+" 蔬菜名:"+item.vegFruName);
+                MsgHandler.addMsg("信息有误"," 样品编号:"+item.sampleCode+" 蔬菜名:"+item.vegFruName+"(缺少蔬菜名)");
                 return 2;
             }
             if(item.pesticideName==null ||item.pesticideName.equals("") ){//没有对应农药名
-                addMsg("缺少农药名"+" 样品编号:"+item.sampleCode+" 农药名:"+item.pesticideName);
+                MsgHandler.addMsg("信息有误"," 样品编号:"+item.sampleCode+" 农药名:"+item.pesticideName+"(缺少农药名)");
                 return 3;
             }
         }catch (Exception e){
@@ -204,11 +205,4 @@ public class outSampleQualityServiceImpl implements IoutSampleQualityService
         }
     }
 
-    public void clearMsg(){
-        feedBack=new StringBuilder();
-    }
-    public void addMsg(String inputMsg){//目前仅仅是为了增加”<br/>“
-        String msg = "<br/>"+inputMsg;
-        feedBack.append(msg);
-    }
 }
