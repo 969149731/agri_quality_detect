@@ -254,9 +254,9 @@ public class outStandComplianceServiceImpl implements IoutStandComplianceService
                 return 1;//退出
             }
             if (firstitem.vegFruName==null||firstitem.vegFruName.equals("")){//缺少蔬菜名，整个样本无法进行超标判断
+                    sampleNum.AlladdOne();
                     MsgHandler.addMsg("部分信息有误,请在定量检测导入表中检查下列样本的信息:"," 样品编号:"+firstitem.sampleCode+" 蔬果名:"+firstitem.vegFruName+"(蔬菜名缺失)");
-
-                    return 2;
+                    return 1;
 
             }
             return 0;//通过
@@ -336,8 +336,6 @@ public class outStandComplianceServiceImpl implements IoutStandComplianceService
     }
     public List<outStandardReturnType> returnFinalList(){
 
-        outStandardReturnType sampleNum= new outStandardReturnType("抽样数");//最后才放入结果
-        outStandardReturnType passNum= new outStandardReturnType("合格数");//最后才放入结果
         //先打包
         for (String pesticideName : pesticideList) {//初始化
             resultList.add(resultMap.get(pesticideName));
