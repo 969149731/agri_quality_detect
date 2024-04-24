@@ -145,6 +145,7 @@ public class outStandComplianceServiceImpl implements IoutStandComplianceService
         outStandardReturnType result =new outStandardReturnType();
         result.setAll(1);//初始均为合格
         List<String> standardType= Arrays.asList("国家标准", "CAC","欧盟","美国","日本","韩国");//用于遍历
+        sampleNum.AlladdOne();
         switch (sampleCheck(itemList)){
             case 1:
                 return;
@@ -214,7 +215,7 @@ public class outStandComplianceServiceImpl implements IoutStandComplianceService
                 }
             }
         }
-        sampleNum.AlladdOne();
+
         passNum.addAll(result);
         return ;//正常退出//该样本在所有标准下的结果均体现在其中
     }
@@ -249,15 +250,12 @@ public class outStandComplianceServiceImpl implements IoutStandComplianceService
         try{
             if (itemList.size()==1 && firstitem.pesticideName==null && firstitem.pesticideDetValue==null){//无农药检出，必定合格
                 log.debug("该条目下无检出农药"+"/r/n蔬果名:"+firstitem.vegFruName+"样品编号"+firstitem.sampleCode);
-                sampleNum.AlladdOne();
                 passNum.AlladdOne();
                 return 1;//退出
             }
             if (firstitem.vegFruName==null||firstitem.vegFruName.equals("")){//缺少蔬菜名，整个样本无法进行超标判断
-                    sampleNum.AlladdOne();
                     MsgHandler.addMsg("部分信息有误,请在定量检测导入表中检查下列样本的信息:"," 样品编号:"+firstitem.sampleCode+" 蔬果名:"+firstitem.vegFruName+"(蔬菜名缺失)");
                     return 1;
-
             }
             return 0;//通过
         }
