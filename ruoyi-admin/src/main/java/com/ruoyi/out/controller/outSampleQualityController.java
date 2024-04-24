@@ -115,11 +115,12 @@ public class outSampleQualityController extends BaseController
 
     //工具方法合并表格
     private static void mergeCells(Sheet sheet) {
-        //生产基地、批发市场、运输车、合计
+        //生产基地、批发市场、运输车、其它、合计
         CellRangeAddress range1 = new CellRangeAddress(3, 3, 0, 1);
         CellRangeAddress range2 = new CellRangeAddress(10, 10, 0, 1);
         CellRangeAddress range3 = new CellRangeAddress(11, 11, 0, 1);
         CellRangeAddress range4 = new CellRangeAddress(12, 12, 0, 1);
+        CellRangeAddress range6 = new CellRangeAddress(13, 13, 0, 1);
 
         //其中
         CellRangeAddress range5 = new CellRangeAddress(4, 9, 0, 0);
@@ -128,5 +129,6 @@ public class outSampleQualityController extends BaseController
         sheet.addMergedRegion(range3);
         sheet.addMergedRegion(range4);
         sheet.addMergedRegion(range5);
+        sheet.addMergedRegion(range6);
     }
 }

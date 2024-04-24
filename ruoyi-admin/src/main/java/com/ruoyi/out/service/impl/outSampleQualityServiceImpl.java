@@ -25,8 +25,9 @@ public class outSampleQualityServiceImpl implements IoutSampleQualityService
     private outSampleQualityMapper outSampleQualityMapper;
     //////////////////////////////业务功能全局变量（类全局）
     List<outSampleQuality> resultList;//存放结果
-    List<String> StageType= Arrays.asList( "无公害产品基地","地标生产基地","绿色产品基地","有机产品基地","散户","其他基地","生产基地","批发市场","运输车");//合计在最后加入
-    List<String> StageIncludingType= Arrays.asList("无公害产品基地", "地标生产基地","绿色产品基地","有机产品基地","散户","其他基地");
+    List<String> StageType= Arrays.asList( "生产基地","无公害产品基地","地标生产基地","绿色产品基地","有机产品基地","散户","其它基地","批发市场","运输车","其它");//合计在最后加入
+    List<String> StageIncludingType= Arrays.asList("无公害产品基地", "地标生产基地","绿色产品基地","有机产品基地","散户","其它基地");
+    List<String> StageTypeForCount = Arrays.asList( "生产基地","批发市场","运输车","其它");
     Map<String, outSampleQuality> resultMap;//结果字典
     returnMsgHandler MsgHandler = new returnMsgHandler();//信息反馈的控制器
     /**
@@ -239,15 +240,27 @@ public class outSampleQualityServiceImpl implements IoutSampleQualityService
     }
 
     public List<outSampleQuality> returnFinalList(){
-        //把Map里的东西装进去
-        //合计在此加入
+
+
+        //计算生产基地
+        outSampleQuality ProduceBasementCount = resultMap.get("生产基地");
+        for(String StageTypeName :StageIncludingType){
+            ProduceBasementCount.addToTotal(resultMap.get(StageTypeName));
+        }
+
+        //计算合计
         outSampleQuality allCount = new outSampleQuality("合计");
         allCount.setStageIncludeType("合计");
-        for(String StageTypeName :StageType){
-            resultList.add(resultMap.get(StageTypeName));
+        for(String StageTypeName :StageTypeForCount){
             allCount.addToTotal(resultMap.get(StageTypeName));
         }
-        resultList.add(allCount);
+
+        //写入返回列表
+        for (String StageTypeName :StageType){
+            resultList.add(resultMap.get(StageTypeName));
+        }
+        resultList.add(allCount);//加入合计
+
         System.out.println("打印结果"+resultList);
         for(outSampleQuality each:resultList){
             each.addToSelfTotal();

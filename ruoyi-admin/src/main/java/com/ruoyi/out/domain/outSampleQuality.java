@@ -387,8 +387,8 @@ public class outSampleQuality extends BaseEntity
         this.totalQualifiedCount+=otherOne.totalQualifiedCount;
     }
     public void addToSelfTotal(){
-        this.totalSamplingCount=this.fruSamplingCount+this.vegSamplingCount+teaSamplingCount;
-        this.totalQualifiedCount=this.fruQualifiedCount+this.vegQualifiedCount+teaQualifiedCount;
+        this.totalSamplingCount=this.fruSamplingCount+this.vegSamplingCount+teaSamplingCount+this.teaSamplingCount;
+        this.totalQualifiedCount=this.fruQualifiedCount+this.vegQualifiedCount+teaQualifiedCount+this.teaQualifiedCount;
     }
     public void computeQualificationRate(){
         DecimalFormat decimalFormat = new DecimalFormat("0.00");

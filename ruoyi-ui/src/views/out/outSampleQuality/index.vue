@@ -344,7 +344,7 @@ export default {
     },
     /*表头列的合并*/
     spanMethod({ row, column, rowIndex, columnIndex }) {
-      if(rowIndex=== 0 || rowIndex=== 7 ||rowIndex=== 8 || rowIndex=== 9){
+      if(rowIndex=== 0 || rowIndex>= 7 ){
         if(columnIndex ===1){
           return {rowspan: 1, colspan: 0}
         }
