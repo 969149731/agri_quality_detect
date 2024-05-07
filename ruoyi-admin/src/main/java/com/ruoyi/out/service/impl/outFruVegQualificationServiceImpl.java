@@ -240,7 +240,7 @@ public class outFruVegQualificationServiceImpl implements IoutFruVegQualificatio
                     case -1:
                         continue;//报错
                 }
-                String vegFruName = item.pesticideName;
+                String vegFruName = item.vegFruName;
                 String pesticideName = item.pesticideName;
                 agriPesticideResidueStandard firstStandard;
 
