@@ -170,44 +170,6 @@ export default {
       // 表单校验
       rules: {
       },
-      StageList: [
-        {
-          IncludeLable:'检出次数',
-          StageName: '检出次数',
-          StageId: 'totalDet'
-
-        },
-        {
-          IncludeLable:'超标次数',
-          StageName: '超标次数',
-          StageId: 'totalEx'
-        },
-        {
-          IncludeLable:"其中",
-          StageName: '生产基地检出次数',
-          StageId: 'productBase'
-        },
-        {
-          StageName: '生产基地超标次数',
-          StageId: 'productBaseEx'
-        },
-        {
-          StageName: '各类市场检出',
-          StageId: 'market'
-        },
-        {
-          StageName: '各类市场超标',
-          StageId: 'marketEx'
-        },
-        {
-          StageName: '运输车检出',
-          StageId: 'vehicle'
-        },
-        {
-          StageName: '运输车超标',
-          StageId: 'vehicleEx'
-        },
-      ],
       pesticideNameList: [],
       //地区级联
       samplingAddressProvince: [],//省份集合
