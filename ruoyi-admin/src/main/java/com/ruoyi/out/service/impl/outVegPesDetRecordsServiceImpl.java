@@ -33,19 +33,6 @@ public class outVegPesDetRecordsServiceImpl implements IoutVegPesDetRecordsServi
         if (initModule(feedBackMsg,type));
         else return returnFinalList();
         MsgHandler.initReturnMsg(feedBackMsg);
-        //初始化模块
-        List<outReturnType> resultList = new ArrayList<outReturnType>();//用于存放结果的列表，当前为空
-
-        //查询农药列表
-        PageHelper.startPage(0,0,false,false,true);//分页方法，仅对之后第一个查询生效
-        List<String> pesticideList =getPesticideList(type);//可以在此处设置农药列表//也可查询获取列表
-        if(pesticideList.isEmpty()){
-           log.debug("查询出的农药列表为空");return resultList;
-        }
-        Map<String, outReturnType> pesticideResultMap = new TreeMap<String, outReturnType>();//使用字典存储
-        for (String pesticideName : pesticideList) {//初始化
-            pesticideResultMap.put(pesticideName, new outReturnType(pesticideName));
-        }
 
         //查询结果列表
         PageHelper.startPage(0,0,false,false,true);//分页方法，仅对之后第一个查询生效

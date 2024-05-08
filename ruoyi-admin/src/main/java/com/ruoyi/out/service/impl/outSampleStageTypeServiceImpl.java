@@ -27,8 +27,9 @@ public class outSampleStageTypeServiceImpl implements IoutSampleStageTypeService
 
     List<outSampleStageType> resultList;
     Map<String, outSampleStageType> resultMap;
-    List<String> StageType=Arrays.asList( "无公害产品基地","地标生产基地","绿色产品基地","有机产品基地","散户","其他基地","生产基地","批发市场","运输车");//合计在最后加入;
-    List<String> StageIncludingType = Arrays.asList("无公害产品基地", "地标生产基地","绿色产品基地","有机产品基地","散户","其他基地");
+    List<String> StageType= Arrays.asList( "生产基地","无公害产品基地","地标生产基地","绿色产品基地","有机产品基地","散户","其它基地","批发市场","运输车","其它");//合计在最后加入
+    List<String> StageIncludingType= Arrays.asList("无公害产品基地", "地标生产基地","绿色产品基地","有机产品基地","散户","其它基地");
+    List<String> StageTypeForCount = Arrays.asList( "生产基地","批发市场","运输车","其它");
     Map<String, List<String>> StageTypeUnitMap;
     returnMsgHandler MsgHandler = new returnMsgHandler();
     /**
@@ -82,6 +83,8 @@ public class outSampleStageTypeServiceImpl implements IoutSampleStageTypeService
             return true;
         }catch (Exception e)
         {
+            MsgHandler.addMsg("错误:初始化失败","在初始化模块时遇到未知错误");
+            log.error("初始化时遇到错误",e);
             return false;
         }
     }
@@ -111,25 +114,30 @@ public class outSampleStageTypeServiceImpl implements IoutSampleStageTypeService
     }
     public int checkIsUseful(agriCitySampleTestDetails sample){
         try{
+            //注意生产基地不要放前面，否则先识别出来其他的生产基地子类就无法识别了
+            //与全局的不同，生产基地比较特殊，要先去除
+            List<String> StageType= Arrays.asList( "无公害产品基地","地标生产基地","绿色产品基地","有机产品基地","散户","其他基地","批发市场","运输车");//生产环节类型
             if (sample.getSamplingStageType()==null){
                 MsgHandler.addMsg("下列样本没有相应生产环节信息"+" 样本编号:"+sample.getSampleCode()+"生产环节"+sample.getSamplingStageType());
-                return 1;
+                return 1;//为空无法操作，后续进行检查时会报告错误
             }
-
             String StageName = sample.getSamplingStageType();
-            //先数据预处理
-            for (String Name : StageType){
-                if(sample.getSamplingStageType()!=null && sample.getSamplingStageType().contains(Name)){
-                    sample.setSamplingStageType(Name);//将所有数据清洗为规范格式
+            if(StageName.equals("生产基地")){ //生产基地比较特殊//有很多会直接用生产基地
+                return 0;
+            }
+            //////////循环判断
+            for (String item : StageType){
+                if(StageName.contains(item)){
+                    sample.setSamplingStageType(item);//将所有数据清洗为规范格式
+                    return 0;//找到一个即可返回
                 }
             }
-            if(sample.getSamplingStageType()!=null && sample.getSamplingStageType().contains("生产基地")){//不是上述类型，但是包含生产基地，应为其他基地类型
-                sample.setSamplingStageType("其他基地");//将所有数据清洗为规范格式
+            //////////
+            if(StageName.contains("生产基地")){//不是上述类型，但是包含生产基地，应为其它基地类型
+                sample.setSamplingStageType("其它基地");
+                return 0;
             }
-            if (!StageType.contains(sample.getSamplingStageType())){
-                //样本的生产环节不在统计列表
-                return 2;
-            }
+            sample.setSamplingStageType("其它");//以上都不是，则为其它
             return 0;//到此说明数据可用
         }catch (Exception e){
             log.error("捕获异常",e);
@@ -138,15 +146,25 @@ public class outSampleStageTypeServiceImpl implements IoutSampleStageTypeService
     }
 
     public List<outSampleStageType> returnFinalList(){
-        //把Map里的东西装进去
+        //计算生产基地
+        outSampleStageType ProduceBasementCount = resultMap.get("生产基地");
+        for(String StageTypeName :StageIncludingType){
+            ProduceBasementCount.addTotalTogether(resultMap.get(StageTypeName));
+        }
+
+        //计算合计
         outSampleStageType allCount = new outSampleStageType("合计");
         allCount.setStageIncludeType("合计");
-        for(String StageTypeName :StageType){
-            resultList.add(resultMap.get(StageTypeName));
+        for(String StageTypeName :StageTypeForCount){
             allCount.addTotalTogether(resultMap.get(StageTypeName));
         }
+
+        //写入返回列表
+        for (String StageTypeName :StageType){
+            resultList.add(resultMap.get(StageTypeName));
+        }
         resultList.add(allCount);
-//        System.out.println("打印结果列表"+resultList);
+        MsgHandler.turnToStr();
         return resultList;
     }
 }
