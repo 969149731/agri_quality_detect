@@ -212,7 +212,7 @@ export default {
         this.pesticideNameList = response.rows;
         this.loading = false;
         if(this.returnFeedBack &&response.msg!=null && response.msg!=""){
-          this.$alert("<div style='overflow: auto;overflow-x: hidden;max-height: 70vh;padding: 10px 20px 0;'>" + response.msg + "</div>", "返回信息", { dangerouslyUseHTMLString: true });
+          // this.$alert("<div style='overflow: auto;overflow-x: hidden;max-height: 70vh;padding: 10px 20px 0;'>" + response.msg + "</div>", "返回信息", { dangerouslyUseHTMLString: true });
           this.returnFeedBack=false;
         }
       });

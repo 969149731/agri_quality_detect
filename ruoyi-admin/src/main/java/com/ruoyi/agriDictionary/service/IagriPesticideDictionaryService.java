@@ -7,7 +7,7 @@ import com.ruoyi.agriDictionary.domain.agriPesticideDictionary;
  * 农药字典Service接口
  * 
  * @author chenjie
- * @date 2024-03-02
+ * @date 2024-05-08
  */
 public interface IagriPesticideDictionaryService 
 {

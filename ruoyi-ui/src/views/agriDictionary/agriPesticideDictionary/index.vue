@@ -17,7 +17,7 @@
 <!--          @keyup.enter.native="handleQuery"-->
 <!--        />-->
 <!--      </el-form-item>-->
-      <el-form-item label="蔬菜农药是否禁用" prop="vegPetPermit" label-width="30">
+      <el-form-item label="蔬菜农药是否禁用" prop="vegPetPermit">
         <el-select v-model="queryParams.vegPetPermit" placeholder="请选择蔬菜农药是否禁用" clearable>
           <el-option
             v-for="dict in dict.type.veg_pet_permit"
@@ -27,10 +27,20 @@
           />
         </el-select>
       </el-form-item>
-      <el-form-item label="水果农药是否禁用" prop="fruPetPermit"  label-width="30">
+      <el-form-item label="水果农药是否禁用" prop="fruPetPermit">
         <el-select v-model="queryParams.fruPetPermit" placeholder="请选择水果农药是否禁用" clearable>
           <el-option
             v-for="dict in dict.type.fru_pet_permit"
+            :key="dict.value"
+            :label="dict.label"
+            :value="dict.value"
+          />
+        </el-select>
+      </el-form-item>
+      <el-form-item label="茶叶农药是否禁用" prop="teaPetPermit">
+        <el-select v-model="queryParams.teaPetPermit" placeholder="请选择茶叶农药是否禁用" clearable>
+          <el-option
+            v-for="dict in dict.type.tea_pet_permit"
             :key="dict.value"
             :label="dict.label"
             :value="dict.value"
@@ -99,7 +109,7 @@
 
     <el-table v-loading="loading" :data="agriPesticideDictionaryList" @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="55" align="center" />
-<!--      <el-table-column label="主键，自增长" align="center" prop="pesticideId" />-->
+      <el-table-column label="主键，自增长" align="center" prop="pesticideId" />
       <el-table-column label="农药名称" align="center" prop="pesticideName" />
 <!--      <el-table-column label="检测标准" align="center" prop="standard" />-->
       <el-table-column label="蔬菜农药是否禁用" align="center" prop="vegPetPermit">
@@ -110,6 +120,11 @@
       <el-table-column label="水果农药是否禁用" align="center" prop="fruPetPermit">
         <template slot-scope="scope">
           <dict-tag :options="dict.type.fru_pet_permit" :value="scope.row.fruPetPermit"/>
+        </template>
+      </el-table-column>
+      <el-table-column label="茶叶农药是否禁用" align="center" prop="teaPetPermit">
+        <template slot-scope="scope">
+          <dict-tag :options="dict.type.tea_pet_permit" :value="scope.row.teaPetPermit"/>
         </template>
       </el-table-column>
 <!--      <el-table-column label="记录创建时间" align="center" prop="createdAt" width="180">-->
@@ -155,7 +170,7 @@
 <!--          <el-input v-model="form.standard" placeholder="请输入检测标准" />-->
 <!--        </el-form-item>-->
         <el-form-item label="蔬菜农药是否禁用" prop="vegPetPermit">
-          <el-select v-model="form.vegPetPermit" placeholder="请选择蔬菜农药是否禁用">
+          <el-select v-model="form.vegPetPermit" placeholder="请选择蔬菜农药是否禁用，0禁用，1不禁用">
             <el-option
               v-for="dict in dict.type.veg_pet_permit"
               :key="dict.value"
@@ -165,9 +180,19 @@
           </el-select>
         </el-form-item>
         <el-form-item label="水果农药是否禁用" prop="fruPetPermit">
-          <el-select v-model="form.fruPetPermit" placeholder="请选择水果农药是否禁用">
+          <el-select v-model="form.fruPetPermit" placeholder="请选择水果农药是否禁用，0禁用，1不禁用">
             <el-option
               v-for="dict in dict.type.fru_pet_permit"
+              :key="dict.value"
+              :label="dict.label"
+              :value="dict.value"
+            ></el-option>
+          </el-select>
+        </el-form-item>
+        <el-form-item label="茶叶农药是否禁用" prop="teaPetPermit">
+          <el-select v-model="form.teaPetPermit" placeholder="请选择茶叶农药是否禁用，0禁用，1不禁用">
+            <el-option
+              v-for="dict in dict.type.tea_pet_permit"
               :key="dict.value"
               :label="dict.label"
               :value="dict.value"
@@ -196,7 +221,7 @@ import { listAgriPesticideDictionary, getAgriPesticideDictionary, delAgriPestici
 
 export default {
   name: "AgriPesticideDictionary",
-  dicts: ['fru_pet_permit', 'veg_pet_permit'],
+  dicts: ['fru_pet_permit', 'tea_pet_permit', 'veg_pet_permit'],
   data() {
     return {
       // 遮罩层
@@ -225,6 +250,7 @@ export default {
         standard: null,
         vegPetPermit: null,
         fruPetPermit: null,
+        teaPetPermit: null,
         createdAt: null
       },
       // 表单参数
@@ -260,6 +286,7 @@ export default {
         standard: null,
         vegPetPermit: null,
         fruPetPermit: null,
+        teaPetPermit: null,
         createdAt: null
       };
       this.resetForm("form");

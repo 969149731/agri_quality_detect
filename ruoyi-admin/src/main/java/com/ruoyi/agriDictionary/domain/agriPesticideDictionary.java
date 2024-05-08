@@ -11,7 +11,7 @@ import com.ruoyi.common.core.domain.BaseEntity;
  * 农药字典对象 agri_pesticide
  * 
  * @author chenjie
- * @date 2024-03-02
+ * @date 2024-05-08
  */
 public class agriPesticideDictionary extends BaseEntity
 {
@@ -35,6 +35,10 @@ public class agriPesticideDictionary extends BaseEntity
     /** 水果农药是否禁用，0禁用，1不禁用 */
     @Excel(name = "水果农药是否禁用，0禁用，1不禁用")
     private String fruPetPermit;
+
+    /** 茶叶农药是否禁用，0禁用，1不禁用 */
+    @Excel(name = "茶叶农药是否禁用，0禁用，1不禁用")
+    private String teaPetPermit;
 
     /** 记录创建时间 */
     @JsonFormat(pattern = "yyyy-MM-dd")
@@ -86,6 +90,15 @@ public class agriPesticideDictionary extends BaseEntity
     {
         return fruPetPermit;
     }
+    public void setTeaPetPermit(String teaPetPermit) 
+    {
+        this.teaPetPermit = teaPetPermit;
+    }
+
+    public String getTeaPetPermit() 
+    {
+        return teaPetPermit;
+    }
     public void setCreatedAt(Date createdAt) 
     {
         this.createdAt = createdAt;
@@ -104,6 +117,7 @@ public class agriPesticideDictionary extends BaseEntity
             .append("standard", getStandard())
             .append("vegPetPermit", getVegPetPermit())
             .append("fruPetPermit", getFruPetPermit())
+            .append("teaPetPermit", getTeaPetPermit())
             .append("createdAt", getCreatedAt())
             .toString();
     }

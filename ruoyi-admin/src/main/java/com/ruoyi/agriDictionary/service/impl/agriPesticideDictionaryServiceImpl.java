@@ -11,7 +11,7 @@ import com.ruoyi.agriDictionary.service.IagriPesticideDictionaryService;
  * 农药字典Service业务层处理
  * 
  * @author chenjie
- * @date 2024-03-02
+ * @date 2024-05-08
  */
 @Service
 public class agriPesticideDictionaryServiceImpl implements IagriPesticideDictionaryService 

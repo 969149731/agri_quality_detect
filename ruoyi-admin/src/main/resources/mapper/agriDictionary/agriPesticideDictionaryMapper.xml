@@ -10,11 +10,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="standard"    column="standard"    />
         <result property="vegPetPermit"    column="veg_pet_permit"    />
         <result property="fruPetPermit"    column="fru_pet_permit"    />
+        <result property="teaPetPermit"    column="tea_pet_permit"    />
         <result property="createdAt"    column="created_at"    />
     </resultMap>
 
     <sql id="selectagriPesticideDictionaryVo">
-        select pesticide_id, pesticide_name, standard, veg_pet_permit, fru_pet_permit, created_at from agri_pesticide
+        select pesticide_id, pesticide_name, standard, veg_pet_permit, fru_pet_permit, tea_pet_permit, created_at from agri_pesticide
     </sql>
 
     <select id="selectagriPesticideDictionaryList" parameterType="agriPesticideDictionary" resultMap="agriPesticideDictionaryResult">
@@ -24,6 +25,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="standard != null  and standard != ''"> and standard = #{standard}</if>
             <if test="vegPetPermit != null  and vegPetPermit != ''"> and veg_pet_permit = #{vegPetPermit}</if>
             <if test="fruPetPermit != null  and fruPetPermit != ''"> and fru_pet_permit = #{fruPetPermit}</if>
+            <if test="teaPetPermit != null  and teaPetPermit != ''"> and tea_pet_permit = #{teaPetPermit}</if>
             <if test="createdAt != null "> and created_at = #{createdAt}</if>
         </where>
     </select>
@@ -40,6 +42,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="standard != null">standard,</if>
             <if test="vegPetPermit != null">veg_pet_permit,</if>
             <if test="fruPetPermit != null">fru_pet_permit,</if>
+            <if test="teaPetPermit != null">tea_pet_permit,</if>
             <if test="createdAt != null">created_at,</if>
          </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
@@ -47,6 +50,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="standard != null">#{standard},</if>
             <if test="vegPetPermit != null">#{vegPetPermit},</if>
             <if test="fruPetPermit != null">#{fruPetPermit},</if>
+            <if test="teaPetPermit != null">#{teaPetPermit},</if>
             <if test="createdAt != null">#{createdAt},</if>
          </trim>
     </insert>
@@ -58,6 +62,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="standard != null">standard = #{standard},</if>
             <if test="vegPetPermit != null">veg_pet_permit = #{vegPetPermit},</if>
             <if test="fruPetPermit != null">fru_pet_permit = #{fruPetPermit},</if>
+            <if test="teaPetPermit != null">tea_pet_permit = #{teaPetPermit},</if>
             <if test="createdAt != null">created_at = #{createdAt},</if>
         </trim>
         where pesticide_id = #{pesticideId}

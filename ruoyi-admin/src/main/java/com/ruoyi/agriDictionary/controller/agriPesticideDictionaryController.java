@@ -25,7 +25,7 @@ import com.ruoyi.common.core.page.TableDataInfo;
  * 农药字典Controller
  * 
  * @author chenjie
- * @date 2024-03-02
+ * @date 2024-05-08
  */
 @RestController
 @RequestMapping("/agriDictionary/agriPesticideDictionary")
