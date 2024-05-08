@@ -135,6 +135,7 @@ public class outFruVegQualificationServiceImpl implements IoutFruVegQualificatio
         fruTotal.computeSelfPassRate();
         //茶叶
         outFruVegQualification TeaTotal =resultMap.get("茶叶");
+        TeaTotal.computeSelfPassRate();
         //合计
         outFruVegQualification total =resultMap.get("合计");
         total.addAllToSamplingNumber(vegTotal);
