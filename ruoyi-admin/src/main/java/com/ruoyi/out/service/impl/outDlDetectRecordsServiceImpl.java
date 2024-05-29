@@ -262,369 +262,748 @@ public class outDlDetectRecordsServiceImpl implements IoutDlDetectRecordsService
         for (agriCitySampleTestDetails CitySampleTestDetail : agriCitySampleTestDetailsList) {
             List<dlDetRecordSampleRes> current_res = new ArrayList<>();
 
-            //玉林市
-            if(CitySampleTestDetail.getSamplingLocation().contains("北流")){
-                CitySampleTestDetail.setSamplingLocation("北流市");
-            }
-            else if(CitySampleTestDetail.getSamplingLocation().contains("玉州")||CitySampleTestDetail.getSamplingLocation().contains("玉东")){
-                CitySampleTestDetail.setSamplingLocation("玉州区");
-            }
-            else if(CitySampleTestDetail.getSamplingLocation().contains("福绵")){
-                CitySampleTestDetail.setSamplingLocation("福绵区");
-            }
-            else if(CitySampleTestDetail.getSamplingLocation().contains("容县")){
-                CitySampleTestDetail.setSamplingLocation("容县");
-            }
-            else if(CitySampleTestDetail.getSamplingLocation().contains("陆川")){
-                CitySampleTestDetail.setSamplingLocation("陆川县");
-            }
-            else if(CitySampleTestDetail.getSamplingLocation().contains("博白")){
-                CitySampleTestDetail.setSamplingLocation("博白县");
-            }
-            else if(CitySampleTestDetail.getSamplingLocation().contains("兴业")){
-                CitySampleTestDetail.setSamplingLocation("兴业县");
-            }
+            if(CitySampleTestDetail.getSamplingLocationProvince().equals("广西壮族自治区")&&agriCitySampleTestDetails.getSamplingLocationCity()==null){
+//              if(CitySampleTestDetail.getSamplingLocationProvince().equals("广西壮族自治区")){
+                try{
+                    //玉林市
+                    if(CitySampleTestDetail.getSamplingLocation().contains("北流")){
+                        CitySampleTestDetail.setSamplingLocation("玉林市");
+                    }
+                    else if(CitySampleTestDetail.getSamplingLocation().contains("玉州")||CitySampleTestDetail.getSamplingLocation().contains("玉东")){
+                        CitySampleTestDetail.setSamplingLocation("玉林市");
+                    }
+                    else if(CitySampleTestDetail.getSamplingLocation().contains("福绵")){
+                        CitySampleTestDetail.setSamplingLocation("玉林市");
+                    }
+                    else if(CitySampleTestDetail.getSamplingLocation().contains("容县")){
+                        CitySampleTestDetail.setSamplingLocation("玉林市");
+                    }
+                    else if(CitySampleTestDetail.getSamplingLocation().contains("陆川")){
+                        CitySampleTestDetail.setSamplingLocation("玉林市");
+                    }
+                    else if(CitySampleTestDetail.getSamplingLocation().contains("博白")){
+                        CitySampleTestDetail.setSamplingLocation("玉林市");
+                    }
+                    else if(CitySampleTestDetail.getSamplingLocation().contains("兴业")){
+                        CitySampleTestDetail.setSamplingLocation("玉林市");
+                    }
 
-            // 南宁市
-            else if (CitySampleTestDetail.getSamplingLocation().contains("兴宁")) {
-                CitySampleTestDetail.setSamplingLocation("兴宁区");
-            }
-            else if (CitySampleTestDetail.getSamplingLocation().contains("青秀")) {
-                CitySampleTestDetail.setSamplingLocation("青秀区");
-            }
-            else if (CitySampleTestDetail.getSamplingLocation().contains("江南")) {
-                CitySampleTestDetail.setSamplingLocation("江南区");
-            }
-            else if (CitySampleTestDetail.getSamplingLocation().contains("西乡塘")) {
-                CitySampleTestDetail.setSamplingLocation("西乡塘区");
-            }
-            else if (CitySampleTestDetail.getSamplingLocation().contains("良庆")) {
-                CitySampleTestDetail.setSamplingLocation("良庆区");
-            }
-            else if (CitySampleTestDetail.getSamplingLocation().contains("邕宁")) {
-                CitySampleTestDetail.setSamplingLocation("邕宁区");
-            }
-            else if (CitySampleTestDetail.getSamplingLocation().contains("武鸣")) {
-                CitySampleTestDetail.setSamplingLocation("武鸣区");
-            }
-            else if (CitySampleTestDetail.getSamplingLocation().contains("横州")) {
-                CitySampleTestDetail.setSamplingLocation("横州市");
-            }
-            else if (CitySampleTestDetail.getSamplingLocation().contains("隆安")) {
-                CitySampleTestDetail.setSamplingLocation("隆安县");
-            }
-            else if (CitySampleTestDetail.getSamplingLocation().contains("马山")) {
-                CitySampleTestDetail.setSamplingLocation("马山县");
-            }
-            else if (CitySampleTestDetail.getSamplingLocation().contains("上林")) {
-                CitySampleTestDetail.setSamplingLocation("上林县");
-            }
-            else if (CitySampleTestDetail.getSamplingLocation().contains("宾阳")) {
-                CitySampleTestDetail.setSamplingLocation("宾阳县");
-            }
+                    // 南宁市
+                    else if (CitySampleTestDetail.getSamplingLocation().contains("兴宁")) {
+                        CitySampleTestDetail.setSamplingLocation("南宁市");
+                    }
+                    else if (CitySampleTestDetail.getSamplingLocation().contains("青秀")) {
+                        CitySampleTestDetail.setSamplingLocation("南宁市");
+                    }
+                    else if (CitySampleTestDetail.getSamplingLocation().contains("江南")) {
+                        CitySampleTestDetail.setSamplingLocation("南宁市");
+                    }
+                    else if (CitySampleTestDetail.getSamplingLocation().contains("西乡塘")) {
+                        CitySampleTestDetail.setSamplingLocation("南宁市");
+                    }
+                    else if (CitySampleTestDetail.getSamplingLocation().contains("良庆")) {
+                        CitySampleTestDetail.setSamplingLocation("南宁市");
+                    }
+                    else if (CitySampleTestDetail.getSamplingLocation().contains("邕宁")) {
+                        CitySampleTestDetail.setSamplingLocation("南宁市");
+                    }
+                    else if (CitySampleTestDetail.getSamplingLocation().contains("武鸣")) {
+                        CitySampleTestDetail.setSamplingLocation("南宁市");
+                    }
+                    else if (CitySampleTestDetail.getSamplingLocation().contains("横州")) {
+                        CitySampleTestDetail.setSamplingLocation("南宁市");
+                    }
+                    else if (CitySampleTestDetail.getSamplingLocation().contains("隆安")) {
+                        CitySampleTestDetail.setSamplingLocation("南宁市");
+                    }
+                    else if (CitySampleTestDetail.getSamplingLocation().contains("马山")) {
+                        CitySampleTestDetail.setSamplingLocation("南宁市");
+                    }
+                    else if (CitySampleTestDetail.getSamplingLocation().contains("上林")) {
+                        CitySampleTestDetail.setSamplingLocation("南宁市");
+                    }
+                    else if (CitySampleTestDetail.getSamplingLocation().contains("宾阳")) {
+                        CitySampleTestDetail.setSamplingLocation("南宁市");
+                    }
 
 
-            // 柳州市
-            else if (CitySampleTestDetail.getSamplingLocation().contains("城中")) {
-                CitySampleTestDetail.setSamplingLocation("城中区");
-            }
-            else if (CitySampleTestDetail.getSamplingLocation().contains("鱼峰")) {
-                CitySampleTestDetail.setSamplingLocation("鱼峰区");
-            }
-            else if (CitySampleTestDetail.getSamplingLocation().contains("柳南")) {
-                CitySampleTestDetail.setSamplingLocation("柳南区");
-            }
-            else if (CitySampleTestDetail.getSamplingLocation().contains("柳北")) {
-                CitySampleTestDetail.setSamplingLocation("柳北区");
-            }
-            else if (CitySampleTestDetail.getSamplingLocation().contains("柳江")) {
-                CitySampleTestDetail.setSamplingLocation("柳江区");
-            }
-            else if (CitySampleTestDetail.getSamplingLocation().contains("柳城")) {
-                CitySampleTestDetail.setSamplingLocation("柳城县");
-            }
-            else if (CitySampleTestDetail.getSamplingLocation().contains("鹿寨")) {
-                CitySampleTestDetail.setSamplingLocation("鹿寨县");
-            }
-            else if (CitySampleTestDetail.getSamplingLocation().contains("融安")) {
-                CitySampleTestDetail.setSamplingLocation("融安县");
-            }
-            else if (CitySampleTestDetail.getSamplingLocation().contains("融水")) {
-                CitySampleTestDetail.setSamplingLocation("融水苗族自治县");
-            }
-            else if (CitySampleTestDetail.getSamplingLocation().contains("三江")) {
-                CitySampleTestDetail.setSamplingLocation("三江侗族自治县");
-            }
+                    // 柳州市
+                    else if (CitySampleTestDetail.getSamplingLocation().contains("城中")) {
+                        CitySampleTestDetail.setSamplingLocation("柳州市");
+                    }
+                    else if (CitySampleTestDetail.getSamplingLocation().contains("鱼峰")) {
+                        CitySampleTestDetail.setSamplingLocation("柳州市");
+                    }
+                    else if (CitySampleTestDetail.getSamplingLocation().contains("柳南")) {
+                        CitySampleTestDetail.setSamplingLocation("柳州市");
+                    }
+                    else if (CitySampleTestDetail.getSamplingLocation().contains("柳北")) {
+                        CitySampleTestDetail.setSamplingLocation("柳州市");
+                    }
+                    else if (CitySampleTestDetail.getSamplingLocation().contains("柳江")) {
+                        CitySampleTestDetail.setSamplingLocation("柳州市");
+                    }
+                    else if (CitySampleTestDetail.getSamplingLocation().contains("柳城")) {
+                        CitySampleTestDetail.setSamplingLocation("柳州市");
+                    }
+                    else if (CitySampleTestDetail.getSamplingLocation().contains("鹿寨")) {
+                        CitySampleTestDetail.setSamplingLocation("柳州市");
+                    }
+                    else if (CitySampleTestDetail.getSamplingLocation().contains("融安")) {
+                        CitySampleTestDetail.setSamplingLocation("柳州市");
+                    }
+                    else if (CitySampleTestDetail.getSamplingLocation().contains("融水")) {
+                        CitySampleTestDetail.setSamplingLocation("柳州市");
+                    }
+                    else if (CitySampleTestDetail.getSamplingLocation().contains("三江")) {
+                        CitySampleTestDetail.setSamplingLocation("柳州市");
+                    }
 
-            // 桂林市
-            else if (CitySampleTestDetail.getSamplingLocation().contains("秀峰")) {
-                CitySampleTestDetail.setSamplingLocation("秀峰区");
-            }
-            else if (CitySampleTestDetail.getSamplingLocation().contains("叠彩")) {
-                CitySampleTestDetail.setSamplingLocation("叠彩区");
-            }
-            else if (CitySampleTestDetail.getSamplingLocation().contains("象山")) {
-                CitySampleTestDetail.setSamplingLocation("象山区");
-            }
-            else if (CitySampleTestDetail.getSamplingLocation().contains("七星")) {
-                CitySampleTestDetail.setSamplingLocation("七星区");
-            }
-            else if (CitySampleTestDetail.getSamplingLocation().contains("雁山")) {
-                CitySampleTestDetail.setSamplingLocation("雁山区");
-            }
-            else if (CitySampleTestDetail.getSamplingLocation().contains("临桂")) {
-                CitySampleTestDetail.setSamplingLocation("临桂区");
-            }
-            else if (CitySampleTestDetail.getSamplingLocation().contains("荔浦")) {
-                CitySampleTestDetail.setSamplingLocation("荔浦市");
-            }
-            else if (CitySampleTestDetail.getSamplingLocation().contains("阳朔")) {
-                CitySampleTestDetail.setSamplingLocation("阳朔县");
-            }
-            else if (CitySampleTestDetail.getSamplingLocation().contains("灵川")) {
-                CitySampleTestDetail.setSamplingLocation("灵川县");
-            }
-            else if (CitySampleTestDetail.getSamplingLocation().contains("全州")) {
-                CitySampleTestDetail.setSamplingLocation("全州县");
-            }
-            else if (CitySampleTestDetail.getSamplingLocation().contains("兴安")) {
-                CitySampleTestDetail.setSamplingLocation("兴安县");
-            }
-            else if (CitySampleTestDetail.getSamplingLocation().contains("永福")) {
-                CitySampleTestDetail.setSamplingLocation("永福县");
-            }
-            else if (CitySampleTestDetail.getSamplingLocation().contains("灌阳")) {
-                CitySampleTestDetail.setSamplingLocation("灌阳县");
-            }
-            else if (CitySampleTestDetail.getSamplingLocation().contains("资源")) {
-                CitySampleTestDetail.setSamplingLocation("资源县");
-            }
-            else if (CitySampleTestDetail.getSamplingLocation().contains("平乐")) {
-                CitySampleTestDetail.setSamplingLocation("平乐县");
-            }
-            else if (CitySampleTestDetail.getSamplingLocation().contains("龙胜")) {
-                CitySampleTestDetail.setSamplingLocation("龙胜各族自治县");
-            }
-            else if (CitySampleTestDetail.getSamplingLocation().contains("恭城")) {
-                CitySampleTestDetail.setSamplingLocation("恭城瑶族自治县");
-            }
+                    // 桂林市
+                    else if (CitySampleTestDetail.getSamplingLocation().contains("秀峰")) {
+                        CitySampleTestDetail.setSamplingLocation("桂林市");
+                    }
+                    else if (CitySampleTestDetail.getSamplingLocation().contains("叠彩")) {
+                        CitySampleTestDetail.setSamplingLocation("桂林市");
+                    }
+                    else if (CitySampleTestDetail.getSamplingLocation().contains("象山")) {
+                        CitySampleTestDetail.setSamplingLocation("桂林市");
+                    }
+                    else if (CitySampleTestDetail.getSamplingLocation().contains("七星")) {
+                        CitySampleTestDetail.setSamplingLocation("桂林市");
+                    }
+                    else if (CitySampleTestDetail.getSamplingLocation().contains("雁山")) {
+                        CitySampleTestDetail.setSamplingLocation("桂林市");
+                    }
+                    else if (CitySampleTestDetail.getSamplingLocation().contains("临桂")) {
+                        CitySampleTestDetail.setSamplingLocation("桂林市");
+                    }
+                    else if (CitySampleTestDetail.getSamplingLocation().contains("荔浦")) {
+                        CitySampleTestDetail.setSamplingLocation("桂林市");
+                    }
+                    else if (CitySampleTestDetail.getSamplingLocation().contains("阳朔")) {
+                        CitySampleTestDetail.setSamplingLocation("桂林市");
+                    }
+                    else if (CitySampleTestDetail.getSamplingLocation().contains("灵川")) {
+                        CitySampleTestDetail.setSamplingLocation("桂林市");
+                    }
+                    else if (CitySampleTestDetail.getSamplingLocation().contains("全州")) {
+                        CitySampleTestDetail.setSamplingLocation("桂林市");
+                    }
+                    else if (CitySampleTestDetail.getSamplingLocation().contains("兴安")) {
+                        CitySampleTestDetail.setSamplingLocation("桂林市");
+                    }
+                    else if (CitySampleTestDetail.getSamplingLocation().contains("永福")) {
+                        CitySampleTestDetail.setSamplingLocation("桂林市");
+                    }
+                    else if (CitySampleTestDetail.getSamplingLocation().contains("灌阳")) {
+                        CitySampleTestDetail.setSamplingLocation("桂林市");
+                    }
+                    else if (CitySampleTestDetail.getSamplingLocation().contains("资源")) {
+                        CitySampleTestDetail.setSamplingLocation("桂林市");
+                    }
+                    else if (CitySampleTestDetail.getSamplingLocation().contains("平乐")) {
+                        CitySampleTestDetail.setSamplingLocation("桂林市");
+                    }
+                    else if (CitySampleTestDetail.getSamplingLocation().contains("龙胜")) {
+                        CitySampleTestDetail.setSamplingLocation("桂林市");
+                    }
+                    else if (CitySampleTestDetail.getSamplingLocation().contains("恭城")) {
+                        CitySampleTestDetail.setSamplingLocation("桂林市");
+                    }
 
-            // 梧州市
-            else if (CitySampleTestDetail.getSamplingLocation().contains("万秀")) {
-                CitySampleTestDetail.setSamplingLocation("万秀区");
-            }
-            else if (CitySampleTestDetail.getSamplingLocation().contains("长洲")) {
-                CitySampleTestDetail.setSamplingLocation("长洲区");
-            }
-            else if (CitySampleTestDetail.getSamplingLocation().contains("龙圩")) {
-                CitySampleTestDetail.setSamplingLocation("龙圩区");
-            }
-            else if (CitySampleTestDetail.getSamplingLocation().contains("岑溪")) {
-                CitySampleTestDetail.setSamplingLocation("岑溪市");
-            }
-            else if (CitySampleTestDetail.getSamplingLocation().contains("苍梧")) {
-                CitySampleTestDetail.setSamplingLocation("苍梧县");
-            }
-            else if (CitySampleTestDetail.getSamplingLocation().contains("藤县")) {
-                CitySampleTestDetail.setSamplingLocation("藤县");
-            }
-            else if (CitySampleTestDetail.getSamplingLocation().contains("蒙山")) {
-                CitySampleTestDetail.setSamplingLocation("蒙山县");
-            }
+                    // 梧州市
+                    else if (CitySampleTestDetail.getSamplingLocation().contains("万秀")) {
+                        CitySampleTestDetail.setSamplingLocation("梧州市");
+                    }
+                    else if (CitySampleTestDetail.getSamplingLocation().contains("长洲")) {
+                        CitySampleTestDetail.setSamplingLocation("梧州市");
+                    }
+                    else if (CitySampleTestDetail.getSamplingLocation().contains("龙圩")) {
+                        CitySampleTestDetail.setSamplingLocation("梧州市");
+                    }
+                    else if (CitySampleTestDetail.getSamplingLocation().contains("岑溪")) {
+                        CitySampleTestDetail.setSamplingLocation("梧州市");
+                    }
+                    else if (CitySampleTestDetail.getSamplingLocation().contains("苍梧")) {
+                        CitySampleTestDetail.setSamplingLocation("梧州市");
+                    }
+                    else if (CitySampleTestDetail.getSamplingLocation().contains("藤县")) {
+                        CitySampleTestDetail.setSamplingLocation("梧州市");
+                    }
+                    else if (CitySampleTestDetail.getSamplingLocation().contains("蒙山")) {
+                        CitySampleTestDetail.setSamplingLocation("梧州市");
+                    }
 
-            // 北海市
-            else if (CitySampleTestDetail.getSamplingLocation().contains("海城")) {
-                CitySampleTestDetail.setSamplingLocation("海城区");
-            }
-            else if (CitySampleTestDetail.getSamplingLocation().contains("银海")) {
-                CitySampleTestDetail.setSamplingLocation("银海区");
-            }
-            else if (CitySampleTestDetail.getSamplingLocation().contains("铁山港")) {
-                CitySampleTestDetail.setSamplingLocation("铁山港区");
-            }
-            else if (CitySampleTestDetail.getSamplingLocation().contains("合浦")) {
-                CitySampleTestDetail.setSamplingLocation("合浦县");
-            }
+                    // 北海市
+                    else if (CitySampleTestDetail.getSamplingLocation().contains("海城")) {
+                        CitySampleTestDetail.setSamplingLocation("北海市");
+                    }
+                    else if (CitySampleTestDetail.getSamplingLocation().contains("银海")) {
+                        CitySampleTestDetail.setSamplingLocation("北海市");
+                    }
+                    else if (CitySampleTestDetail.getSamplingLocation().contains("铁山港")) {
+                        CitySampleTestDetail.setSamplingLocation("北海市");
+                    }
+                    else if (CitySampleTestDetail.getSamplingLocation().contains("合浦")) {
+                        CitySampleTestDetail.setSamplingLocation("北海市");
+                    }
 
-            // 崇左市
-            else if (CitySampleTestDetail.getSamplingLocation().contains("江州")) {
-                CitySampleTestDetail.setSamplingLocation("江州区");
-            }
-            else if (CitySampleTestDetail.getSamplingLocation().contains("凭祥")) {
-                CitySampleTestDetail.setSamplingLocation("凭祥市");
-            }
-            else if (CitySampleTestDetail.getSamplingLocation().contains("扶绥")) {
-                CitySampleTestDetail.setSamplingLocation("扶绥县");
-            }
-            else if (CitySampleTestDetail.getSamplingLocation().contains("宁明")) {
-                CitySampleTestDetail.setSamplingLocation("宁明县");
-            }
-            else if (CitySampleTestDetail.getSamplingLocation().contains("龙州")) {
-                CitySampleTestDetail.setSamplingLocation("龙州县");
-            }
-            else if (CitySampleTestDetail.getSamplingLocation().contains("大新")) {
-                CitySampleTestDetail.setSamplingLocation("大新县");
-            }
-            else if (CitySampleTestDetail.getSamplingLocation().contains("天等")) {
-                CitySampleTestDetail.setSamplingLocation("天等县");
-            }
+                    // 崇左市
+                    else if (CitySampleTestDetail.getSamplingLocation().contains("江州")) {
+                        CitySampleTestDetail.setSamplingLocation("崇左市");
+                    }
+                    else if (CitySampleTestDetail.getSamplingLocation().contains("凭祥")) {
+                        CitySampleTestDetail.setSamplingLocation("崇左市");
+                    }
+                    else if (CitySampleTestDetail.getSamplingLocation().contains("扶绥")) {
+                        CitySampleTestDetail.setSamplingLocation("崇左市");
+                    }
+                    else if (CitySampleTestDetail.getSamplingLocation().contains("宁明")) {
+                        CitySampleTestDetail.setSamplingLocation("崇左市");
+                    }
+                    else if (CitySampleTestDetail.getSamplingLocation().contains("龙州")) {
+                        CitySampleTestDetail.setSamplingLocation("崇左市");
+                    }
+                    else if (CitySampleTestDetail.getSamplingLocation().contains("大新")) {
+                        CitySampleTestDetail.setSamplingLocation("崇左市");
+                    }
+                    else if (CitySampleTestDetail.getSamplingLocation().contains("天等")) {
+                        CitySampleTestDetail.setSamplingLocation("崇左市");
+                    }
 
-            // 来宾市
-            else if (CitySampleTestDetail.getSamplingLocation().contains("兴宾")) {
-                CitySampleTestDetail.setSamplingLocation("兴宾区");
-            }
-            else if (CitySampleTestDetail.getSamplingLocation().contains("合山")) {
-                CitySampleTestDetail.setSamplingLocation("合山市");
-            }
-            else if (CitySampleTestDetail.getSamplingLocation().contains("忻城")) {
-                CitySampleTestDetail.setSamplingLocation("忻城县");
-            }
-            else if (CitySampleTestDetail.getSamplingLocation().contains("象州")) {
-                CitySampleTestDetail.setSamplingLocation("象州县");
-            }
-            else if (CitySampleTestDetail.getSamplingLocation().contains("武宣")) {
-                CitySampleTestDetail.setSamplingLocation("武宣县");
-            }
-            else if (CitySampleTestDetail.getSamplingLocation().contains("金秀")) {
-                CitySampleTestDetail.setSamplingLocation("金秀瑶族自治县");
-            }
+                    // 来宾市
+                    else if (CitySampleTestDetail.getSamplingLocation().contains("兴宾")) {
+                        CitySampleTestDetail.setSamplingLocation("来宾市");
+                    }
+                    else if (CitySampleTestDetail.getSamplingLocation().contains("合山")) {
+                        CitySampleTestDetail.setSamplingLocation("来宾市");
+                    }
+                    else if (CitySampleTestDetail.getSamplingLocation().contains("忻城")) {
+                        CitySampleTestDetail.setSamplingLocation("来宾市");
+                    }
+                    else if (CitySampleTestDetail.getSamplingLocation().contains("象州")) {
+                        CitySampleTestDetail.setSamplingLocation("来宾市");
+                    }
+                    else if (CitySampleTestDetail.getSamplingLocation().contains("武宣")) {
+                        CitySampleTestDetail.setSamplingLocation("来宾市");
+                    }
+                    else if (CitySampleTestDetail.getSamplingLocation().contains("金秀")) {
+                        CitySampleTestDetail.setSamplingLocation("来宾市");
+                    }
 
-            // 贺州市
-            else if (CitySampleTestDetail.getSamplingLocation().contains("八步")) {
-                CitySampleTestDetail.setSamplingLocation("八步区");
-            }
-            else if (CitySampleTestDetail.getSamplingLocation().contains("平桂")) {
-                CitySampleTestDetail.setSamplingLocation("平桂区");
-            }
-            else if (CitySampleTestDetail.getSamplingLocation().contains("昭平")) {
-                CitySampleTestDetail.setSamplingLocation("昭平县");
-            }
-            else if (CitySampleTestDetail.getSamplingLocation().contains("钟山")) {
-                CitySampleTestDetail.setSamplingLocation("钟山县");
-            }
-            else if (CitySampleTestDetail.getSamplingLocation().contains("富川")) {
-                CitySampleTestDetail.setSamplingLocation("富川瑶族自治县");
-            }
+                    // 贺州市
+                    else if (CitySampleTestDetail.getSamplingLocation().contains("八步")) {
+                        CitySampleTestDetail.setSamplingLocation("贺州市");
+                    }
+                    else if (CitySampleTestDetail.getSamplingLocation().contains("平桂")) {
+                        CitySampleTestDetail.setSamplingLocation("贺州市");
+                    }
+                    else if (CitySampleTestDetail.getSamplingLocation().contains("昭平")) {
+                        CitySampleTestDetail.setSamplingLocation("贺州市");
+                    }
+                    else if (CitySampleTestDetail.getSamplingLocation().contains("钟山")) {
+                        CitySampleTestDetail.setSamplingLocation("贺州市");
+                    }
+                    else if (CitySampleTestDetail.getSamplingLocation().contains("富川")) {
+                        CitySampleTestDetail.setSamplingLocation("贺州市");
+                    }
 
-            // 百色市
-            else if (CitySampleTestDetail.getSamplingLocation().contains("右江")) {
-                CitySampleTestDetail.setSamplingLocation("右江区");
-            }
-            else if (CitySampleTestDetail.getSamplingLocation().contains("田阳")) {
-                CitySampleTestDetail.setSamplingLocation("田阳区");
-            }
-            else if (CitySampleTestDetail.getSamplingLocation().contains("靖西")) {
-                CitySampleTestDetail.setSamplingLocation("靖西市");
-            }
-            else if (CitySampleTestDetail.getSamplingLocation().contains("平果")) {
-                CitySampleTestDetail.setSamplingLocation("平果市");
-            }
-            else if (CitySampleTestDetail.getSamplingLocation().contains("田东")) {
-                CitySampleTestDetail.setSamplingLocation("田东县");
-            }
-            else if (CitySampleTestDetail.getSamplingLocation().contains("德保")) {
-                CitySampleTestDetail.setSamplingLocation("德保县");
-            }
-            else if (CitySampleTestDetail.getSamplingLocation().contains("那坡")) {
-                CitySampleTestDetail.setSamplingLocation("那坡县");
-            }
-            else if (CitySampleTestDetail.getSamplingLocation().contains("凌云")) {
-                CitySampleTestDetail.setSamplingLocation("凌云县");
-            }
-            else if (CitySampleTestDetail.getSamplingLocation().contains("乐业")) {
-                CitySampleTestDetail.setSamplingLocation("乐业县");
-            }
-            else if (CitySampleTestDetail.getSamplingLocation().contains("田林")) {
-                CitySampleTestDetail.setSamplingLocation("田林县");
-            }
-            else if (CitySampleTestDetail.getSamplingLocation().contains("西林")) {
-                CitySampleTestDetail.setSamplingLocation("西林县");
-            }
-            else if (CitySampleTestDetail.getSamplingLocation().contains("隆林")) {
-                CitySampleTestDetail.setSamplingLocation("隆林各族自治县");
-            }
+                    // 百色市
+                    else if (CitySampleTestDetail.getSamplingLocation().contains("右江")) {
+                        CitySampleTestDetail.setSamplingLocation("百色市");
+                    }
+                    else if (CitySampleTestDetail.getSamplingLocation().contains("田阳")) {
+                        CitySampleTestDetail.setSamplingLocation("百色市");
+                    }
+                    else if (CitySampleTestDetail.getSamplingLocation().contains("靖西")) {
+                        CitySampleTestDetail.setSamplingLocation("百色市");
+                    }
+                    else if (CitySampleTestDetail.getSamplingLocation().contains("平果")) {
+                        CitySampleTestDetail.setSamplingLocation("百色市");
+                    }
+                    else if (CitySampleTestDetail.getSamplingLocation().contains("田东")) {
+                        CitySampleTestDetail.setSamplingLocation("百色市");
+                    }
+                    else if (CitySampleTestDetail.getSamplingLocation().contains("德保")) {
+                        CitySampleTestDetail.setSamplingLocation("百色市");
+                    }
+                    else if (CitySampleTestDetail.getSamplingLocation().contains("那坡")) {
+                        CitySampleTestDetail.setSamplingLocation("百色市");
+                    }
+                    else if (CitySampleTestDetail.getSamplingLocation().contains("凌云")) {
+                        CitySampleTestDetail.setSamplingLocation("百色市");
+                    }
+                    else if (CitySampleTestDetail.getSamplingLocation().contains("乐业")) {
+                        CitySampleTestDetail.setSamplingLocation("百色市");
+                    }
+                    else if (CitySampleTestDetail.getSamplingLocation().contains("田林")) {
+                        CitySampleTestDetail.setSamplingLocation("百色市");
+                    }
+                    else if (CitySampleTestDetail.getSamplingLocation().contains("西林")) {
+                        CitySampleTestDetail.setSamplingLocation("百色市");
+                    }
+                    else if (CitySampleTestDetail.getSamplingLocation().contains("隆林")) {
+                        CitySampleTestDetail.setSamplingLocation("百色市");
+                    }
 
-            // 河池市
-            else if (CitySampleTestDetail.getSamplingLocation().contains("金城江")) {
-                CitySampleTestDetail.setSamplingLocation("金城江区");
-            }
-            else if (CitySampleTestDetail.getSamplingLocation().contains("宜州")) {
-                CitySampleTestDetail.setSamplingLocation("宜州区");
-            }
-            else if (CitySampleTestDetail.getSamplingLocation().contains("南丹")) {
-                CitySampleTestDetail.setSamplingLocation("南丹县");
-            }
-            else if (CitySampleTestDetail.getSamplingLocation().contains("天峨")) {
-                CitySampleTestDetail.setSamplingLocation("天峨县");
-            }
-            else if (CitySampleTestDetail.getSamplingLocation().contains("凤山")) {
-                CitySampleTestDetail.setSamplingLocation("凤山县");
-            }
-            else if (CitySampleTestDetail.getSamplingLocation().contains("东兰")) {
-                CitySampleTestDetail.setSamplingLocation("东兰县");
-            }
-            else if (CitySampleTestDetail.getSamplingLocation().contains("罗城")) {
-                CitySampleTestDetail.setSamplingLocation("罗城仫佬族自治县");
-            }
-            else if (CitySampleTestDetail.getSamplingLocation().contains("环江")) {
-                CitySampleTestDetail.setSamplingLocation("环江毛南族自治县");
-            }
-            else if (CitySampleTestDetail.getSamplingLocation().contains("巴马")) {
-                CitySampleTestDetail.setSamplingLocation("巴马瑶族自治县");
-            }
-            else if (CitySampleTestDetail.getSamplingLocation().contains("都安")) {
-                CitySampleTestDetail.setSamplingLocation("都安瑶族自治县");
-            }
-            else if (CitySampleTestDetail.getSamplingLocation().contains("大化")) {
-                CitySampleTestDetail.setSamplingLocation("大化瑶族自治县");
-            }
+                    // 河池市
+                    else if (CitySampleTestDetail.getSamplingLocation().contains("金城江")) {
+                        CitySampleTestDetail.setSamplingLocation("河池市");
+                    }
+                    else if (CitySampleTestDetail.getSamplingLocation().contains("宜州")) {
+                        CitySampleTestDetail.setSamplingLocation("河池市");
+                    }
+                    else if (CitySampleTestDetail.getSamplingLocation().contains("南丹")) {
+                        CitySampleTestDetail.setSamplingLocation("河池市");
+                    }
+                    else if (CitySampleTestDetail.getSamplingLocation().contains("天峨")) {
+                        CitySampleTestDetail.setSamplingLocation("河池市");
+                    }
+                    else if (CitySampleTestDetail.getSamplingLocation().contains("凤山")) {
+                        CitySampleTestDetail.setSamplingLocation("河池市");
+                    }
+                    else if (CitySampleTestDetail.getSamplingLocation().contains("东兰")) {
+                        CitySampleTestDetail.setSamplingLocation("河池市");
+                    }
+                    else if (CitySampleTestDetail.getSamplingLocation().contains("罗城")) {
+                        CitySampleTestDetail.setSamplingLocation("河池市");
+                    }
+                    else if (CitySampleTestDetail.getSamplingLocation().contains("环江")) {
+                        CitySampleTestDetail.setSamplingLocation("河池市");
+                    }
+                    else if (CitySampleTestDetail.getSamplingLocation().contains("巴马")) {
+                        CitySampleTestDetail.setSamplingLocation("河池市");
+                    }
+                    else if (CitySampleTestDetail.getSamplingLocation().contains("都安")) {
+                        CitySampleTestDetail.setSamplingLocation("河池市");
+                    }
+                    else if (CitySampleTestDetail.getSamplingLocation().contains("大化")) {
+                        CitySampleTestDetail.setSamplingLocation("河池市");
+                    }
 
-            // 钦州市
-            else if (CitySampleTestDetail.getSamplingLocation().contains("钦南")) {
-                CitySampleTestDetail.setSamplingLocation("钦南区");
-            }
-            else if (CitySampleTestDetail.getSamplingLocation().contains("钦北")) {
-                CitySampleTestDetail.setSamplingLocation("钦北区");
-            }
-            else if (CitySampleTestDetail.getSamplingLocation().contains("灵山")) {
-                CitySampleTestDetail.setSamplingLocation("灵山县");
-            }
-            else if (CitySampleTestDetail.getSamplingLocation().contains("浦北")) {
-                CitySampleTestDetail.setSamplingLocation("浦北县");
-            }
+                    // 钦州市
+                    else if (CitySampleTestDetail.getSamplingLocation().contains("钦南")) {
+                        CitySampleTestDetail.setSamplingLocation("钦州市");
+                    }
+                    else if (CitySampleTestDetail.getSamplingLocation().contains("钦北")) {
+                        CitySampleTestDetail.setSamplingLocation("钦州市");
+                    }
+                    else if (CitySampleTestDetail.getSamplingLocation().contains("灵山")) {
+                        CitySampleTestDetail.setSamplingLocation("钦州市");
+                    }
+                    else if (CitySampleTestDetail.getSamplingLocation().contains("浦北")) {
+                        CitySampleTestDetail.setSamplingLocation("钦州市");
+                    }
 
-            // 防城港市
-            else if (CitySampleTestDetail.getSamplingLocation().contains("港口")) {
-                CitySampleTestDetail.setSamplingLocation("港口区");
-            }
-            else if (CitySampleTestDetail.getSamplingLocation().contains("防城")) {
-                CitySampleTestDetail.setSamplingLocation("防城区");
-            }
-            else if (CitySampleTestDetail.getSamplingLocation().contains("东兴")) {
-                CitySampleTestDetail.setSamplingLocation("东兴市");
-            }
-            else if (CitySampleTestDetail.getSamplingLocation().contains("上思")) {
-                CitySampleTestDetail.setSamplingLocation("上思县");
-            }
+                    // 防城港市
+                    else if (CitySampleTestDetail.getSamplingLocation().contains("港口")) {
+                        CitySampleTestDetail.setSamplingLocation("防城港市");
+                    }
+                    else if (CitySampleTestDetail.getSamplingLocation().contains("防城")) {
+                        CitySampleTestDetail.setSamplingLocation("防城港市");
+                    }
+                    else if (CitySampleTestDetail.getSamplingLocation().contains("东兴")) {
+                        CitySampleTestDetail.setSamplingLocation("防城港市");
+                    }
+                    else if (CitySampleTestDetail.getSamplingLocation().contains("上思")) {
+                        CitySampleTestDetail.setSamplingLocation("防城港市");
+                    }
 
-            // 贵港市
-            else if (CitySampleTestDetail.getSamplingLocation().contains("港北")) {
-                CitySampleTestDetail.setSamplingLocation("港北区");
+                    // 贵港市
+                    else if (CitySampleTestDetail.getSamplingLocation().contains("港北")) {
+                        CitySampleTestDetail.setSamplingLocation("贵港市");
+                    }
+                    else if (CitySampleTestDetail.getSamplingLocation().contains("港南")) {
+                        CitySampleTestDetail.setSamplingLocation("贵港市");
+                    }
+                    else if (CitySampleTestDetail.getSamplingLocation().contains("覃塘")) {
+                        CitySampleTestDetail.setSamplingLocation("贵港市");
+                    }
+                    else if (CitySampleTestDetail.getSamplingLocation().contains("桂平")) {
+                        CitySampleTestDetail.setSamplingLocation("贵港市");
+                    }
+                    else if (CitySampleTestDetail.getSamplingLocation().contains("平南")) {
+                        CitySampleTestDetail.setSamplingLocation("贵港市");
+                    }
+                    else
+                    {CitySampleTestDetail.setSamplingLocation("运输车");}
+
+                }catch (Exception e){
+
+                }
+
+
+            }else if(agriCitySampleTestDetails.getSamplingLocationCity()!=null){
+                try{
+                    //玉林市
+                    if(CitySampleTestDetail.getSamplingLocation().contains("北流")){
+                        CitySampleTestDetail.setSamplingLocation("北流市");
+                    }
+                    else if(CitySampleTestDetail.getSamplingLocation().contains("玉州")||CitySampleTestDetail.getSamplingLocation().contains("玉东")){
+                        CitySampleTestDetail.setSamplingLocation("玉州区");
+                    }
+                    else if(CitySampleTestDetail.getSamplingLocation().contains("福绵")){
+                        CitySampleTestDetail.setSamplingLocation("福绵区");
+                    }
+                    else if(CitySampleTestDetail.getSamplingLocation().contains("容县")){
+                        CitySampleTestDetail.setSamplingLocation("容县");
+                    }
+                    else if(CitySampleTestDetail.getSamplingLocation().contains("陆川")){
+                        CitySampleTestDetail.setSamplingLocation("陆川县");
+                    }
+                    else if(CitySampleTestDetail.getSamplingLocation().contains("博白")){
+                        CitySampleTestDetail.setSamplingLocation("博白县");
+                    }
+                    else if(CitySampleTestDetail.getSamplingLocation().contains("兴业")){
+                        CitySampleTestDetail.setSamplingLocation("兴业县");
+                    }
+
+                    // 南宁市
+                    else if (CitySampleTestDetail.getSamplingLocation().contains("兴宁")) {
+                        CitySampleTestDetail.setSamplingLocation("兴宁区");
+                    }
+                    else if (CitySampleTestDetail.getSamplingLocation().contains("青秀")) {
+                        CitySampleTestDetail.setSamplingLocation("青秀区");
+                    }
+                    else if (CitySampleTestDetail.getSamplingLocation().contains("江南")) {
+                        CitySampleTestDetail.setSamplingLocation("江南区");
+                    }
+                    else if (CitySampleTestDetail.getSamplingLocation().contains("西乡塘")) {
+                        CitySampleTestDetail.setSamplingLocation("西乡塘区");
+                    }
+                    else if (CitySampleTestDetail.getSamplingLocation().contains("良庆")) {
+                        CitySampleTestDetail.setSamplingLocation("良庆区");
+                    }
+                    else if (CitySampleTestDetail.getSamplingLocation().contains("邕宁")) {
+                        CitySampleTestDetail.setSamplingLocation("邕宁区");
+                    }
+                    else if (CitySampleTestDetail.getSamplingLocation().contains("武鸣")) {
+                        CitySampleTestDetail.setSamplingLocation("武鸣区");
+                    }
+                    else if (CitySampleTestDetail.getSamplingLocation().contains("横州")) {
+                        CitySampleTestDetail.setSamplingLocation("横州市");
+                    }
+                    else if (CitySampleTestDetail.getSamplingLocation().contains("隆安")) {
+                        CitySampleTestDetail.setSamplingLocation("隆安县");
+                    }
+                    else if (CitySampleTestDetail.getSamplingLocation().contains("马山")) {
+                        CitySampleTestDetail.setSamplingLocation("马山县");
+                    }
+                    else if (CitySampleTestDetail.getSamplingLocation().contains("上林")) {
+                        CitySampleTestDetail.setSamplingLocation("上林县");
+                    }
+                    else if (CitySampleTestDetail.getSamplingLocation().contains("宾阳")) {
+                        CitySampleTestDetail.setSamplingLocation("宾阳县");
+                    }
+
+
+                    // 柳州市
+                    else if (CitySampleTestDetail.getSamplingLocation().contains("城中")) {
+                        CitySampleTestDetail.setSamplingLocation("城中区");
+                    }
+                    else if (CitySampleTestDetail.getSamplingLocation().contains("鱼峰")) {
+                        CitySampleTestDetail.setSamplingLocation("鱼峰区");
+                    }
+                    else if (CitySampleTestDetail.getSamplingLocation().contains("柳南")) {
+                        CitySampleTestDetail.setSamplingLocation("柳南区");
+                    }
+                    else if (CitySampleTestDetail.getSamplingLocation().contains("柳北")) {
+                        CitySampleTestDetail.setSamplingLocation("柳北区");
+                    }
+                    else if (CitySampleTestDetail.getSamplingLocation().contains("柳江")) {
+                        CitySampleTestDetail.setSamplingLocation("柳江区");
+                    }
+                    else if (CitySampleTestDetail.getSamplingLocation().contains("柳城")) {
+                        CitySampleTestDetail.setSamplingLocation("柳城县");
+                    }
+                    else if (CitySampleTestDetail.getSamplingLocation().contains("鹿寨")) {
+                        CitySampleTestDetail.setSamplingLocation("鹿寨县");
+                    }
+                    else if (CitySampleTestDetail.getSamplingLocation().contains("融安")) {
+                        CitySampleTestDetail.setSamplingLocation("融安县");
+                    }
+                    else if (CitySampleTestDetail.getSamplingLocation().contains("融水")) {
+                        CitySampleTestDetail.setSamplingLocation("融水苗族自治县");
+                    }
+                    else if (CitySampleTestDetail.getSamplingLocation().contains("三江")) {
+                        CitySampleTestDetail.setSamplingLocation("三江侗族自治县");
+                    }
+
+                    // 桂林市
+                    else if (CitySampleTestDetail.getSamplingLocation().contains("秀峰")) {
+                        CitySampleTestDetail.setSamplingLocation("秀峰区");
+                    }
+                    else if (CitySampleTestDetail.getSamplingLocation().contains("叠彩")) {
+                        CitySampleTestDetail.setSamplingLocation("叠彩区");
+                    }
+                    else if (CitySampleTestDetail.getSamplingLocation().contains("象山")) {
+                        CitySampleTestDetail.setSamplingLocation("象山区");
+                    }
+                    else if (CitySampleTestDetail.getSamplingLocation().contains("七星")) {
+                        CitySampleTestDetail.setSamplingLocation("七星区");
+                    }
+                    else if (CitySampleTestDetail.getSamplingLocation().contains("雁山")) {
+                        CitySampleTestDetail.setSamplingLocation("雁山区");
+                    }
+                    else if (CitySampleTestDetail.getSamplingLocation().contains("临桂")) {
+                        CitySampleTestDetail.setSamplingLocation("临桂区");
+                    }
+                    else if (CitySampleTestDetail.getSamplingLocation().contains("荔浦")) {
+                        CitySampleTestDetail.setSamplingLocation("荔浦市");
+                    }
+                    else if (CitySampleTestDetail.getSamplingLocation().contains("阳朔")) {
+                        CitySampleTestDetail.setSamplingLocation("阳朔县");
+                    }
+                    else if (CitySampleTestDetail.getSamplingLocation().contains("灵川")) {
+                        CitySampleTestDetail.setSamplingLocation("灵川县");
+                    }
+                    else if (CitySampleTestDetail.getSamplingLocation().contains("全州")) {
+                        CitySampleTestDetail.setSamplingLocation("全州县");
+                    }
+                    else if (CitySampleTestDetail.getSamplingLocation().contains("兴安")) {
+                        CitySampleTestDetail.setSamplingLocation("兴安县");
+                    }
+                    else if (CitySampleTestDetail.getSamplingLocation().contains("永福")) {
+                        CitySampleTestDetail.setSamplingLocation("永福县");
+                    }
+                    else if (CitySampleTestDetail.getSamplingLocation().contains("灌阳")) {
+                        CitySampleTestDetail.setSamplingLocation("灌阳县");
+                    }
+                    else if (CitySampleTestDetail.getSamplingLocation().contains("资源")) {
+                        CitySampleTestDetail.setSamplingLocation("资源县");
+                    }
+                    else if (CitySampleTestDetail.getSamplingLocation().contains("平乐")) {
+                        CitySampleTestDetail.setSamplingLocation("平乐县");
+                    }
+                    else if (CitySampleTestDetail.getSamplingLocation().contains("龙胜")) {
+                        CitySampleTestDetail.setSamplingLocation("龙胜各族自治县");
+                    }
+                    else if (CitySampleTestDetail.getSamplingLocation().contains("恭城")) {
+                        CitySampleTestDetail.setSamplingLocation("恭城瑶族自治县");
+                    }
+
+                    // 梧州市
+                    else if (CitySampleTestDetail.getSamplingLocation().contains("万秀")) {
+                        CitySampleTestDetail.setSamplingLocation("万秀区");
+                    }
+                    else if (CitySampleTestDetail.getSamplingLocation().contains("长洲")) {
+                        CitySampleTestDetail.setSamplingLocation("长洲区");
+                    }
+                    else if (CitySampleTestDetail.getSamplingLocation().contains("龙圩")) {
+                        CitySampleTestDetail.setSamplingLocation("龙圩区");
+                    }
+                    else if (CitySampleTestDetail.getSamplingLocation().contains("岑溪")) {
+                        CitySampleTestDetail.setSamplingLocation("岑溪市");
+                    }
+                    else if (CitySampleTestDetail.getSamplingLocation().contains("苍梧")) {
+                        CitySampleTestDetail.setSamplingLocation("苍梧县");
+                    }
+                    else if (CitySampleTestDetail.getSamplingLocation().contains("藤县")) {
+                        CitySampleTestDetail.setSamplingLocation("藤县");
+                    }
+                    else if (CitySampleTestDetail.getSamplingLocation().contains("蒙山")) {
+                        CitySampleTestDetail.setSamplingLocation("蒙山县");
+                    }
+
+                    // 北海市
+                    else if (CitySampleTestDetail.getSamplingLocation().contains("海城")) {
+                        CitySampleTestDetail.setSamplingLocation("海城区");
+                    }
+                    else if (CitySampleTestDetail.getSamplingLocation().contains("银海")) {
+                        CitySampleTestDetail.setSamplingLocation("银海区");
+                    }
+                    else if (CitySampleTestDetail.getSamplingLocation().contains("铁山港")) {
+                        CitySampleTestDetail.setSamplingLocation("铁山港区");
+                    }
+                    else if (CitySampleTestDetail.getSamplingLocation().contains("合浦")) {
+                        CitySampleTestDetail.setSamplingLocation("合浦县");
+                    }
+
+                    // 崇左市
+                    else if (CitySampleTestDetail.getSamplingLocation().contains("江州")) {
+                        CitySampleTestDetail.setSamplingLocation("江州区");
+                    }
+                    else if (CitySampleTestDetail.getSamplingLocation().contains("凭祥")) {
+                        CitySampleTestDetail.setSamplingLocation("凭祥市");
+                    }
+                    else if (CitySampleTestDetail.getSamplingLocation().contains("扶绥")) {
+                        CitySampleTestDetail.setSamplingLocation("扶绥县");
+                    }
+                    else if (CitySampleTestDetail.getSamplingLocation().contains("宁明")) {
+                        CitySampleTestDetail.setSamplingLocation("宁明县");
+                    }
+                    else if (CitySampleTestDetail.getSamplingLocation().contains("龙州")) {
+                        CitySampleTestDetail.setSamplingLocation("龙州县");
+                    }
+                    else if (CitySampleTestDetail.getSamplingLocation().contains("大新")) {
+                        CitySampleTestDetail.setSamplingLocation("大新县");
+                    }
+                    else if (CitySampleTestDetail.getSamplingLocation().contains("天等")) {
+                        CitySampleTestDetail.setSamplingLocation("天等县");
+                    }
+
+                    // 来宾市
+                    else if (CitySampleTestDetail.getSamplingLocation().contains("兴宾")) {
+                        CitySampleTestDetail.setSamplingLocation("兴宾区");
+                    }
+                    else if (CitySampleTestDetail.getSamplingLocation().contains("合山")) {
+                        CitySampleTestDetail.setSamplingLocation("合山市");
+                    }
+                    else if (CitySampleTestDetail.getSamplingLocation().contains("忻城")) {
+                        CitySampleTestDetail.setSamplingLocation("忻城县");
+                    }
+                    else if (CitySampleTestDetail.getSamplingLocation().contains("象州")) {
+                        CitySampleTestDetail.setSamplingLocation("象州县");
+                    }
+                    else if (CitySampleTestDetail.getSamplingLocation().contains("武宣")) {
+                        CitySampleTestDetail.setSamplingLocation("武宣县");
+                    }
+                    else if (CitySampleTestDetail.getSamplingLocation().contains("金秀")) {
+                        CitySampleTestDetail.setSamplingLocation("金秀瑶族自治县");
+                    }
+
+                    // 贺州市
+                    else if (CitySampleTestDetail.getSamplingLocation().contains("八步")) {
+                        CitySampleTestDetail.setSamplingLocation("八步区");
+                    }
+                    else if (CitySampleTestDetail.getSamplingLocation().contains("平桂")) {
+                        CitySampleTestDetail.setSamplingLocation("平桂区");
+                    }
+                    else if (CitySampleTestDetail.getSamplingLocation().contains("昭平")) {
+                        CitySampleTestDetail.setSamplingLocation("昭平县");
+                    }
+                    else if (CitySampleTestDetail.getSamplingLocation().contains("钟山")) {
+                        CitySampleTestDetail.setSamplingLocation("钟山县");
+                    }
+                    else if (CitySampleTestDetail.getSamplingLocation().contains("富川")) {
+                        CitySampleTestDetail.setSamplingLocation("富川瑶族自治县");
+                    }
+
+                    // 百色市
+                    else if (CitySampleTestDetail.getSamplingLocation().contains("右江")) {
+                        CitySampleTestDetail.setSamplingLocation("右江区");
+                    }
+                    else if (CitySampleTestDetail.getSamplingLocation().contains("田阳")) {
+                        CitySampleTestDetail.setSamplingLocation("田阳区");
+                    }
+                    else if (CitySampleTestDetail.getSamplingLocation().contains("靖西")) {
+                        CitySampleTestDetail.setSamplingLocation("靖西市");
+                    }
+                    else if (CitySampleTestDetail.getSamplingLocation().contains("平果")) {
+                        CitySampleTestDetail.setSamplingLocation("平果市");
+                    }
+                    else if (CitySampleTestDetail.getSamplingLocation().contains("田东")) {
+                        CitySampleTestDetail.setSamplingLocation("田东县");
+                    }
+                    else if (CitySampleTestDetail.getSamplingLocation().contains("德保")) {
+                        CitySampleTestDetail.setSamplingLocation("德保县");
+                    }
+                    else if (CitySampleTestDetail.getSamplingLocation().contains("那坡")) {
+                        CitySampleTestDetail.setSamplingLocation("那坡县");
+                    }
+                    else if (CitySampleTestDetail.getSamplingLocation().contains("凌云")) {
+                        CitySampleTestDetail.setSamplingLocation("凌云县");
+                    }
+                    else if (CitySampleTestDetail.getSamplingLocation().contains("乐业")) {
+                        CitySampleTestDetail.setSamplingLocation("乐业县");
+                    }
+                    else if (CitySampleTestDetail.getSamplingLocation().contains("田林")) {
+                        CitySampleTestDetail.setSamplingLocation("田林县");
+                    }
+                    else if (CitySampleTestDetail.getSamplingLocation().contains("西林")) {
+                        CitySampleTestDetail.setSamplingLocation("西林县");
+                    }
+                    else if (CitySampleTestDetail.getSamplingLocation().contains("隆林")) {
+                        CitySampleTestDetail.setSamplingLocation("隆林各族自治县");
+                    }
+
+                    // 河池市
+                    else if (CitySampleTestDetail.getSamplingLocation().contains("金城江")) {
+                        CitySampleTestDetail.setSamplingLocation("金城江区");
+                    }
+                    else if (CitySampleTestDetail.getSamplingLocation().contains("宜州")) {
+                        CitySampleTestDetail.setSamplingLocation("宜州区");
+                    }
+                    else if (CitySampleTestDetail.getSamplingLocation().contains("南丹")) {
+                        CitySampleTestDetail.setSamplingLocation("南丹县");
+                    }
+                    else if (CitySampleTestDetail.getSamplingLocation().contains("天峨")) {
+                        CitySampleTestDetail.setSamplingLocation("天峨县");
+                    }
+                    else if (CitySampleTestDetail.getSamplingLocation().contains("凤山")) {
+                        CitySampleTestDetail.setSamplingLocation("凤山县");
+                    }
+                    else if (CitySampleTestDetail.getSamplingLocation().contains("东兰")) {
+                        CitySampleTestDetail.setSamplingLocation("东兰县");
+                    }
+                    else if (CitySampleTestDetail.getSamplingLocation().contains("罗城")) {
+                        CitySampleTestDetail.setSamplingLocation("罗城仫佬族自治县");
+                    }
+                    else if (CitySampleTestDetail.getSamplingLocation().contains("环江")) {
+                        CitySampleTestDetail.setSamplingLocation("环江毛南族自治县");
+                    }
+                    else if (CitySampleTestDetail.getSamplingLocation().contains("巴马")) {
+                        CitySampleTestDetail.setSamplingLocation("巴马瑶族自治县");
+                    }
+                    else if (CitySampleTestDetail.getSamplingLocation().contains("都安")) {
+                        CitySampleTestDetail.setSamplingLocation("都安瑶族自治县");
+                    }
+                    else if (CitySampleTestDetail.getSamplingLocation().contains("大化")) {
+                        CitySampleTestDetail.setSamplingLocation("大化瑶族自治县");
+                    }
+
+                    // 钦州市
+                    else if (CitySampleTestDetail.getSamplingLocation().contains("钦南")) {
+                        CitySampleTestDetail.setSamplingLocation("钦南区");
+                    }
+                    else if (CitySampleTestDetail.getSamplingLocation().contains("钦北")) {
+                        CitySampleTestDetail.setSamplingLocation("钦北区");
+                    }
+                    else if (CitySampleTestDetail.getSamplingLocation().contains("灵山")) {
+                        CitySampleTestDetail.setSamplingLocation("灵山县");
+                    }
+                    else if (CitySampleTestDetail.getSamplingLocation().contains("浦北")) {
+                        CitySampleTestDetail.setSamplingLocation("浦北县");
+                    }
+
+                    // 防城港市
+                    else if (CitySampleTestDetail.getSamplingLocation().contains("港口")) {
+                        CitySampleTestDetail.setSamplingLocation("港口区");
+                    }
+                    else if (CitySampleTestDetail.getSamplingLocation().contains("防城")) {
+                        CitySampleTestDetail.setSamplingLocation("防城区");
+                    }
+                    else if (CitySampleTestDetail.getSamplingLocation().contains("东兴")) {
+                        CitySampleTestDetail.setSamplingLocation("东兴市");
+                    }
+                    else if (CitySampleTestDetail.getSamplingLocation().contains("上思")) {
+                        CitySampleTestDetail.setSamplingLocation("上思县");
+                    }
+
+                    // 贵港市
+                    else if (CitySampleTestDetail.getSamplingLocation().contains("港北")) {
+                        CitySampleTestDetail.setSamplingLocation("港北区");
+                    }
+                    else if (CitySampleTestDetail.getSamplingLocation().contains("港南")) {
+                        CitySampleTestDetail.setSamplingLocation("港南区");
+                    }
+                    else if (CitySampleTestDetail.getSamplingLocation().contains("覃塘")) {
+                        CitySampleTestDetail.setSamplingLocation("覃塘区");
+                    }
+                    else if (CitySampleTestDetail.getSamplingLocation().contains("桂平")) {
+                        CitySampleTestDetail.setSamplingLocation("桂平市");
+                    }
+                    else if (CitySampleTestDetail.getSamplingLocation().contains("平南")) {
+                        CitySampleTestDetail.setSamplingLocation("平南县");
+                    }
+                    else
+                    {CitySampleTestDetail.setSamplingLocation("运输车");}
+
+                }catch (Exception e){
+
+                }
             }
-            else if (CitySampleTestDetail.getSamplingLocation().contains("港南")) {
-                CitySampleTestDetail.setSamplingLocation("港南区");
-            }
-            else if (CitySampleTestDetail.getSamplingLocation().contains("覃塘")) {
-                CitySampleTestDetail.setSamplingLocation("覃塘区");
-            }
-            else if (CitySampleTestDetail.getSamplingLocation().contains("桂平")) {
-                CitySampleTestDetail.setSamplingLocation("桂平市");
-            }
-            else if (CitySampleTestDetail.getSamplingLocation().contains("平南")) {
-                CitySampleTestDetail.setSamplingLocation("平南县");
-            }
-            else
-            {CitySampleTestDetail.setSamplingLocation("运输车");}
 
 
             //如果被检测单位是第一次出现
