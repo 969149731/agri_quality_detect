@@ -893,16 +893,28 @@ public class agriCitySampleTestDetailsServiceImpl implements IagriCitySampleTest
                         continue;
                     }
                     if (value instanceof String) {
-
                         String strValue = (String) value;
-                        // 正则表达式匹配中文字符的范围
-                        String regex = "[\\u4e00-\\u9fa5_]";
-                        Pattern pattern = Pattern.compile(regex);
-                        Matcher matcher = pattern.matcher(strValue);
-                        // 将中文字符替换为空字符串
-                        String result1 = matcher.replaceAll("");
-                        value=result1;
 
+                        // 正则表达式匹配中文字符的范围
+                        String chineseRegex = "[\\u4e00-\\u9fa5]";
+                        Pattern chinesePattern = Pattern.compile(chineseRegex);
+                        Matcher chineseMatcher = chinesePattern.matcher(strValue);
+                        // 将中文字符替换为空字符串
+                        String result1 = chineseMatcher.replaceAll("");
+
+                        // 替换全角下划线字符、半角下划线字符、半角减号和全角减号为空字符串
+                        String specialCharsRegex = "[＿_-－]";
+                        Pattern specialCharsPattern = Pattern.compile(specialCharsRegex);
+                        Matcher specialCharsMatcher = specialCharsPattern.matcher(result1);
+                        String result2 = specialCharsMatcher.replaceAll("");
+
+                        // 只保留数字和小数点
+                        String numbersAndDotsRegex = "[^0-9.]";
+                        Pattern numbersAndDotsPattern = Pattern.compile(numbersAndDotsRegex);
+                        Matcher numbersAndDotsMatcher = numbersAndDotsPattern.matcher(result2);
+                        String result3 = numbersAndDotsMatcher.replaceAll("");
+
+                        value = result3;
                     } else if (value instanceof Double) {
                         value = value.toString();
                     } else {
