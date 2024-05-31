@@ -2,6 +2,8 @@ package com.ruoyi.detection.service.impl;
 
 import java.text.SimpleDateFormat;
 import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import cn.afterturn.easypoi.excel.entity.ImportParams;
 import com.ruoyi.address.domain.AddressUse;
@@ -674,21 +676,88 @@ public class agriCitySampleTestDetailsServiceImpl implements IagriCitySampleTest
         for (Map<String, Object> agriOut2CitySampleTestDetails : agriOut2CitySampleTestDetailsList) {
             try {
                 // Long citySampleTestDetailsId =agriOut2CitySampleTestDetails.get("序号").toString();//?
-                String sampleCode = agriOut2CitySampleTestDetails.get("样品编号").toString();
-                String vegFruName = agriOut2CitySampleTestDetails.get("样品名称").toString();
-                String samplingStageType = agriOut2CitySampleTestDetails.get("抽样环节").toString();
-                String samplingLocationProvince  = agriOut2CitySampleTestDetails.get("抽样省").toString();
-                String samplingLocationCity  = agriOut2CitySampleTestDetails.get("抽样市").toString();
-                String samplingLocationCounty  = agriOut2CitySampleTestDetails.get("抽样县").toString();
-                String samplingLocation = agriOut2CitySampleTestDetails.get("抽样地址").toString();
-                String samplingDate  = agriOut2CitySampleTestDetails.get("抽样日期").toString();
+//                String sampleCode = agriOut2CitySampleTestDetails.get("样品编号").toString();
+//                String vegFruName = agriOut2CitySampleTestDetails.get("样品名称").toString();
+//                String samplingStageType = agriOut2CitySampleTestDetails.get("抽样环节").toString();
+//                String samplingLocationProvince  = agriOut2CitySampleTestDetails.get("抽样省").toString();
+//                String samplingLocationCity  = agriOut2CitySampleTestDetails.get("抽样市").toString();
+//                String samplingLocationCounty  = agriOut2CitySampleTestDetails.get("抽样县").toString();
+//                String samplingLocation = agriOut2CitySampleTestDetails.get("抽样地址").toString();
+                String sampleCode = null;
+                try {
+                    sampleCode = agriOut2CitySampleTestDetails.get("样品编号").toString();
+                } catch (Exception e) {
+                    sampleCode = null;
+                }
+
+                String vegFruName = null;
+                try {
+                    vegFruName = agriOut2CitySampleTestDetails.get("样品名称").toString();
+                    if (vegFruName != null) {
+                        vegFruName = vegFruName.replace(" ", "");  // 去除空格
+                    }
+                } catch (Exception e) {
+                    vegFruName = null;
+                }
+
+                String samplingStageType = null;
+                try {
+                    samplingStageType = agriOut2CitySampleTestDetails.get("抽样环节").toString();
+                } catch (Exception e) {
+                    samplingStageType = null;
+                }
+
+                String samplingLocationProvince = null;
+                try {
+                    samplingLocationProvince = agriOut2CitySampleTestDetails.get("抽样省").toString();
+                } catch (Exception e) {
+                    samplingLocationProvince = null;
+                }
+
+                String samplingLocationCity = null;
+                try {
+                    samplingLocationCity = agriOut2CitySampleTestDetails.get("抽样市").toString();
+                } catch (Exception e) {
+                    samplingLocationCity = null;
+                }
+
+                String samplingLocationCounty = null;
+                try {
+                    samplingLocationCounty = agriOut2CitySampleTestDetails.get("抽样县").toString();
+                } catch (Exception e) {
+                    samplingLocationCounty = null;
+                }
+
+                String samplingLocation = null;
+                try {
+                    samplingLocation = agriOut2CitySampleTestDetails.get("抽样地址").toString();
+                } catch (Exception e) {
+                    samplingLocation = null;
+                }
+
+
+
+                String samplingDate =null;
+                try{
+                     samplingDate  = agriOut2CitySampleTestDetails.get("抽样日期").toString();
+                }catch (Exception e){
+                    samplingDate=null;
+                }
 
                 String enterpriseName=null;
                 try {
-                    enterpriseName = agriOut2CitySampleTestDetails.get("企业名称/农户").toString();
+                    enterpriseName = agriOut2CitySampleTestDetails.get("企业名称/散户").toString();
                 }catch (Exception e)
                 {
-                    enterpriseName= agriOut2CitySampleTestDetails.get("企业名称").toString();
+                    try{
+                        enterpriseName= agriOut2CitySampleTestDetails.get("企业名称/农户").toString();
+                    }catch(Exception e1){
+                         try{
+                             enterpriseName= agriOut2CitySampleTestDetails.get("企业名称").toString();
+                         }catch(Exception e2){
+                             enterpriseName=null;
+                         }
+                    }
                 }
 
                 String enterpriseAttribute=null;
@@ -707,12 +776,52 @@ public class agriCitySampleTestDetailsServiceImpl implements IagriCitySampleTest
                     enterpriseCreditIdCode=null;
                 }
 
-                String tracingProvince = agriOut2CitySampleTestDetails.get("溯源省").toString();
-                String tracingCity  = agriOut2CitySampleTestDetails.get("溯源市").toString();
-                String tracingCounty  = agriOut2CitySampleTestDetails.get("溯源县").toString();
-                String tracingArea  = agriOut2CitySampleTestDetails.get("溯源产地").toString();
-                String chinaStandard = agriOut2CitySampleTestDetails.get("判定结果").toString();
-                Date samplingDateUse = originalFormat.parse(samplingDate);//抽样日期
+                String tracingProvince=null;
+                try{
+                    tracingProvince = agriOut2CitySampleTestDetails.get("溯源省").toString();
+                }catch(Exception e){
+                    tracingProvince=null;
+                }
+
+                String tracingCity = null;
+                try {
+                    tracingCity = agriOut2CitySampleTestDetails.get("溯源市").toString();
+                } catch (Exception e) {
+                    tracingCity = null;
+                }
+
+                String tracingCounty = null;
+                try {
+                    tracingCounty = agriOut2CitySampleTestDetails.get("溯源县").toString();
+                } catch (Exception e) {
+                    tracingCounty = null;
+                }
+
+                String tracingArea = null;
+                try {
+                    tracingArea = agriOut2CitySampleTestDetails.get("溯源产地").toString();
+                } catch (Exception e) {
+                    tracingArea = null;
+                }
+
+                String chinaStandard = null;
+                try {
+                    chinaStandard = agriOut2CitySampleTestDetails.get("判定结果").toString();
+                } catch (Exception e) {
+                    chinaStandard = null;
+                }
+
+
+//                String tracingCity  = agriOut2CitySampleTestDetails.get("溯源市").toString();
+//                String tracingCounty  = agriOut2CitySampleTestDetails.get("溯源县").toString();
+//                String tracingArea  = agriOut2CitySampleTestDetails.get("溯源产地").toString();
+//                String chinaStandard = agriOut2CitySampleTestDetails.get("判定结果").toString();
+
+
+                Date samplingDateUse=null;
+                if(samplingDate!=null){
+                    samplingDateUse = originalFormat.parse(samplingDate);//抽样日期
+                }
 
 //                Double samplingQuantity = agriOut2CitySampleTestDetails.getSamplingQuantity();
 //                String samplingBase = agriOut2CitySampleTestDetails.getSamplingBase();
@@ -784,7 +893,16 @@ public class agriCitySampleTestDetailsServiceImpl implements IagriCitySampleTest
                         continue;
                     }
                     if (value instanceof String) {
-                        // 保持原样
+
+                        String strValue = (String) value;
+                        // 正则表达式匹配中文字符的范围
+                        String regex = "[\\u4e00-\\u9fa5_]";
+                        Pattern pattern = Pattern.compile(regex);
+                        Matcher matcher = pattern.matcher(strValue);
+                        // 将中文字符替换为空字符串
+                        String result1 = matcher.replaceAll("");
+                        value=result1;
+
                     } else if (value instanceof Double) {
                         value = value.toString();
                     } else {
@@ -807,7 +925,8 @@ public class agriCitySampleTestDetailsServiceImpl implements IagriCitySampleTest
         }
 
         if (failureNum > 0) {
-            failureMsg.insert(0, "抱歉，导入失败！共 " + failureNum + " 条数据格式不正确，错误如下：");
+//            failureMsg.insert(0, "抱歉，导入失败！共 " + failureNum + " 条数据格式不正确，错误如下：");
+            failureMsg.insert(0, "导入成功，有 " + failureNum + " 条数据因格式不正确导入失败，错误如下：");
             throw new ServiceException(failureMsg.toString());
         } else {
             successMsg.insert(0, "恭喜，数据已全部导入成功！共 " + successNum + " 条，数据如下：");

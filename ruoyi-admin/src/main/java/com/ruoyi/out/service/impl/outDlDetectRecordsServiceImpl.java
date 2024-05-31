@@ -496,7 +496,7 @@ public class outDlDetectRecordsServiceImpl implements IoutDlDetectRecordsService
                     else if (CitySampleTestDetail.getSamplingLocation().contains("八步")) {
                         CitySampleTestDetail.setSamplingLocation("贺州市");
                     }
-                    else if (CitySampleTestDetail.getSamplingLocation().contains("平桂")) {
+                    else if (CitySampleTestDetail.getSamplingLocation().contains("平桂区")) {
                         CitySampleTestDetail.setSamplingLocation("贺州市");
                     }
                     else if (CitySampleTestDetail.getSamplingLocation().contains("昭平")) {
@@ -867,7 +867,7 @@ public class outDlDetectRecordsServiceImpl implements IoutDlDetectRecordsService
                     else if (CitySampleTestDetail.getSamplingLocation().contains("八步")) {
                         CitySampleTestDetail.setSamplingLocation("八步区");
                     }
-                    else if (CitySampleTestDetail.getSamplingLocation().contains("平桂")) {
+                    else if (CitySampleTestDetail.getSamplingLocation().contains("平桂区")) {
                         CitySampleTestDetail.setSamplingLocation("平桂区");
                     }
                     else if (CitySampleTestDetail.getSamplingLocation().contains("昭平")) {
