@@ -135,7 +135,11 @@ public class outReturnType extends BaseEntity {
             case "运输车Ex":this.vehicleEx+=1;break;
             case "散户":this.retail+=1;break;
             case "散户Ex":this.retailEx+=1;break;
+            default:
+                System.out.println("default");
+                break;
         }
+        return;
     }
     public void addToTotal(outReturnType onePesticide){
         this.totalDet+=onePesticide.totalDet;

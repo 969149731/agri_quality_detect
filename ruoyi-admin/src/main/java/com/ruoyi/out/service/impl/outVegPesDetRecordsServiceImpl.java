@@ -53,7 +53,7 @@ public class outVegPesDetRecordsServiceImpl implements IoutVegPesDetRecordsServi
             */
             //预设标准
             agriPesticideResidueStandard firstStandard =new agriPesticideResidueStandard();//默认限值设定为0.0，无对应标准名
-            item.fixData();//数据修正，主要是修正生产基地名称
+            fixData(item);//数据修正，主要是修正生产基地名称
             //检测结果可用性检查
             switch (checkIsUseful(item)){
                 //对蔬果名、农药名、生产环节进行数据审查
@@ -183,5 +183,20 @@ public class outVegPesDetRecordsServiceImpl implements IoutVegPesDetRecordsServi
         if(type.equals("禁用"))
             return outVegPesDetRecordsMapper.getVegBanPesticideList();//禁用
         else return outVegPesDetRecordsMapper.getVegBanNoPesticideList();//非禁用
+    }
+    public void fixData(outFruVegSelectType item){//数据预处理，主要是对生产环节进行纠正
+        //注意生产基地不要放前面，否则先识别出来其他的生产基地子类就无法识别了
+        List<String> StageType= Arrays.asList( "无公害产品基地","地标生产基地","绿色产品基地","有机产品基地","散户","其他基地");//生产环节类型
+
+        for (String type : StageType){
+            if(item.samplingStageType!=null && item.samplingStageType.contains(type)){
+                item.samplingStageType="生产基地";//上述均为生产基地
+                return;//找到一个即可返回
+            }
+            if(item.samplingStageType!=null && item.samplingStageType.contains("生产基地")){//不是上述类型，但是包含生产基地，应为其他基地类型
+                item.samplingStageType="生产基地";//将所有数据清洗为规范格式
+                return;//找到一个即可返回
+            }
+        }
     }
 }
