@@ -19,6 +19,9 @@ public class outReturnType extends BaseEntity {
     public int retail=0;
     public int retailEx=0;
 
+    public int other=0;
+    public int otherEx=0;
+
     public outReturnType(String pesticideName){
         super();
         this.pesticideName=pesticideName;
@@ -122,7 +125,21 @@ public class outReturnType extends BaseEntity {
     public void setRetailEx(int retailEx) {
         this.retailEx = retailEx;
     }
+    public int getOther() {
+        return other;
+    }
 
+    public void setOther(int other) {
+        this.other = other;
+    }
+
+    public int getOtherEx() {
+        return otherEx;
+    }
+
+    public void setOtherEx(int otherEx) {
+        this.otherEx = otherEx;
+    }
 
     //
     public void addOneToStageName(String StageName){
@@ -135,7 +152,13 @@ public class outReturnType extends BaseEntity {
             case "运输车Ex":this.vehicleEx+=1;break;
             case "散户":this.retail+=1;break;
             case "散户Ex":this.retailEx+=1;break;
+            case "其它":this.other+=1;break;
+            case "其它Ex":this.otherEx+=1;break;
+            default:
+                System.out.println("default");
+                break;
         }
+        return;
     }
     public void addToTotal(outReturnType onePesticide){
         this.totalDet+=onePesticide.totalDet;
@@ -148,6 +171,8 @@ public class outReturnType extends BaseEntity {
         this.vehicleEx+=onePesticide.vehicleEx;
         this.retail+=onePesticide.retail;
         this.retailEx+=onePesticide.retailEx;
+        this.other+=onePesticide.other;
+        this.otherEx+=onePesticide.otherEx;
     }
 
     @Override
@@ -164,6 +189,8 @@ public class outReturnType extends BaseEntity {
                 .append("vehicleEx", this.vehicleEx)
                 .append("retail", this.retail)
                 .append("retail", this.retailEx)
+                .append("other", this.other)
+                .append("otherEx", this.otherEx)
                 .toString();
     }
 }

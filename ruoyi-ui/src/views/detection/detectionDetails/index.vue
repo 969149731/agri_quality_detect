@@ -422,7 +422,7 @@
 
       <el-upload
         ref="upload"
-        :limit="1"
+        :limit="20"
         accept=".xlsx, .xls"
         :headers="upload.headers"
         :action="upload.url + '?updateSupport=' + upload.updateSupport"

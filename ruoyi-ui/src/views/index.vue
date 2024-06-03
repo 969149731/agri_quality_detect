@@ -266,16 +266,16 @@ export default {
     /** 查询定性监测结果汇总列表 */
     getList(){
       this.loading = true;
-      //定量监测
-      listOutDlDetectRecords(this.addDateRange(this.queryParams, this.dateRange)).then(response => {
-        this.outDlDetectRecordsList = response.rows;
-        this.outDlDetectRecordsList=this.outDlDetectRecordsList.slice(1,10);
-        this.total = response.total;
-      });
-      //定性监测
-      listOutDxDetectRecords(this.addDateRange(this.queryParams, this.dateRange)).then(response => {
-        this.outDxDetectRecordsList = response.rows;
-      });
+      // //定量监测
+      // listOutDlDetectRecords(this.addDateRange(this.queryParams, this.dateRange)).then(response => {
+      //   this.outDlDetectRecordsList = response.rows;
+      //   this.outDlDetectRecordsList=this.outDlDetectRecordsList.slice(1,10);
+      //   this.total = response.total;
+      // });
+      // //定性监测
+      // listOutDxDetectRecords(this.addDateRange(this.queryParams, this.dateRange)).then(response => {
+      //   this.outDxDetectRecordsList = response.rows;
+      // });
       //获取被抽检环节数据
       listOutSampleStageType(this.queryParams).then(response => {
         this.pieData = response.rows;

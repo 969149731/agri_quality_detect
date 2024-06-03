@@ -190,6 +190,14 @@ export default {
           StageName: '运输车超标',
           StageId: 'vehicleEx'
         },
+        {
+          StageName: '其它检出',
+          StageId: 'other'
+        },
+        {
+          StageName: '其它超标',
+          StageId: 'otherEx'
+        },
       ],
       pesticideNameList: [],
       //地区级联
@@ -336,7 +344,7 @@ export default {
       if (rowIndex=== 2)
       {//其中的那一行
         if (columnIndex === 0) {
-          return {rowspan: 6, colspan: 1} // 隐藏表头下面第一行的第一列
+          return {rowspan: 8, colspan: 1} // 隐藏表头下面第一行的第一列
         }
       }
       if(rowIndex> 2){//”其中“包含的行

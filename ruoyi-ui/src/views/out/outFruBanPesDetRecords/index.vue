@@ -192,6 +192,14 @@ export default {
           StageName: '运输车超标',
           StageId: 'vehicleEx'
         },
+        {
+          StageName: '其它检出',
+          StageId: 'other'
+        },
+        {
+          StageName: '其它超标',
+          StageId: 'otherEx'
+        },
       ],
       pesticideNameList: [],
       //地区级联
@@ -215,7 +223,7 @@ export default {
         this.pesticideNameList = response.rows;
         this.loading = false;
         if(this.returnFeedBack &&response.msg!=null && response.msg!=""){
-          // this.$alert("<div style='overflow: auto;overflow-x: hidden;width: 800px;'>" + response.msg + "</div>", "返回信息", { dangerouslyUseHTMLString: true ,customClass:'message_box_alert'});
+          this.$alert("<div style='overflow: auto;overflow-x: hidden;width: 800px;'>" + response.msg + "</div>", "返回信息", { dangerouslyUseHTMLString: true ,customClass:'message_box_alert'});
           this.returnFeedBack=false;
         }
 
@@ -338,7 +346,7 @@ export default {
       if (rowIndex=== 2)
       {//其中的那一行
         if (columnIndex === 0) {
-          return {rowspan: 6, colspan: 1} // 隐藏表头下面第一行的第一列
+          return {rowspan: 8, colspan: 1} // 隐藏表头下面第一行的第一列
         }
       }
       if(rowIndex> 2){//”其中“包含的行
