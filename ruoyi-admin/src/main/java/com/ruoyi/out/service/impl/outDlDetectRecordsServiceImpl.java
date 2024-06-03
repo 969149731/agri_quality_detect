@@ -334,7 +334,7 @@ public class outDlDetectRecordsServiceImpl implements IoutDlDetectRecordsService
                     else if (CitySampleTestDetail.getSamplingLocation().contains("鱼峰")) {
                         CitySampleTestDetail.setSamplingLocation("柳州市");
                     }
-                    else if (CitySampleTestDetail.getSamplingLocation().contains("柳南")) {
+                    else if (CitySampleTestDetail.getSamplingLocation().contains("柳南区")) {
                         CitySampleTestDetail.setSamplingLocation("柳州市");
                     }
                     else if (CitySampleTestDetail.getSamplingLocation().contains("柳北")) {
@@ -476,7 +476,7 @@ public class outDlDetectRecordsServiceImpl implements IoutDlDetectRecordsService
                     else if (CitySampleTestDetail.getSamplingLocation().contains("兴宾")) {
                         CitySampleTestDetail.setSamplingLocation("来宾市");
                     }
-                    else if (CitySampleTestDetail.getSamplingLocation().contains("合山")) {
+                    else if (CitySampleTestDetail.getSamplingLocation().contains("合山市")) {
                         CitySampleTestDetail.setSamplingLocation("来宾市");
                     }
                     else if (CitySampleTestDetail.getSamplingLocation().contains("忻城")) {
@@ -847,7 +847,7 @@ public class outDlDetectRecordsServiceImpl implements IoutDlDetectRecordsService
                     else if (CitySampleTestDetail.getSamplingLocation().contains("兴宾")) {
                         CitySampleTestDetail.setSamplingLocation("兴宾区");
                     }
-                    else if (CitySampleTestDetail.getSamplingLocation().contains("合山")) {
+                    else if (CitySampleTestDetail.getSamplingLocation().contains("合山市")) {
                         CitySampleTestDetail.setSamplingLocation("合山市");
                     }
                     else if (CitySampleTestDetail.getSamplingLocation().contains("忻城")) {
