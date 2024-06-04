@@ -4,7 +4,6 @@ import java.util.*;
 
 import com.github.pagehelper.PageHelper;
 import com.ruoyi.detection.domain.agriCitySampleTestDetails;
-import com.ruoyi.framework.web.domain.server.Sys;
 import com.ruoyi.out.domain.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -144,7 +143,7 @@ public class outStandComplianceServiceImpl implements IoutStandComplianceService
     void SamplePasscCheck(List<outFruVegSelectType2> itemList){
         outStandardReturnType result =new outStandardReturnType();
         result.setAll(1);//初始均为合格
-        List<String> standardType= Arrays.asList("国家标准", "CAC","欧盟","美国","日本","韩国");//用于遍历
+        List<String> standardType= Arrays.asList("国家标准", "CAC","欧盟","美国","日本","韩国");//用于遍历,国家标准比较特殊单独判断
         sampleNum.AlladdOne();
         switch (sampleCheck(itemList)){
             case 1:
@@ -160,6 +159,7 @@ public class outStandComplianceServiceImpl implements IoutStandComplianceService
             //获取蔬菜名//用于获取标准
             String vegFruName = item.vegFruName;
             String pesticideName = item.pesticideName;
+            boolean CNPassInfoByUser =item.chinaStandard==null?false: item.chinaStandard.equals("合格");//初始设定
             switch (checkIsUseful(item)){
                 case 1://缺少必要信息
                    continue;//默认合格？，返回初始均为合格的情况
@@ -178,27 +178,49 @@ public class outStandComplianceServiceImpl implements IoutStandComplianceService
             if (standardslist.isEmpty()){
                 MsgHandler.addMsgTitle("没有任何标准","没有任何标准，请在农药标准字典中添加或检查样本的农药名和蔬菜名");
                 MsgHandler.addMsg("没有任何标准", " 样本编号:" + item.sampleCode + " 蔬果名:" + item.vegFruName + " 农药名:" + item.pesticideName);
+                //国家标准判断
+                if (IsPassUnderUserInfo("国家标准",item,CNPassInfoByUser)){//使用用户输入的信息，为空时也视为不合格
+                    CNPassInfoByUser = true;
+                }else {
+                    CNPassInfoByUser = false;
+                    outStandardReturnType pesticide = resultMap.get(pesticideName);
+                    pesticide.addOne("国家标准");//对应农药的对应标准超标数+1
+                    result.setOne("国家标准",0);
+                }
+                //其它标准判断
                 for (String standardName:standardType){
-                    if (IsPassUnderTheStandard(standardName,item)){//使用用户输入的信息，为空时也视为不合格
+                    if (IsPassUnderUserInfo(standardName,item,CNPassInfoByUser)){//使用用户输入的信息，为空时也视为不合格
                     }else {
                         outStandardReturnType pesticide = resultMap.get(pesticideName);
                         pesticide.addOne(standardName);//对应农药的对应标准超标数+1
                         result.setOne(standardName,0);
                     }
                 }
-                continue;//该检测结果没有对应标准
+                continue;//该检测结果没有对应标准,直接下一条
             }
             //计算相应属性
             Map<String, agriPesticideResidueStandard> standardMap = new TreeMap<>();//使用字典存储
             for (agriPesticideResidueStandard standard:standardslist) {//初始化Map，用于对所有现有的参考标准进行查询
                 standardMap.put(standard.standardCategory, standard);
             }
-
+            agriPesticideResidueStandard cnStandard = standardMap.get("国家标准");//国家标准
+            //对应的标准存在且相应标准值存在，对农药进行判断和统计
+            //国家标准
+            if(IsPassUnderChinaStandard(item,cnStandard)){//对应的标准不存在，即查询标准返回的结果列表中没有
+                CNPassInfoByUser=true;
+            }else {
+                outStandardReturnType pesticide = resultMap.get(pesticideName);
+                CNPassInfoByUser=false;
+                result.setOne("国家标准",0);//不合格
+                pesticide.addOne("国家标准");//对应农药的对应标准超标数+1
+            }
+            outStandardReturnType pesticide = resultMap.get(pesticideName);
             for (String standardName:standardType){
-                //开始依次判断所有的6个标准
+                //开始依次判断其它标准
                 agriPesticideResidueStandard nowStandard = standardMap.get(standardName);//当前标准
                 if(nowStandard==null || nowStandard.standardValue==null){//对应的标准不存在，即查询标准返回的结果列表中没有
-                    if (IsPassUnderTheStandard(standardName,item)){//使用用户输入的信息，为空时也视为不合格
+                    System.out.println("没有相应"+standardName+"标准");
+                    if (IsPassUnderUserInfo(standardName,item,CNPassInfoByUser)){//使用用户输入的信息，为空时也视为不合格
 
                     }else {
                         result.setOne(standardName,0);
@@ -206,7 +228,6 @@ public class outStandComplianceServiceImpl implements IoutStandComplianceService
                     continue;
                 }
                 //对应的标准存在且相应标准值存在，对农药进行判断和统计
-                outStandardReturnType pesticide = resultMap.get(pesticideName);
                 if (item.pesticideDetValue > nowStandard.standardValue) {//超标
                     result.setOne(standardName,0);//不合格
                     pesticide.addOne(standardName);//对应农药的对应标准超标数+1
@@ -308,12 +329,39 @@ public class outStandComplianceServiceImpl implements IoutStandComplianceService
         }
     }
 
+    public boolean IsPassUnderChinaStandard(outFruVegSelectType2 sample,agriPesticideResidueStandard cnStandard){//判断是否在中国标准下合格
+        if (cnStandard==null || cnStandard.standardValue==null){//标准不存在
+            System.out.println("没有相应国家标准");
+            //使用用户输入的信息，为空时也视为不合格
+            if (sample.chinaStandard != null && sample.chinaStandard.equals("合格"))
+                return true;//用户判断合格
+            else return false;
+        }
+        else {
+            //对应的标准存在且相应标准值存在，对农药进行判断和统计
+            if (sample.pesticideDetValue > cnStandard.standardValue) {//超标
+                return false;//超标
+            }else{//在该标准下该种农药合格//但样品合格要看所有农药
+                return true;
+            }
+        }
+    }
     //直接使用用户输入信息进行合格判断
-    public boolean IsPassUnderTheStandard(String standardName,outFruVegSelectType2 sample){
+    public boolean IsPassUnderUserInfo(String standardName, outFruVegSelectType2 sample,boolean CNPassInfo){
         String isPass = sample.getStandardByName(standardName);
-        if (isPass !=null && isPass.contains("合格")){
+        if (isPass !=null && isPass.equals("合格")){
             return true;
-        }else return false;
+        }
+        else if (isPass !=null && isPass.equals("不合格")){
+            return false;
+        }
+        else if (isPass ==null){
+            if (CNPassInfo){
+                return true;
+            }
+            else return false;
+        }
+        else return false;
     }
     public outStandardReturnType IsPassUnderAllStandard(outFruVegSelectType2 sample){
         outStandardReturnType answer = new outStandardReturnType();
