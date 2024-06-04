@@ -398,7 +398,12 @@ public class outHighRiskVarietyDetServiceImpl implements IoutHighRiskVarietyDetS
                 String id = parts[0];
                 String[] pesticideData = parts[1].split(":");
                 String pesticideName = pesticideData[0];
-                double pesticideValue = Double.parseDouble(pesticideData[1]);
+                double pesticideValue = 0;
+                try{
+                    pesticideValue = Double.parseDouble(pesticideData[1]);
+                }catch (Exception e){
+
+                }
 
                 // 创建一个新的农药数据 map
                 Map<String, Double> pesticideMap = new HashMap<>();

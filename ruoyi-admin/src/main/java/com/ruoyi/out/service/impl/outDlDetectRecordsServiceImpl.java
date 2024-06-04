@@ -328,13 +328,16 @@ public class outDlDetectRecordsServiceImpl implements IoutDlDetectRecordsService
 
 
                     // 柳州市
+                    else if (CitySampleTestDetail.getSamplingLocation().contains("柳州")) {
+                        CitySampleTestDetail.setSamplingLocation("柳州市");
+                    }
                     else if (CitySampleTestDetail.getSamplingLocation().contains("城中")) {
                         CitySampleTestDetail.setSamplingLocation("柳州市");
                     }
                     else if (CitySampleTestDetail.getSamplingLocation().contains("鱼峰")) {
                         CitySampleTestDetail.setSamplingLocation("柳州市");
                     }
-                    else if (CitySampleTestDetail.getSamplingLocation().contains("柳南区")) {
+                    else if (CitySampleTestDetail.getSamplingLocation().contains("柳南")) {
                         CitySampleTestDetail.setSamplingLocation("柳州市");
                     }
                     else if (CitySampleTestDetail.getSamplingLocation().contains("柳北")) {

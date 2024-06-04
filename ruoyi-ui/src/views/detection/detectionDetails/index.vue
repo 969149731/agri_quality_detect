@@ -644,7 +644,7 @@ export default {
         this.detectionDetailsList = response.rows;
         this.total = response.total;
         this.loading = false;
-
+        // console.log(this.detectionDetailsList)
       });
     },
     // 取消按钮
@@ -772,7 +772,7 @@ export default {
       this.upload.open = false;
       this.upload.isUploading = false;
       this.$refs.upload.clearFiles();
-      this.$alert("<div style='overflow: auto;overflow-x: hidden;max-height: 70vh;padding: 10px 20px 0;'>" + response.msg + "</div>", "导入结果", { dangerouslyUseHTMLString: true });
+      // this.$alert("<div style='overflow: auto;overflow-x: hidden;max-height: 70vh;padding: 10px 20px 0;'>" + response.msg + "</div>", "导入结果", { dangerouslyUseHTMLString: true });
       this.getList();
     },
     // 提交上传文件

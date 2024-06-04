@@ -73,62 +73,59 @@
       </el-row>
     </div>
 
-    <div class="tables" shadow= 'hover' border style="width: 100%">
-      <el-card shadow= 'hover' class="tableInfo">
-        <div class="tableTitle">速览·例行监测</div>
-        <el-table v-loading="loading" :data="outDlDetectRecordsList">
-          <el-table-column label="被检单位" align="center" width="500" prop="samplingLocation" />
-          <el-table-column label="蔬菜抽样数(个)"  align="center" prop="vegSamplingCount" />
-          <el-table-column label="蔬菜合格数(个)"  align="center" prop="vegQualifiedCount" />
-          <el-table-column label="蔬菜合格率(%)"  align="center" prop="vegPassRate" />
-          <el-table-column label="   " width="70" align="center" prop="" />
-          <el-table-column label="水果抽样数(个)"  align="center" prop="fruSamplingCount" />
-          <el-table-column label="水果合格数(个)" align="center" prop="fruQualifiedCount" />
-          <el-table-column label="水果合格率(%)"  align="center" prop="fruPassRate" />
-          <el-table-column label="   " width="70" align="center" prop="" />
-          <el-table-column label="总抽样数(个)"  align="center" prop="allSamplingCount" />
-          <el-table-column label="总合格数(个)"  align="center" prop="allQualifiedCount" />
-          <el-table-column label="总合格率(%)"  align="center" prop="allPassRate" />
-        </el-table>
+<!--    <div class="tables" shadow= 'hover' border style="width: 100%">-->
+<!--      <el-card shadow= 'hover' class="tableInfo">-->
+<!--        <div class="tableTitle">速览·例行监测</div>-->
+<!--        <el-table v-loading="loading" :data="outDlDetectRecordsList">-->
+<!--          <el-table-column label="被检单位" align="center" width="500" prop="samplingLocation" />-->
+<!--          <el-table-column label="蔬菜抽样数(个)"  align="center" prop="vegSamplingCount" />-->
+<!--          <el-table-column label="蔬菜合格数(个)"  align="center" prop="vegQualifiedCount" />-->
+<!--          <el-table-column label="蔬菜合格率(%)"  align="center" prop="vegPassRate" />-->
+<!--          <el-table-column label="   " width="70" align="center" prop="" />-->
+<!--          <el-table-column label="水果抽样数(个)"  align="center" prop="fruSamplingCount" />-->
+<!--          <el-table-column label="水果合格数(个)" align="center" prop="fruQualifiedCount" />-->
+<!--          <el-table-column label="水果合格率(%)"  align="center" prop="fruPassRate" />-->
+<!--          <el-table-column label="   " width="70" align="center" prop="" />-->
+<!--          <el-table-column label="总抽样数(个)"  align="center" prop="allSamplingCount" />-->
+<!--          <el-table-column label="总合格数(个)"  align="center" prop="allQualifiedCount" />-->
+<!--          <el-table-column label="总合格率(%)"  align="center" prop="allPassRate" />-->
+<!--        </el-table>-->
 
-      </el-card>
-      <el-card shadow= 'hover' class="tableInfo">
-        <div class="tableTitle">速览·定性监测</div>
-        <el-table v-loading="loading" :data="outDxDetectRecordsList">
-          <el-table-column type="index" label="序号" width="55" align="center" />
-          <el-table-column label="检测单位名称" align="center" prop="detectLocation" />
-          <el-table-column label="第一个月" align="center" width="300px">
-            <el-table-column label="抽样数" align="center" prop="month1SamplingCount"></el-table-column>
-            <el-table-column label="合格数" align="center" prop="month1QualifiedCount"></el-table-column>
-            <el-table-column label="合格率" align="center" prop="month1PassRate"></el-table-column>
-          </el-table-column>
+<!--      </el-card>-->
+<!--      <el-card shadow= 'hover' class="tableInfo">-->
+<!--        <div class="tableTitle">速览·定性监测</div>-->
+<!--        <el-table v-loading="loading" :data="outDxDetectRecordsList">-->
+<!--          <el-table-column type="index" label="序号" width="55" align="center" />-->
+<!--          <el-table-column label="检测单位名称" align="center" prop="detectLocation" />-->
+<!--          <el-table-column label="第一个月" align="center" width="300px">-->
+<!--            <el-table-column label="抽样数" align="center" prop="month1SamplingCount"></el-table-column>-->
+<!--            <el-table-column label="合格数" align="center" prop="month1QualifiedCount"></el-table-column>-->
+<!--            <el-table-column label="合格率" align="center" prop="month1PassRate"></el-table-column>-->
+<!--          </el-table-column>-->
 
-          <el-table-column label="第二个月" align="center" width="300px">
-            <el-table-column label="抽样数" align="center" prop="month2SamplingCount"></el-table-column>
-            <el-table-column label="合格数" align="center" prop="month2QualifiedCount"></el-table-column>
-            <el-table-column label="合格率" align="center" prop="month2PassRate"></el-table-column>
-          </el-table-column>
+<!--          <el-table-column label="第二个月" align="center" width="300px">-->
+<!--            <el-table-column label="抽样数" align="center" prop="month2SamplingCount"></el-table-column>-->
+<!--            <el-table-column label="合格数" align="center" prop="month2QualifiedCount"></el-table-column>-->
+<!--            <el-table-column label="合格率" align="center" prop="month2PassRate"></el-table-column>-->
+<!--          </el-table-column>-->
 
-          <el-table-column label="第三个月" align="center" width="300px">
-            <el-table-column label="抽样数" align="center" prop="month3SamplingCount"></el-table-column>
-            <el-table-column label="合格数" align="center" prop="month3QualifiedCount"></el-table-column>
-            <el-table-column label="合格率" align="center" prop="month3PassRate"></el-table-column>
-          </el-table-column>
+<!--          <el-table-column label="第三个月" align="center" width="300px">-->
+<!--            <el-table-column label="抽样数" align="center" prop="month3SamplingCount"></el-table-column>-->
+<!--            <el-table-column label="合格数" align="center" prop="month3QualifiedCount"></el-table-column>-->
+<!--            <el-table-column label="合格率" align="center" prop="month3PassRate"></el-table-column>-->
+<!--          </el-table-column>-->
 
-          <el-table-column label="该季度总计" align="center" width="300px">
-            <el-table-column label="总抽样数" align="center" prop="allSamplingCount" />
-            <el-table-column label="总合格数" align="center" prop="allQualifiedCount" />
-            <el-table-column label="总合格率" align="center" prop="allPassRate" />、
-          </el-table-column>
-
-
-        </el-table>
-
-      </el-card>
+<!--          <el-table-column label="该季度总计" align="center" width="300px">-->
+<!--            <el-table-column label="总抽样数" align="center" prop="allSamplingCount" />-->
+<!--            <el-table-column label="总合格数" align="center" prop="allQualifiedCount" />-->
+<!--            <el-table-column label="总合格率" align="center" prop="allPassRate" />、-->
+<!--          </el-table-column>-->
 
 
+<!--        </el-table>-->
 
-    </div>
+<!--      </el-card>-->
+<!--    </div>-->
 
   </div>
 
