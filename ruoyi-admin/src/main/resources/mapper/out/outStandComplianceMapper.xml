@@ -94,13 +94,19 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="detectLocation"    column="detect_location"    />
         <result property="samplingStageType"    column="sampling_stage_type"    />
         <result property="samplingDate"    column="sampling_date"    />
-        <result property="chinaStandard"    column="china_standard"    />
         <result property="pesticideDetResultId"    column="pesticide_det_result_id"    />
         <result property="pesticideName"    column="pesticide_name"    />
         <result property="pesticideDetValue"    column="pesticide_det_value"    />
         <result property="vegFruId"    column="id"    />
         <result property="vegFruType"    column="veg_fru_type"    />
         <result property="detailType"    column="detail_type"    />
+
+        <result property="chinaStandard"    column="china_standard"    />
+        <result property="cacStandard"    column="cac_standard"    />
+        <result property="japanStandard"    column="japan_standard"    />
+        <result property="euStandard"    column="eu_standard"    />
+        <result property="usStandard"    column="us_standard"    />
+        <result property="koreaStandard"    column="korea_standard"    />
 
         <result property="samplingLocationProvince" column="sampling_location_province"/>
         <result property="samplingLocationCity" column="sampling_location_city"/>
@@ -470,6 +476,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
     <select id="getFruVegDetResultList" resultMap="outFruVegSelectType">
         select agric.city_sample_test_details_id,agric.sample_code,agric.veg_fru_name,agric.sampling_location,agric.detect_location,agric.sampling_stage_type,agric.sampling_date,
+        agric.china_standard,agric.cac_standard,agric.japan_standard,agric.eu_standard,agric.us_standard,agric.korea_standard,
         agrip.pesticide_det_result_id,agrip.pesticide_name,agrip.pesticide_det_value,
         agriv.vegetable_fruit_id,agriv.veg_fru_type,agriv.detail_type
         from agri_city_sample_test_details agric

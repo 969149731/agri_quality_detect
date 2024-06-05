@@ -90,7 +90,7 @@ public class outSampleStageTypeServiceImpl implements IoutSampleStageTypeService
     }
     public void compute(agriCitySampleTestDetails sample){//按一个检测样本进行统计
         try {
-            fix
+            fixData(sample);
                 switch (checkIsUseful(sample)){
                     case 1://必要条件不足
                         return;//下一个样本
@@ -111,7 +111,6 @@ public class outSampleStageTypeServiceImpl implements IoutSampleStageTypeService
         }catch (Exception e){
             log.error("捕获异常",e);
         }
-
     }
     public int checkIsUseful(agriCitySampleTestDetails sample){
         try{
@@ -119,33 +118,54 @@ public class outSampleStageTypeServiceImpl implements IoutSampleStageTypeService
             //与全局的不同，生产基地比较特殊，要先去除
             List<String> StageType= Arrays.asList( "无公害产品基地","地标生产基地","绿色产品基地","有机产品基地","散户","其他基地","批发市场","运输车");//生产环节类型
             if (sample.getSamplingStageType()==null){
-                MsgHandler.addMsg("下列样本没有相应生产环节信息"+" 样本编号:"+sample.getSampleCode()+"生产环节"+sample.getSamplingStageType());
+                MsgHandler.addMsg("！！！下列样本没有相应生产环节信息"+" 样本编号:"+sample.getSampleCode()+"生产环节"+sample.getSamplingStageType());
                 return 1;//为空无法操作，后续进行检查时会报告错误
             }
-            String StageName = sample.getSamplingStageType();
-            if(StageName.equals("生产基地")){ //生产基地比较特殊//有很多会直接用生产基地
-                return 0;
+            if (resultMap.get(sample.getSamplingStageType())==null){
+                System.out.println("！！！该生产环节不在监测范围内请检查：生产环节："+sample.getSamplingStageType()+" 样本编号："+sample.getSampleCode());
+                return 2;
             }
-            //////////循环判断
-            for (String item : StageType){
-                if(StageName.contains(item)){
-                    sample.setSamplingStageType(item);//将所有数据清洗为规范格式
-                    return 0;//找到一个即可返回
-                }
-            }
-            //////////
-            if(StageName.contains("生产基地")){//不是上述类型，但是包含生产基地，应为其它基地类型
-                sample.setSamplingStageType("其它基地");
-                return 0;
-            }
-            sample.setSamplingStageType("其它");//以上都不是，则为其它
-            return 0;//到此说明数据可用
         }catch (Exception e){
             log.error("捕获异常",e);
             return -1;//有异常
         }
+        return 0;
     }
-
+    public void fixData(agriCitySampleTestDetails item){
+        //数据预处理，主要是对生产环节进行纠正//这个模块需要知道生产环节的子类
+        //注意生产基地不要放前面，否则先识别出来其他的生产基地子类就无法识别了
+        List<String> StageType= Arrays.asList( "无公害产品基地","地标生产基地","绿色产品基地","有机产品基地","散户","其它基地");//生产基地的子类
+        String samplingStageType =item.getSamplingStageType();
+        for (String type : StageType){
+            if(samplingStageType!=null && samplingStageType.contains(type)){
+                return;//找到一个即可返回
+            }
+        }
+        List<String> ProduceBaseType= Arrays.asList("公司","农户","合作社");//这些也为生产基地，但是不在显示的子项中，设为其它基地
+        for (String type : StageType){
+            if(samplingStageType!=null && samplingStageType.contains(type)){
+                item.setSamplingStageType("其它");;//将所有数据清洗为规范格式
+                return;//找到一个即可返回
+            }
+        }
+        if(samplingStageType!=null && samplingStageType.equals("基地")){//不是上述类型，但是包含基地，应为其它基地
+            item.setSamplingStageType("其它基地");;//将所有数据清洗为规范格式
+            return;//找到一个即可返回
+        }
+        if(samplingStageType!=null && samplingStageType.contains("生产基地")){//不是上述类型，但是包含生产基地，应为其它基地类型
+            item.setSamplingStageType("其它");//将所有数据清洗为规范格式
+            return;//找到一个即可返回
+        }
+        if(samplingStageType!=null && samplingStageType.contains("市场")){//不是上述类型，农贸市场和批发市场均视为批发市场
+            item.setSamplingStageType("批发市场");//将所有数据清洗为规范格式
+            return;//找到一个即可返回
+        }
+        if(samplingStageType!=null){//不是上述类型，应为其它
+            item.setSamplingStageType("其它");//将所有数据清洗为规范格式
+            return;//找到一个即可返回
+        }
+        item.setSamplingStageType("其它");//保底内容
+    }
     public List<outSampleStageType> returnFinalList(){
         //计算生产基地
         outSampleStageType ProduceBasementCount = resultMap.get("生产基地");

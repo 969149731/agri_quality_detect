@@ -104,7 +104,7 @@ public class outStandComplianceServiceImpl implements IoutStandComplianceService
     }
 
     public List<outStandardReturnType> selectoutStandComplianceList2(agriCitySampleTestDetails agriCitySampleTestDetails,StringBuilder feedBackMsg)
-    {//为避免多一次交互,将合格率计算放到前端进行
+    {//为避免多一次交互,将合格率计算放到前端进行1
         if (initModule(feedBackMsg));
         else return returnFinalList();
 

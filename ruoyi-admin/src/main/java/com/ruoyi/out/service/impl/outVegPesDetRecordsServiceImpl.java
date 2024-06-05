@@ -184,7 +184,8 @@ public class outVegPesDetRecordsServiceImpl implements IoutVegPesDetRecordsServi
             return outVegPesDetRecordsMapper.getVegBanPesticideList();//禁用
         else return outVegPesDetRecordsMapper.getVegBanNoPesticideList();//非禁用
     }
-    public void fixData(outFruVegSelectType item){//数据预处理，主要是对生产环节进行纠正//这个模块不关心生产基地的子类
+    public void fixData(outFruVegSelectType item){
+        //数据预处理，主要是对生产环节进行纠正//这个模块不关心生产基地的子类
         //注意生产基地不要放前面，否则先识别出来其他的生产基地子类就无法识别了
         List<String> StageType= Arrays.asList( "无公害产品基地","地标生产基地","绿色产品基地","有机产品基地","散户","公司","农户","合作社","其他基地");//生产基地的子类
 

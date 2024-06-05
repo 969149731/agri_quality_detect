@@ -107,7 +107,7 @@ public boolean initModule(StringBuilder feedBackMsg,String type){
         pesticideResultMap.put(pesticideName, new outReturnType(pesticideName));
     }
     if(pesticideList.isEmpty()){
-        MsgHandler.addMsg("错误","没有水果"+type+"农药，请检查农药字典中是否有水果"+type+"类型的农药");//在农药表中没有水果禁用/非禁用农药
+        MsgHandler.addMsg("！！！错误","没有水果"+type+"农药，请检查农药字典中是否有水果"+type+"类型的农药");//在农药表中没有水果禁用/非禁用农药
         log.error("查询出的农药列表为空");
         return false;//返回空表
     }
@@ -131,11 +131,11 @@ public boolean initModule(StringBuilder feedBackMsg,String type){
         try{
             //生产环节和农药名为必须 最终展示时由这两个属性确定在表格中的位置
             if (item.samplingStageType==null || item.pesticideName==null || item.samplingStageType.equals("") || item.pesticideName.equals("")){
-                MsgHandler.addMsg("部分信息有误,请在定量检测导入表中检查下列样本的信息:","样品编号:"+item.sampleCode+" 农药名:"+item.pesticideName+" 生产环节:"+item.samplingStageType+"(农药名或生产环节缺失)");
+                MsgHandler.addMsg("！！！部分信息有误,请在定量检测导入表中检查下列样本的信息:","样品编号:"+item.sampleCode+" 农药名:"+item.pesticideName+" 生产环节:"+item.samplingStageType+"(农药名或生产环节缺失)");
                 return 1;
             }
             if (item.vegFruName==null || item.pesticideDetValue==null){//蔬菜名或检测值缺失，无法进行超标判断
-                MsgHandler.addMsg("部分信息有误,请在定量检测导入表中检查下列样本的信息:"," 样品编号:"+item.sampleCode+" 蔬果名:"+item.vegFruName+" 检测值:"+item.pesticideDetValue+"(蔬菜名缺失)");
+                MsgHandler.addMsg("！！！部分信息有误,请在定量检测导入表中检查下列样本的信息:"," 样品编号:"+item.sampleCode+" 蔬果名:"+item.vegFruName+" 检测值:"+item.pesticideDetValue+"(蔬菜名缺失)");
                 return 2;
             }
         }catch (Exception e){
@@ -162,6 +162,7 @@ public boolean initModule(StringBuilder feedBackMsg,String type){
             if (standardList.isEmpty()) {//无任何标准
                 String msg = "没有对应国家标准"+ "/r/n样品编号:" + item.sampleCode + "/r/n蔬果名:" + item.vegFruName + "/n农药名:" + item.pesticideName;
                 log.error(msg);
+                System.out.println("！！！"+msg);
                 MsgHandler.addMsgTitle("没有国家标准","下列对应蔬果对应农药没有对应国家标准，请在标准中添加");
                 MsgHandler.addMsg("没有国家标准", " 蔬果名:" + item.vegFruName + " 农药名:" + item.pesticideName+" 样品编号:" + item.sampleCode);
                 return null;//没有任何标准返回空

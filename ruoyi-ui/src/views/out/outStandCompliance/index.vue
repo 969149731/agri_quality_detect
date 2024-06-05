@@ -64,39 +64,40 @@
       <right-toolbar :showSearch.sync="showSearch" @queryTable="getList"></right-toolbar>
     </el-row>
 
-    <el-table
-      v-loading="loading"
-      v-if="!peopleTagNumLoading"
-      ref="refreshTable"
-      :header-cell-style="headerStyle"
-      :span-method="spanMethod"
-      :data="StandardList"
-      style="width: 100%;"
-      align='center'
-      id="table1"
-    >
-      <el-table-column label="项目" prop="StandardLable" width="110px" align="center">
-      </el-table-column>
-      <el-table-column label="农药超标数" align="left">
-        <el-table-column
-          v-for="item in pesticideNameList"
-          align="center"
-          :label="item.pesticideName"
-          :key="item.StageId"
-          prop="value"
-        >
-          <template slot-scope="scope">
-            <div>{{ item[scope.row['StageId']] }}</div>
-          </template>
+    <div style="overflow: auto">
+      <el-table
+        v-loading="loading"
+        v-if="!peopleTagNumLoading"
+        ref="refreshTable"
+        :header-cell-style="headerStyle"
+        :span-method="spanMethod"
+        :data="pesticideNameList"
+        height="700"
+        style="width:auto;overflow-y: scroll;"
+        align='center'
+        id="table1"
+
+      >
+        <el-table-column label="农药项目" prop="pesticideName" width="110px" align="center">
         </el-table-column>
-      </el-table-column>
-      <el-table-column label="抽检数量" prop="sampleNum" width="100px" align="center">
-      </el-table-column>
-      <el-table-column label="合格数" prop="passNum" width="100px" align="center">
-      </el-table-column>
-      <el-table-column label="合格率" prop="passRate" width="100px" align="center">
-      </el-table-column>
-    </el-table>
+        <el-table-column label="参照国家标准" prop="CN" width="100px" align="center">
+        </el-table-column>
+        <el-table-column label="参照CAC标准" prop="CAC" width="130px" align="center">
+        </el-table-column>
+        <el-table-column label="参照美国标准" prop="US" width="100px" align="center">
+        </el-table-column>
+        <el-table-column label="参照欧盟标准" prop="EU" width="100px" align="center">
+        </el-table-column>
+        <el-table-column label="参照日本标准" prop="JPN" width="100px" align="center">
+        </el-table-column>
+        <el-table-column label="参照韩国标准" prop="KR" width="100px" align="center">
+        </el-table-column>
+      </el-table>
+      <div style="text-align: center">
+        --底部--
+      </div>
+    </div>
+
   </div>
 </template>
 
@@ -350,6 +351,14 @@ export default {
       this.download('out/outStandCompliance/export', {
         ...this.queryParams
       }, `outStandComplianceRecords_${new Date().getTime()}.xlsx`)
+    },
+    headerStyle({ row, column, rowIndex, columnIndex }) {
+      const comStyle = {
+        backgroundColor: "#3D589B",
+        color: "#fff",
+        fontSize: "500",
+      };
+      return comStyle;
     },
   }
 };
