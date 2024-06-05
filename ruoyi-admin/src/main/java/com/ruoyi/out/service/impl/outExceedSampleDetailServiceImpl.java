@@ -194,6 +194,10 @@ public class outExceedSampleDetailServiceImpl implements IoutExceedSampleDetailS
                         if(vegFruName.contains("柑")||vegFruName.contains("橘")){
                             limitValue = outDlDetectRecordsMapper.selectLimitValueByPesticideName(pesticideName, "柑橘类水果", standardCategory);
                         }
+                        if(vegFruName.contains("枣")){
+                            limitValue = outDlDetectRecordsMapper.selectLimitValueByPesticideName(pesticideName, "核果类水果", standardCategory);
+                        }
+
 
                         if(limitValue==null){
                             System.out.println("！！！需要添加检测限量值信息，如下："+"农药："+pesticideName+"。 样品："+vegFruName+"。 标准："+standardCategory);
