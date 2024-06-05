@@ -34,13 +34,12 @@ import static com.ruoyi.framework.datasource.DynamicDataSourceContextHolder.log;
 
 /**
  * 各市样品检测结果详细Service业务层处理
- * 
+ *
  * @author chenjie
  * @date 2024-01-24
  */
 @Service
-public class agriCitySampleTestDetailsServiceImpl implements IagriCitySampleTestDetailsService 
-{
+public class agriCitySampleTestDetailsServiceImpl implements IagriCitySampleTestDetailsService {
     @Autowired
     private agriCitySampleTestDetailsMapper agriCitySampleTestDetailsMapper;
     @Autowired
@@ -60,40 +59,74 @@ public class agriCitySampleTestDetailsServiceImpl implements IagriCitySampleTest
 
     /**
      * 查询各市样品检测结果详细
-     * 
+     *
      * @param citySampleTestDetailsId 各市样品检测结果详细主键
      * @return 各市样品检测结果详细
      */
     @Override
-    public agriCitySampleTestDetails selectagriCitySampleTestDetailsByCitySampleTestDetailsId(Long citySampleTestDetailsId)
-    {
+    public agriCitySampleTestDetails selectagriCitySampleTestDetailsByCitySampleTestDetailsId(Long citySampleTestDetailsId) {
         return agriCitySampleTestDetailsMapper.selectagriCitySampleTestDetailsByCitySampleTestDetailsId(citySampleTestDetailsId);
     }
 
     /**
      * 查询各市样品检测结果详细列表
-     * 
+     *
      * @param agriCitySampleTestDetails 各市样品检测结果详细
      * @return 各市样品检测结果详细
      */
     @Override
-    public List<agriCitySampleTestDetails> selectagriCitySampleTestDetailsList(agriCitySampleTestDetails agriCitySampleTestDetails)
-    {
+    public List<agriCitySampleTestDetails> selectagriCitySampleTestDetailsList(agriCitySampleTestDetails agriCitySampleTestDetails) {
 
 //        startPage();
-        return agriCitySampleTestDetailsMapper.selectagriCitySampleTestDetailsList(agriCitySampleTestDetails);
+        List<com.ruoyi.detection.domain.agriCitySampleTestDetails> agriCitySampleTestDetails1 = agriCitySampleTestDetailsMapper.selectagriCitySampleTestDetailsList(agriCitySampleTestDetails);
+
+        //把抽样地址简化
+        for (agriCitySampleTestDetails agriCitySampleTestDetail : agriCitySampleTestDetails1) {
+            String samplingLocationCounty = agriCitySampleTestDetail.getSamplingLocationCounty();
+            // 找到samplingLocationCounty在samplingLocation中的起始位置
+            String samplingLocation = agriCitySampleTestDetail.getSamplingLocation();
+            int startIndex = samplingLocation.indexOf(samplingLocationCounty);
+            if (startIndex != -1) {
+                // 计算起始位置的结束索引
+                int endIndex = startIndex + samplingLocationCounty.length();
+                // 提取从endIndex开始到字符串末尾的子字符串
+                String result = samplingLocation.substring(endIndex);
+                agriCitySampleTestDetail.setSamplingLocation(result);
+            } else {
+                agriCitySampleTestDetail.setSamplingLocation(samplingLocation);
+            }
+        }
+        //同上，改溯源地
+        for (agriCitySampleTestDetails agriCitySampleTestDetail : agriCitySampleTestDetails1) {
+            String samplingTracingCounty = agriCitySampleTestDetail.getTracingCounty();
+            // 找到samplingLocationCounty在samplingLocation中的起始位置
+            String tracingArea = agriCitySampleTestDetail.getTracingArea();
+            int startIndex = tracingArea.indexOf(samplingTracingCounty);
+            if (startIndex != -1) {
+                // 计算起始位置的结束索引
+                int endIndex = startIndex + samplingTracingCounty.length();
+                // 提取从endIndex开始到字符串末尾的子字符串
+                String result = tracingArea.substring(endIndex);
+                agriCitySampleTestDetail.setTracingArea(result);
+            } else {
+                agriCitySampleTestDetail.setTracingArea(tracingArea);
+            }
+        }
+
+        return agriCitySampleTestDetails1;
+        //下面的这个是原来的写法，直接返回对应的抽样地址和溯源地址
+//        return agriCitySampleTestDetailsMapper.selectagriCitySampleTestDetailsList(agriCitySampleTestDetails);
     }
 
     /**
      * 新增各市样品检测结果详细
-     * 
+     *
      * @param agriCitySampleTestDetails 各市样品检测结果详细
      * @return 结果
      */
     @Transactional
     @Override
-    public int insertagriCitySampleTestDetails(agriCitySampleTestDetails agriCitySampleTestDetails)
-    {
+    public int insertagriCitySampleTestDetails(agriCitySampleTestDetails agriCitySampleTestDetails) {
         int rows = agriCitySampleTestDetailsMapper.insertagriCitySampleTestDetails(agriCitySampleTestDetails);
         insertagriPesticideDetResult(agriCitySampleTestDetails);
         return rows;
@@ -101,14 +134,13 @@ public class agriCitySampleTestDetailsServiceImpl implements IagriCitySampleTest
 
     /**
      * 修改各市样品检测结果详细
-     * 
+     *
      * @param agriCitySampleTestDetails 各市样品检测结果详细
      * @return 结果
      */
     @Transactional
     @Override
-    public int updateagriCitySampleTestDetails(agriCitySampleTestDetails agriCitySampleTestDetails)
-    {
+    public int updateagriCitySampleTestDetails(agriCitySampleTestDetails agriCitySampleTestDetails) {
         agriCitySampleTestDetailsMapper.deleteagriPesticideDetResultByCitySampleTestDetailsId(agriCitySampleTestDetails.getCitySampleTestDetailsId());
         insertagriPesticideDetResult(agriCitySampleTestDetails);
         return agriCitySampleTestDetailsMapper.updateagriCitySampleTestDetails(agriCitySampleTestDetails);
@@ -116,28 +148,26 @@ public class agriCitySampleTestDetailsServiceImpl implements IagriCitySampleTest
 
     /**
      * 批量删除各市样品检测结果详细
-     * 
+     *
      * @param citySampleTestDetailsIds 需要删除的各市样品检测结果详细主键
      * @return 结果
      */
     @Transactional
     @Override
-    public int deleteagriCitySampleTestDetailsByCitySampleTestDetailsIds(Long[] citySampleTestDetailsIds)
-    {
+    public int deleteagriCitySampleTestDetailsByCitySampleTestDetailsIds(Long[] citySampleTestDetailsIds) {
         agriCitySampleTestDetailsMapper.deleteagriPesticideDetResultByCitySampleTestDetailsIds(citySampleTestDetailsIds);
         return agriCitySampleTestDetailsMapper.deleteagriCitySampleTestDetailsByCitySampleTestDetailsIds(citySampleTestDetailsIds);
     }
 
     /**
      * 删除各市样品检测结果详细信息
-     * 
+     *
      * @param citySampleTestDetailsId 各市样品检测结果详细主键
      * @return 结果
      */
     @Transactional
     @Override
-    public int deleteagriCitySampleTestDetailsByCitySampleTestDetailsId(Long citySampleTestDetailsId)
-    {
+    public int deleteagriCitySampleTestDetailsByCitySampleTestDetailsId(Long citySampleTestDetailsId) {
         agriCitySampleTestDetailsMapper.deleteagriPesticideDetResultByCitySampleTestDetailsId(citySampleTestDetailsId);
         return agriCitySampleTestDetailsMapper.deleteagriCitySampleTestDetailsByCitySampleTestDetailsId(citySampleTestDetailsId);
     }
@@ -155,21 +185,21 @@ public class agriCitySampleTestDetailsServiceImpl implements IagriCitySampleTest
         for (agriCitySampleTestDetails agriCitySampleTestDetails : agriCitySampleTestDetailsList) {
             try {
 //                agriCitySampleTestDetailsMapper.insertfruitVegQualification(agriCitySampleTestDetails);
-                  agriCitySampleTestDetailsMapper.insertagriCitySampleTestDetails(agriCitySampleTestDetails);
+                agriCitySampleTestDetailsMapper.insertagriCitySampleTestDetails(agriCitySampleTestDetails);
 
-                  List<agriPesticideDetResult> agriPesticideDetResultList = agriCitySampleTestDetails.getAgriPesticideDetResultList();
-                  for (agriPesticideDetResult agriPesticideDetResults:agriPesticideDetResultList){
-                      agriPesticideDetResultMapper.insertagriPesticideDetResult(agriPesticideDetResults);
-                      System.out.println("---------------------------------------------------------");
+                List<agriPesticideDetResult> agriPesticideDetResultList = agriCitySampleTestDetails.getAgriPesticideDetResultList();
+                for (agriPesticideDetResult agriPesticideDetResults : agriPesticideDetResultList) {
+                    agriPesticideDetResultMapper.insertagriPesticideDetResult(agriPesticideDetResults);
+                    System.out.println("---------------------------------------------------------");
 
-                  }
+                }
 
                 successNum++;
-                successMsg.append("<br/>" +"第"+ successNum +"条"+ "数据导入成功");
+                successMsg.append("<br/>" + "第" + successNum + "条" + "数据导入成功");
 
             } catch (Exception e) {
                 failureNum++;
-                String msg = "<br/>" + "第"+ failureNum +"条"+ "数据导入失败：";
+                String msg = "<br/>" + "第" + failureNum + "条" + "数据导入失败：";
                 failureMsg.append(msg + e.getMessage());
                 log.error(msg, e);
             }
@@ -192,9 +222,9 @@ public class agriCitySampleTestDetailsServiceImpl implements IagriCitySampleTest
         int successNum = 0;
         int failureNum = 0;
         //要用到的主表主键值
-        long mainTableId =0;
+        long mainTableId = 0;
         //要丢弃的主表主键值
-        long noUseTableId =0;
+        long noUseTableId = 0;
         StringBuilder successMsg = new StringBuilder();
         StringBuilder failureMsg = new StringBuilder();
         String password = configService.selectConfigByKey("sys.user.initPassword");
@@ -237,12 +267,12 @@ public class agriCitySampleTestDetailsServiceImpl implements IagriCitySampleTest
                 agriCitySampleTestDetailsMapper.insertagriCitySampleTestDetails(agriCitySampleTestDetails);
 //                System.out.println("-----------------------------"+agriCitySampleTestDetails.getCitySampleTestDetailsId()+"---------------------------------------------------");
                 //这个判断固定真正有用的主键值，用来传给从表也就是检测表，（随便取了3个为null值的属性判断）,如果判断的字段是空的，说明这张表是为了添加从表字段时候多余添加进来的
-                if(samplingQuantity!=null&&samplingBase!=null&&samplingDate!=null){
+                if (samplingQuantity != null && samplingBase != null && samplingDate != null) {
                     //查询插入主表部分的ID  ID值更新到全集变量
-                    mainTableId=agriCitySampleTestDetails.getCitySampleTestDetailsId();
+                    mainTableId = agriCitySampleTestDetails.getCitySampleTestDetailsId();
 //                    System.out.println(mainTableId+"----------------------------------");
                 }
-                agriPesticideDetResult agriPesticideDetResult= new agriPesticideDetResult();                //有了插入主表部分的ID之后插入从表部分的检测农药和检测值
+                agriPesticideDetResult agriPesticideDetResult = new agriPesticideDetResult();                //有了插入主表部分的ID之后插入从表部分的检测农药和检测值
                 //有了插入主表部分的ID之后插入从表部分的检测农药和检测值,以及主表中的ID，以对应上
                 agriPesticideDetResult.setCitySampleTestDetailsId(mainTableId);
                 agriPesticideDetResult.setPesticideName(agriOutCitySampleTestDetails.getPesticideName());
@@ -250,15 +280,15 @@ public class agriCitySampleTestDetailsServiceImpl implements IagriCitySampleTest
                 agriPesticideDetResultMapper.insertagriPesticideDetResult(agriPesticideDetResult);
 
                 //删除主表中没有信息数据的表
-                if(samplingQuantity==null&&samplingBase==null&&samplingDate==null){
+                if (samplingQuantity == null && samplingBase == null && samplingDate == null) {
                     noUseTableId = agriCitySampleTestDetails.getCitySampleTestDetailsId();
                     agriCitySampleTestDetailsMapper.deleteagriCitySampleTestDetailsByCitySampleTestDetailsId(noUseTableId);
                 }
                 successNum++;
-                successMsg.append("<br/>" +"第"+ successNum +"条"+ "数据导入成功");
+                successMsg.append("<br/>" + "第" + successNum + "条" + "数据导入成功");
             } catch (Exception e) {
                 failureNum++;
-                String msg = "<br/>" + "第"+ failureNum +"条"+ "数据导入失败：";
+                String msg = "<br/>" + "第" + failureNum + "条" + "数据导入失败：";
                 failureMsg.append(msg + e.getMessage());
                 log.error(msg, e);
             }
@@ -284,9 +314,9 @@ public class agriCitySampleTestDetailsServiceImpl implements IagriCitySampleTest
         int successNum = 0;
         int failureNum = 0;
         //要用到的主表主键值
-        long mainTableId =0;
+        long mainTableId = 0;
         //要丢弃的主表主键值
-        long noUseTableId =0;
+        long noUseTableId = 0;
         StringBuilder successMsg = new StringBuilder();
         StringBuilder failureMsg = new StringBuilder();
         String password = configService.selectConfigByKey("sys.user.initPassword");
@@ -340,11 +370,11 @@ public class agriCitySampleTestDetailsServiceImpl implements IagriCitySampleTest
 //                System.out.println("-----------------------------"+agriCitySampleTestDetails.getCitySampleTestDetailsId()+"---------------------------------------------------");
                 //这个判断固定真正有用的主键值，用来传给从表也就是检测表，（随便取了3个为null值的属性判断）,如果判断的字段是空的，说明这张表是为了添加从表字段时候多余添加进来的
 //                if(samplingQuantity!=null&&samplingBase!=null&&samplingDate!=null){
-                    //查询插入主表部分的ID  ID值更新到全集变量
-                    mainTableId=agriCitySampleTestDetails.getCitySampleTestDetailsId();
+                //查询插入主表部分的ID  ID值更新到全集变量
+                mainTableId = agriCitySampleTestDetails.getCitySampleTestDetailsId();
 //                    System.out.println(mainTableId+"----------------------------------");
 //                }
-                agriPesticideDetResult agriPesticideDetResult= new agriPesticideDetResult();                //有了插入主表部分的ID之后插入从表部分的检测农药和检测值
+                agriPesticideDetResult agriPesticideDetResult = new agriPesticideDetResult();                //有了插入主表部分的ID之后插入从表部分的检测农药和检测值
                 //有了插入主表部分的ID之后插入从表部分的检测农药和检测值,以及主表中的ID，以对应上
                 agriPesticideDetResult.setCitySampleTestDetailsId(mainTableId);
 //                if(agriOut2CitySampleTestDetails.getNy1()!=null){
@@ -639,10 +669,10 @@ public class agriCitySampleTestDetailsServiceImpl implements IagriCitySampleTest
 //                }
 
                 successNum++;
-                successMsg.append("<br/>" +"第"+ successNum +"条"+ "数据导入成功");
+                successMsg.append("<br/>" + "第" + successNum + "条" + "数据导入成功");
             } catch (Exception e) {
                 failureNum++;
-                String msg = "<br/>" + "第"+ failureNum +"条"+ "数据导入失败：";
+                String msg = "<br/>" + "第" + failureNum + "条" + "数据导入失败：";
                 failureMsg.append(msg + e.getMessage());
                 log.error(msg, e);
             }
@@ -667,9 +697,9 @@ public class agriCitySampleTestDetailsServiceImpl implements IagriCitySampleTest
         int successNum = 0;
         int failureNum = 0;
         //要用到的主表主键值
-        long mainTableId =0;
+        long mainTableId = 0;
         //要丢弃的主表主键值
-        long noUseTableId =0;
+        long noUseTableId = 0;
         StringBuilder successMsg = new StringBuilder();
         StringBuilder failureMsg = new StringBuilder();
         String password = configService.selectConfigByKey("sys.user.initPassword");
@@ -736,51 +766,47 @@ public class agriCitySampleTestDetailsServiceImpl implements IagriCitySampleTest
                 }
 
 
-
-                String samplingDate =null;
-                try{
-                     samplingDate  = agriOut2CitySampleTestDetails.get("抽样日期").toString();
-                }catch (Exception e){
-                    samplingDate=null;
+                String samplingDate = null;
+                try {
+                    samplingDate = agriOut2CitySampleTestDetails.get("抽样日期").toString();
+                } catch (Exception e) {
+                    samplingDate = null;
                 }
 
-                String enterpriseName=null;
+                String enterpriseName = null;
                 try {
                     enterpriseName = agriOut2CitySampleTestDetails.get("企业名称/散户").toString();
-                }catch (Exception e)
-                {
-                    try{
-                        enterpriseName= agriOut2CitySampleTestDetails.get("企业名称/农户").toString();
-                    }catch(Exception e1){
-                         try{
-                             enterpriseName= agriOut2CitySampleTestDetails.get("企业名称").toString();
-                         }catch(Exception e2){
-                             enterpriseName=null;
-                         }
+                } catch (Exception e) {
+                    try {
+                        enterpriseName = agriOut2CitySampleTestDetails.get("企业名称/农户").toString();
+                    } catch (Exception e1) {
+                        try {
+                            enterpriseName = agriOut2CitySampleTestDetails.get("企业名称").toString();
+                        } catch (Exception e2) {
+                            enterpriseName = null;
+                        }
                     }
                 }
 
-                String enterpriseAttribute=null;
+                String enterpriseAttribute = null;
                 try {
-                     enterpriseAttribute = agriOut2CitySampleTestDetails.get("企业属性（绿色/有机/地理标志/GAP)").toString();
-                }catch (Exception e)
-                {
-                    enterpriseAttribute=null;
+                    enterpriseAttribute = agriOut2CitySampleTestDetails.get("企业属性（绿色/有机/地理标志/GAP)").toString();
+                } catch (Exception e) {
+                    enterpriseAttribute = null;
                 }
 
-                String enterpriseCreditIdCode=null;
+                String enterpriseCreditIdCode = null;
                 try {
                     enterpriseCreditIdCode = agriOut2CitySampleTestDetails.get("企业信用代码/身份证号").toString();
-                }catch (Exception e)
-                {
-                    enterpriseCreditIdCode=null;
+                } catch (Exception e) {
+                    enterpriseCreditIdCode = null;
                 }
 
-                String tracingProvince=null;
-                try{
+                String tracingProvince = null;
+                try {
                     tracingProvince = agriOut2CitySampleTestDetails.get("溯源省").toString();
-                }catch(Exception e){
-                    tracingProvince=null;
+                } catch (Exception e) {
+                    tracingProvince = null;
                 }
 
                 String tracingCity = null;
@@ -818,8 +844,8 @@ public class agriCitySampleTestDetailsServiceImpl implements IagriCitySampleTest
 //                String chinaStandard = agriOut2CitySampleTestDetails.get("判定结果").toString();
 
 
-                Date samplingDateUse=null;
-                if(samplingDate!=null){
+                Date samplingDateUse = null;
+                if (samplingDate != null) {
                     samplingDateUse = originalFormat.parse(samplingDate);//抽样日期
                 }
 
@@ -848,7 +874,7 @@ public class agriCitySampleTestDetailsServiceImpl implements IagriCitySampleTest
                 String username = authentication.getName();
                 //通过当前登录的用户名查询到当前登录的用户所存在的部门
                 String deptName = agriCitySampleTestDetailsMapper.selectUserDepByUserName(username);
-                if(agriCitySampleTestDetails.getDetectLocation()==null){
+                if (agriCitySampleTestDetails.getDetectLocation() == null) {
                     agriCitySampleTestDetails.setDetectLocation(deptName);
                 }
 
@@ -865,31 +891,33 @@ public class agriCitySampleTestDetailsServiceImpl implements IagriCitySampleTest
                 //这个判断固定真正有用的主键值，用来传给从表也就是检测表，（随便取了3个为null值的属性判断）,如果判断的字段是空的，说明这张表是为了添加从表字段时候多余添加进来的
 //                if(samplingQuantity!=null&&samplingBase!=null&&samplingDate!=null){
                 //查询插入主表部分的ID  ID值更新到全集变量
-                mainTableId=agriCitySampleTestDetails.getCitySampleTestDetailsId();
+                mainTableId = agriCitySampleTestDetails.getCitySampleTestDetailsId();
 //                    System.out.println(mainTableId+"----------------------------------");
 //                }
-                agriPesticideDetResult agriPesticideDetResult= new agriPesticideDetResult();                //有了插入主表部分的ID之后插入从表部分的检测农药和检测值
+                agriPesticideDetResult agriPesticideDetResult = new agriPesticideDetResult();                //有了插入主表部分的ID之后插入从表部分的检测农药和检测值
                 //有了插入主表部分的ID之后插入从表部分的检测农药和检测值,以及主表中的ID，以对应上
                 agriPesticideDetResult.setCitySampleTestDetailsId(mainTableId);
 
 
                 //插入从表
-                List<String> other= Arrays.asList(
-                        "序号", "样品编号","样品名称","抽样环节",
-                        "抽样省","抽样市","抽样县","抽样地址",
-                        "企业名称/农户","企业属性（绿色/有机/地理标志/GAP)","企业信用代码/身份证号",
-                        "溯源省","溯源市","溯源县","溯源产地","判定结果","抽样日期","企业名称","excelRowNum");//合计在最后加入
+                List<String> other = Arrays.asList(
+                        "序号", "样品编号", "样品名称", "抽样环节",
+                        "抽样省", "抽样市", "抽样县", "抽样地址",
+                        "企业名称/农户", "企业属性（绿色/有机/地理标志/GAP)", "企业信用代码/身份证号",
+                        "溯源省", "溯源市", "溯源县", "溯源产地", "判定结果", "抽样日期", "企业名称", "excelRowNum");//合计在最后加入
                 //遍历每一个map
                 Set<Map.Entry<String, Object>> entrySet = agriOut2CitySampleTestDetails.entrySet();
                 for (Map.Entry<String, Object> entryItem : entrySet) {//对于map里每一个内容
-                    if (other.contains(entryItem.getKey())){continue;}//不是农药跳过
+                    if (other.contains(entryItem.getKey())) {
+                        continue;
+                    }//不是农药跳过
                     agriPesticideDetResult.setPesticideName(entryItem.getKey());
 
                     Object value = entryItem.getValue();
                     if (value == null) {
                         continue;
                     }
-                    if (value.equals("/")||value.equals("未检出")){
+                    if (value.equals("/") || value.equals("未检出")) {
                         continue;
                     }
                     if (value instanceof String) {
@@ -927,10 +955,10 @@ public class agriCitySampleTestDetailsServiceImpl implements IagriCitySampleTest
                 }
 
                 successNum++;
-                successMsg.append("<br/>" +"第"+ successNum +"条"+ "数据导入成功");
+                successMsg.append("<br/>" + "第" + successNum + "条" + "数据导入成功");
             } catch (Exception e) {
                 failureNum++;
-                String msg = "<br/>" + "第"+ failureNum +"条"+ "数据导入失败：";
+                String msg = "<br/>" + "第" + failureNum + "条" + "数据导入失败：";
                 failureMsg.append(msg + e.getMessage());
                 log.error(msg, e);
             }
@@ -950,23 +978,19 @@ public class agriCitySampleTestDetailsServiceImpl implements IagriCitySampleTest
 
     /**
      * 新增农药检测结果信息
-     * 
+     *
      * @param agriCitySampleTestDetails 各市样品检测结果详细对象
      */
-    public void insertagriPesticideDetResult(agriCitySampleTestDetails agriCitySampleTestDetails)
-    {
+    public void insertagriPesticideDetResult(agriCitySampleTestDetails agriCitySampleTestDetails) {
         List<agriPesticideDetResult> agriPesticideDetResultList = agriCitySampleTestDetails.getAgriPesticideDetResultList();
         Long citySampleTestDetailsId = agriCitySampleTestDetails.getCitySampleTestDetailsId();
-        if (StringUtils.isNotNull(agriPesticideDetResultList))
-        {
+        if (StringUtils.isNotNull(agriPesticideDetResultList)) {
             List<agriPesticideDetResult> list = new ArrayList<agriPesticideDetResult>();
-            for (agriPesticideDetResult agriPesticideDetResult : agriPesticideDetResultList)
-            {
+            for (agriPesticideDetResult agriPesticideDetResult : agriPesticideDetResultList) {
                 agriPesticideDetResult.setCitySampleTestDetailsId(citySampleTestDetailsId);
                 list.add(agriPesticideDetResult);
             }
-            if (list.size() > 0)
-            {
+            if (list.size() > 0) {
                 agriCitySampleTestDetailsMapper.batchagriPesticideDetResult(list);
             }
         }

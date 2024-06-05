@@ -22,19 +22,19 @@ public class agriPesticideResidueStandardDictionary extends BaseEntity
     private Long pesticideResidueStandardId;
 
     /** 农药名字，逻辑外键，关联农药表 */
-    @Excel(name = "农药名字，逻辑外键，关联农药表")
+    @Excel(name = "农药名")
     private String pesticideName;
 
     /** 蔬菜或水果名字，逻辑外键，关联蔬果表 */
-    @Excel(name = "蔬菜或水果名字，逻辑外键，关联蔬果表")
+    @Excel(name = "样品名")
     private String vegFruName;
 
     /** 标准分类（国家标准，CAC，日本，欧盟，美国，韩国） */
-    @Excel(name = "标准分类", readConverterExp = "国=家标准，CAC，日本，欧盟，美国，韩国")
+    @Excel(name = "标准分类")
     private String standardCategory;
 
     /** 标准值（mg/kg） */
-    @Excel(name = "标准值", readConverterExp = "m=g/kg")
+    @Excel(name = "标准值")
     private BigDecimal standardValue;
 
     /** 记录创建时间 */
