@@ -203,7 +203,7 @@ public class outTeaPesDetRecordsServiceImpl implements IoutTeaPesDetRecordsServi
                 return;//找到一个即可返回
             }
         }
-        if(item.samplingStageType!=null && item.samplingStageType.equals("基地")){//不是上述类型，但是包含生产基地，应为其他基地类型
+        if(item.samplingStageType!=null && item.samplingStageType.equals("基地")){//基地均视为生产基地
             item.samplingStageType="生产基地";//将所有数据清洗为规范格式
             return;//找到一个即可返回
         }
@@ -219,5 +219,6 @@ public class outTeaPesDetRecordsServiceImpl implements IoutTeaPesDetRecordsServi
             item.samplingStageType="其它";//将所有数据清洗为规范格式
             return;//找到一个即可返回
         }
+        item.samplingStageType="其它";//保底内容
     }
 }

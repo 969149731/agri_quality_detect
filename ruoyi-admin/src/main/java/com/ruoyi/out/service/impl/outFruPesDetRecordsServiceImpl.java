@@ -209,5 +209,6 @@ public boolean initModule(StringBuilder feedBackMsg,String type){
             item.samplingStageType="其它";//将所有数据清洗为规范格式
             return;//找到一个即可返回
         }
+        item.samplingStageType="其它";//保底内容
     }
 }
