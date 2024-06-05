@@ -90,6 +90,7 @@ public class outSampleStageTypeServiceImpl implements IoutSampleStageTypeService
     }
     public void compute(agriCitySampleTestDetails sample){//按一个检测样本进行统计
         try {
+            fix
                 switch (checkIsUseful(sample)){
                     case 1://必要条件不足
                         return;//下一个样本
