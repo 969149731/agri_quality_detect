@@ -168,15 +168,15 @@
     <!-- 展示的数据列表 />-->
     <el-table v-loading="loading" :data="detectionDetailsList" @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="55" align="center" />
-      <el-table-column label="序号" align="center" prop="index">
-        <template slot-scope="scope">
-          {{ scope.$index + 1 }}
-        </template>
-      </el-table-column>
+<!--      <el-table-column label="序号" align="center" prop="index">-->
+<!--        <template slot-scope="scope">-->
+<!--          {{ scope.$index + 1 }}-->
+<!--        </template>-->
+<!--      </el-table-column>-->
       <el-table-column label="样品编号" align="center" prop="sampleCode" />
       <el-table-column label="样品名称" align="center" prop="vegFruName" />
       <el-table-column label="抽样环节" align="center" prop="samplingStageType" />
-      <el-table-column label="抽样省" align="center" prop="samplingLocationProvince" />
+<!--      <el-table-column label="抽样省" align="center" prop="samplingLocationProvince" />-->
       <el-table-column label="抽样市" align="center" prop="samplingLocationCity" />
       <el-table-column label="抽样县" align="center" prop="samplingLocationCounty" />
       <el-table-column label="抽样地址" align="center" prop="samplingLocation" />
@@ -189,7 +189,7 @@
       <el-table-column label="企业名称/农户" align="center" prop="enterpriseName" />
       <el-table-column label="企业属性（绿色/有机/地理标志/GAP)" align="center" prop="enterpriseAttribute" />
       <el-table-column label="企业信用代码/身份证号" align="center" prop="enterpriseCreditIdCode" />
-      <el-table-column label="溯源省" align="center" prop="tracingProvince" />
+<!--      <el-table-column label="溯源省" align="center" prop="tracingProvince" />-->
       <el-table-column label="溯源市" align="center" prop="tracingCity" />
       <el-table-column label="溯源县" align="center" prop="tracingCounty" />
       <el-table-column label="溯源产地" align="center" prop="tracingArea" />

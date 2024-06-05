@@ -191,8 +191,15 @@ public class outExceedSampleDetailServiceImpl implements IoutExceedSampleDetailS
                     agriPesticideDetResultForOutExceedSampleDetail.setPesticideDetValue(pesticideDetValue);
                     if(limitValue==null){
                         //这边在后台给出提示，后期添加对应的标准
-                        System.out.println("！！！需要添加检测限量值信息，如下："+"农药："+pesticideName+"。 样品："+vegFruName+"。 标准："+standardCategory);
-                        limitValue=999.0;
+                        if(vegFruName.contains("柑")||vegFruName.contains("橘")){
+                            limitValue = outDlDetectRecordsMapper.selectLimitValueByPesticideName(pesticideName, "柑橘类水果", standardCategory);
+                        }
+
+                        if(limitValue==null){
+                            System.out.println("！！！需要添加检测限量值信息，如下："+"农药："+pesticideName+"。 样品："+vegFruName+"。 标准："+standardCategory);
+                            limitValue=999.0;
+                        }
+
                     }
                     //说明超标
                     if(pesticideDetValue>limitValue){
