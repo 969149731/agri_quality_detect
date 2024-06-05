@@ -147,12 +147,63 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 <!--    </select>-->
 
+    <!-- 这样子写是精确到samplingLocationCounty的，这边先注释掉，下面我另外写一个精确到samplingLocationCity就行-->
+<!--        <select id="selectHighRiskSampleList" resultMap="SampleTestDetailResultMap">-->
+<!--            SELECT-->
+<!--            a.sampling_location_province AS samplingLocationProvince,-->
+<!--            a.sampling_location_city AS samplingLocationCity,-->
+<!--            a.sampling_location_county AS samplingLocationCounty,-->
+<!--            a.detect_location AS detectLocation,-->
+<!--            a.veg_fru_name AS vegFruName,-->
+<!--            GROUP_CONCAT(IFNULL(CONCAT(a.sample_code, '-', COALESCE(b.pesticide_name, CONCAT(a.city_sample_test_details_id, '-没有检测到农药')), ':', b.pesticide_det_value), CONCAT(a.sample_code, '-没有检测到农药:0'))) AS det_res,-->
+<!--            (SELECT COUNT(*)-->
+<!--            FROM agri_city_sample_test_details subA-->
+<!--            WHERE subA.veg_fru_name = a.veg_fru_name-->
+<!--            AND subA.detect_location = a.detect_location-->
+<!--            &lt;!&ndash; 在这里添加相同的时间过滤条件 &ndash;&gt;-->
+<!--        AND ((#{params.beginTime} IS NULL OR date_format(subA.sampling_date, '%y%m%d') &gt;= date_format(#{params.beginTime}, '%y%m%d'))-->
+<!--        AND (#{params.endTime} IS NULL OR date_format(subA.sampling_date, '%y%m%d') &lt;= date_format(#{params.endTime}, '%y%m%d')))-->
+<!--        ) AS totalSamples,-->
+<!--        0 AS qualifiedNumber,-->
+<!--        0 AS qualificationRate,-->
+<!--        '' AS prohibitedPesticideDetection,-->
+<!--        '' AS routinePesticideExceedance-->
+<!--        FROM-->
+<!--        agri_city_sample_test_details a-->
+<!--        LEFT JOIN-->
+<!--        agri_pesticide_det_result b ON a.city_sample_test_details_id = b.city_sample_test_details_id-->
+<!--        JOIN-->
+<!--        agri_vegetable_fruit c ON a.veg_fru_name = c.veg_fru_name-->
+<!--        <where>-->
+<!--            c.high_risk_sample = '高风险'-->
+<!--            <if test="params.beginTime != null and params.beginTime != ''">-->
+<!--                AND date_format(a.sampling_date,'%y%m%d') &gt;= date_format(#{params.beginTime},'%y%m%d')-->
+<!--            </if>-->
+<!--            <if test="params.endTime != null and params.endTime != ''">-->
+<!--                AND date_format(a.sampling_date,'%y%m%d') &lt;= date_format(#{params.endTime},'%y%m%d')-->
+<!--            </if>-->
+
+<!--            <if test="samplingLocationProvince != null  and samplingLocationProvince != ''"> and sampling_location_province = #{samplingLocationProvince}</if>-->
+<!--            <if test="samplingLocationCity != null  and samplingLocationCity != ''"> and sampling_location_city = #{samplingLocationCity}</if>-->
+<!--            <if test="samplingLocationCounty != null  and samplingLocationCounty != ''"> and sampling_location_county = #{samplingLocationCounty}</if>-->
+<!--            <if test="enterpriseAttribute != null  and enterpriseAttribute != ''"> and enterprise_attribute = #{enterpriseAttribute}</if>-->
+<!--            <if test="enterpriseCreditIdCode != null  and enterpriseCreditIdCode != ''"> and enterprise_credit_id_code = #{enterpriseCreditIdCode}</if>-->
+<!--            <if test="tracingProvince != null  and tracingProvince != ''"> and tracing_province = #{tracingProvince}</if>-->
+<!--            <if test="tracingCity != null  and tracingCity != ''"> and tracing_city = #{tracingCity}</if>-->
+<!--            <if test="tracingCounty != null  and tracingCounty != ''"> and tracing_county = #{tracingCounty}</if>-->
+<!--            <if test="tracingArea != null  and tracingArea != ''"> and tracing_area = #{tracingArea}</if>-->
+
+<!--        </where>-->
+<!--        GROUP BY-->
+<!--        a.detect_location, a.veg_fru_name,a.sampling_location_province,a.sampling_location_city,a.sampling_location_county-->
+<!--        ORDER BY-->
+<!--        a.sampling_location_city;-->
+<!--    </select>-->
 
     <select id="selectHighRiskSampleList" resultMap="SampleTestDetailResultMap">
         SELECT
         a.sampling_location_province AS samplingLocationProvince,
         a.sampling_location_city AS samplingLocationCity,
-        a.sampling_location_county AS samplingLocationCounty,
         a.detect_location AS detectLocation,
         a.veg_fru_name AS vegFruName,
         GROUP_CONCAT(IFNULL(CONCAT(a.sample_code, '-', COALESCE(b.pesticide_name, CONCAT(a.city_sample_test_details_id, '-没有检测到农药')), ':', b.pesticide_det_value), CONCAT(a.sample_code, '-没有检测到农药:0'))) AS det_res,
@@ -193,14 +244,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="tracingCounty != null  and tracingCounty != ''"> and tracing_county = #{tracingCounty}</if>
             <if test="tracingArea != null  and tracingArea != ''"> and tracing_area = #{tracingArea}</if>
 
-
         </where>
         GROUP BY
-        a.detect_location, a.veg_fru_name,a.sampling_location_province,a.sampling_location_city,a.sampling_location_county
+        a.detect_location, a.veg_fru_name,a.sampling_location_province,a.sampling_location_city
         ORDER BY
         a.sampling_location_city;
     </select>
-
-
 
 </mapper>
