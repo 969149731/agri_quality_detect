@@ -256,7 +256,16 @@ export default {
             standard.passRate=standard.passRate.toFixed(2)//保留两位小数，注意会将类型改为字符串类型
           }
         }
-        this.pesticideNameList.splice(this.pesticideNameList.length-2, 2);//将多出的两列除去
+        this.pesticideNameList.push({
+          "pesticideName":"合格率",
+          "CN":this.StandardList[0].passRate,
+          "CAC":this.StandardList[1].passRate,
+          "US":this.StandardList[2].passRate,
+          "EU":this.StandardList[3].passRate,
+          "JPN":this.StandardList[4].passRate,
+          "KR":this.StandardList[5].passRate,
+        })
+        // this.pesticideNameList.splice(this.pesticideNameList.length-2, 2);//将多出的两列除去
         this.loading = false;
 
         if(this.returnFeedBack &&response.msg!=null && response.msg!=""){

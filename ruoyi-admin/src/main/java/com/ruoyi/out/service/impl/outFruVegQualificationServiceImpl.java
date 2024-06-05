@@ -148,6 +148,7 @@ public class outFruVegQualificationServiceImpl implements IoutFruVegQualificatio
 
         //装入
         for(String StageTypeName :AllType){
+            resultMap.get(StageTypeName).putExInfoToResult();
             resultList.add(resultMap.get(StageTypeName));
         }
 
@@ -279,8 +280,7 @@ public class outFruVegQualificationServiceImpl implements IoutFruVegQualificatio
                 //超标记录
                 if (item.pesticideDetValue > firstStandard.standardValue) {
                     isPass=false;
-                    resultMap.get(vegFruDetailType).addInfoToexceedingSamples(item.vegFruName);//将超标样品写入格式如 空心菜（1）
-                    resultMap.get(vegFruDetailType).addInfoToexceedingPesticides(item.pesticideName);//超标农药写入
+                    resultMap.get(vegFruDetailType).addInfoToexceedingSamples(item.vegFruName,item.pesticideName);//将超标样品写入格式如 空心菜（1）
                 }
             }
             resultMap.get(firstitem.detailType).addOneToSamplingNumber(); //该类型抽样数+1

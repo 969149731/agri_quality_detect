@@ -45,7 +45,7 @@ public class outSampleQualityServiceImpl implements IoutSampleQualityService
         ///////////////////////统计
         //获取检测结果列表
         PageHelper.startPage(0,0,false,false,true);//分页方法，仅对之后第一个查询生效
-        List<outFruVegSelectType2> SelectList = outSampleQualityMapper.getFruVegDetResultList(agriCitySampleTestDetails);//获取农药检测结果表
+        List<outFruVegSelectType2> SelectList = outSampleQualityMapper.getFruVegDetResultList2(agriCitySampleTestDetails);//获取农药检测结果表
         if(SelectList.isEmpty()){
             log.debug("查询出的样本列表为空");
             return returnFinalList();
@@ -97,7 +97,7 @@ public class outSampleQualityServiceImpl implements IoutSampleQualityService
         if(itemList.size()==0) return 1;//为0是不正常的样本
         outFruVegSelectType2 firstitem =itemList.get(0);//样本整体审查，第一个的样本信息能够代表整个列表的样本信息
 
-        firstitem.fixData();
+        fixData(firstitem);
         try{
             //情形一。生产环节和蔬果类型称为必须
             if(firstitem.samplingStageType ==null ||firstitem.vegFruType==null){//缺失生产环节或蔬果类型,必要条件不足，无法进行
@@ -166,7 +166,7 @@ public class outSampleQualityServiceImpl implements IoutSampleQualityService
             outFruVegSelectType2 firstitem =itemList.get(0);//样本整体审查，第一个的样本信息能够代表整个列表的样本信息
             for (outFruVegSelectType2 item:itemList){
                 //预处理
-                item.fixData();//数据修正，主要是修正生产基地名称
+                fixData(item);//数据修正，主要是修正生产基地名称
                 //数据审查
                 switch (checkIsUseful(item,resultMap)){
                     case 1://缺失农药名
@@ -267,5 +267,28 @@ public class outSampleQualityServiceImpl implements IoutSampleQualityService
             each.computeQualificationRate();//计算
         }
         return resultList;
+    }
+    public void fixData(outFruVegSelectType2 item){//数据预处理，目前主要是对生产环节进行纠正
+        //注意生产基地不要放前面，否则先识别出来其他的生产基地子类就无法识别了
+        List<String> StageType= Arrays.asList( "无公害产品基地","地标生产基地","绿色产品基地","有机产品基地","散户","公司","农户","合作社","其他基地");//生产基地的子类
+        for (String type : StageType){
+            if(item.samplingStageType!=null && item.samplingStageType.contains(type)){
+                return;//找到一个即可返回
+            }
+        }
+        if(item.samplingStageType!=null && item.samplingStageType.equals("基地")){//不是上述类型，但是包含生产基地，应为其他基地类型
+            item.samplingStageType="其它基地";//将所有数据清洗为规范格式
+            return;//找到一个即可返回
+        }
+        if(item.samplingStageType!=null && item.samplingStageType.contains("生产基地")){//不是上述类型，但是包含生产基地，应为其他基地类型
+            item.samplingStageType="其它基地";//将所有数据清洗为规范格式
+            return;//找到一个即可返回
+        }
+        if(item.samplingStageType!=null && item.samplingStageType.contains("市场")){//不是上述类型，但是包含生产基地，应为其他基地类型
+            item.samplingStageType="批发市场";//将所有数据清洗为规范格式
+            return;//找到一个即可返回
+        }
+        item.samplingStageType="其它";//以上都不是，则为其它
+        return;
     }
 }

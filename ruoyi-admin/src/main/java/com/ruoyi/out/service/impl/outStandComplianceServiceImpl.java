@@ -394,8 +394,8 @@ public class outStandComplianceServiceImpl implements IoutStandComplianceService
         }
 
         //末尾加2个，前端会将其删除
-        resultList.add(sampleNum);
-        resultList.add(passNum);
+        resultList.add(sampleNum);//抽样数
+        resultList.add(passNum);//合格数
 //        System.out.println("当前农药数数"+pesticideList.size());
         return resultList;
     }

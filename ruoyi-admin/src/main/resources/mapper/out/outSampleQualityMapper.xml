@@ -122,7 +122,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             </if>
         </where>
     </select>
-    <select id="getFruVegDetResultList2" resultMap="outFruVegSelectType">
+    <select id="getFruVegDetResultList2" resultMap="outFruVegSelectType2">
         select agric.city_sample_test_details_id,agric.sample_code,agric.veg_fru_name,agric.sampling_location,agric.detect_location,agric.sampling_stage_type,agric.sampling_date,
                agrip.pesticide_det_result_id,agrip.pesticide_name,agrip.pesticide_det_value,
                agriv.vegetable_fruit_id,agriv.veg_fru_type,agriv.detail_type

@@ -68,7 +68,7 @@ public interface outSampleQualityMapper
      */
     public int deleteoutSampleQualityBySampleQualityIds(Long[] sampleQualityIds);
 
-    public List<outFruVegSelectType> getFruVegDetResultList2();//与其他获取农药结果表不同的是，不限定蔬菜或者水果
+    public List<outFruVegSelectType2> getFruVegDetResultList2(agriCitySampleTestDetails agriCitySampleTestDetails);//与其他获取农药结果表不同的是，不限定蔬菜或者水果
 
     public List<outFruVegSelectType2> getFruVegDetResultList(agriCitySampleTestDetails agriCitySampleTestDetails);//与其他获取农药结果表不同的是，不限定蔬菜或者水果
     public List<agriPesticideResidueStandard> getagriPesticideResidueStandard(String pesticideName, String vegFruName);

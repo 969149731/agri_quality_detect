@@ -62,24 +62,31 @@
       </el-col>
       <right-toolbar :showSearch.sync="showSearch" @queryTable="getList"></right-toolbar>
     </el-row>
-    <el-table
-      v-loading="loading"
-      v-if="!peopleTagNumLoading"
-      ref="refreshTable"
-      :data="outSampleStageTypeList"
-      :header-cell-style="headerStyle"
-      :span-method="spanMethod"
-      style="width: 100%;"
-      id="table1"
-    >
-      <el-table-column label="样品来源"  align="center">
-        <el-table-column  prop="stageIncludeType" width="150px" align="center"/>
-        <el-table-column  prop="samplingStageType" width="150px" align="center"/>
-      </el-table-column>
 
-      <el-table-column label="数量" prop="unitNum" width="200px" align="center">
-      </el-table-column>
-    </el-table>
+    <div style="align-items: center">
+      <el-table
+        v-loading="loading"
+        v-if="!peopleTagNumLoading"
+        ref="refreshTable"
+        :data="outSampleStageTypeList"
+        :header-cell-style="headerStyle"
+        :span-method="spanMethod"
+        style="width: 100%;"
+        id="table1"
+      >
+        <el-table-column label="样品来源"  align="center">
+          <el-table-column  prop="stageIncludeType" width="150px" align="center"/>
+          <el-table-column  prop="samplingStageType" width="150px" align="center"/>
+        </el-table-column>
+
+        <el-table-column label="数量" prop="unitNum" width="200px" align="center">
+        </el-table-column>
+      </el-table>
+      <div style="width:500px;text-align: center;margin-top: 10px;font-size: large;color: #FFFFFF;background-color: #428fd7">
+        注：该表为统计被抽样单位数量，非样品数量
+      </div>
+    </div>
+
   </div>
 </template>
 
