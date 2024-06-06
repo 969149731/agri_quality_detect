@@ -80,15 +80,19 @@ public class outFruVegQualificationServiceImpl implements IoutFruVegQualificatio
             //蔬菜
             VegDetailType= outFruVegQualificationMapper.getVegSubType();
             VegDetailType.remove("其它类");
-            if (!VegDetailType.contains("蔬菜其它类"))
+            if (!VegDetailType.contains("蔬菜其它类")){
                 VegDetailType.remove("蔬菜其它类");
                 VegDetailType.add("蔬菜其它类");
+            }
+
             //水果
             FruDetailType= outFruVegQualificationMapper.getFruSubType();
             FruDetailType.remove("其它类");
-            if (!FruDetailType.contains("水果其它类"))
+            if (!FruDetailType.contains("水果其它类")){
                 FruDetailType.remove("水果其它类");
                 FruDetailType.add("水果其它类");
+            }
+
 //            System.out.println("蔬菜子类列表"+VegDetailType);
 //            System.out.println("水果子类列表"+FruDetailType);
 
