@@ -4,6 +4,7 @@ import java.util.*;
 
 import com.github.pagehelper.PageHelper;
 import com.ruoyi.detection.domain.agriCitySampleTestDetails;
+import com.ruoyi.detection.mapper.agriCitySampleTestDetailsMapper;
 import com.ruoyi.out.domain.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -23,6 +24,8 @@ public class outStandComplianceServiceImpl implements IoutStandComplianceService
 {
     @Autowired
     private outStandComplianceMapper outStandComplianceMapper;
+    @Autowired
+    private com.ruoyi.detection.mapper.agriCitySampleTestDetailsMapper agriCitySampleTestDetailsMapper;
     /////////查询时使用的全局变量
     List<String> pesticideList;//可以在此处设置农药列表//也可查询获取列表
     Map<String, outStandardReturnType> resultMap;//使用字典存储
@@ -110,7 +113,7 @@ public class outStandComplianceServiceImpl implements IoutStandComplianceService
 
         //获取所有检测结果
         PageHelper.startPage(0,0,false,false,true);//解除分页方法，仅对之后第一个查询生效
-        List<outFruVegSelectType2> SelectList = outStandComplianceMapper.getFruVegDetResultList(agriCitySampleTestDetails);//获取农药检测结果表
+        List<agriCitySampleTestDetails> SelectList = agriCitySampleTestDetailsMapper.selectagriCitySampleTestDetailsList(agriCitySampleTestDetails);//获取农药检测结果表
         if (SelectList.isEmpty()){System.out.println("样本查询结果为空");}
         if(SelectList.isEmpty()){
             log.debug("查询出的样本列表为空");
@@ -120,20 +123,11 @@ public class outStandComplianceServiceImpl implements IoutStandComplianceService
         //先遍历所有获取到的结果//以id标识一组检测结果（即一个样本）,所以默认id是存在的，事实上id由数据库生成，肯定存在
         List<outFruVegSelectType2> itemList=new ArrayList<>();//初始化
         Long sampleId = SelectList.get(0).getCitySampleTestDetailsId();//对于经过编译器生成的列表对象而言，其执行顺序的正确性是保证的，列表的第一个等同于for中执行的第一个
-        for (outFruVegSelectType2 item : SelectList) {
-            if (item.citySampleTestDetailsId.equals(sampleId)){
-                itemList.add(item);
-            }
-            else{
-                SamplePasscCheck(itemList);
-                itemList=new ArrayList<>();//重置
-                itemList.add(item);//把当前item加入
-                sampleId=item.citySampleTestDetailsId;
-            }
+        for (agriCitySampleTestDetails item : SelectList) {
+            PageHelper.startPage(0,0,false,false,true);//分页方法，仅对之后第一个查询生效
+            itemList=outStandComplianceMapper.getFruVegDetResultList(item);
+            SamplePasscCheck(itemList);
         }
-        SamplePasscCheck(itemList);
-
-
         MsgHandler.turnToStr();
         return returnFinalList();
     }
@@ -236,9 +230,8 @@ public class outStandComplianceServiceImpl implements IoutStandComplianceService
                 }
             }
         }
-
-        passNum.addAll(result);
-        return ;//正常退出//该样本在所有标准下的结果均体现在其中
+        passNum.addAll(result);//合格数//该样本在所有标准下的结果均体现在其中
+        return ;//正常退出
     }
     public boolean initModule(StringBuilder feedBackMsg){
         try {

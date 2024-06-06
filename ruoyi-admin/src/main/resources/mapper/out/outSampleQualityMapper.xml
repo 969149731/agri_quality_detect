@@ -132,22 +132,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
                  left join agri_vegetable_fruit agriv
                            on agric.veg_fru_name = agriv.veg_fru_name
         <where>
-            <if test="samplingLocationProvince != null  and samplingLocationProvince != ''"> and agric.sampling_location_province = #{samplingLocationProvince}</if>
-            <if test="samplingLocationCity != null  and samplingLocationCity != ''"> and agric.sampling_location_city = #{samplingLocationCity}</if>
-            <if test="samplingLocationCounty != null  and samplingLocationCounty != ''"> and agric.sampling_location_county = #{samplingLocationCounty}</if>
-            <if test="enterpriseAttribute != null  and enterpriseAttribute != ''"> and agric.enterprise_attribute = #{enterpriseAttribute}</if>
-            <if test="enterpriseCreditIdCode != null  and enterpriseCreditIdCode != ''"> and agric.enterprise_credit_id_code = #{enterpriseCreditIdCode}</if>
-            <if test="tracingProvince != null  and tracingProvince != ''"> and agric.tracing_province = #{tracingProvince}</if>
-            <if test="tracingCity != null  and tracingCity != ''"> and agric.tracing_city = #{tracingCity}</if>
-            <if test="tracingCounty != null  and tracingCounty != ''"> and agric.tracing_county = #{tracingCounty}</if>
-            <if test="tracingArea != null  and tracingArea != ''"> and agric.tracing_area = #{tracingArea}</if>
-
-            <if test="params.beginTime != null and params.beginTime != ''"><!-- 开始时间检索 -->
-                AND date_format(sampling_date,'%y%m%d') &gt;= date_format(#{params.beginTime},'%y%m%d')
-            </if>
-            <if test="params.endTime != null and params.endTime != ''"><!-- 结束时间检索 -->
-                AND date_format(sampling_date,'%y%m%d') &lt;= date_format(#{params.endTime},'%y%m%d')
-            </if>
+            <if test="sampleCode != null  and sampleCode != ''"> and agric.sample_code = #{sampleCode}</if>
         </where>
     </select>
 

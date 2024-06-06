@@ -4,6 +4,7 @@ import java.util.*;
 
 import com.github.pagehelper.PageHelper;
 import com.ruoyi.detection.domain.agriCitySampleTestDetails;
+import com.ruoyi.detection.mapper.agriCitySampleTestDetailsMapper;
 import com.ruoyi.out.domain.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -23,6 +24,8 @@ public class outSampleQualityServiceImpl implements IoutSampleQualityService
 {
     @Autowired
     private outSampleQualityMapper outSampleQualityMapper;
+    @Autowired
+    private agriCitySampleTestDetailsMapper agriCitySampleTestDetailsMapper;
     //////////////////////////////业务功能全局变量（类全局）
     List<outSampleQuality> resultList;//存放结果
     List<String> StageType= Arrays.asList( "生产基地","无公害产品基地","地标生产基地","绿色产品基地","有机产品基地","散户","其它基地","批发市场","运输车","其它");//合计在最后加入
@@ -45,7 +48,7 @@ public class outSampleQualityServiceImpl implements IoutSampleQualityService
         ///////////////////////统计
         //获取检测结果列表
         PageHelper.startPage(0,0,false,false,true);//分页方法，仅对之后第一个查询生效
-        List<outFruVegSelectType2> SelectList = outSampleQualityMapper.getFruVegDetResultList2(agriCitySampleTestDetails);//获取农药检测结果表
+        List<agriCitySampleTestDetails> SelectList = agriCitySampleTestDetailsMapper.selectagriCitySampleTestDetailsList(agriCitySampleTestDetails);//获取农药检测结果表
         if(SelectList.isEmpty()){
             log.debug("查询出的样本列表为空");
             return returnFinalList();
@@ -53,19 +56,11 @@ public class outSampleQualityServiceImpl implements IoutSampleQualityService
 
         //先遍历所有获取到的结果//以id标识一组检测结果（即一个样本）,所以默认id是存在的，事实上id由数据库生成，肯定存在
         List<outFruVegSelectType2> itemList=new ArrayList<>();//初始化
-        Long sampleId = SelectList.get(0).citySampleTestDetailsId;//对于经过编译器生成的列表对象而言，其执行顺序的正确性是保证的，列表的第一个等同于for中执行的第一个
-        for (outFruVegSelectType2 item : SelectList) {
-            if (item.citySampleTestDetailsId.equals(sampleId)){
-                itemList.add(item);
-            }
-            else{
+        for (agriCitySampleTestDetails item : SelectList) {
+                PageHelper.startPage(0,0,false,false,true);//分页方法，仅对之后第一个查询生效
+                itemList=outSampleQualityMapper.getFruVegDetResultList2(item);
                 compute(itemList);
-                itemList=new ArrayList<>();//重置
-                itemList.add(item);//把当前item加入
-                sampleId=item.citySampleTestDetailsId;
-            }
         }
-        compute(itemList);//当仅有一个样本，或是最后一个样本，没有下一个不同的id触发，compute，在此计算
 
         /////////////////////////////结果返回
         MsgHandler.turnToStr();//返回消息
@@ -203,7 +198,6 @@ public class outSampleQualityServiceImpl implements IoutSampleQualityService
                 }
             }
 
-
             String stageName=firstitem.samplingStageType;
             String vegFruType=firstitem.vegFruType;
             resultMap.get(stageName).SamplingCountAddOne(vegFruType); //该类型抽样数+1
@@ -240,8 +234,6 @@ public class outSampleQualityServiceImpl implements IoutSampleQualityService
     }
 
     public List<outSampleQuality> returnFinalList(){
-
-
         //计算生产基地
         outSampleQuality ProduceBasementCount = resultMap.get("生产基地");
         for(String StageTypeName :StageIncludingType){
@@ -270,12 +262,22 @@ public class outSampleQualityServiceImpl implements IoutSampleQualityService
     }
     public void fixData(outFruVegSelectType2 item){//数据预处理，目前主要是对生产环节进行纠正
         //注意生产基地不要放前面，否则先识别出来其他的生产基地子类就无法识别了
-        List<String> StageType= Arrays.asList( "无公害产品基地","地标生产基地","绿色产品基地","有机产品基地","散户","公司","农户","合作社","其他基地");//生产基地的子类
+        List<String> StageType= Arrays.asList( "无公害产品基地","地标生产基地","绿色产品基地","有机产品基地","散户","其它基地");//生产基地的子类
         for (String type : StageType){
             if(item.samplingStageType!=null && item.samplingStageType.contains(type)){
+                item.samplingStageType=type;//将所有数据清洗为规范格式
                 return;//找到一个即可返回
             }
         }
+        List<String> ProduceBaseStageType= Arrays.asList("公司","农户","合作社");//输出的表中没有它们，归为其它基地
+        for (String type : ProduceBaseStageType){
+            if(item.samplingStageType!=null && item.samplingStageType.contains(type)){
+                item.samplingStageType="其它基地";//将所有数据清洗为规范格式
+                return;//找到一个即可返回
+            }
+        }
+
+
         if(item.samplingStageType!=null && item.samplingStageType.equals("基地")){//不是上述类型，但是包含生产基地，应为其他基地类型
             item.samplingStageType="其它基地";//将所有数据清洗为规范格式
             return;//找到一个即可返回

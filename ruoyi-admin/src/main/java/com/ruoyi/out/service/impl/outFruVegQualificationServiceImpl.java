@@ -5,6 +5,7 @@ import java.util.*;
 
 import com.github.pagehelper.PageHelper;
 import com.ruoyi.detection.domain.agriCitySampleTestDetails;
+import com.ruoyi.detection.mapper.agriCitySampleTestDetailsMapper;
 import com.ruoyi.framework.web.domain.server.Sys;
 import com.ruoyi.out.domain.*;
 import javassist.compiler.SymbolTable;
@@ -26,6 +27,8 @@ public class outFruVegQualificationServiceImpl implements IoutFruVegQualificatio
 {
     @Autowired
     private outFruVegQualificationMapper outFruVegQualificationMapper;
+    @Autowired
+    private agriCitySampleTestDetailsMapper agriCitySampleTestDetailsMapper;
     ///
     List<outFruVegQualification> resultList;
     List<String> VegDetailType;
@@ -48,27 +51,18 @@ public class outFruVegQualificationServiceImpl implements IoutFruVegQualificatio
 
         //查询所有样本的检测结果
         PageHelper.startPage(0,0,false,false,true);//分页方法，仅对之后第一个查询生效
-        List<outFruVegSelectType> selectReturnList = outFruVegQualificationMapper.getFruVegDetResultList(agriCitySampleTestDetails);
+        List<agriCitySampleTestDetails> selectReturnList = agriCitySampleTestDetailsMapper.selectagriCitySampleTestDetailsList(agriCitySampleTestDetails);
         if(selectReturnList.isEmpty()){
             log.debug("查询出的样本列表为空");
             return returnFinalList();
             }
         //先遍历所有获取到的结果//以id标识一组检测结果（即一个样本）,所以默认id是必定存在的，事实上id由数据库生成，肯定存在
         List<outFruVegSelectType> itemList=new ArrayList<outFruVegSelectType>();//初始化
-        Long sampleId = selectReturnList.get(0).citySampleTestDetailsId;//对于经过编译器生成的列表对象而言，其执行顺序的正确性是保证的，列表的第一个等同于for中执行的第一个
-        for (outFruVegSelectType item : selectReturnList) {
-            if (item.citySampleTestDetailsId.equals(sampleId)){
-                itemList.add(item);
-            }
-            else{
-                compute(itemList);
-                itemList=new ArrayList<>();//重置
-                itemList.add(item);//把当前item加入
-                sampleId=item.citySampleTestDetailsId;
-            }
+        for (agriCitySampleTestDetails item : selectReturnList) {
+            PageHelper.startPage(0,0,false,false,true);//分页方法，仅对之后第一个查询生效
+            itemList= outFruVegQualificationMapper.getFruVegDetResultList(item);
+            compute(itemList);
         }
-        compute(itemList);//当仅有一个样本，或是最后一个样本，没有下一个不同的id触发，compute，在此计算
-
         MsgHandler.turnToStr();
         return returnFinalList();
     }
@@ -83,15 +77,21 @@ public class outFruVegQualificationServiceImpl implements IoutFruVegQualificatio
 //        List<String> VegDetailType= Arrays.asList("瓜果类", "叶菜类", "豆类","根茎类","蔬菜其它类");
 //        List<String> FruDetailType= Arrays.asList("柑橘类","浆果类","核果类","水果其它类");
 
-
+            //蔬菜
             VegDetailType= outFruVegQualificationMapper.getVegSubType();
             VegDetailType.remove("其它类");
-            VegDetailType.add("蔬菜其它类");
+            if (!VegDetailType.contains("蔬菜其它类"))
+                VegDetailType.remove("蔬菜其它类");
+                VegDetailType.add("蔬菜其它类");
+            //水果
             FruDetailType= outFruVegQualificationMapper.getFruSubType();
             FruDetailType.remove("其它类");
-            FruDetailType.add("水果其它类");
-            System.out.println("蔬菜子类列表"+VegDetailType);
-            System.out.println("水果子类列表"+FruDetailType);
+            if (!FruDetailType.contains("水果其它类"))
+                FruDetailType.remove("水果其它类");
+                FruDetailType.add("水果其它类");
+//            System.out.println("蔬菜子类列表"+VegDetailType);
+//            System.out.println("水果子类列表"+FruDetailType);
+
             AllType =new ArrayList<>();
             AllType.addAll(VegDetailType);
             AllType.add("蔬菜小计");
@@ -152,10 +152,10 @@ public class outFruVegQualificationServiceImpl implements IoutFruVegQualificatio
             resultList.add(resultMap.get(StageTypeName));
         }
 
-        resultList.get(resultList.indexOf(resultMap.get("蔬菜其它类"))).setVegFruType("其他类");//按顺序修改其内容
-        resultList.get(resultList.indexOf(resultMap.get("蔬菜小计"))).setVegFruType("小计");
-        resultList.get(resultList.indexOf(resultMap.get("水果其它类"))).setVegFruType("其他类");
-        resultList.get(resultList.indexOf(resultMap.get("水果小计"))).setVegFruType("小计");
+//        resultList.get(resultList.indexOf(resultMap.get("蔬菜其它类"))).setVegFruType("其他类");//按顺序修改其内容
+//        resultList.get(resultList.indexOf(resultMap.get("蔬菜小计"))).setVegFruType("小计");
+//        resultList.get(resultList.indexOf(resultMap.get("水果其它类"))).setVegFruType("其他类");
+//        resultList.get(resultList.indexOf(resultMap.get("水果小计"))).setVegFruType("小计");
         return resultList;
     }
     public int sampleCheck(List<outFruVegSelectType> itemList){
