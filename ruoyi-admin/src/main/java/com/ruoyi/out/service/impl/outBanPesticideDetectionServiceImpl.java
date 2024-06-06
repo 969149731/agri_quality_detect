@@ -118,7 +118,7 @@ public class outBanPesticideDetectionServiceImpl implements IoutBanPesticideDete
     }
 
 
-    //判断样品是蔬菜还是水果函数
+    //判断样品是蔬菜还是水果函数   标记，一下这边要改，少了茶叶的判断
     public int check_type(String sampleName) {
         String type = outDlDetectRecordsMapper.checkSampleType(sampleName);
         if ("蔬菜".equals(type)) {
@@ -237,6 +237,9 @@ public class outBanPesticideDetectionServiceImpl implements IoutBanPesticideDete
                     }
                 }
             }
+
+
+
         }
         return out2BanPesticideDetectionList;
     }
