@@ -1,8 +1,12 @@
 package com.ruoyi.out.service.impl;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.*;
 
 import com.ruoyi.detection.domain.agriCitySampleTestDetails;
 import com.ruoyi.detection.domain.agriPesticideDetResult;
@@ -202,6 +206,36 @@ public class outExceedSampleDetailServiceImpl implements IoutExceedSampleDetailS
                         if(limitValue==null){
                             System.out.println("！！！需要添加检测限量值信息，如下："+"农药："+pesticideName+"。 样品："+vegFruName+"。 标准："+standardCategory);
                             limitValue=999.0;
+
+
+                            // 标记，下面的代码是把不知道限量值标准的样本输出到C盘中，方便查看添加。
+                            List<String> messages = new ArrayList<>();
+                            messages.add("！！！需要添加检测限量值信息，如下："+"农药："+pesticideName+"。 样品："+vegFruName+"。 标准："+standardCategory);
+                            // 指定输出文件的路径
+                            String filePath = "C:\\check_fru_or_veg_stander.txt";
+                            // 读取文件内容到集合中，以便后续检查
+                            Set<String> existingLines = new HashSet<>();
+                            try {
+                                existingLines.addAll(Files.readAllLines(Paths.get(filePath), StandardCharsets.UTF_8));
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+                            try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath, true))) {
+                                for (String message : messages) {
+                                    if (!existingLines.contains(message)) { // 如果文件中不存在该消息，则追加
+                                        writer.write(message);
+                                        writer.newLine();
+                                    }
+                                }
+                                System.out.println("文件写入成功，重复数据已去除！");
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+
+
+
+
+
                         }
 
                     }
