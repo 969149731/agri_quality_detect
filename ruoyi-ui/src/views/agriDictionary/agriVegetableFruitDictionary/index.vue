@@ -11,16 +11,30 @@
           />
         </el-select>
       </el-form-item>
+
+      <!-- 字典下拉框的 -->
+<!--      <el-form-item label="细分种类" prop="detailType">-->
+<!--        <el-select v-model="queryParams.detailType" placeholder="请选择细分种类" clearable>-->
+<!--          <el-option-->
+<!--            v-for="dict in dict.type.detail_type"-->
+<!--            :key="dict.value"-->
+<!--            :label="dict.label"-->
+<!--            :value="dict.value"-->
+<!--          />-->
+<!--        </el-select>-->
+<!--      </el-form-item>-->
+
+
       <el-form-item label="细分种类" prop="detailType">
-        <el-select v-model="queryParams.detailType" placeholder="请选择细分种类" clearable>
-          <el-option
-            v-for="dict in dict.type.detail_type"
-            :key="dict.value"
-            :label="dict.label"
-            :value="dict.value"
-          />
-        </el-select>
+        <el-input
+          v-model="queryParams.detailType"
+          placeholder="请输入细分种类"
+          clearable
+          @keyup.enter.native="handleQuery"
+        />
       </el-form-item>
+
+
       <el-form-item label="蔬果名称" prop="vegFruName">
         <el-input
           v-model="queryParams.vegFruName"
@@ -167,16 +181,24 @@
             ></el-option>
           </el-select>
         </el-form-item>
+
+
+
+<!--        <el-form-item label="细分种类" prop="detailType">-->
+<!--          <el-select v-model="form.detailType" placeholder="请选择细分种类">-->
+<!--            <el-option-->
+<!--              v-for="dict in dict.type.detail_type"-->
+<!--              :key="dict.value"-->
+<!--              :label="dict.label"-->
+<!--              :value="dict.value"-->
+<!--            ></el-option>-->
+<!--          </el-select>-->
+<!--        </el-form-item>-->
+
         <el-form-item label="细分种类" prop="detailType">
-          <el-select v-model="form.detailType" placeholder="请选择细分种类">
-            <el-option
-              v-for="dict in dict.type.detail_type"
-              :key="dict.value"
-              :label="dict.label"
-              :value="dict.value"
-            ></el-option>
-          </el-select>
+          <el-input v-model="form.detailType" placeholder="请输入细分种类" />
         </el-form-item>
+
         <el-form-item label="蔬果名称" prop="vegFruName">
           <el-input v-model="form.vegFruName" placeholder="请输入蔬果具体名称" />
         </el-form-item>

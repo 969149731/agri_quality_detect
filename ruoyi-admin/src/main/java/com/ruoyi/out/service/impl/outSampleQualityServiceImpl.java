@@ -59,6 +59,9 @@ public class outSampleQualityServiceImpl implements IoutSampleQualityService
                 itemList.add(item);
             }
             else{
+                if (itemList.get(0).samplingStageType.equals("生产基地")){
+                    System.out.println("");
+                }
                 compute(itemList);
                 itemList=new ArrayList<>();//重置
                 itemList.add(item);//把当前item加入
@@ -270,7 +273,7 @@ public class outSampleQualityServiceImpl implements IoutSampleQualityService
     }
     public void fixData(outFruVegSelectType2 item){//数据预处理，目前主要是对生产环节进行纠正
         //注意生产基地不要放前面，否则先识别出来其他的生产基地子类就无法识别了
-        List<String> StageType= Arrays.asList( "无公害产品基地","地标生产基地","绿色产品基地","有机产品基地","散户","公司","农户","合作社","其他基地");//生产基地的子类
+        List<String> StageType= Arrays.asList( "无公害产品基地","地标生产基地","绿色产品基地","有机产品基地","散户","公司","农户","合作社","其它基地");//生产基地的子类
         for (String type : StageType){
             if(item.samplingStageType!=null && item.samplingStageType.contains(type)){
                 return;//找到一个即可返回
