@@ -485,7 +485,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         left join agri_vegetable_fruit agriv
         on agric.veg_fru_name = agriv.veg_fru_name
         <where>
-            <if test="sampleCode != null  and sampleCode != ''"> and agric.sample_code = #{sampleCode}</if>
+            <if test="citySampleTestDetailsId != null  and citySampleTestDetailsId != ''"> and agric.city_sample_test_details_id = #{citySampleTestDetailsId}</if>
         </where>
     </select>
 
