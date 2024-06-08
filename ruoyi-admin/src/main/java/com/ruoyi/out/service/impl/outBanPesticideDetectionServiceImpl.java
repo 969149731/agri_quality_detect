@@ -125,6 +125,8 @@ public class outBanPesticideDetectionServiceImpl implements IoutBanPesticideDete
             return 0;
         } else if("水果".equals(type)) {
             return 1;
+        }else if("茶叶".equals(type)) {
+            return 2;
         }else{
             System.out.println("样品："+sampleName+"，未知是蔬菜还是水果，请在蔬果字典中添加该样品是属于蔬菜还是水果。");
             // 下面的代码是把不知道是水果还是蔬菜的样本输出到C盘中，方便查看添加。
@@ -168,7 +170,7 @@ public class outBanPesticideDetectionServiceImpl implements IoutBanPesticideDete
             out2BanPesticideDetection.setSampleCode(CitySampleTestDetail.getSampleCode());
             out2BanPesticideDetection.setVegFruName(CitySampleTestDetail.getVegFruName());
             out2BanPesticideDetection.setSamplingLocation(CitySampleTestDetail.getSamplingLocation());
-            //在当前遍历的数据中，检查一下是当前的数据中的样本是蔬菜还是水果,如果i=0为蔬菜 ， i=1为水果。
+            //在当前遍历的数据中，检查一下是当前的数据中的样本是蔬菜还是水果,如果i=0为蔬菜 ， i=1为水果，i=2是茶叶。
             int i = check_type(CitySampleTestDetail.getVegFruName());
             //如果是蔬菜
             if(i==0){
@@ -212,6 +214,40 @@ public class outBanPesticideDetectionServiceImpl implements IoutBanPesticideDete
                     // 你的逻辑代码
                     //}
                     if("甲胺磷".equals(pesticideName)||"乙酰甲胺磷".equals(pesticideName)||"甲拌磷".equals(pesticideName)||"氧乐果".equals(pesticideName)||"水胺硫磷".equals(pesticideName)||"乐果".equals(pesticideName)||"甲基异柳磷".equals(pesticideName)||"氟虫腈".equals(pesticideName)||"克百威".equals(pesticideName)||"涕灭威".equals(pesticideName)){
+                        agriPesticideDetResultForBanPesticideDetection agriPesticideDetResultForBanPesticideDetection = new agriPesticideDetResultForBanPesticideDetection();
+                        agriPesticideDetResultForBanPesticideDetection.setPesticideName(pesticideName);
+                        agriPesticideDetResultForBanPesticideDetection.setPesticideDetValue(Double.valueOf(agriPesticideDetResult.getPesticideDetValue()));
+                        //获取上传的数据中具体的样品名【蔬菜水果名】，用查询该样品农药限量值
+                        String vegFruName = CitySampleTestDetail.getVegFruName();
+                        //标准，默认依据国家标准
+                        String standardCategory = "国家标准";
+                        //根据上传的数据中有检测出有值的【农药名】和具体的【蔬菜水果名】获取农药标准表中的中国标准的该农药限量值
+                        Double limitValue = outDlDetectRecordsMapper.selectLimitValueByPesticideName(pesticideName, vegFruName, standardCategory);
+                        //如果限定值为空，前端或者导出的excel不显示限定值的话不好看，先搞成0.01，这个数据也比较好
+                        if(limitValue==null){
+                            limitValue=0.01;
+                        }
+                        agriPesticideDetResultForBanPesticideDetection.setLimitValue(limitValue);
+                        agriPesticideDetResultList.add(agriPesticideDetResultForBanPesticideDetection);
+                        out2BanPesticideDetection.setExceedPesticideNameAndPesticideValueAndlimitValue(agriPesticideDetResultList);
+                        //获取到的数据可能是重复的，这边进行判断，因为if语句里面是添加东西到list中，if又在检测结果的for循环里面，所以可能会有重复的结果数据，不重复的才添加到最后返回的list中
+                        boolean contains = out2BanPesticideDetectionList.contains(out2BanPesticideDetection);
+                        //如果最终返回的list中没有包含马上要添加的数据，则进行添加
+                        if(!contains){
+                            out2BanPesticideDetectionList.add(out2BanPesticideDetection);
+                        }
+                    }
+                }
+            }
+
+            //如果是茶叶
+            if(i==2){
+                List<agriPesticideDetResult> agriPesticideDetResults = agriPesticideDetResultMapper.selectagriPesticideDetResultByCitySampleTestDetailsId(CitySampleTestDetail.getCitySampleTestDetailsId());
+                List<agriPesticideDetResultForBanPesticideDetection> agriPesticideDetResultList = new ArrayList<>();
+                for (agriPesticideDetResult agriPesticideDetResult : agriPesticideDetResults) {
+                    String pesticideName = agriPesticideDetResult.getPesticideName();
+
+                    if("六六六".equals(pesticideName)||"滴滴涕".equals(pesticideName)||"三氯杀螨醇".equals(pesticideName)||"甲胺磷".equals(pesticideName)||"乙酰甲胺磷".equals(pesticideName)||"灭多威".equals(pesticideName)||"氰戊菊酯".equals(pesticideName)){
                         agriPesticideDetResultForBanPesticideDetection agriPesticideDetResultForBanPesticideDetection = new agriPesticideDetResultForBanPesticideDetection();
                         agriPesticideDetResultForBanPesticideDetection.setPesticideName(pesticideName);
                         agriPesticideDetResultForBanPesticideDetection.setPesticideDetValue(Double.valueOf(agriPesticideDetResult.getPesticideDetValue()));
