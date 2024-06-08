@@ -173,18 +173,32 @@
       <el-table-column label="样品编号" align="center" prop="sampleCode" />
       <el-table-column label="样品名称" align="center" prop="vegFruName" />
       <el-table-column label="抽样地点" align="center" prop="samplingLocation" />
-      <el-table-column label="超标农药品种 | 检出值 | 限量值" align="center" prop="result" width="350">
+<!--      <el-table-column label="超标农药品种 | 检出值 | 限量值" align="center" prop="result" width="350">-->
+<!--        <template slot-scope="props" >-->
+<!--          <el-table  :data="props.row.exceedPesticideNameAndPesticideValueAndlimitValue">-->
+<!--            <el-table-column  label="农药名" align="center" prop="pesticideName"  width="110">-->
+<!--            </el-table-column>-->
+<!--            <el-table-column  label="检出值 mg/kg" align="center" prop="pesticideDetValue" width="110">-->
+<!--            </el-table-column>-->
+<!--            <el-table-column  label="限量值 mg/kg" align="center" prop="limitValue" width="110">-->
+<!--            </el-table-column>-->
+<!--          </el-table>-->
+<!--        </template>-->
+<!--      </el-table-column>-->
+
+      <el-table-column label="超标农药品种 | 检出值" align="center" prop="result" width="250">
         <template slot-scope="props" >
           <el-table  :data="props.row.exceedPesticideNameAndPesticideValueAndlimitValue">
             <el-table-column  label="农药名" align="center" prop="pesticideName"  width="110">
             </el-table-column>
             <el-table-column  label="检出值 mg/kg" align="center" prop="pesticideDetValue" width="110">
             </el-table-column>
-            <el-table-column  label="限量值 mg/kg" align="center" prop="limitValue" width="110">
-            </el-table-column>
+
           </el-table>
         </template>
       </el-table-column>
+
+
 
 <!--      <el-table-column label="超标农药品种" align="center" prop="exceedPesticideName" />-->
 <!--      <el-table-column label="超标农药超标值" align="center" prop="exceedPesticideValue" />-->
