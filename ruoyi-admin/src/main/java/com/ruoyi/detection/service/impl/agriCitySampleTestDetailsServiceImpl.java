@@ -80,38 +80,44 @@ public class agriCitySampleTestDetailsServiceImpl implements IagriCitySampleTest
 //        startPage();
         List<com.ruoyi.detection.domain.agriCitySampleTestDetails> agriCitySampleTestDetails1 = agriCitySampleTestDetailsMapper.selectagriCitySampleTestDetailsList(agriCitySampleTestDetails);
 
-        //把抽样地址简化
-        for (agriCitySampleTestDetails agriCitySampleTestDetail : agriCitySampleTestDetails1) {
-            String samplingLocationCounty = agriCitySampleTestDetail.getSamplingLocationCounty();
-            // 找到samplingLocationCounty在samplingLocation中的起始位置
-            String samplingLocation = agriCitySampleTestDetail.getSamplingLocation();
-            int startIndex = samplingLocation.indexOf(samplingLocationCounty);
-            if (startIndex != -1) {
-                // 计算起始位置的结束索引
-                int endIndex = startIndex + samplingLocationCounty.length();
-                // 提取从endIndex开始到字符串末尾的子字符串
-                String result = samplingLocation.substring(endIndex);
-                agriCitySampleTestDetail.setSamplingLocation(result);
-            } else {
-                agriCitySampleTestDetail.setSamplingLocation(samplingLocation);
+        try {
+            //把抽样地址简化
+            for (agriCitySampleTestDetails agriCitySampleTestDetail : agriCitySampleTestDetails1) {
+                String samplingLocationCounty = agriCitySampleTestDetail.getSamplingLocationCounty();
+                // 找到samplingLocationCounty在samplingLocation中的起始位置
+                String samplingLocation = agriCitySampleTestDetail.getSamplingLocation();
+                int startIndex = samplingLocation.indexOf(samplingLocationCounty);
+                if (startIndex != -1) {
+                    // 计算起始位置的结束索引
+                    int endIndex = startIndex + samplingLocationCounty.length();
+                    // 提取从endIndex开始到字符串末尾的子字符串
+                    String result = samplingLocation.substring(endIndex);
+                    agriCitySampleTestDetail.setSamplingLocation(result);
+                } else {
+                    agriCitySampleTestDetail.setSamplingLocation(samplingLocation);
+                }
             }
-        }
-        //同上，改溯源地
-        for (agriCitySampleTestDetails agriCitySampleTestDetail : agriCitySampleTestDetails1) {
-            String samplingTracingCounty = agriCitySampleTestDetail.getTracingCounty();
-            // 找到samplingLocationCounty在samplingLocation中的起始位置
-            String tracingArea = agriCitySampleTestDetail.getTracingArea();
-            int startIndex = tracingArea.indexOf(samplingTracingCounty);
-            if (startIndex != -1) {
-                // 计算起始位置的结束索引
-                int endIndex = startIndex + samplingTracingCounty.length();
-                // 提取从endIndex开始到字符串末尾的子字符串
-                String result = tracingArea.substring(endIndex);
-                agriCitySampleTestDetail.setTracingArea(result);
-            } else {
-                agriCitySampleTestDetail.setTracingArea(tracingArea);
+            //同上，改溯源地
+            for (agriCitySampleTestDetails agriCitySampleTestDetail : agriCitySampleTestDetails1) {
+                String samplingTracingCounty = agriCitySampleTestDetail.getTracingCounty();
+                // 找到samplingLocationCounty在samplingLocation中的起始位置
+                String tracingArea = agriCitySampleTestDetail.getTracingArea();
+                int startIndex = tracingArea.indexOf(samplingTracingCounty);
+                if (startIndex != -1) {
+                    // 计算起始位置的结束索引
+                    int endIndex = startIndex + samplingTracingCounty.length();
+                    // 提取从endIndex开始到字符串末尾的子字符串
+                    String result = tracingArea.substring(endIndex);
+                    agriCitySampleTestDetail.setTracingArea(result);
+                } else {
+                    agriCitySampleTestDetail.setTracingArea(tracingArea);
+                }
             }
+        }catch (Exception e){
+            System.out.println(e);
         }
+
+
 
         return agriCitySampleTestDetails1;
         //下面的这个是原来的写法，直接返回对应的抽样地址和溯源地址
