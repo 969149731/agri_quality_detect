@@ -17,14 +17,14 @@
           @keyup.enter.native="handleQuery"
         />
       </el-form-item>
-      <el-form-item label="抽样地点" prop="samplingLocation">
-        <el-input
-          v-model="queryParams.samplingLocation"
-          placeholder="请输入抽样地点"
-          clearable
-          @keyup.enter.native="handleQuery"
-        />
-      </el-form-item>
+<!--      <el-form-item label="抽样地点" prop="samplingLocation">-->
+<!--        <el-input-->
+<!--          v-model="queryParams.samplingLocation"-->
+<!--          placeholder="请输入抽样地点"-->
+<!--          clearable-->
+<!--          @keyup.enter.native="handleQuery"-->
+<!--        />-->
+<!--      </el-form-item>-->
       <el-form-item label="检测单位" prop="detectLocation">
         <el-input
           v-model="queryParams.detectLocation"
