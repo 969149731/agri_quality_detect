@@ -33,6 +33,18 @@
           @keyup.enter.native="handleQuery"
         />
       </el-form-item>
+
+
+      <el-form-item label="抽样环节" prop="samplingStageType">
+        <el-input
+          v-model="queryParams.samplingStageType"
+          placeholder="请输入抽样环节"
+          clearable
+          @keyup.enter.native="handleQuery"
+        />
+      </el-form-item>
+
+
 <!--      <el-form-item label="抽样日期" prop="samplingDate">-->
 <!--        <el-date-picker clearable-->
 <!--          v-model="queryParams.samplingDate"-->
