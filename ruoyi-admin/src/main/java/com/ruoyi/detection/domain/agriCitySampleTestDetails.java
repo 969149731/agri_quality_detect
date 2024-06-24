@@ -113,6 +113,21 @@ public class agriCitySampleTestDetails extends BaseEntity
     @Excel(name = "农药检测结果信息")
     private List<agriPesticideDetResult> agriPesticideDetResultList;
 
+
+
+
+   //下面新增的字段，放在搜索框那里的
+    /** 蔬果类型（蔬菜或水果） */
+    private String vegFruType;
+
+    public String getVegFruType() {
+        return vegFruType;
+    }
+
+    public void setVegFruType(String vegFruType) {
+        this.vegFruType = vegFruType;
+    }
+
     public Long getCitySampleTestDetailsId() {
         return citySampleTestDetailsId;
     }

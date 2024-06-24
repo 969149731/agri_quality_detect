@@ -1,6 +1,30 @@
 <template>
   <div class="app-container">
     <el-form :model="queryParams" ref="queryForm" size="small" :inline="true" v-show="showSearch" label-width="68px">
+
+
+      <el-form-item label="抽样环节" prop="samplingStageType">
+        <el-input
+          v-model="queryParams.samplingStageType"
+          placeholder="请输入抽样环节"
+          clearable
+          @keyup.enter.native="handleQuery"
+        />
+      </el-form-item>
+
+      <el-form-item label="样品类别" prop="vegFruType">
+        <el-select v-model="queryParams.vegFruType" placeholder="请选择样品类别" clearable>
+          <el-option
+            v-for="dict in dict.type.veg_fru_type"
+            :key="dict.value"
+            :label="dict.label"
+            :value="dict.value"
+          />
+        </el-select>
+      </el-form-item>
+
+
+
       <el-form-item label="抽样地点">
         <template>
           <div>
@@ -78,6 +102,7 @@
 import { listOutFruVegQualification,samplingAddressProvince,findBySamplingProvinceCode,findBySamplingCityCode} from "@/api/out/outFruVegQualification";
 export default {
   name: "OutFruVegQualification",
+  dicts: ['veg_fru_type'],
   data() {
     return {
       // 遮罩层

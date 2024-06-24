@@ -100,6 +100,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="tracingCounty" column="tracing_county"/>
         <result property="tracingArea" column="tracing_area"/>
 
+        <result property="vegFruType" column="veg_fru_type"/>
+
 
         <collection property="agriPesticideDetResultList" ofType="agriPesticideDetResult">
             <id column="id" property="pesticideDetResultId"/>
@@ -108,11 +110,16 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <result column="city_sample_test_details_id" property="citySampleTestDetailsId"/>
             <result column="created_at" property="createdAt"/>
         </collection>
+
+
+
     </resultMap>
 
     <select id="selectagriCitySampleTestDetailsList" resultMap="myMapToRetunAllDetInf">
         SELECT * FROM agri_city_sample_test_details
         LEFT JOIN agri_pesticide_det_result ON agri_city_sample_test_details.city_sample_test_details_id=agri_pesticide_det_result.city_sample_test_details_id
+        LEFT JOIN agri_vegetable_fruit ON agri_city_sample_test_details.veg_fru_name = agri_vegetable_fruit.veg_fru_name
+
         <where>
             <if test="sampleCode != null  and sampleCode != ''"> and sample_code = #{sampleCode}</if>
             <if test="vegFruName != null  and vegFruName != ''"> and veg_fru_name like concat('%', #{vegFruName}, '%')</if>
@@ -138,6 +145,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="tracingCity != null  and tracingCity != ''"> and tracing_city = #{tracingCity}</if>
             <if test="tracingCounty != null  and tracingCounty != ''"> and tracing_county = #{tracingCounty}</if>
             <if test="tracingArea != null  and tracingArea != ''"> and tracing_area = #{tracingArea}</if>
+
+            <if test="vegFruType != null  and vegFruType != ''"> and veg_fru_type = #{vegFruType}</if>
+
 
             <if test="params.beginTime != null and params.beginTime != ''"><!-- 开始时间检索 -->
                 AND date_format(sampling_date,'%y%m%d') &gt;= date_format(#{params.beginTime},'%y%m%d')

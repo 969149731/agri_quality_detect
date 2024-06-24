@@ -17,6 +17,30 @@
       <!--          placeholder="请选择抽样日期">-->
       <!--        </el-date-picker>-->
       <!--      </el-form-item>-->
+
+
+      <el-form-item label="抽样环节" prop="samplingStageType">
+        <el-input
+          v-model="queryParams.samplingStageType"
+          placeholder="请输入抽样环节"
+          clearable
+          @keyup.enter.native="handleQuery"
+        />
+      </el-form-item>
+
+      <el-form-item label="样品类别" prop="vegFruType">
+        <el-select v-model="queryParams.vegFruType" placeholder="请选择样品类别" clearable>
+          <el-option
+            v-for="dict in dict.type.veg_fru_type"
+            :key="dict.value"
+            :label="dict.label"
+            :value="dict.value"
+          />
+        </el-select>
+      </el-form-item>
+
+
+
       <el-form-item label="抽样日期">
         <el-date-picker
           v-model="dateRange"
@@ -370,7 +394,7 @@ import { listOutDlDetectRecords, getOutDlDetectRecords, delOutDlDetectRecords, a
 
 export default {
   name: "OutDlDetectRecords",
-  dicts: ['city'],
+  dicts: ['city','veg_fru_type'],
   data() {
     return {
       samplingAddressProvince: [],//省份集合

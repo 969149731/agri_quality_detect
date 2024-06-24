@@ -1,6 +1,7 @@
 <template>
   <div class="app-container">
     <el-form :model="queryParams" ref="queryForm" size="small" :inline="true" v-show="showSearch" label-width="68px">
+
       <el-form-item label="蔬果类型" prop="vegFruType">
         <el-select v-model="queryParams.vegFruType" placeholder="请选择蔬果类型" clearable>
           <el-option

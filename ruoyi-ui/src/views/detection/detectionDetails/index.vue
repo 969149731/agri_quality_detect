@@ -47,6 +47,19 @@
 
 
 
+      <el-form-item label="样品类别" prop="vegFruType">
+        <el-select v-model="queryParams.vegFruType" placeholder="请选择样品类别" clearable>
+          <el-option
+            v-for="dict in dict.type.veg_fru_type"
+            :key="dict.value"
+            :label="dict.label"
+            :value="dict.value"
+          />
+        </el-select>
+      </el-form-item>
+
+
+
 
 <!--      <el-form-item label="抽样日期" prop="samplingDate">-->
 <!--        <el-date-picker clearable-->
@@ -489,7 +502,7 @@ import log from "@/views/monitor/job/log.vue";
 
 export default {
   name: "DetectionDetails",
-  dicts: ['pass_or_not'],
+  dicts: ['pass_or_not','veg_fru_type'],
   data() {
     return {
       samplingAddressProvince: [],//省份集合
@@ -687,6 +700,8 @@ export default {
         koreaStandard: null,
         createdAt: null,
         samplingLocationProvince: null,
+        vegFruType: null,
+
       };
       this.agriPesticideDetResultList = [];
       this.resetForm("form");
