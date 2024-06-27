@@ -120,6 +120,10 @@ public class agriCitySampleTestDetails extends BaseEntity
     /** 蔬果类型（蔬菜或水果） */
     private String vegFruType;
 
+
+
+
+
     public String getVegFruType() {
         return vegFruType;
     }

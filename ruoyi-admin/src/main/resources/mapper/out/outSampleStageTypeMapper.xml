@@ -59,16 +59,52 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     <select id="getCitySampleResultList" resultMap="agriCitySampleTestDetailsResult">
         select *
         from agri_city_sample_test_details
+        LEFT JOIN agri_vegetable_fruit ON agri_city_sample_test_details.veg_fru_name = agri_vegetable_fruit.veg_fru_name
+
         <where>
+<!--            <if test="samplingLocationProvince != null  and samplingLocationProvince != ''"> and sampling_location_province = #{samplingLocationProvince}</if>-->
+<!--            <if test="samplingLocationCity != null  and samplingLocationCity != ''"> and sampling_location_city = #{samplingLocationCity}</if>-->
+<!--            <if test="samplingLocationCounty != null  and samplingLocationCounty != ''"> and sampling_location_county = #{samplingLocationCounty}</if>-->
+<!--            <if test="enterpriseAttribute != null  and enterpriseAttribute != ''"> and enterprise_attribute = #{enterpriseAttribute}</if>-->
+<!--            <if test="enterpriseCreditIdCode != null  and enterpriseCreditIdCode != ''"> and agric.enterprise_credit_id_code = #{enterpriseCreditIdCode}</if>-->
+<!--            <if test="tracingProvince != null  and tracingProvince != ''"> and tracing_province = #{tracingProvince}</if>-->
+<!--            <if test="tracingCity != null  and tracingCity != ''"> and tracing_city = #{tracingCity}</if>-->
+<!--            <if test="tracingCounty != null  and tracingCounty != ''"> and tracing_county = #{tracingCounty}</if>-->
+<!--            <if test="tracingArea != null  and tracingArea != ''"> and tracing_area = #{tracingArea}</if>-->
+
+            <if test="sampleCode != null  and sampleCode != ''"> and sample_code = #{sampleCode}</if>
+            <if test="vegFruName != null  and vegFruName != ''"> and veg_fru_name like concat('%', #{vegFruName}, '%')</if>
+            <!--            <if test="samplingLocation != null  and samplingLocation != ''"> and sampling_location = #{samplingLocation}</if>-->
+            <if test="samplingLocation != null  and samplingLocation != ''"> and sampling_location like concat('%', #{samplingLocation}, '%')</if>
+            <!--            <if test="detectLocation != null  and detectLocation != ''"> and detect_location = #{detectLocation}</if>-->
+            <if test="detectLocation != null  and detectLocation != ''"> and detect_location like concat('%', #{detectLocation}, '%')</if>
+            <if test="samplingStageType != null  and samplingStageType != ''"> and sampling_stage_type = #{samplingStageType}</if>
+            <if test="samplingDate != null "> and sampling_date = #{samplingDate}</if>
+            <if test="chinaStandard != null  and chinaStandard != ''"> and china_standard = #{chinaStandard}</if>
+            <if test="cacStandard != null  and cacStandard != ''"> and cac_standard = #{cacStandard}</if>
+            <if test="japanStandard != null  and japanStandard != ''"> and japan_standard = #{japanStandard}</if>
+            <if test="euStandard != null  and euStandard != ''"> and eu_standard = #{euStandard}</if>
+            <if test="usStandard != null  and usStandard != ''"> and us_standard = #{usStandard}</if>
+            <if test="koreaStandard != null  and koreaStandard != ''"> and korea_standard = #{koreaStandard}</if>
+
             <if test="samplingLocationProvince != null  and samplingLocationProvince != ''"> and sampling_location_province = #{samplingLocationProvince}</if>
             <if test="samplingLocationCity != null  and samplingLocationCity != ''"> and sampling_location_city = #{samplingLocationCity}</if>
             <if test="samplingLocationCounty != null  and samplingLocationCounty != ''"> and sampling_location_county = #{samplingLocationCounty}</if>
             <if test="enterpriseAttribute != null  and enterpriseAttribute != ''"> and enterprise_attribute = #{enterpriseAttribute}</if>
-            <if test="enterpriseCreditIdCode != null  and enterpriseCreditIdCode != ''"> and agric.enterprise_credit_id_code = #{enterpriseCreditIdCode}</if>
+            <if test="enterpriseName != null  and enterpriseName != ''"> and enterprise_name = #{enterpriseName}</if>
+
+
+            <if test="enterpriseCreditIdCode != null  and enterpriseCreditIdCode != ''"> and enterprise_credit_id_code = #{enterpriseCreditIdCode}</if>
             <if test="tracingProvince != null  and tracingProvince != ''"> and tracing_province = #{tracingProvince}</if>
             <if test="tracingCity != null  and tracingCity != ''"> and tracing_city = #{tracingCity}</if>
             <if test="tracingCounty != null  and tracingCounty != ''"> and tracing_county = #{tracingCounty}</if>
             <if test="tracingArea != null  and tracingArea != ''"> and tracing_area = #{tracingArea}</if>
+
+            <if test="vegFruType != null  and vegFruType != ''"> and veg_fru_type = #{vegFruType}</if>
+
+
+
+
 
             <if test="params.beginTime != null and params.beginTime != ''"><!-- 开始时间检索 -->
                 AND date_format(sampling_date,'%y%m%d') &gt;= date_format(#{params.beginTime},'%y%m%d')

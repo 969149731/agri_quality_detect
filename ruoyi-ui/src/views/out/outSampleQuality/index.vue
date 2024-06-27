@@ -1,6 +1,37 @@
 <template>
   <div class="app-container">
     <el-form :model="queryParams" ref="queryForm" size="small" :inline="true" v-show="showSearch" label-width="68px">
+
+
+
+      <el-form-item label="企业名称" prop="enterpriseName">
+        <el-input
+          v-model="queryParams.enterpriseName"
+          placeholder="请输入企业名称/农户"
+          clearable
+          @keyup.enter.native="handleQuery"
+        />
+      </el-form-item>
+
+      <el-form-item label="企业属性" prop="enterpriseAttribute">
+        <el-input
+          v-model="queryParams.enterpriseAttribute"
+          placeholder="请输入企业属性"
+          clearable
+          @keyup.enter.native="handleQuery"
+        />
+      </el-form-item>
+
+      <el-form-item label="信用代码" prop="enterpriseCreditIdCode">
+        <el-input
+          v-model="queryParams.enterpriseCreditIdCode"
+          placeholder="请输入企业信用代码/身份证号"
+          clearable
+          @keyup.enter.native="handleQuery"
+        />
+      </el-form-item>
+
+
       <el-form-item label="抽样地点">
         <template>
           <div>
@@ -162,6 +193,12 @@ export default {
         samplingProvince: {code:"450000",name:"广西壮族自治区"},
         samplingCity:null,
         samplingTown:null,
+
+
+        enterpriseName:null,
+        enterpriseAttribute:null,
+        enterpriseCreditIdCode:null,
+
       },
       // 日期范围
       dateRange: [],
