@@ -78,7 +78,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="samplingLocation != null  and samplingLocation != ''"> and sampling_location like concat('%', #{samplingLocation}, '%')</if>
             <!--            <if test="detectLocation != null  and detectLocation != ''"> and detect_location = #{detectLocation}</if>-->
             <if test="detectLocation != null  and detectLocation != ''"> and detect_location like concat('%', #{detectLocation}, '%')</if>
-            <if test="samplingStageType != null  and samplingStageType != ''"> and sampling_stage_type = #{samplingStageType}</if>
+            <if test="samplingStageType != null  and samplingStageType != ''"> and sampling_stage_type like concat('%', #{samplingStageType}, '%')</if>
             <if test="samplingDate != null "> and sampling_date = #{samplingDate}</if>
             <if test="chinaStandard != null  and chinaStandard != ''"> and china_standard = #{chinaStandard}</if>
             <if test="cacStandard != null  and cacStandard != ''"> and cac_standard = #{cacStandard}</if>
