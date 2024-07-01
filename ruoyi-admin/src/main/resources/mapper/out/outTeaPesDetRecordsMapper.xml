@@ -3,6 +3,7 @@
 PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.ruoyi.out.mapper.outTeaPesDetRecordsMapper">
+    <cache type="com.ruoyi.common.core.redis.MybatisRedisCache" eviction="LRU"/>
     
     <resultMap type="outTeaBanPesDetRecords" id="outTeaBanPesDetRecordsResult">
         <result property="teaBanPesDetRecordsId"    column="veg_ban_pes_det_records_id"    />

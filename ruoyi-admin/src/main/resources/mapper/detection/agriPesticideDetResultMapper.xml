@@ -3,7 +3,7 @@
 PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.ruoyi.detection.mapper.agriPesticideDetResultMapper">
-    
+    <cache type="com.ruoyi.common.core.redis.MybatisRedisCache" eviction="LRU"/>
     <resultMap type="agriPesticideDetResult" id="agriPesticideDetResultResult">
         <result property="pesticideDetResultId"    column="pesticide_det_result_id"    />
         <result property="pesticideName"    column="pesticide_name"    />

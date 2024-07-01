@@ -3,6 +3,7 @@
 PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.ruoyi.out.mapper.outDxDetectRecordsMapper">
+    <cache type="com.ruoyi.common.core.redis.MybatisRedisCache" eviction="LRU"/>
     
     <resultMap type="outDxDetectRecords" id="outDxDetectRecordsResult">
         <result property="recordDxId"    column="record_dx_id"    />

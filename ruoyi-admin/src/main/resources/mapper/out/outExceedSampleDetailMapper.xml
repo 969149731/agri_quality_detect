@@ -3,6 +3,7 @@
 PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.ruoyi.out.mapper.outExceedSampleDetailMapper">
+    <cache type="com.ruoyi.common.core.redis.MybatisRedisCache" eviction="LRU"/>
     
     <resultMap type="outExceedSampleDetail" id="outExceedSampleDetailResult">
         <result property="exceedSampleDetailId"    column="exceed_sample_detail_id"    />
