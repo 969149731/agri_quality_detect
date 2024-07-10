@@ -82,12 +82,9 @@ public class agriPesticideDetResult extends BaseEntity
 
     @Override
     public String toString() {
-        return new ToStringBuilder(this,ToStringStyle.MULTI_LINE_STYLE)
-            .append("pesticideDetResultId", getPesticideDetResultId())
-            .append("pesticideName", getPesticideName())
-            .append("pesticideDetValue", getPesticideDetValue())
-            .append("citySampleTestDetailsId", getCitySampleTestDetailsId())
-            .append("createdAt", getCreatedAt())
-            .toString();
+        return " " +
+                "农药名：" + pesticideName + ' ' +
+                ", 检测值：" + pesticideDetValue + ' ' +
+                ' ';
     }
 }

@@ -215,7 +215,7 @@ public class agriCitySampleTestDetailsServiceImpl implements IagriCitySampleTest
             failureMsg.insert(0, "抱歉，导入失败！共 " + failureNum + " 条数据格式不正确，错误如下：");
             throw new ServiceException(failureMsg.toString());
         } else {
-            successMsg.insert(0, "恭喜，数据已全部导入成功！共 " + successNum + " 条，数据如下：");
+            successMsg.insert(0, "恭喜，数据已全部导入成功！共 " + successNum + " 条，信息如下：");
         }
         return successMsg.toString();
     }
@@ -723,7 +723,11 @@ public class agriCitySampleTestDetailsServiceImpl implements IagriCitySampleTest
                 try {
                     sampleCode = agriOut2CitySampleTestDetails.get("样品编号").toString();
                 } catch (Exception e) {
-                    sampleCode = null;
+                    try{
+                        sampleCode = agriOut2CitySampleTestDetails.get("样品     编号").toString();
+                    }catch (Exception e2){
+                        sampleCode = null;
+                    }
                 }
 
                 String vegFruName = null;
@@ -776,7 +780,7 @@ public class agriCitySampleTestDetailsServiceImpl implements IagriCitySampleTest
                 try {
                     samplingDate = agriOut2CitySampleTestDetails.get("抽样日期").toString();
                 } catch (Exception e) {
-                    samplingDate = null;
+                    samplingDate = "2024.5.1";
                 }
 
                 String enterpriseName = null;
@@ -871,6 +875,19 @@ public class agriCitySampleTestDetailsServiceImpl implements IagriCitySampleTest
                 agriCitySampleTestDetails.setTracingCounty(tracingCounty);
                 agriCitySampleTestDetails.setTracingArea(tracingArea);
 
+                //如果sampleCode vegFruName  samplingLocation都是null的话，说明他们数据不规范，第二行开始才有数据，
+                // 这边做一些健壮性处理，如果第一行数据是空的，直接跳过本次循环，进入到下一行数据
+                assert sampleCode != null;
+                if(sampleCode.isEmpty()) {
+                    assert vegFruName != null;
+                    if (vegFruName.isEmpty()) {
+                        assert samplingLocation != null;
+                        if (samplingLocation.isEmpty()) {
+                            break;
+                        }
+                    }
+                }
+
                 agriCitySampleTestDetails.setSampleCode(sampleCode);
                 agriCitySampleTestDetails.setVegFruName(vegFruName);
                 agriCitySampleTestDetails.setSamplingLocation(samplingLocation);
@@ -905,11 +922,11 @@ public class agriCitySampleTestDetailsServiceImpl implements IagriCitySampleTest
                 agriPesticideDetResult.setCitySampleTestDetailsId(mainTableId);
 
 
-                //插入从表
+                //插入从表，除了下面的other里面的属性之外的东西，就会被识别为是农药
                 List<String> other = Arrays.asList(
-                        "序号", "样品编号", "样品名称", "抽样环节",
+                        "序号", "样品编号","样品 编号","样品     编号", "样品名称", "抽样环节",
                         "抽样省", "抽样市", "抽样县", "抽样地址",
-                        "企业名称/农户", "企业属性（绿色/有机/地理标志/GAP)", "企业信用代码/身份证号",
+                        "企业名称/农户","企业名称/散户", "企业属性（绿色/有机/地理标志/GAP)", "企业信用代码/身份证号",
                         "溯源省", "溯源市", "溯源县", "溯源产地", "判定结果", "抽样日期", "企业名称", "excelRowNum");//合计在最后加入
                 //遍历每一个map
                 Set<Map.Entry<String, Object>> entrySet = agriOut2CitySampleTestDetails.entrySet();

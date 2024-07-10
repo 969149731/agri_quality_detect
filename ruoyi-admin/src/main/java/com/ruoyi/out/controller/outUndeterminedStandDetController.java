@@ -96,6 +96,8 @@ public class outUndeterminedStandDetController extends BaseController
             outUndeterminedStandDet.setVegFruName(out2UndeterminedStandDet.getVegFruName());
             outUndeterminedStandDet.setSamplingLocation(out2UndeterminedStandDet.getSamplingLocation());
 
+
+            //获取无判定标准检出值详细信息，包括检测出的农药和值
             List<agriPesticideDetResultForUndeterminedStandDet> detPesticideNameAndValue = out2UndeterminedStandDet.getDetPesticideNameAndValue();
             //一个list中如果还有list中的话，包含的那个list要换行
             String result = detPesticideNameAndValue.stream()
