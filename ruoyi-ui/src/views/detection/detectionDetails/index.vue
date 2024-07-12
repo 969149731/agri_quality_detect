@@ -222,7 +222,7 @@
 
     <!-- 展示的数据列表 />-->
     <el-table v-loading="loading" :data="detectionDetailsList" @selection-change="handleSelectionChange">
-<!--      <el-table-column type="selection" width="55" align="center" />-->
+      <el-table-column type="selection" width="55" align="center" />
 <!--      <el-table-column label="序号" align="center" prop="index">-->
 <!--        <template slot-scope="scope">-->
 <!--          {{ scope.$index + 1 }}-->

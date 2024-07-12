@@ -123,7 +123,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
         <where>
             <if test="sampleCode != null  and sampleCode != ''"> and sample_code = #{sampleCode}</if>
-            <if test="vegFruName != null  and vegFruName != ''"> and veg_fru_name like concat('%', #{vegFruName}, '%')</if>
+            <if test="vegFruName != null  and vegFruName != ''"> and agri_city_sample_test_details.veg_fru_name like concat('%', #{vegFruName}, '%')</if>
 <!--            <if test="samplingLocation != null  and samplingLocation != ''"> and sampling_location = #{samplingLocation}</if>-->
             <if test="samplingLocation != null  and samplingLocation != ''"> and sampling_location like concat('%', #{samplingLocation}, '%')</if>
 <!--            <if test="detectLocation != null  and detectLocation != ''"> and detect_location = #{detectLocation}</if>-->

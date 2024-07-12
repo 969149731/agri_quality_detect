@@ -989,7 +989,7 @@ public class agriCitySampleTestDetailsServiceImpl implements IagriCitySampleTest
 
         if (failureNum > 0) {
 //            failureMsg.insert(0, "抱歉，导入失败！共 " + failureNum + " 条数据格式不正确，错误如下：");
-            failureMsg.insert(0, "导入成功，有 " + failureNum + " 条数据因格式不正确导入失败，错误如下：");
+            failureMsg.insert(0, "导入成功，有 " + failureNum + " 条数据因格式不正确导入失败：");
             throw new ServiceException(failureMsg.toString());
         } else {
             successMsg.insert(0, "恭喜，数据已全部导入成功！共 " + successNum + " 条，数据如下：");

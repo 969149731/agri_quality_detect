@@ -293,7 +293,7 @@
 
 
     <el-table v-loading="loading" :data="outDlDetectRecordsList" @selection-change="handleSelectionChange">
-      <el-table-column type="selection" width="55" align="center" />
+<!--      <el-table-column type="selection" width="55" align="center" />-->
       <!--      <el-table-column label="唯一标识符，自增" align="center" prop="recordDlId" />-->
       <el-table-column label="抽样地点" align="center" prop="samplingLocation" />
       <!--      <el-table-column label="抽样日期" align="center" prop="samplingDate" width="180">-->
