@@ -68,4 +68,7 @@ public interface outHighRiskVarietyDetMapper
 
 
     public List<outHighRiskVarietyDet> selectHighRiskSampleList(agriCitySampleTestDetails agriCitySampleTestDetails);
+
+    void setGroupConcatMaxLen();
+
 }

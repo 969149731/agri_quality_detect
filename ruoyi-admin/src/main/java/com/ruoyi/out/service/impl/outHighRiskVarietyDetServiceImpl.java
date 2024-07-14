@@ -381,6 +381,8 @@ public class outHighRiskVarietyDetServiceImpl implements IoutHighRiskVarietyDetS
 
     //孙帅开始写的代码   方法返回值和参数可以先不管1
     public List<outHighRiskVarietyDet> selectOutHighRiskVarietyDetList(agriCitySampleTestDetails agriCitySampleTestDetails) {
+        //好像没效果
+        outHighRiskVarietyDetMapper.setGroupConcatMaxLen();
         List<outHighRiskVarietyDet> outHighRiskVarietyDets = outHighRiskVarietyDetMapper.selectHighRiskSampleList(agriCitySampleTestDetails);
         List<outHighRiskVarietyDet> finalRes = new ArrayList<>();
         //开始遍历获取到的outHighRiskVarietyDets

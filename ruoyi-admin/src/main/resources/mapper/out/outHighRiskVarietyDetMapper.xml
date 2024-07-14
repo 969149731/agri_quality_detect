@@ -201,6 +201,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 <!--        a.sampling_location_city;-->
 <!--    </select>-->
 
+    <!-- 设置SESSION变量，用来扩充selectHighRiskSampleList中返回的det_res结果 -->
+    <select id="setGroupConcatMaxLen" >
+        SET SESSION group_concat_max_len = 1000000;
+    </select>
+
+
     <select id="selectHighRiskSampleList" resultMap="SampleTestDetailResultMap">
         SELECT
         a.sampling_location_province AS samplingLocationProvince,
