@@ -4,6 +4,7 @@ import java.util.*;
 
 import com.github.pagehelper.PageHelper;
 import com.ruoyi.detection.domain.agriCitySampleTestDetails;
+import com.ruoyi.framework.web.domain.server.Sys;
 import com.ruoyi.out.domain.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -195,19 +196,28 @@ public class outVegPesDetRecordsServiceImpl implements IoutVegPesDetRecordsServi
                 return;//找到一个即可返回
             }
         }
-        if(item.samplingStageType!=null && item.samplingStageType.equals("基地")){//不是上述类型，但是包含生产基地，应为其他基地类型
-            item.samplingStageType="生产基地";//将所有数据清洗为规范格式
-            return;//找到一个即可返回
-        }
-        if(item.samplingStageType!=null && item.samplingStageType.contains("生产基地")){//不是上述类型，但是包含生产基地，应为其他基地类型
-            item.samplingStageType="生产基地";//将所有数据清洗为规范格式
-            return;//找到一个即可返回
-        }
-        if(item.samplingStageType!=null && item.samplingStageType.contains("市场")){//不是上述类型，农贸市场和批发市场均视为批发市场
-            item.samplingStageType="批发市场";//将所有数据清洗为规范格式
-            return;//找到一个即可返回
-        }
-        if(item.samplingStageType!=null){//不是上述类型，应为其他类型
+
+        if(item.samplingStageType!=null){//先行条件非空
+            if(item.samplingStageType.equals("基地")){//不是上述类型，但是包含生产基地，应为其他基地类型
+                item.samplingStageType="生产基地";//将所有数据清洗为规范格式
+                return;//找到一个即可返回
+            }
+            if(item.samplingStageType.contains("生产基地")){//不是上述类型，但是包含生产基地，应为其他基地类型
+                item.samplingStageType="生产基地";//将所有数据清洗为规范格式
+                return;//找到一个即可返回
+            }
+
+            //非生产基地判定
+            if(item.samplingStageType.contains("市场")){//农贸市场和批发市场均视为批发市场
+                item.samplingStageType="批发市场";//将所有数据清洗为规范格式
+                return;//找到一个即可返回
+            }
+            if (item.samplingStageType.contains("运输车")){
+                item.samplingStageType="运输车";
+                return;
+            }
+
+            //不是以上类型，应为其他类型
             item.samplingStageType="其它";//将所有数据清洗为规范格式
             return;//找到一个即可返回
         }

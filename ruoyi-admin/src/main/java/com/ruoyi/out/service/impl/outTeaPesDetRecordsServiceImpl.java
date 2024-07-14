@@ -193,7 +193,8 @@ public class outTeaPesDetRecordsServiceImpl implements IoutTeaPesDetRecordsServi
             return outTeaPesDetRecordsMapper.getTeaBanPesticideList();//禁用
         else return outTeaPesDetRecordsMapper.getTeaNoBanPesticideList();//非禁用
     }
-    public void fixData(outFruVegSelectType item){//数据预处理，主要是对生产环节进行纠正
+    public void fixData(outFruVegSelectType item){
+        //数据预处理，主要是对生产环节进行纠正//这个模块不关心生产基地的子类
         //注意生产基地不要放前面，否则先识别出来其他的生产基地子类就无法识别了
         List<String> StageType= Arrays.asList( "无公害产品基地","地标生产基地","绿色产品基地","有机产品基地","散户","公司","农户","合作社","其他基地");//生产基地的子类
 
@@ -203,19 +204,28 @@ public class outTeaPesDetRecordsServiceImpl implements IoutTeaPesDetRecordsServi
                 return;//找到一个即可返回
             }
         }
-        if(item.samplingStageType!=null && item.samplingStageType.equals("基地")){//基地均视为生产基地
-            item.samplingStageType="生产基地";//将所有数据清洗为规范格式
-            return;//找到一个即可返回
-        }
-        if(item.samplingStageType!=null && item.samplingStageType.contains("生产基地")){//不是上述类型，但是包含生产基地，应为其他基地类型
-            item.samplingStageType="生产基地";//将所有数据清洗为规范格式
-            return;//找到一个即可返回
-        }
-        if(item.samplingStageType!=null && item.samplingStageType.contains("市场")){//不是上述类型，但是包含生产基地，应为其他基地类型
-            item.samplingStageType="批发市场";//将所有数据清洗为规范格式
-            return;//找到一个即可返回
-        }
-        if(item.samplingStageType!=null){//不是上述类型，应为其他类型
+
+        if(item.samplingStageType!=null){//先行条件非空
+            if(item.samplingStageType.equals("基地")){//不是上述类型，但是包含生产基地，应为其他基地类型
+                item.samplingStageType="生产基地";//将所有数据清洗为规范格式
+                return;//找到一个即可返回
+            }
+            if(item.samplingStageType.contains("生产基地")){//不是上述类型，但是包含生产基地，应为其他基地类型
+                item.samplingStageType="生产基地";//将所有数据清洗为规范格式
+                return;//找到一个即可返回
+            }
+
+            //非生产基地判定
+            if(item.samplingStageType.contains("市场")){//农贸市场和批发市场均视为批发市场
+                item.samplingStageType="批发市场";//将所有数据清洗为规范格式
+                return;//找到一个即可返回
+            }
+            if (item.samplingStageType.contains("运输车")){
+                item.samplingStageType="运输车";
+                return;
+            }
+
+            //不是以上类型，应为其他类型
             item.samplingStageType="其它";//将所有数据清洗为规范格式
             return;//找到一个即可返回
         }
