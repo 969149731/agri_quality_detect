@@ -292,7 +292,7 @@ public class outHighRiskVarietyDetServiceImpl implements IoutHighRiskVarietyDetS
 //    }
 
 
-    //判断某样品对应某标准的某农药是否超标函数   true-超标       false-不超标    输入农药名称，残留值，样品名称
+    //判断某样品对应某标准的某农药是否超标函数   checkPesticideIsPass  true-超标       false-不超标    输入农药名称，残留值，样品名称
     public boolean checkPesticideIsPass(String pesticideName, double pesticideDetValue, String vegFruName) {
         // 超标和不超标的标识，刚刚开始超标和不超标都是为0
         int flagPass = 0;
@@ -381,14 +381,12 @@ public class outHighRiskVarietyDetServiceImpl implements IoutHighRiskVarietyDetS
 
     //孙帅开始写的代码   方法返回值和参数可以先不管1
     public List<outHighRiskVarietyDet> selectOutHighRiskVarietyDetList(agriCitySampleTestDetails agriCitySampleTestDetails) {
-        //好像没效果
-        outHighRiskVarietyDetMapper.setGroupConcatMaxLen();
+
         List<outHighRiskVarietyDet> outHighRiskVarietyDets = outHighRiskVarietyDetMapper.selectHighRiskSampleList(agriCitySampleTestDetails);
+
         List<outHighRiskVarietyDet> finalRes = new ArrayList<>();
         //开始遍历获取到的outHighRiskVarietyDets
         for (outHighRiskVarietyDet highRiskVarietyDet : outHighRiskVarietyDets) {
-
-
             //从det_res中获取信息进行禁用农药和农药超标的判断
             // 按逗号分割数据
             String[] entries = highRiskVarietyDet.getDet_res().split(",");
@@ -414,6 +412,7 @@ public class outHighRiskVarietyDetServiceImpl implements IoutHighRiskVarietyDetS
                 List<Map<String, Double>> pesticideList = formattedData.getOrDefault(id, new ArrayList<>());
                 pesticideList.add(pesticideMap);
                 formattedData.put(id, pesticideList);
+                System.out.println("调试"+formattedData);
             }
 
             //判断是否合格
@@ -441,7 +440,7 @@ public class outHighRiskVarietyDetServiceImpl implements IoutHighRiskVarietyDetS
                             jinyong.append(item.getValue());
                             jinyong.append("\n");
                         }
-                        //判断农药是否超标
+                        //判断农药是否超标  checkPesticideIsPass  true-超标       false-不超标
                         if(checkPesticideIsPass(item.getKey(), item.getValue(), highRiskVarietyDet.getVegFruName())){
                             is2=false;
                             chaobiao.append(item.getKey());
@@ -451,7 +450,12 @@ public class outHighRiskVarietyDetServiceImpl implements IoutHighRiskVarietyDetS
                         }
                     }
                 }
-                if(!is1 || !is2){
+                //这边孙帅写的条件可能是错的，修改一下
+//                if(!is1 || !is2){
+//                    //说明不合格
+//                    hege = hege - 1;
+//                }
+                if(!is2){
                     //说明不合格
                     hege = hege - 1;
                 }

@@ -12,6 +12,8 @@ import javax.servlet.http.HttpServletResponse;
 import cn.afterturn.easypoi.excel.ExcelExportUtil;
 import cn.afterturn.easypoi.excel.entity.TemplateExportParams;
 import com.ruoyi.detection.domain.agriCitySampleTestDetails;
+import com.ruoyi.out.domain.vo.OutPesDetRecordsVo;
+import com.ruoyi.out.service.IOutPesDetRecordsService;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.ss.util.CellRangeAddress;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -40,6 +42,39 @@ public class outFruBanPesDetRecordsController extends BaseController
 {
     @Autowired
     private IoutFruPesDetRecordsService outFruBanPesDetRecordsService;
+    @Autowired
+    private IOutPesDetRecordsService OutPesDetRecordsService;
+
+//    /**
+//     * 查询水果禁用农药检出及超标情况列表
+//     */
+//    @PreAuthorize("@ss.hasPermi('out:outFruBanPesDetRecords:list')")
+//    @GetMapping("/list")
+//    public TableDataInfo list(agriCitySampleTestDetails agriCitySampleTestDetails, Integer year, Integer season)
+//    {
+//        startPage();
+////        int month1 = 0;
+////        int month2 = 0;
+////        int month3 = 0;
+////        if(season==1){
+////            month1 = 1;month2 = 2;month3 = 3;
+////        }else if(season==2){
+////            month1 = 4;month2 = 5;month3 = 6;
+////        }else if(season==3){
+////            month1 = 7;month2 = 8;month3 = 9;
+////        }else if(season==4){
+////            month1 = 10;month2 = 11;month3 = 12;
+////        }
+////        Date startDate=new Date(2022,month1,1);
+////        Date endDate=new Date(2022,month3,0);//获取月份最后一天
+//        StringBuilder feedBackMsg =new StringBuilder();//用于返回一些信息
+//        List<outReturnType> list = outFruBanPesDetRecordsService.selectoutFruPesDetRecordsList(agriCitySampleTestDetails,"禁用",feedBackMsg);
+//        System.out.println("打印返回信息"+feedBackMsg);
+//        TableDataInfo result=getDataTable(list);
+//        result.setMsg(feedBackMsg.toString());
+//        return result;
+//    }
+
 
     /**
      * 查询水果禁用农药检出及超标情况列表
@@ -48,24 +83,8 @@ public class outFruBanPesDetRecordsController extends BaseController
     @GetMapping("/list")
     public TableDataInfo list(agriCitySampleTestDetails agriCitySampleTestDetails, Integer year, Integer season)
     {
-        startPage();
-//        int month1 = 0;
-//        int month2 = 0;
-//        int month3 = 0;
-//        if(season==1){
-//            month1 = 1;month2 = 2;month3 = 3;
-//        }else if(season==2){
-//            month1 = 4;month2 = 5;month3 = 6;
-//        }else if(season==3){
-//            month1 = 7;month2 = 8;month3 = 9;
-//        }else if(season==4){
-//            month1 = 10;month2 = 11;month3 = 12;
-//        }
-//        Date startDate=new Date(2022,month1,1);
-//        Date endDate=new Date(2022,month3,0);//获取月份最后一天
         StringBuilder feedBackMsg =new StringBuilder();//用于返回一些信息
-        List<outReturnType> list = outFruBanPesDetRecordsService.selectoutFruPesDetRecordsList(agriCitySampleTestDetails,"禁用",feedBackMsg);
-        System.out.println("打印返回信息"+feedBackMsg);
+        List<OutPesDetRecordsVo> list = OutPesDetRecordsService.selectOutPesDetRecords(agriCitySampleTestDetails,feedBackMsg,"水果","0");
         TableDataInfo result=getDataTable(list);
         result.setMsg(feedBackMsg.toString());
         return result;
@@ -80,7 +99,8 @@ public class outFruBanPesDetRecordsController extends BaseController
     public void export(HttpServletResponse response,agriCitySampleTestDetails agriCitySampleTestDetails)
     {
         StringBuilder feedBackMsg =new StringBuilder();//用于返回一些信息
-        List<outReturnType> list = outFruBanPesDetRecordsService.selectoutFruPesDetRecordsList(agriCitySampleTestDetails,"禁用",feedBackMsg);
+//        List<outReturnType> list = outFruBanPesDetRecordsService.selectoutFruPesDetRecordsList(agriCitySampleTestDetails,"禁用",feedBackMsg);
+        List<OutPesDetRecordsVo> list = OutPesDetRecordsService.selectOutPesDetRecords(agriCitySampleTestDetails,feedBackMsg,"水果","0");
         TemplateExportParams params = new TemplateExportParams("excelOutTemplate/outFruBanPesDetRecords.xlsx");
         Map<String, Object> map = new HashMap<>();
         map.put("tableName", "3.水果禁用农药检出及超标情况表");

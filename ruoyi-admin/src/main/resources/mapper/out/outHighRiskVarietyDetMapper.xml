@@ -201,10 +201,98 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 <!--        a.sampling_location_city;-->
 <!--    </select>-->
 
-    <!-- 设置SESSION变量，用来扩充selectHighRiskSampleList中返回的det_res结果 -->
-    <select id="setGroupConcatMaxLen" >
-        SET SESSION group_concat_max_len = 1000000;
-    </select>
+
+
+
+<!--    <select id="selectHighRiskSampleList" resultMap="SampleTestDetailResultMap">-->
+<!--        SELECT-->
+<!--        a.sampling_location_province AS samplingLocationProvince,-->
+<!--        a.sampling_location_city AS samplingLocationCity,-->
+<!--        a.detect_location AS detectLocation,-->
+<!--        a.veg_fru_name AS vegFruName,-->
+<!--        GROUP_CONCAT(IFNULL(CONCAT(a.sample_code, '-', COALESCE(b.pesticide_name, CONCAT(a.city_sample_test_details_id, '-没有检测到农药')), ':', b.pesticide_det_value), CONCAT(a.sample_code, '-没有检测到农药:0'))) AS det_res,-->
+<!--        (SELECT COUNT(*)-->
+<!--        FROM agri_city_sample_test_details subA-->
+<!--        WHERE subA.veg_fru_name = a.veg_fru_name-->
+<!--        AND subA.detect_location = a.detect_location-->
+<!--        &lt;!&ndash; 在这里添加相同的时间过滤条件 &ndash;&gt;-->
+<!--        AND ((#{params.beginTime} IS NULL OR date_format(subA.sampling_date, '%y%m%d') &gt;= date_format(#{params.beginTime}, '%y%m%d'))-->
+<!--        AND (#{params.endTime} IS NULL OR date_format(subA.sampling_date, '%y%m%d') &lt;= date_format(#{params.endTime}, '%y%m%d')))-->
+<!--        ) AS totalSamples,-->
+<!--        0 AS qualifiedNumber,-->
+<!--        0 AS qualificationRate,-->
+<!--        '' AS prohibitedPesticideDetection,-->
+<!--        '' AS routinePesticideExceedance-->
+<!--        FROM-->
+<!--        agri_city_sample_test_details a-->
+<!--        LEFT JOIN-->
+<!--        agri_pesticide_det_result b ON a.city_sample_test_details_id = b.city_sample_test_details_id-->
+<!--        JOIN-->
+<!--        agri_vegetable_fruit c ON a.veg_fru_name = c.veg_fru_name-->
+<!--        <where>-->
+<!--            c.high_risk_sample = '高风险'-->
+<!--            <if test="params.beginTime != null and params.beginTime != ''">-->
+<!--                AND date_format(a.sampling_date,'%y%m%d') &gt;= date_format(#{params.beginTime},'%y%m%d')-->
+<!--            </if>-->
+<!--            <if test="params.endTime != null and params.endTime != ''">-->
+<!--                AND date_format(a.sampling_date,'%y%m%d') &lt;= date_format(#{params.endTime},'%y%m%d')-->
+<!--            </if>-->
+
+<!--&lt;!&ndash;            <if test="samplingLocationProvince != null  and samplingLocationProvince != ''"> and sampling_location_province = #{samplingLocationProvince}</if>&ndash;&gt;-->
+<!--&lt;!&ndash;            <if test="samplingLocationCity != null  and samplingLocationCity != ''"> and sampling_location_city = #{samplingLocationCity}</if>&ndash;&gt;-->
+<!--&lt;!&ndash;            <if test="samplingLocationCounty != null  and samplingLocationCounty != ''"> and sampling_location_county = #{samplingLocationCounty}</if>&ndash;&gt;-->
+<!--&lt;!&ndash;            <if test="enterpriseAttribute != null  and enterpriseAttribute != ''"> and enterprise_attribute = #{enterpriseAttribute}</if>&ndash;&gt;-->
+<!--&lt;!&ndash;            <if test="enterpriseCreditIdCode != null  and enterpriseCreditIdCode != ''"> and enterprise_credit_id_code = #{enterpriseCreditIdCode}</if>&ndash;&gt;-->
+<!--&lt;!&ndash;            <if test="tracingProvince != null  and tracingProvince != ''"> and tracing_province = #{tracingProvince}</if>&ndash;&gt;-->
+<!--&lt;!&ndash;            <if test="tracingCity != null  and tracingCity != ''"> and tracing_city = #{tracingCity}</if>&ndash;&gt;-->
+<!--&lt;!&ndash;            <if test="tracingCounty != null  and tracingCounty != ''"> and tracing_county = #{tracingCounty}</if>&ndash;&gt;-->
+<!--&lt;!&ndash;            <if test="tracingArea != null  and tracingArea != ''"> and tracing_area = #{tracingArea}</if>&ndash;&gt;-->
+
+<!--            <if test="sampleCode != null  and sampleCode != ''"> and sample_code = #{sampleCode}</if>-->
+<!--            <if test="vegFruName != null  and vegFruName != ''"> and veg_fru_name like concat('%', #{vegFruName}, '%')</if>-->
+<!--            &lt;!&ndash;            <if test="samplingLocation != null  and samplingLocation != ''"> and sampling_location = #{samplingLocation}</if>&ndash;&gt;-->
+<!--            <if test="samplingLocation != null  and samplingLocation != ''"> and sampling_location like concat('%', #{samplingLocation}, '%')</if>-->
+<!--            &lt;!&ndash;            <if test="detectLocation != null  and detectLocation != ''"> and detect_location = #{detectLocation}</if>&ndash;&gt;-->
+<!--            <if test="detectLocation != null  and detectLocation != ''"> and detect_location like concat('%', #{detectLocation}, '%')</if>-->
+<!--&lt;!&ndash;            <if test="samplingStageType != null  and samplingStageType != ''"> and sampling_stage_type like concat('%', #{samplingStageType}, '%')</if>&ndash;&gt;-->
+<!--            <if test="samplingStageType != null  and samplingStageType != ''"> and sampling_stage_type like concat('%', #{samplingStageType}, '%')</if>-->
+
+<!--            <if test="samplingDate != null "> and sampling_date = #{samplingDate}</if>-->
+<!--            <if test="chinaStandard != null  and chinaStandard != ''"> and china_standard = #{chinaStandard}</if>-->
+<!--            <if test="cacStandard != null  and cacStandard != ''"> and cac_standard = #{cacStandard}</if>-->
+<!--            <if test="japanStandard != null  and japanStandard != ''"> and japan_standard = #{japanStandard}</if>-->
+<!--            <if test="euStandard != null  and euStandard != ''"> and eu_standard = #{euStandard}</if>-->
+<!--            <if test="usStandard != null  and usStandard != ''"> and us_standard = #{usStandard}</if>-->
+<!--            <if test="koreaStandard != null  and koreaStandard != ''"> and korea_standard = #{koreaStandard}</if>-->
+
+<!--            <if test="samplingLocationProvince != null  and samplingLocationProvince != ''"> and sampling_location_province = #{samplingLocationProvince}</if>-->
+<!--            <if test="samplingLocationCity != null  and samplingLocationCity != ''"> and sampling_location_city = #{samplingLocationCity}</if>-->
+<!--            <if test="samplingLocationCounty != null  and samplingLocationCounty != ''"> and sampling_location_county = #{samplingLocationCounty}</if>-->
+<!--            <if test="enterpriseAttribute != null  and enterpriseAttribute != ''"> and enterprise_attribute = #{enterpriseAttribute}</if>-->
+<!--            <if test="enterpriseName != null  and enterpriseName != ''"> and enterprise_name = #{enterpriseName}</if>-->
+
+
+<!--            <if test="enterpriseCreditIdCode != null  and enterpriseCreditIdCode != ''"> and enterprise_credit_id_code = #{enterpriseCreditIdCode}</if>-->
+<!--            <if test="tracingProvince != null  and tracingProvince != ''"> and tracing_province = #{tracingProvince}</if>-->
+<!--            <if test="tracingCity != null  and tracingCity != ''"> and tracing_city = #{tracingCity}</if>-->
+<!--            <if test="tracingCounty != null  and tracingCounty != ''"> and tracing_county = #{tracingCounty}</if>-->
+<!--            <if test="tracingArea != null  and tracingArea != ''"> and tracing_area = #{tracingArea}</if>-->
+
+<!--            <if test="vegFruType != null  and vegFruType != ''"> and veg_fru_type = #{vegFruType}</if>-->
+
+
+
+<!--        </where>-->
+<!--        GROUP BY-->
+<!--        a.detect_location, a.veg_fru_name,a.sampling_location_province,a.sampling_location_city-->
+<!--        ORDER BY-->
+<!--        a.sampling_location_city;-->
+<!--    </select>-->
+
+
+
+
+
 
 
     <select id="selectHighRiskSampleList" resultMap="SampleTestDetailResultMap">
@@ -216,8 +304,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         GROUP_CONCAT(IFNULL(CONCAT(a.sample_code, '-', COALESCE(b.pesticide_name, CONCAT(a.city_sample_test_details_id, '-没有检测到农药')), ':', b.pesticide_det_value), CONCAT(a.sample_code, '-没有检测到农药:0'))) AS det_res,
         (SELECT COUNT(*)
         FROM agri_city_sample_test_details subA
+        JOIN agri_vegetable_fruit subC ON subA.veg_fru_name = subC.veg_fru_name
         WHERE subA.veg_fru_name = a.veg_fru_name
         AND subA.detect_location = a.detect_location
+        AND subA.sampling_location_city = a.sampling_location_city
+        AND subC.high_risk_sample = '高风险'
         <!-- 在这里添加相同的时间过滤条件 -->
         AND ((#{params.beginTime} IS NULL OR date_format(subA.sampling_date, '%y%m%d') &gt;= date_format(#{params.beginTime}, '%y%m%d'))
         AND (#{params.endTime} IS NULL OR date_format(subA.sampling_date, '%y%m%d') &lt;= date_format(#{params.endTime}, '%y%m%d')))
@@ -241,15 +332,15 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
                 AND date_format(a.sampling_date,'%y%m%d') &lt;= date_format(#{params.endTime},'%y%m%d')
             </if>
 
-<!--            <if test="samplingLocationProvince != null  and samplingLocationProvince != ''"> and sampling_location_province = #{samplingLocationProvince}</if>-->
-<!--            <if test="samplingLocationCity != null  and samplingLocationCity != ''"> and sampling_location_city = #{samplingLocationCity}</if>-->
-<!--            <if test="samplingLocationCounty != null  and samplingLocationCounty != ''"> and sampling_location_county = #{samplingLocationCounty}</if>-->
-<!--            <if test="enterpriseAttribute != null  and enterpriseAttribute != ''"> and enterprise_attribute = #{enterpriseAttribute}</if>-->
-<!--            <if test="enterpriseCreditIdCode != null  and enterpriseCreditIdCode != ''"> and enterprise_credit_id_code = #{enterpriseCreditIdCode}</if>-->
-<!--            <if test="tracingProvince != null  and tracingProvince != ''"> and tracing_province = #{tracingProvince}</if>-->
-<!--            <if test="tracingCity != null  and tracingCity != ''"> and tracing_city = #{tracingCity}</if>-->
-<!--            <if test="tracingCounty != null  and tracingCounty != ''"> and tracing_county = #{tracingCounty}</if>-->
-<!--            <if test="tracingArea != null  and tracingArea != ''"> and tracing_area = #{tracingArea}</if>-->
+            <!--            <if test="samplingLocationProvince != null  and samplingLocationProvince != ''"> and sampling_location_province = #{samplingLocationProvince}</if>-->
+            <!--            <if test="samplingLocationCity != null  and samplingLocationCity != ''"> and sampling_location_city = #{samplingLocationCity}</if>-->
+            <!--            <if test="samplingLocationCounty != null  and samplingLocationCounty != ''"> and sampling_location_county = #{samplingLocationCounty}</if>-->
+            <!--            <if test="enterpriseAttribute != null  and enterpriseAttribute != ''"> and enterprise_attribute = #{enterpriseAttribute}</if>-->
+            <!--            <if test="enterpriseCreditIdCode != null  and enterpriseCreditIdCode != ''"> and enterprise_credit_id_code = #{enterpriseCreditIdCode}</if>-->
+            <!--            <if test="tracingProvince != null  and tracingProvince != ''"> and tracing_province = #{tracingProvince}</if>-->
+            <!--            <if test="tracingCity != null  and tracingCity != ''"> and tracing_city = #{tracingCity}</if>-->
+            <!--            <if test="tracingCounty != null  and tracingCounty != ''"> and tracing_county = #{tracingCounty}</if>-->
+            <!--            <if test="tracingArea != null  and tracingArea != ''"> and tracing_area = #{tracingArea}</if>-->
 
             <if test="sampleCode != null  and sampleCode != ''"> and sample_code = #{sampleCode}</if>
             <if test="vegFruName != null  and vegFruName != ''"> and veg_fru_name like concat('%', #{vegFruName}, '%')</if>
@@ -257,7 +348,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="samplingLocation != null  and samplingLocation != ''"> and sampling_location like concat('%', #{samplingLocation}, '%')</if>
             <!--            <if test="detectLocation != null  and detectLocation != ''"> and detect_location = #{detectLocation}</if>-->
             <if test="detectLocation != null  and detectLocation != ''"> and detect_location like concat('%', #{detectLocation}, '%')</if>
-<!--            <if test="samplingStageType != null  and samplingStageType != ''"> and sampling_stage_type like concat('%', #{samplingStageType}, '%')</if>-->
+            <!--            <if test="samplingStageType != null  and samplingStageType != ''"> and sampling_stage_type like concat('%', #{samplingStageType}, '%')</if>-->
             <if test="samplingStageType != null  and samplingStageType != ''"> and sampling_stage_type like concat('%', #{samplingStageType}, '%')</if>
 
             <if test="samplingDate != null "> and sampling_date = #{samplingDate}</if>
@@ -283,13 +374,20 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
             <if test="vegFruType != null  and vegFruType != ''"> and veg_fru_type = #{vegFruType}</if>
 
-
-
         </where>
         GROUP BY
-        a.detect_location, a.veg_fru_name,a.sampling_location_province,a.sampling_location_city
+        a.detect_location, a.veg_fru_name, a.sampling_location_province, a.sampling_location_city
         ORDER BY
         a.sampling_location_city;
     </select>
+
+
+
+
+
+
+
+
+
 
 </mapper>

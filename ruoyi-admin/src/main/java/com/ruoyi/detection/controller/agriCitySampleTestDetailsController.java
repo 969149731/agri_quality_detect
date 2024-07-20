@@ -1,6 +1,6 @@
 package com.ruoyi.detection.controller;
 
-import java.io.IOException;
+import java.io.*;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -16,9 +16,11 @@ import com.ruoyi.address.service.IAddressCityService;
 import com.ruoyi.address.service.IAddressProvinceService;
 import com.ruoyi.address.service.IAddressTownService;
 import com.ruoyi.address.service.impl.AddressProvinceServiceImpl;
+import com.ruoyi.common.core.domain.entity.SysUser;
 import com.ruoyi.detection.domain.agriOut2CitySampleTestDetails;
 import com.ruoyi.detection.domain.agriOutCitySampleTestDetails;
 import org.apache.poi.ss.usermodel.Workbook;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -41,14 +43,13 @@ import org.springframework.web.multipart.MultipartFile;
 
 /**
  * 各市样品检测结果详细Controller
- * 
+ *
  * @author chenjie
  * @date 2024-01-24
  */
 @RestController
 @RequestMapping("/detection/detectionDetails")
-public class agriCitySampleTestDetailsController extends BaseController
-{
+public class agriCitySampleTestDetailsController extends BaseController {
     @Autowired
     private IagriCitySampleTestDetailsService agriCitySampleTestDetailsService;
     @Autowired
@@ -101,13 +102,13 @@ public class agriCitySampleTestDetailsController extends BaseController
         String message = agriCitySampleTestDetailsService.importAgriOut2CitySampleTestDetailsList(list, updateSupport, operName);
         return success(message);
     }
+
     /**
      * 查询各市样品检测结果详细列表
      */
     @PreAuthorize("@ss.hasPermi('detection:detectionDetails:list')")
     @GetMapping("/list")
-    public TableDataInfo list(agriCitySampleTestDetails agriCitySampleTestDetails)
-    {
+    public TableDataInfo list(agriCitySampleTestDetails agriCitySampleTestDetails) {
         startPage();
         List<agriCitySampleTestDetails> list = agriCitySampleTestDetailsService.selectagriCitySampleTestDetailsList(agriCitySampleTestDetails);
         return getDataTable(list);
@@ -139,8 +140,7 @@ public class agriCitySampleTestDetailsController extends BaseController
      */
     @PreAuthorize("@ss.hasPermi('detection:detectionDetails:query')")
     @GetMapping(value = "/{citySampleTestDetailsId}")
-    public AjaxResult getInfo(@PathVariable("citySampleTestDetailsId") Long citySampleTestDetailsId)
-    {
+    public AjaxResult getInfo(@PathVariable("citySampleTestDetailsId") Long citySampleTestDetailsId) {
         return success(agriCitySampleTestDetailsService.selectagriCitySampleTestDetailsByCitySampleTestDetailsId(citySampleTestDetailsId));
     }
 
@@ -150,8 +150,7 @@ public class agriCitySampleTestDetailsController extends BaseController
     @PreAuthorize("@ss.hasPermi('detection:detectionDetails:add')")
     @Log(title = "各市样品检测结果详细", businessType = BusinessType.INSERT)
     @PostMapping
-    public AjaxResult add(@RequestBody agriCitySampleTestDetails agriCitySampleTestDetails)
-    {
+    public AjaxResult add(@RequestBody agriCitySampleTestDetails agriCitySampleTestDetails) {
         return toAjax(agriCitySampleTestDetailsService.insertagriCitySampleTestDetails(agriCitySampleTestDetails));
     }
 
@@ -161,8 +160,7 @@ public class agriCitySampleTestDetailsController extends BaseController
     @PreAuthorize("@ss.hasPermi('detection:detectionDetails:edit')")
     @Log(title = "各市样品检测结果详细", businessType = BusinessType.UPDATE)
     @PutMapping
-    public AjaxResult edit(@RequestBody agriCitySampleTestDetails agriCitySampleTestDetails)
-    {
+    public AjaxResult edit(@RequestBody agriCitySampleTestDetails agriCitySampleTestDetails) {
         return toAjax(agriCitySampleTestDetailsService.updateagriCitySampleTestDetails(agriCitySampleTestDetails));
     }
 
@@ -171,9 +169,37 @@ public class agriCitySampleTestDetailsController extends BaseController
      */
     @PreAuthorize("@ss.hasPermi('detection:detectionDetails:remove')")
     @Log(title = "各市样品检测结果详细", businessType = BusinessType.DELETE)
-	@DeleteMapping("/{citySampleTestDetailsIds}")
-    public AjaxResult remove(@PathVariable Long[] citySampleTestDetailsIds)
-    {
+    @DeleteMapping("/{citySampleTestDetailsIds}")
+    public AjaxResult remove(@PathVariable Long[] citySampleTestDetailsIds) {
         return toAjax(agriCitySampleTestDetailsService.deleteagriCitySampleTestDetailsByCitySampleTestDetailsIds(citySampleTestDetailsIds));
     }
+
+
+    //导入模板下载
+    @PostMapping("/importTemplate")
+    public void importTemplate(HttpServletResponse response) {
+        try {
+            // 使用ClassPathResource获取文件
+            ClassPathResource resource = new ClassPathResource("excelOutTemplate/importTemplate.xlsx");
+            InputStream inputStream = resource.getInputStream();
+
+            // 设置response
+            response.setContentType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
+            response.setHeader("Content-Disposition", "attachment; filename=template.xlsx");
+
+            // 读取文件内容并写入response
+            byte[] buffer = new byte[1024];
+            int bytesRead;
+            while ((bytesRead = inputStream.read(buffer)) != -1) {
+                response.getOutputStream().write(buffer, 0, bytesRead);
+            }
+            response.getOutputStream().flush();
+        } catch (Exception e) {
+            e.printStackTrace();
+            response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+        }
+    }
+
+
 }
+

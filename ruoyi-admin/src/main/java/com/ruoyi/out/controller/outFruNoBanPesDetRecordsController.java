@@ -13,6 +13,8 @@ import cn.afterturn.easypoi.excel.ExcelExportUtil;
 import cn.afterturn.easypoi.excel.entity.TemplateExportParams;
 import com.ruoyi.detection.domain.agriCitySampleTestDetails;
 import com.ruoyi.out.domain.outReturnType;
+import com.ruoyi.out.domain.vo.OutPesDetRecordsVo;
+import com.ruoyi.out.service.IOutPesDetRecordsService;
 import com.ruoyi.out.service.IoutFruPesDetRecordsService;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
@@ -40,17 +42,31 @@ public class outFruNoBanPesDetRecordsController extends BaseController
 {
     @Autowired
     private IoutFruPesDetRecordsService outFruPesDetRecordsService;
+    @Autowired
+    private IOutPesDetRecordsService OutPesDetRecordsService;
 
     /**
      * 查询水果非禁止使用农药检出及超标情况列表
      */
+//    @PreAuthorize("@ss.hasPermi('out:outFruNoBanPesDetRecords:list')")
+//    @GetMapping("/list")
+//    public TableDataInfo list(agriCitySampleTestDetails agriCitySampleTestDetails)
+//    {
+//        startPage();
+//        StringBuilder feedBackMsg =new StringBuilder();//用于返回一些信息
+//        List<outReturnType> list = outFruPesDetRecordsService.selectoutFruPesDetRecordsList(agriCitySampleTestDetails,"非禁用",feedBackMsg);
+//        TableDataInfo result = getDataTable(list);
+//        result.setMsg(feedBackMsg.toString());
+//        return result;
+//    }
+
+
     @PreAuthorize("@ss.hasPermi('out:outFruNoBanPesDetRecords:list')")
     @GetMapping("/list")
     public TableDataInfo list(agriCitySampleTestDetails agriCitySampleTestDetails)
     {
-        startPage();
         StringBuilder feedBackMsg =new StringBuilder();//用于返回一些信息
-        List<outReturnType> list = outFruPesDetRecordsService.selectoutFruPesDetRecordsList(agriCitySampleTestDetails,"非禁用",feedBackMsg);
+        List<OutPesDetRecordsVo> list = OutPesDetRecordsService.selectOutPesDetRecords(agriCitySampleTestDetails,feedBackMsg,"水果","1");
         TableDataInfo result = getDataTable(list);
         result.setMsg(feedBackMsg.toString());
         return result;
@@ -64,7 +80,9 @@ public class outFruNoBanPesDetRecordsController extends BaseController
     public void export(HttpServletResponse response, agriCitySampleTestDetails agriCitySampleTestDetails)
     {
         StringBuilder feedBackMsg =new StringBuilder();//用于返回一些信息
-        List<outReturnType> list = outFruPesDetRecordsService.selectoutFruPesDetRecordsList(agriCitySampleTestDetails,"非禁用",feedBackMsg);
+//        List<outReturnType> list = outFruPesDetRecordsService.selectoutFruPesDetRecordsList(agriCitySampleTestDetails,"非禁用",feedBackMsg);
+        List<OutPesDetRecordsVo> list = OutPesDetRecordsService.selectOutPesDetRecords(agriCitySampleTestDetails,feedBackMsg,"水果","1");
+
         TemplateExportParams params = new TemplateExportParams("excelOutTemplate/outFruBanPesDetRecords.xlsx");
         Map<String, Object> map = new HashMap<>();
         map.put("tableName", "4.水果上非禁止使用农药检出及超标情况");

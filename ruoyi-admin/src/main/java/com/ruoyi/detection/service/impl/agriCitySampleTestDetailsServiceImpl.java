@@ -729,6 +729,9 @@ public class agriCitySampleTestDetailsServiceImpl implements IagriCitySampleTest
                         sampleCode = null;
                     }
                 }
+                if (sampleCode!=null){
+                    sampleCode=sampleCode.replace("-", "");
+                }
 
                 String vegFruName = null;
                 try {
@@ -750,6 +753,9 @@ public class agriCitySampleTestDetailsServiceImpl implements IagriCitySampleTest
                 String samplingLocationProvince = null;
                 try {
                     samplingLocationProvince = agriOut2CitySampleTestDetails.get("抽样省").toString();
+                    if(samplingLocationProvince.equals("广西")){
+                        samplingLocationProvince="广西壮族自治区";
+                    }
                 } catch (Exception e) {
                     samplingLocationProvince = null;
                 }
@@ -815,6 +821,9 @@ public class agriCitySampleTestDetailsServiceImpl implements IagriCitySampleTest
                 String tracingProvince = null;
                 try {
                     tracingProvince = agriOut2CitySampleTestDetails.get("溯源省").toString();
+                    if(tracingProvince.equals("广西")){
+                        tracingProvince="广西壮族自治区";
+                    }
                 } catch (Exception e) {
                     tracingProvince = null;
                 }

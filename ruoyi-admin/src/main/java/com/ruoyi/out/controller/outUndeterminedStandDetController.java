@@ -64,7 +64,8 @@ public class outUndeterminedStandDetController extends BaseController
     @GetMapping("/list")
     public TableDataInfo list(agriCitySampleTestDetails agriCitySampleTestDetails)
     {
-//        startPage();
+        //这边用分页是因为无判定标准检出情况数据太多了，不分页直接卡死，导出不分页就行
+        startPage();
         List<out2UndeterminedStandDet> out2UndeterminedStandDeList = outUndeterminedStandDetService.selectOutUndeterminedStandDetList(agriCitySampleTestDetails);
         return getDataTable(out2UndeterminedStandDeList);
     }

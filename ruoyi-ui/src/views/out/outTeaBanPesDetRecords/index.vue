@@ -2,14 +2,14 @@
   <div class="app-container">
     <el-form :model="queryParams" ref="queryForm" size="small" :inline="true" v-show="showSearch" label-width="68px">
 
-      <el-form-item label="抽样环节" prop="samplingStageType">
-        <el-input
-          v-model="queryParams.samplingStageType"
-          placeholder="请输入抽样环节"
-          clearable
-          @keyup.enter.native="handleQuery"
-        />
-      </el-form-item>
+<!--      <el-form-item label="抽样环节" prop="samplingStageType">-->
+<!--        <el-input-->
+<!--          v-model="queryParams.samplingStageType"-->
+<!--          placeholder="请输入抽样环节"-->
+<!--          clearable-->
+<!--          @keyup.enter.native="handleQuery"-->
+<!--        />-->
+<!--      </el-form-item>-->
 
 
       <el-form-item label="企业名称" prop="enterpriseName">

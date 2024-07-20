@@ -13,6 +13,8 @@ import cn.afterturn.easypoi.excel.ExcelExportUtil;
 import cn.afterturn.easypoi.excel.entity.TemplateExportParams;
 import com.ruoyi.detection.domain.agriCitySampleTestDetails;
 import com.ruoyi.out.domain.outReturnType;
+import com.ruoyi.out.domain.vo.OutPesDetRecordsVo;
+import com.ruoyi.out.service.IOutPesDetRecordsService;
 import com.ruoyi.out.service.IoutVegPesDetRecordsService;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
@@ -42,20 +44,39 @@ public class outVegNoBanPesDetRecordsController extends BaseController
     @Autowired
     private IoutVegPesDetRecordsService outVegPesDetRecordsService;
 
+    @Autowired
+    private IOutPesDetRecordsService OutPesDetRecordsService;
+
+
     /**
+     * 原来华创的写法
      * 查询蔬菜上非禁止使用农药检出及超标情况列表
      */
+//    @PreAuthorize("@ss.hasPermi('out:outVegNoBanPesDetRecords:list')")
+//    @GetMapping("/list")
+//    public TableDataInfo list(agriCitySampleTestDetails agriCitySampleTestDetails)
+//    {
+//        startPage();
+//        StringBuilder feedBackMsg = new StringBuilder();
+//        List<outReturnType> list = outVegPesDetRecordsService.selectoutVegPesDetRecordsList(agriCitySampleTestDetails,"非禁用",feedBackMsg);
+//        TableDataInfo result = getDataTable(list);
+//        result.setMsg(feedBackMsg.toString());
+//        return result;
+//    }
+
     @PreAuthorize("@ss.hasPermi('out:outVegNoBanPesDetRecords:list')")
     @GetMapping("/list")
     public TableDataInfo list(agriCitySampleTestDetails agriCitySampleTestDetails)
     {
-        startPage();
+//        startPage();
         StringBuilder feedBackMsg = new StringBuilder();
-        List<outReturnType> list = outVegPesDetRecordsService.selectoutVegPesDetRecordsList(agriCitySampleTestDetails,"非禁用",feedBackMsg);
+        List<OutPesDetRecordsVo> list = OutPesDetRecordsService.selectOutPesDetRecords(agriCitySampleTestDetails,feedBackMsg,"蔬菜","1");
         TableDataInfo result = getDataTable(list);
         result.setMsg(feedBackMsg.toString());
         return result;
     }
+
+
 
     /**
      * 导出蔬菜上非禁止使用农药检出及超标情况列表
@@ -65,7 +86,9 @@ public class outVegNoBanPesDetRecordsController extends BaseController
     @PostMapping("/export")
     public void export(HttpServletResponse response, agriCitySampleTestDetails agriCitySampleTestDetails)
     {
-        List<outReturnType> list = outVegPesDetRecordsService.selectoutVegPesDetRecordsList(agriCitySampleTestDetails,"非禁用",new StringBuilder());
+//        List<outReturnType> list = outVegPesDetRecordsService.selectoutVegPesDetRecordsList(agriCitySampleTestDetails,"非禁用",new StringBuilder());
+        StringBuilder feedBackMsg = new StringBuilder();
+        List<OutPesDetRecordsVo> list = OutPesDetRecordsService.selectOutPesDetRecords(agriCitySampleTestDetails,feedBackMsg,"蔬菜","1");
         TemplateExportParams params = new TemplateExportParams("excelOutTemplate/outFruBanPesDetRecords.xlsx");
         Map<String, Object> map = new HashMap<>();
         map.put("tableName", "3.水果禁用农药检出及超标情况表");

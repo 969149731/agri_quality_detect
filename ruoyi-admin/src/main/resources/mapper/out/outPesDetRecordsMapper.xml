@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.out.mapper.outPesDetRecordsMapper">
+    <cache type="com.ruoyi.common.core.redis.MybatisRedisCache" eviction="LRU"/>
+
+    <select id="selectOutPesDetRecords" resultType="OutPesDetRecordsDto">
+        SELECT table_b.std_stage_type,
+               table_b.pesticide_name,
+               COUNT(1) AS chk_num,
+               SUM(table_b.if_not_std) AS not_std_num
+        FROM (
+                 SELECT table_a.*,
+                        CASE
+                            WHEN table_a.standard_value IS NOT NULL
+                                AND table_a.pesticide_det_value > table_a.standard_value THEN 1
+                            ELSE 0
+                            END AS if_not_std
+                 FROM (
+                          SELECT agric.sample_code,
+                                 agric.veg_fru_name,
+                                 CASE
+                                     WHEN agric.sampling_stage_type REGEXP '基地|散户|公司|农户|合作社' THEN '生产基地'
+                                     WHEN agric.sampling_stage_type LIKE '%市场%' THEN '批发市场'
+                                     WHEN agric.sampling_stage_type LIKE '%运输车%' THEN '运输车'
+                                     ELSE '其它'
+                                     END AS std_stage_type,
+                                 agrip.pesticide_name,
+                                 agrip.pesticide_det_value,
+                                 prs.standard_value
+                          FROM agri_city_sample_test_details agric
+                                   LEFT JOIN agri_pesticide_det_result agrip
+                                             ON agric.city_sample_test_details_id = agrip.city_sample_test_details_id
+                                   LEFT JOIN agri_vegetable_fruit agriv
+                                             ON agric.veg_fru_name = agriv.veg_fru_name
+                                   LEFT JOIN agri_pesticide_residue_standard prs
+                                             ON agric.veg_fru_name = prs.veg_fru_name
+                                                 AND agrip.pesticide_name = prs.pesticide_name
+                                                 AND prs.standard_category = '国家标准'
+                                   LEFT JOIN agri_pesticide ap
+                                             ON agrip.pesticide_name = ap.pesticide_name
+        <where>
+            AND agriv.veg_fru_type= #{sampleType}
+            AND ap.veg_pet_permit = #{isPermit}
+            <if test="agriCitySampleTestDetails.sampleCode != null and agriCitySampleTestDetails.sampleCode != ''">
+                AND sample_code = #{agriCitySampleTestDetails.sampleCode}
+            </if>
+            <if test="agriCitySampleTestDetails.vegFruName != null and agriCitySampleTestDetails.vegFruName != ''">
+                AND veg_fru_name LIKE concat('%', #{agriCitySampleTestDetails.vegFruName}, '%')
+            </if>
+            <if test="agriCitySampleTestDetails.samplingLocation != null and agriCitySampleTestDetails.samplingLocation != ''">
+                AND sampling_location LIKE concat('%', #{agriCitySampleTestDetails.samplingLocation}, '%')
+            </if>
+            <if test="agriCitySampleTestDetails.detectLocation != null and agriCitySampleTestDetails.detectLocation != ''">
+                AND detect_location LIKE concat('%', #{agriCitySampleTestDetails.detectLocation}, '%')
+            </if>
+            <if test="agriCitySampleTestDetails.samplingStageType != null and agriCitySampleTestDetails.samplingStageType != ''">
+                AND sampling_stage_type LIKE concat('%', #{agriCitySampleTestDetails.samplingStageType}, '%')
+            </if>
+            <if test="agriCitySampleTestDetails.samplingDate != null">
+                AND sampling_date = #{agriCitySampleTestDetails.samplingDate}
+            </if>
+            <if test="agriCitySampleTestDetails.chinaStandard != null and agriCitySampleTestDetails.chinaStandard != ''">
+                AND china_standard = #{agriCitySampleTestDetails.chinaStandard}
+            </if>
+            <if test="agriCitySampleTestDetails.cacStandard != null and agriCitySampleTestDetails.cacStandard != ''">
+                AND cac_standard = #{agriCitySampleTestDetails.cacStandard}
+            </if>
+            <if test="agriCitySampleTestDetails.japanStandard != null and agriCitySampleTestDetails.japanStandard != ''">
+                AND japan_standard = #{agriCitySampleTestDetails.japanStandard}
+            </if>
+            <if test="agriCitySampleTestDetails.euStandard != null and agriCitySampleTestDetails.euStandard != ''">
+                AND eu_standard = #{agriCitySampleTestDetails.euStandard}
+            </if>
+            <if test="agriCitySampleTestDetails.usStandard != null and agriCitySampleTestDetails.usStandard != ''">
+                AND us_standard = #{agriCitySampleTestDetails.usStandard}
+            </if>
+            <if test="agriCitySampleTestDetails.koreaStandard != null and agriCitySampleTestDetails.koreaStandard != ''">
+                AND korea_standard = #{agriCitySampleTestDetails.koreaStandard}
+            </if>
+            <if test="agriCitySampleTestDetails.samplingLocationProvince != null and agriCitySampleTestDetails.samplingLocationProvince != ''">
+                AND sampling_location_province = #{agriCitySampleTestDetails.samplingLocationProvince}
+            </if>
+            <if test="agriCitySampleTestDetails.samplingLocationCity != null and agriCitySampleTestDetails.samplingLocationCity != ''">
+                AND sampling_location_city = #{agriCitySampleTestDetails.samplingLocationCity}
+            </if>
+            <if test="agriCitySampleTestDetails.samplingLocationCounty != null and agriCitySampleTestDetails.samplingLocationCounty != ''">
+                AND sampling_location_county = #{agriCitySampleTestDetails.samplingLocationCounty}
+            </if>
+            <if test="agriCitySampleTestDetails.enterpriseAttribute != null and agriCitySampleTestDetails.enterpriseAttribute != ''">
+                AND enterprise_attribute = #{agriCitySampleTestDetails.enterpriseAttribute}
+            </if>
+            <if test="agriCitySampleTestDetails.enterpriseName != null and agriCitySampleTestDetails.enterpriseName != ''">
+                AND enterprise_name = #{agriCitySampleTestDetails.enterpriseName}
+            </if>
+            <if test="agriCitySampleTestDetails.enterpriseCreditIdCode != null and agriCitySampleTestDetails.enterpriseCreditIdCode != ''">
+                AND enterprise_credit_id_code = #{agriCitySampleTestDetails.enterpriseCreditIdCode}
+            </if>
+            <if test="agriCitySampleTestDetails.tracingProvince != null and agriCitySampleTestDetails.tracingProvince != ''">
+                AND tracing_province = #{agriCitySampleTestDetails.tracingProvince}
+            </if>
+            <if test="agriCitySampleTestDetails.tracingCity != null and agriCitySampleTestDetails.tracingCity != ''">
+                AND tracing_city = #{agriCitySampleTestDetails.tracingCity}
+            </if>
+            <if test="agriCitySampleTestDetails.tracingCounty != null and agriCitySampleTestDetails.tracingCounty != ''">
+                AND tracing_county = #{agriCitySampleTestDetails.tracingCounty}
+            </if>
+            <if test="agriCitySampleTestDetails.tracingArea != null and agriCitySampleTestDetails.tracingArea != ''">
+                AND tracing_area = #{agriCitySampleTestDetails.tracingArea}
+            </if>
+            <if test="agriCitySampleTestDetails.vegFruType != null and agriCitySampleTestDetails.vegFruType != ''">
+                AND vegFruType = #{agriCitySampleTestDetails.vegFruType}
+            </if>
+            <if test="agriCitySampleTestDetails.params.beginTime != null and agriCitySampleTestDetails.params.beginTime != ''"><!-- 开始时间检索 -->
+                AND date_format(sampling_date,'%y%m%d') &gt;= date_format(#{agriCitySampleTestDetails.params.beginTime},'%y%m%d')
+            </if>
+            <if test="agriCitySampleTestDetails.params.endTime != null and agriCitySampleTestDetails.params.endTime != ''"><!-- 结束时间检索 -->
+                AND date_format(sampling_date,'%y%m%d') &lt;= date_format(#{agriCitySampleTestDetails.params.endTime},'%y%m%d')
+            </if>
+        </where>
+
+                      ) AS table_a
+             ) AS table_b
+        GROUP BY table_b.std_stage_type, table_b.pesticide_name
+        ORDER BY CONVERT(table_b.pesticide_name USING gbk)
+    </select>
+
+
+</mapper>

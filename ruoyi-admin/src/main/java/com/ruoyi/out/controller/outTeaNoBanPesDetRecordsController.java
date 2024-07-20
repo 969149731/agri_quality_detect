@@ -13,6 +13,8 @@ import cn.afterturn.easypoi.excel.ExcelExportUtil;
 import cn.afterturn.easypoi.excel.entity.TemplateExportParams;
 import com.ruoyi.detection.domain.agriCitySampleTestDetails;
 import com.ruoyi.out.domain.outReturnType;
+import com.ruoyi.out.domain.vo.OutPesDetRecordsVo;
+import com.ruoyi.out.service.IOutPesDetRecordsService;
 import com.ruoyi.out.service.IoutTeaPesDetRecordsService;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
@@ -46,17 +48,29 @@ public class outTeaNoBanPesDetRecordsController extends BaseController
 {
     @Autowired
     private IoutTeaPesDetRecordsService outTeaPesDetRecordsService;
+    @Autowired
+    private IOutPesDetRecordsService OutPesDetRecordsService;
 
     /**
      * 查询茶叶上非禁止使用农药检出及超标情况列表
      */
+//    @PreAuthorize("@ss.hasPermi('out:outTeaNoBanPesDetRecords:list')")
+//    @GetMapping("/list")
+//    public TableDataInfo list(agriCitySampleTestDetails agriCitySampleTestDetails)
+//    {
+//        startPage();
+//        StringBuilder feedBackMsg =new StringBuilder();
+//        List<outReturnType> list = outTeaPesDetRecordsService.selectoutTeaPesDetRecordsList(agriCitySampleTestDetails,"非禁用",feedBackMsg);
+//        TableDataInfo result = getDataTable(list);
+//        result.setMsg(feedBackMsg.toString());
+//        return result;
+//    }
     @PreAuthorize("@ss.hasPermi('out:outTeaNoBanPesDetRecords:list')")
     @GetMapping("/list")
     public TableDataInfo list(agriCitySampleTestDetails agriCitySampleTestDetails)
     {
-        startPage();
         StringBuilder feedBackMsg =new StringBuilder();
-        List<outReturnType> list = outTeaPesDetRecordsService.selectoutTeaPesDetRecordsList(agriCitySampleTestDetails,"非禁用",feedBackMsg);
+        List<OutPesDetRecordsVo> list = OutPesDetRecordsService.selectOutPesDetRecords(agriCitySampleTestDetails,feedBackMsg,"茶叶","1");
         TableDataInfo result = getDataTable(list);
         result.setMsg(feedBackMsg.toString());
         return result;
@@ -70,8 +84,9 @@ public class outTeaNoBanPesDetRecordsController extends BaseController
     @PostMapping("/export")
     public void export(HttpServletResponse response, agriCitySampleTestDetails agriCitySampleTestDetails)
     {
-        List<outReturnType> list = outTeaPesDetRecordsService.selectoutTeaPesDetRecordsList(agriCitySampleTestDetails,"非禁用",new StringBuilder());
-
+//        List<outReturnType> list = outTeaPesDetRecordsService.selectoutTeaPesDetRecordsList(agriCitySampleTestDetails,"非禁用",new StringBuilder());
+        StringBuilder feedBackMsg =new StringBuilder();
+        List<OutPesDetRecordsVo> list = OutPesDetRecordsService.selectOutPesDetRecords(agriCitySampleTestDetails,feedBackMsg,"茶叶","1");
         TemplateExportParams params = new TemplateExportParams("excelOutTemplate/outFruBanPesDetRecords.xlsx");
         Map<String, Object> map = new HashMap<>();
         map.put("tableName", "3.茶叶上非禁止使用农药检出及超标情况表");

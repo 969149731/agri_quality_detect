@@ -208,7 +208,7 @@
     </el-row>
 
     <el-table v-loading="loading" :data="outUndeterminedStandDetList" @selection-change="handleSelectionChange">
-      <el-table-column type="selection" width="55" align="center" />
+<!--      <el-table-column type="selection" width="55" align="center" />-->
 <!--      <el-table-column label="唯一标识符，自增" align="center" prop="undeterminedStandardDetectionId" />-->
       <el-table-column label="检测单位" align="center" prop="detectUnit" />
       <el-table-column label="样品编号" align="center" prop="sampleCode" />
@@ -252,13 +252,13 @@
 <!--      </el-table-column>-->
     </el-table>
 
-    <pagination
-      v-show="total>0"
-      :total="total"
-      :page.sync="queryParams.pageNum"
-      :limit.sync="queryParams.pageSize"
-      @pagination="getList"
-    />
+<!--    <pagination-->
+<!--      v-show="total>0"-->
+<!--      :total="total"-->
+<!--      :page.sync="queryParams.pageNum"-->
+<!--      :limit.sync="queryParams.pageSize"-->
+<!--      @pagination="getList"-->
+<!--    />-->
 
     <!-- 添加或修改无判定标准检出值详细对话框 -->
 <!--    <el-dialog :title="title" :visible.sync="open" width="500px" append-to-body>-->
@@ -346,7 +346,7 @@ export default {
       // 查询参数
       queryParams: {
         pageNum: 1,
-        pageSize: 10,
+        pageSize: 1000,
         detectUnit: null,
         sampleCode: null,
         vegFruName: null,

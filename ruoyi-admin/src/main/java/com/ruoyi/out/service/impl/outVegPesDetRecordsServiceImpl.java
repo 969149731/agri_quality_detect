@@ -6,6 +6,9 @@ import com.github.pagehelper.PageHelper;
 import com.ruoyi.detection.domain.agriCitySampleTestDetails;
 import com.ruoyi.framework.web.domain.server.Sys;
 import com.ruoyi.out.domain.*;
+import com.ruoyi.out.domain.dto.OutPesDetRecordsDto;
+import com.ruoyi.out.domain.vo.OutPesDetRecordsVo;
+import com.ruoyi.out.mapper.outPesDetRecordsMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.ruoyi.out.mapper.outVegPesDetRecordsMapper;
@@ -24,6 +27,14 @@ public class outVegPesDetRecordsServiceImpl implements IoutVegPesDetRecordsServi
 {
     @Autowired
     private outVegPesDetRecordsMapper outVegPesDetRecordsMapper;
+
+    @Autowired
+    private outPesDetRecordsMapper outPesDetRecordsMapper;
+
+    @Autowired
+    private outPesDetRecordsServiceImpl outPesDetRecordsServiceImpl;
+
+
     ///////////业务模块全局变量
     List<outReturnType> resultList;//用于存放结果的列表，当前为空
     Map<String, outReturnType> pesticideResultMap;//各个农药检出情况
@@ -97,6 +108,9 @@ public class outVegPesDetRecordsServiceImpl implements IoutVegPesDetRecordsServi
         //返回结果
         return returnFinalList();
     }
+
+
+
     public boolean initModule(StringBuilder feedBackMsg,String type){
         //初始化模块
         MsgHandler.initReturnMsg(feedBackMsg);//把上级传入的feedBackMsg作为内部的变量
@@ -223,4 +237,13 @@ public class outVegPesDetRecordsServiceImpl implements IoutVegPesDetRecordsServi
         }
         item.samplingStageType="其它";//保底内容
     }
+
+
+    @Override
+    public List<OutPesDetRecordsVo> selectOutVegBanPesDetRecords(agriCitySampleTestDetails agriCitySampleTestDetails,
+                                                                 StringBuilder feedBackMsg,String SampleType,String isPermit) {
+
+        return outPesDetRecordsServiceImpl.selectOutPesDetRecords(agriCitySampleTestDetails,feedBackMsg,SampleType,isPermit);
+    }
+
 }
