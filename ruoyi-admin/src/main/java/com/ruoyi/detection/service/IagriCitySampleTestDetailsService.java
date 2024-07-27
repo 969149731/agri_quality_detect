@@ -32,6 +32,8 @@ public interface IagriCitySampleTestDetailsService
      */
     public List<agriCitySampleTestDetails> selectagriCitySampleTestDetailsList(agriCitySampleTestDetails agriCitySampleTestDetails);
 
+    List<agriCitySampleTestDetails> selectMyImportAgriCitySampleTestDetailsList(agriCitySampleTestDetails agriCitySampleTestDetails);
+
     /**
      * 新增各市样品检测结果详细
      * 

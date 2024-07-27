@@ -169,7 +169,7 @@ public class TokenService
     }
 
     /**
-     * 从数据声明生成令牌
+     * 从数据声明生成令牌  JWT（JSON Web Token）
      *
      * @param claims 数据声明
      * @return 令牌

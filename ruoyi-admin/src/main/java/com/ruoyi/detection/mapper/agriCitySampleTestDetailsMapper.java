@@ -90,4 +90,5 @@ public interface agriCitySampleTestDetailsMapper
     //通过当前用户的id查询当前用户所在的部门
     public String selectUserDepByUserName(String userName);
 
+    List<agriCitySampleTestDetails> selectMyImportAgriCitySampleTestDetailsList(agriCitySampleTestDetails agriCitySampleTestDetails);
 }

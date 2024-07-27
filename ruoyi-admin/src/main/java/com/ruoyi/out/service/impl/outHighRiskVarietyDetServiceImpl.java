@@ -381,7 +381,8 @@ public class outHighRiskVarietyDetServiceImpl implements IoutHighRiskVarietyDetS
 
     //孙帅开始写的代码   方法返回值和参数可以先不管1
     public List<outHighRiskVarietyDet> selectOutHighRiskVarietyDetList(agriCitySampleTestDetails agriCitySampleTestDetails) {
-
+        //好像没效果     后续：又有效果了，之前可能是没有刷新缓存的原因，尝试刷新redis缓存，或者重启数据库  ，  后续 又不行了
+        outHighRiskVarietyDetMapper.setGroupConcatMaxLen();
         List<outHighRiskVarietyDet> outHighRiskVarietyDets = outHighRiskVarietyDetMapper.selectHighRiskSampleList(agriCitySampleTestDetails);
 
         List<outHighRiskVarietyDet> finalRes = new ArrayList<>();

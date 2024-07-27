@@ -5,8 +5,6 @@ import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import cn.afterturn.easypoi.excel.entity.ImportParams;
-import com.ruoyi.address.domain.AddressUse;
 import com.ruoyi.address.service.IAddressCityService;
 import com.ruoyi.address.service.IAddressProvinceService;
 import com.ruoyi.address.service.IAddressTownService;
@@ -78,7 +76,7 @@ public class agriCitySampleTestDetailsServiceImpl implements IagriCitySampleTest
     public List<agriCitySampleTestDetails> selectagriCitySampleTestDetailsList(agriCitySampleTestDetails agriCitySampleTestDetails) {
 
 //        startPage();
-        List<com.ruoyi.detection.domain.agriCitySampleTestDetails> agriCitySampleTestDetails1 = agriCitySampleTestDetailsMapper.selectagriCitySampleTestDetailsList(agriCitySampleTestDetails);
+        List<agriCitySampleTestDetails> agriCitySampleTestDetails1 = agriCitySampleTestDetailsMapper.selectagriCitySampleTestDetailsList(agriCitySampleTestDetails);
 
         try {
             //把抽样地址简化
@@ -123,6 +121,73 @@ public class agriCitySampleTestDetailsServiceImpl implements IagriCitySampleTest
         //下面的这个是原来的写法，直接返回对应的抽样地址和溯源地址
 //        return agriCitySampleTestDetailsMapper.selectagriCitySampleTestDetailsList(agriCitySampleTestDetails);
     }
+
+
+
+
+
+    /**
+     * 查询我的导入历史明细列表
+     *
+     * @param agriCitySampleTestDetails 各市样品检测结果详细
+     * @return 各市样品检测结果详细
+     */
+    @Override
+    public List<agriCitySampleTestDetails> selectMyImportAgriCitySampleTestDetailsList(agriCitySampleTestDetails agriCitySampleTestDetails) {
+
+//        startPage();
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        //获取当前登录的用户名
+        String username = authentication.getName();
+        agriCitySampleTestDetails.setUserName(username);
+
+        List<agriCitySampleTestDetails> agriCitySampleTestDetails1 = agriCitySampleTestDetailsMapper.selectMyImportAgriCitySampleTestDetailsList(agriCitySampleTestDetails);
+
+        try {
+            //把抽样地址简化
+            for (agriCitySampleTestDetails agriCitySampleTestDetail : agriCitySampleTestDetails1) {
+                String samplingLocationCounty = agriCitySampleTestDetail.getSamplingLocationCounty();
+                // 找到samplingLocationCounty在samplingLocation中的起始位置
+                String samplingLocation = agriCitySampleTestDetail.getSamplingLocation();
+                int startIndex = samplingLocation.indexOf(samplingLocationCounty);
+                if (startIndex != -1) {
+                    // 计算起始位置的结束索引
+                    int endIndex = startIndex + samplingLocationCounty.length();
+                    // 提取从endIndex开始到字符串末尾的子字符串
+                    String result = samplingLocation.substring(endIndex);
+                    agriCitySampleTestDetail.setSamplingLocation(result);
+                } else {
+                    agriCitySampleTestDetail.setSamplingLocation(samplingLocation);
+                }
+            }
+            //同上，改溯源地
+            for (agriCitySampleTestDetails agriCitySampleTestDetail : agriCitySampleTestDetails1) {
+                String samplingTracingCounty = agriCitySampleTestDetail.getTracingCounty();
+                // 找到samplingLocationCounty在samplingLocation中的起始位置
+                String tracingArea = agriCitySampleTestDetail.getTracingArea();
+                int startIndex = tracingArea.indexOf(samplingTracingCounty);
+                if (startIndex != -1) {
+                    // 计算起始位置的结束索引
+                    int endIndex = startIndex + samplingTracingCounty.length();
+                    // 提取从endIndex开始到字符串末尾的子字符串
+                    String result = tracingArea.substring(endIndex);
+                    agriCitySampleTestDetail.setTracingArea(result);
+                } else {
+                    agriCitySampleTestDetail.setTracingArea(tracingArea);
+                }
+            }
+        }catch (Exception e){
+            System.out.println(e);
+        }
+        return agriCitySampleTestDetails1;
+    }
+
+
+
+
+
+
+
 
     /**
      * 新增各市样品检测结果详细
@@ -698,6 +763,8 @@ public class agriCitySampleTestDetailsServiceImpl implements IagriCitySampleTest
         if (StringUtils.isNull(agriOut2CitySampleTestDetailsList) || agriOut2CitySampleTestDetailsList.size() == 0) {
             throw new ServiceException("导入数据不能为空！");
         }
+        // 生成批次编号，可以使用UUID或当前时间戳
+        String batchId = UUID.randomUUID().toString();
         SimpleDateFormat originalFormat = new SimpleDateFormat("yyyy.M.d");
         SimpleDateFormat targetFormat = new SimpleDateFormat("yyyy-MM-dd");
         int successNum = 0;
@@ -904,6 +971,9 @@ public class agriCitySampleTestDetailsServiceImpl implements IagriCitySampleTest
                 Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
                 //获取当前登录的用户名
                 String username = authentication.getName();
+                agriCitySampleTestDetails.setUserName(username);
+
+
                 //通过当前登录的用户名查询到当前登录的用户所存在的部门
                 String deptName = agriCitySampleTestDetailsMapper.selectUserDepByUserName(username);
                 if (agriCitySampleTestDetails.getDetectLocation() == null) {
@@ -916,8 +986,10 @@ public class agriCitySampleTestDetailsServiceImpl implements IagriCitySampleTest
                 agriCitySampleTestDetails.setSamplingStageType(samplingStageType);
                 agriCitySampleTestDetails.setSamplingDate(samplingDateUse);
                 agriCitySampleTestDetails.setChinaStandard(chinaStandard);
+                agriCitySampleTestDetails.setBatchId(batchId);
 
                 //插入主表部分
+                System.out.println("看看"+agriCitySampleTestDetails);
                 agriCitySampleTestDetailsMapper.insertagriCitySampleTestDetails(agriCitySampleTestDetails);
 //                System.out.println("-----------------------------"+agriCitySampleTestDetails.getCitySampleTestDetailsId()+"---------------------------------------------------");
                 //这个判断固定真正有用的主键值，用来传给从表也就是检测表，（随便取了3个为null值的属性判断）,如果判断的字段是空的，说明这张表是为了添加从表字段时候多余添加进来的
@@ -936,7 +1008,7 @@ public class agriCitySampleTestDetailsServiceImpl implements IagriCitySampleTest
                         "序号", "样品编号","样品 编号","样品     编号", "样品名称", "抽样环节",
                         "抽样省", "抽样市", "抽样县", "抽样地址",
                         "企业名称/农户","企业名称/散户", "企业属性（绿色/有机/地理标志/GAP)", "企业信用代码/身份证号",
-                        "溯源省", "溯源市", "溯源县", "溯源产地", "判定结果", "抽样日期", "企业名称", "excelRowNum");//合计在最后加入
+                        "溯源省", "溯源市", "溯源县", "溯源产地", "判定结果", "抽样日期", "企业名称", "excelRowNum","依据国家标准");//合计在最后加入
                 //遍历每一个map
                 Set<Map.Entry<String, Object>> entrySet = agriOut2CitySampleTestDetails.entrySet();
                 for (Map.Entry<String, Object> entryItem : entrySet) {//对于map里每一个内容
@@ -990,7 +1062,7 @@ public class agriCitySampleTestDetailsServiceImpl implements IagriCitySampleTest
                 successMsg.append("<br/>" + "第" + successNum + "条" + "数据导入成功");
             } catch (Exception e) {
                 failureNum++;
-                String msg = "<br/>" + "第" + failureNum + "条" + "数据导入失败：";
+                String msg = "<br/>" + "第" + failureNum + "条" + "数据导入失败---------：";
                 failureMsg.append(msg + e.getMessage());
                 log.error(msg, e);
             }
@@ -1001,7 +1073,7 @@ public class agriCitySampleTestDetailsServiceImpl implements IagriCitySampleTest
             failureMsg.insert(0, "导入成功，有 " + failureNum + " 条数据因格式不正确导入失败：");
             throw new ServiceException(failureMsg.toString());
         } else {
-            successMsg.insert(0, "恭喜，数据已全部导入成功！共 " + successNum + " 条，数据如下：");
+            successMsg.insert(0, "恭喜，数据已全部导入成功！本次数据的导入批次编号为： "+batchId+"    <br/>   共 " + successNum + " 条，情况如下：");
         }
         return successMsg.toString();
 

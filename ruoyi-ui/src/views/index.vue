@@ -2,6 +2,7 @@
   <div >
     <div>
       <el-row :gutter="2">
+
         <el-col :span="8">
           <!--用户信息-->
           <div @click="mystest">{{Test}}</div>
@@ -41,6 +42,7 @@
               </ul>
             </div>
           </el-card>
+
         </el-col>
         <!--介绍和入口-->
         <el-col :span="16">
@@ -59,18 +61,19 @@
 
           </el-card>
         </el-col>
+
       </el-row>
-      <el-row>
-        <el-card class="charts" >
-          <!--          <h1> 一些图表</h1>-->
-          <div class= "num graph" >
-            <el-card style="width: 34%;height: 300px;marginRight: 1%">
-              <div style="width: 80%;height: 265px;" ref="pieEcharts"></div>
-            </el-card>
-            <el-card style="width: 34%;height: 300px;"><div class="Calendar_div"><el-calendar v-model="value" class="calendar"></el-calendar></div></el-card>
-          </div>
-        </el-card>
-      </el-row>
+<!--      <el-row>-->
+<!--        <el-card class="charts" >-->
+<!--          &lt;!&ndash;          <h1> 一些图表</h1>&ndash;&gt;-->
+<!--          <div class= "num graph" >-->
+<!--            <el-card style="width: 34%;height: 300px;marginRight: 1%">-->
+<!--              <div style="width: 80%;height: 265px;" ref="pieEcharts"></div>-->
+<!--            </el-card>-->
+<!--            <el-card style="width: 34%;height: 300px;"><div class="Calendar_div"><el-calendar v-model="value" class="calendar"></el-calendar></div></el-card>-->
+<!--          </div>-->
+<!--        </el-card>-->
+<!--      </el-row>-->
     </div>
 
 <!--    <div class="tables" shadow= 'hover' border style="width: 100%">-->
@@ -166,25 +169,25 @@ export default {
       routineDetectData: [],/*快速监测数据*/
       countData:[
         {
-          name: '定量监测',
+          name: '定量监测结果汇总',
           value: 1200,
           icon: 'success',
           color: '#2ec7c9',
         },
+        // {
+        //   name: '定性监测',
+        //   value: 1200,
+        //   icon: 'star-on',
+        //   color: '#ffb980'
+        // },
         {
-          name: '定性监测',
-          value: 1200,
-          icon: 'star-on',
-          color: '#ffb980'
-        },
-        {
-          name: '定量检测明细',
+          name: '定量检测导入明细',
           value: 1200,
           icon: 's-goods',
           color: '#5ab1ef'
         },
         {
-          name: '各类蔬菜水果合格率',
+          name: '样品合格率和数量统计',
           value: 1200,
           icon: 'success',
           color: '#2ec7c9'
@@ -196,13 +199,19 @@ export default {
           color: '#ffb980'
         },
         {
+          name: '超标样品明细',
+          value: 1200,
+          icon: 'star-on',
+          color: '#ffb980'
+        },
+        {
           name: '无判定标准检出',
           value: 1200,
           icon: 'star-on',
           color: '#ffb980'
         },
         {
-          name: '参照国家或国际标准合格率',
+          name: '参照各标准合格率统计',
           value: 1200,
           icon: 'star-on',
           color: '#ffb980'
@@ -338,26 +347,29 @@ export default {
     IntroduceClickEvent(key){
       console.log(key);
       switch (key){
-        case("定量监测"):
+        case("定量监测结果汇总"):
           this.$router.push('/detectInf/outDlDetectRecords');
           break;
-        case("定性监测"):
-          this.$router.push('/detectInf/outDxDetectRecords');
-          break;
+        // case("定性监测"):
+        //   this.$router.push('/detectInf/outDxDetectRecords');
+        //   break;
         case("定量检测导入明细"):
           this.$router.push('/detectInf/detectionDetails');
           break;
-        case("各类蔬菜水果合格率"):
-          this.$router.push('/resultsum/outFruVegQualification');
+        case("样品合格率和数量统计"):
+          this.$router.push('/resultsum/count/outFruVegQualification');
           break;
         case("各抽样环节合格率"):
-          this.$router.push('/resultsum/outSampleQuality');
+          this.$router.push('/resultsum/count/outSampleQuality');
+          break;
+        case("参照各标准合格率统计"):
+          this.$router.push('/resultsum/count/outStandCompliance');
+          break;
+        case("超标样品明细"):
+          this.$router.push('/resultsum/adddetail/outExceedSampleDetail');
           break;
         case("无判定标准检出"):
-          this.$router.push('/resultsum/outUndeterminedStandDet');
-          break;
-        case("参照国家或国际标准合格率"):
-          this.$router.push('/resultsum/outStandCompliance');
+          this.$router.push('/resultsum/adddetail/outUndeterminedStandDet');
           break;
       }
       // this.$router.push('/register');
