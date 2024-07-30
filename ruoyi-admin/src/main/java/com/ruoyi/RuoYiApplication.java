@@ -5,7 +5,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 
 /**
- * 启动程序  cj git111112   hhc    chenjielalala拉下121212666666666
+ * 启动程序  cj git111112   hhc    chenjielalala拉下121212666666666          7.30
  * 
  * @author ruoyi
  */
