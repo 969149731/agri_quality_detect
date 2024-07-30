@@ -191,6 +191,8 @@
 
             <if test="vegFruType != null  and vegFruType != ''">and veg_fru_type = #{vegFruType}</if>
             <if test="userName != null  and userName != ''">and user_name = #{userName}</if>
+            <if test="allDistrictCode != null  and allDistrictCode != ''">and all_district_code = #{allDistrictCode}</if>
+
 
             <if test="createdAt != null">
                 AND DATE(agri_city_sample_test_details.created_at) = #{createdAt}

@@ -116,7 +116,7 @@ public class agriCitySampleTestDetails extends BaseEntity
 
 
 
-   //下面新增的字段，放在搜索框那里的
+   //新增的字段，放在搜索框那里的
     /** 蔬果类型（蔬菜或水果） */
     private String vegFruType;
 
@@ -127,6 +127,17 @@ public class agriCitySampleTestDetails extends BaseEntity
     // 记录上传的批次编号
     private String batchId;
 
+    //7月28日新加的需求，要求加入全区编号
+    private String allDistrictCode;
+
+
+    public String getAllDistrictCode() {
+        return allDistrictCode;
+    }
+
+    public void setAllDistrictCode(String allDistrictCode) {
+        this.allDistrictCode = allDistrictCode;
+    }
 
     public String getBatchId() {
         return batchId;

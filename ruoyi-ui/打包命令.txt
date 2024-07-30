@@ -1,0 +1,10 @@
+前端打包：npm run build:prod
+
+后端后台运行：nohup java -jar ruoyi-admin.jar &
+
+
+重启前端：sudo nginx
+
+查看后台端口进程：sudo netstat -nlp | grep :8080
+
+

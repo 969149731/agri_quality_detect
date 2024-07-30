@@ -228,7 +228,8 @@
 <!--          {{ scope.$index + 1 }}-->
 <!--        </template>-->
 <!--      </el-table-column>-->
-      <el-table-column label="样品编号" align="center" prop="sampleCode" />
+      <el-table-column  label="样品编号" align="center" prop="sampleCode" />
+
       <el-table-column label="样品名称" align="center" prop="vegFruName" />
       <el-table-column label="抽样环节" align="center" prop="samplingStageType" />
 <!--      <el-table-column label="抽样省" align="center" prop="samplingLocationProvince" />-->
@@ -264,6 +265,33 @@
           </el-table>
         </template>
       </el-table-column>
+
+
+<!--      下面这一段是展开和关闭检测结果详细用的-->
+<!--      <el-table-column label="检测结果" align="center" prop="result" width="300px">-->
+<!--        <template slot-scope="props">-->
+<!--          &lt;!&ndash; 使用 v-if 来判断显示哪个按钮 &ndash;&gt;-->
+<!--          <el-button-->
+<!--            type="text"-->
+<!--            icon="el-icon-arrow-down"-->
+<!--            v-if="!props.row.showDetails"-->
+<!--            @click="toggleDetails(props.row)"-->
+<!--          >查看详细</el-button>-->
+<!--          <el-button-->
+<!--            type="text"-->
+<!--            icon="el-icon-arrow-up"-->
+<!--            v-if="props.row.showDetails"-->
+<!--            @click="toggleDetails(props.row)"-->
+<!--          >收起</el-button>-->
+<!--          &lt;!&ndash; 根据 showDetails 属性的值显示或隐藏农药检测结果 &ndash;&gt;-->
+<!--          <div v-show="props.row.showDetails">-->
+<!--            <el-table :data="props.row.agriPesticideDetResultList">-->
+<!--              <el-table-column label="农药名" align="center" prop="pesticideName"></el-table-column>-->
+<!--              <el-table-column label="检测值 mg/kg" align="center" prop="pesticideDetValue"></el-table-column>-->
+<!--            </el-table>-->
+<!--          </div>-->
+<!--        </template>-->
+<!--      </el-table-column>-->
 
 
       <el-table-column label="判定结果" align="center" prop="chinaStandard">
@@ -664,6 +692,9 @@ export default {
           this.queryParams.samplingLocationProvince=foundObject.name;
         }
       });
+    },
+    toggleDetails(row) {
+      this.$set(row, 'showDetails', !row.showDetails);
     },
     changeSamplingProvince(val) {
       findBySamplingProvinceCode(val.code).then((res) => {
