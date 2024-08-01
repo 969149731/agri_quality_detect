@@ -108,6 +108,15 @@
         </el-select>
       </el-form-item>
 
+      <el-form-item label="农药名称" prop="pesticideName">
+        <el-input
+          v-model="queryParams.pesticideName"
+          placeholder="请输入农药名称"
+          clearable
+          @keyup.enter.native="handleQuery"
+        />
+      </el-form-item>
+
       <el-form-item label="抽样日期">
         <el-date-picker
           v-model="dateRange"
@@ -607,6 +616,7 @@ export default {
         euStandard: null,
         usStandard: null,
         koreaStandard: null,
+        pesticideName: null,
 
         //对应到实体类的名字
         samplingLocationProvince:null,
@@ -764,6 +774,7 @@ export default {
         createdAt: null,
         samplingLocationProvince: null,
         vegFruType: null,
+        pesticideName: null,
 
       };
       this.agriPesticideDetResultList = [];

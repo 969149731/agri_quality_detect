@@ -130,6 +130,17 @@ public class agriCitySampleTestDetails extends BaseEntity
     //7月28日新加的需求，要求加入全区编号
     private String allDistrictCode;
 
+    //7月31囸新加的需求，要求加入农药名查询
+    private String pesticideName;
+
+
+    public String getPesticideName() {
+        return pesticideName;
+    }
+
+    public void setPesticideName(String pesticideName) {
+        this.pesticideName = pesticideName;
+    }
 
     public String getAllDistrictCode() {
         return allDistrictCode;
@@ -436,6 +447,8 @@ public class agriCitySampleTestDetails extends BaseEntity
                 ", vegFruType='" + vegFruType + '\'' +
                 ", userName='" + userName + '\'' +
                 ", batchId='" + batchId + '\'' +
+                ", allDistrictCode='" + allDistrictCode + '\'' +
+                ", pesticideName='" + pesticideName + '\'' +
                 '}';
     }
 }

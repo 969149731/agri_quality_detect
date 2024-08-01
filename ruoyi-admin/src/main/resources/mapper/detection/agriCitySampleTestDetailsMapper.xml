@@ -108,6 +108,7 @@
         <result property="koreaStandard" column="korea_standard"/>
         <result property="createdAt" column="created_at"/>
 
+
         <result property="samplingLocationProvince" column="sampling_location_province"/>
         <result property="samplingLocationCity" column="sampling_location_city"/>
         <result property="samplingLocationCounty" column="sampling_location_county"/>
@@ -192,6 +193,8 @@
             <if test="vegFruType != null  and vegFruType != ''">and veg_fru_type = #{vegFruType}</if>
             <if test="userName != null  and userName != ''">and user_name = #{userName}</if>
             <if test="allDistrictCode != null  and allDistrictCode != ''">and all_district_code = #{allDistrictCode}</if>
+            <if test="pesticideName != null  and pesticideName != ''">and pesticide_name = #{pesticideName}</if>
+
 
 
             <if test="createdAt != null">
