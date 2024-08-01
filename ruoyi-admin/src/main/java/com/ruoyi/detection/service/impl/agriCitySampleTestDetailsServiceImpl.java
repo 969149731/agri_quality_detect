@@ -76,7 +76,16 @@ public class agriCitySampleTestDetailsServiceImpl implements IagriCitySampleTest
     public List<agriCitySampleTestDetails> selectagriCitySampleTestDetailsList(agriCitySampleTestDetails agriCitySampleTestDetails) {
 
 //        startPage();
-        List<agriCitySampleTestDetails> agriCitySampleTestDetails1 = agriCitySampleTestDetailsMapper.selectagriCitySampleTestDetailsList(agriCitySampleTestDetails);
+//        List<agriCitySampleTestDetails> agriCitySampleTestDetails1 = agriCitySampleTestDetailsMapper.selectagriCitySampleTestDetailsList(agriCitySampleTestDetails);
+        List<agriCitySampleTestDetails> agriCitySampleTestDetails1 = agriCitySampleTestDetailsMapper.selectAgriCitySampleList(agriCitySampleTestDetails);
+        for (agriCitySampleTestDetails agriCitySampleTestDetail : agriCitySampleTestDetails1) {
+            //查询详细列表中的Id
+            Long citySampleTestDetailsId = agriCitySampleTestDetail.getCitySampleTestDetailsId();
+            //根据id查询农药检测结果表中的情况
+            List<agriPesticideDetResult> agriPesticideDetResultList = agriCitySampleTestDetailsMapper.selectAgriCitySampleTestDetailsListById(citySampleTestDetailsId);
+            agriCitySampleTestDetail.setAgriPesticideDetResultList(agriPesticideDetResultList);
+        }
+
 
         try {
             //把抽样地址简化

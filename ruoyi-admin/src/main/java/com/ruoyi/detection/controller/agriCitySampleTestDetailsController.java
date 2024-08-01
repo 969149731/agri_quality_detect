@@ -141,6 +141,7 @@ public class agriCitySampleTestDetailsController extends BaseController {
     @PreAuthorize("@ss.hasPermi('detection:detectionDetails:query')")
     @GetMapping(value = "/{citySampleTestDetailsId}")
     public AjaxResult getInfo(@PathVariable("citySampleTestDetailsId") Long citySampleTestDetailsId) {
+//        System.out.println("1212"+agriCitySampleTestDetailsService.selectagriCitySampleTestDetailsByCitySampleTestDetailsId(citySampleTestDetailsId));
         return success(agriCitySampleTestDetailsService.selectagriCitySampleTestDetailsByCitySampleTestDetailsId(citySampleTestDetailsId));
     }
 

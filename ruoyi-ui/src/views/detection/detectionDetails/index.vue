@@ -9,6 +9,16 @@
           @keyup.enter.native="handleQuery"
         />
       </el-form-item>
+
+      <el-form-item label="全区编号" prop="allDistrictCode">
+        <el-input
+          v-model="queryParams.allDistrictCode"
+          placeholder="请输入全区编号"
+          clearable
+          @keyup.enter.native="handleQuery"
+        />
+      </el-form-item>
+
       <el-form-item label="样品名称" prop="vegFruName">
         <el-input
           v-model="queryParams.vegFruName"
@@ -229,6 +239,8 @@
 <!--        </template>-->
 <!--      </el-table-column>-->
       <el-table-column  label="样品编号" align="center" prop="sampleCode" />
+      <el-table-column  label="全区编号" align="center" prop="allDistrictCode" />
+
 
       <el-table-column label="样品名称" align="center" prop="vegFruName" />
       <el-table-column label="抽样环节" align="center" prop="samplingStageType" />
@@ -335,6 +347,9 @@
       <el-form ref="form" :model="form" :rules="rules" label-width="80px">
         <el-form-item label="样品编号" prop="sampleCode">
           <el-input v-model="form.sampleCode" placeholder="请输入样品编号" />
+        </el-form-item>
+        <el-form-item label="全区编号" prop="allDistrictCode">
+          <el-input v-model="form.allDistrictCode" placeholder="请输入全区编号" />
         </el-form-item>
         <el-form-item label="样品名称" prop="vegFruName">
           <el-input v-model="form.vegFruName" placeholder="请输入样品名称" />
@@ -607,6 +622,9 @@ export default {
         euStandard: null,
         usStandard: null,
         koreaStandard: null,
+        vegFruType: null,
+        allDistrictCode: null,
+
 
         //对应到实体类的名字
         samplingLocationProvince:null,
@@ -764,6 +782,7 @@ export default {
         createdAt: null,
         samplingLocationProvince: null,
         vegFruType: null,
+        allDistrictCode: null,
 
       };
       this.agriPesticideDetResultList = [];

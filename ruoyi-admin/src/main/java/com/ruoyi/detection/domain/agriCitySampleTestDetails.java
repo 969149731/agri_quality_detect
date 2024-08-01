@@ -436,6 +436,7 @@ public class agriCitySampleTestDetails extends BaseEntity
                 ", vegFruType='" + vegFruType + '\'' +
                 ", userName='" + userName + '\'' +
                 ", batchId='" + batchId + '\'' +
+                ", allDistrictCode='" + allDistrictCode + '\'' +
                 '}';
     }
 }
