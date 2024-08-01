@@ -3,6 +3,7 @@ package com.ruoyi.detection.mapper;
 import java.util.List;
 import com.ruoyi.detection.domain.agriCitySampleTestDetails;
 import com.ruoyi.detection.domain.agriPesticideDetResult;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -90,5 +91,12 @@ public interface agriCitySampleTestDetailsMapper
     //通过当前用户的id查询当前用户所在的部门
     public String selectUserDepByUserName(String userName);
 
+    //查询当前用户导入的各市样品检测结果详细(可以用来看历史记录的)
     List<agriCitySampleTestDetails> selectMyImportAgriCitySampleTestDetailsList(agriCitySampleTestDetails agriCitySampleTestDetails);
+
+
+    //查询各市样品检测结果详细列表，但是这边不包括检测到的农药和农药值，为了保证分页的准确性，需要分开查
+    List<agriCitySampleTestDetails> selectAgriCitySampleList(agriCitySampleTestDetails agriCitySampleTestDetails);
+
+    List<agriPesticideDetResult> selectAgriCitySampleTestDetailsListById(@Param("citySampleTestDetailsId") Long citySampleTestDetailsId);
 }
