@@ -128,6 +128,15 @@
         ></el-date-picker>
       </el-form-item>
 
+      <el-form-item label="农药名称" prop="pesticideName">
+        <el-input
+          v-model="queryParams.pesticideName"
+          placeholder="请输入农药名称"
+          clearable
+          @keyup.enter.native="handleQuery"
+        />
+      </el-form-item>
+
       <el-form-item label="抽样地点">
         <template>
           <div>
@@ -388,6 +397,7 @@ export default {
         limitValue: null,
         remarks: null,
         createdDate: null,
+        pesticideName:null,
 
         //对应到实体类的名字
         samplingLocationProvince:null,
@@ -493,7 +503,8 @@ export default {
         exceedPesticideValue: null,
         limitValue: null,
         remarks: null,
-        createdDate: null
+        createdDate: null,
+        pesticideName:null
       };
       this.resetForm("form");
     },

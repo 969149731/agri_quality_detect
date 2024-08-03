@@ -84,6 +84,7 @@
           </div>
         </template>
       </el-form-item>
+
       <el-form-item label="抽样日期">
         <el-date-picker
           v-model="dateRange"
@@ -95,6 +96,16 @@
           end-placeholder="结束日期"
         ></el-date-picker>
       </el-form-item>
+
+<!--      <el-form-item label="农药名称" prop="pesticideName">-->
+<!--        <el-input-->
+<!--          v-model="queryParams.pesticideName"-->
+<!--          placeholder="请输入农药名称"-->
+<!--          clearable-->
+<!--          @keyup.enter.native="handleQuery"-->
+<!--        />-->
+<!--      </el-form-item>-->
+
       <el-form-item>
         <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery">搜索</el-button>
         <el-button icon="el-icon-refresh" size="mini" @click="resetQuery">重置</el-button>
@@ -162,6 +173,7 @@ export default {
         exceedingSamples: null,
         exceedingPesticides: null,
         createdDate: null,
+        pesticideName:null,
 
         //对应到实体类的名字
         samplingLocationProvince:null,
@@ -262,7 +274,8 @@ export default {
         passRate: null,
         exceedingSamples: null,
         exceedingPesticides: null,
-        createdDate: null
+        createdDate: null,
+        pesticideName:null,
       };
       this.resetForm("form");
     },

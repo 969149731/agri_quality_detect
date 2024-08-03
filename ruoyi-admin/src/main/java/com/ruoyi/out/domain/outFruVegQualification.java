@@ -55,6 +55,17 @@ public class outFruVegQualification extends BaseEntity
     @Excel(name = "记录创建的时间", width = 30, dateFormat = "yyyy-MM-dd")
     private Date createdDate;
 
+    public String getPesticideName() {
+        return pesticideName;
+    }
+
+    public void setPesticideName(String pesticideName) {
+        this.pesticideName = pesticideName;
+    }
+
+    private String pesticideName;
+
+
     private Map<String,Map<String,Integer>> exMap;//第一级是样品名，第二级是农药名，最后的值是出现的次数
     public outFruVegQualification(String VegFruType){
         super();
@@ -74,6 +85,7 @@ public class outFruVegQualification extends BaseEntity
     {
         this.fruVegQualificationId = fruVegQualificationId;
     }
+
 
     public Long getFruVegQualificationId() 
     {
@@ -201,17 +213,20 @@ public class outFruVegQualification extends BaseEntity
             this.passRate= new BigDecimal(decimalFormat.format(0).toString());
         }
     };
+
     @Override
     public String toString() {
-        return new ToStringBuilder(this,ToStringStyle.MULTI_LINE_STYLE)
-            .append("fruVegQualificationId", getFruVegQualificationId())
-            .append("vegFruType", getVegFruType())
-            .append("samplingNumber", getSamplingNumber())
-            .append("passNumber", getPassNumber())
-            .append("passRate", getPassRate())
-            .append("exceedingSamples", getExceedingSamples())
-            .append("exceedingPesticides", getExceedingPesticides())
-            .append("createdDate", getCreatedDate())
-            .toString();
+        return "outFruVegQualification{" +
+                "fruVegQualificationId=" + fruVegQualificationId +
+                ", vegFruType='" + vegFruType + '\'' +
+                ", samplingNumber=" + samplingNumber +
+                ", passNumber=" + passNumber +
+                ", passRate=" + passRate +
+                ", exceedingSamples='" + exceedingSamples + '\'' +
+                ", exceedingPesticides='" + exceedingPesticides + '\'' +
+                ", createdDate=" + createdDate +
+                ", pesticideName='" + pesticideName + '\'' +
+                ", exMap=" + exMap +
+                '}';
     }
 }
