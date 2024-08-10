@@ -1,63 +1,6 @@
 <template>
   <div class="app-container">
     <el-form :model="queryParams" ref="queryForm" size="small" :inline="true" v-show="showSearch" label-width="68px">
-<!--      <el-form-item label="蔬菜类序号，用于标识蔬菜类别" prop="vegetableSeqNo">-->
-<!--        <el-input-->
-<!--          v-model="queryParams.vegetableSeqNo"-->
-<!--          placeholder="请输入蔬菜类序号，用于标识蔬菜类别"-->
-<!--          clearable-->
-<!--          @keyup.enter.native="handleQuery"-->
-<!--        />-->
-<!--      </el-form-item>-->
-<!--      <el-form-item label="蔬菜类详细名" prop="vegetableDetailName">-->
-<!--        <el-input-->
-<!--          v-model="queryParams.vegetableDetailName"-->
-<!--          placeholder="请输入蔬菜类详细名"-->
-<!--          clearable-->
-<!--          @keyup.enter.native="handleQuery"-->
-<!--        />-->
-<!--      </el-form-item>-->
-<!--      <el-form-item label="蔬菜类数量" prop="vegetableQuantity">-->
-<!--        <el-input-->
-<!--          v-model="queryParams.vegetableQuantity"-->
-<!--          placeholder="请输入蔬菜类数量"-->
-<!--          clearable-->
-<!--          @keyup.enter.native="handleQuery"-->
-<!--        />-->
-<!--      </el-form-item>-->
-<!--      <el-form-item label="水果类序号，用于标识水果类别" prop="fruitSeqNo">-->
-<!--        <el-input-->
-<!--          v-model="queryParams.fruitSeqNo"-->
-<!--          placeholder="请输入水果类序号，用于标识水果类别"-->
-<!--          clearable-->
-<!--          @keyup.enter.native="handleQuery"-->
-<!--        />-->
-<!--      </el-form-item>-->
-<!--      <el-form-item label="水果类详细名" prop="fruitDetailName">-->
-<!--        <el-input-->
-<!--          v-model="queryParams.fruitDetailName"-->
-<!--          placeholder="请输入水果类详细名"-->
-<!--          clearable-->
-<!--          @keyup.enter.native="handleQuery"-->
-<!--        />-->
-<!--      </el-form-item>-->
-<!--      <el-form-item label="水果类数量" prop="fruitQuantity">-->
-<!--        <el-input-->
-<!--          v-model="queryParams.fruitQuantity"-->
-<!--          placeholder="请输入水果类数量"-->
-<!--          clearable-->
-<!--          @keyup.enter.native="handleQuery"-->
-<!--        />-->
-<!--      </el-form-item>-->
-<!--      <el-form-item label="记录创建的时间" prop="createdDate">-->
-<!--        <el-date-picker clearable-->
-<!--          v-model="queryParams.createdDate"-->
-<!--          type="date"-->
-<!--          value-format="yyyy-MM-dd"-->
-<!--          placeholder="请选择记录创建的时间">-->
-<!--        </el-date-picker>-->
-<!--      </el-form-item>-->
-
       <el-form-item label="抽样环节" prop="samplingStageType">
         <el-input
           v-model="queryParams.samplingStageType"
@@ -66,8 +9,6 @@
           @keyup.enter.native="handleQuery"
         />
       </el-form-item>
-
-
       <el-form-item label="企业名称" prop="enterpriseName">
         <el-input
           v-model="queryParams.enterpriseName"
@@ -76,7 +17,6 @@
           @keyup.enter.native="handleQuery"
         />
       </el-form-item>
-
       <el-form-item label="企业属性" prop="enterpriseAttribute">
         <el-input
           v-model="queryParams.enterpriseAttribute"
@@ -85,7 +25,6 @@
           @keyup.enter.native="handleQuery"
         />
       </el-form-item>
-
       <el-form-item label="信用代码" prop="enterpriseCreditIdCode">
         <el-input
           v-model="queryParams.enterpriseCreditIdCode"
@@ -94,11 +33,6 @@
           @keyup.enter.native="handleQuery"
         />
       </el-form-item>
-
-
-
-
-
       <el-form-item label="抽样日期">
         <el-date-picker
           v-model="dateRange"
@@ -110,8 +44,6 @@
           end-placeholder="结束日期"
         ></el-date-picker>
       </el-form-item>
-
-
       <el-form-item label="抽样地点">
         <template>
           <div>
@@ -123,7 +55,6 @@
                 :value="item"
               ></el-option>
             </el-select>
-
             <el-select v-model="queryParams.samplingCity" placeholder="城市" value-key="code"  @change="changeSamplingCity">
               <el-option
                 v-for="item  in samplingAddressCity"
@@ -143,10 +74,6 @@
           </div>
         </template>
       </el-form-item>
-
-
-
-
       <el-form-item>
         <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery">搜索</el-button>
         <el-button icon="el-icon-refresh" size="mini" @click="resetQuery">重置</el-button>
@@ -154,38 +81,6 @@
     </el-form>
 
     <el-row :gutter="10" class="mb8">
-<!--      <el-col :span="1.5">-->
-<!--        <el-button-->
-<!--          type="primary"-->
-<!--          plain-->
-<!--          icon="el-icon-plus"-->
-<!--          size="mini"-->
-<!--          @click="handleAdd"-->
-<!--          v-hasPermi="['out:outFruInventory:add']"-->
-<!--        >新增</el-button>-->
-<!--      </el-col>-->
-<!--      <el-col :span="1.5">-->
-<!--        <el-button-->
-<!--          type="success"-->
-<!--          plain-->
-<!--          icon="el-icon-edit"-->
-<!--          size="mini"-->
-<!--          :disabled="single"-->
-<!--          @click="handleUpdate"-->
-<!--          v-hasPermi="['out:outFruInventory:edit']"-->
-<!--        >修改</el-button>-->
-<!--      </el-col>-->
-<!--      <el-col :span="1.5">-->
-<!--        <el-button-->
-<!--          type="danger"-->
-<!--          plain-->
-<!--          icon="el-icon-delete"-->
-<!--          size="mini"-->
-<!--          :disabled="multiple"-->
-<!--          @click="handleDelete"-->
-<!--          v-hasPermi="['out:outFruInventory:remove']"-->
-<!--        >删除</el-button>-->
-<!--      </el-col>-->
       <el-col :span="1.5">
         <el-button
           type="warning"
@@ -199,58 +94,27 @@
       <right-toolbar :showSearch.sync="showSearch" @queryTable="getList"></right-toolbar>
     </el-row>
 
-<!--    <el-table v-loading="loading" :data="outFruInventoryList" @selection-change="handleSelectionChange">-->
-<!--      <el-table-column type="selection" width="55" align="center" />-->
-<!--      <el-table-column label="唯一标识符" align="center" prop="vegFruInventoryId" />-->
-<!--      <el-table-column label="蔬菜类序号，用于标识蔬菜类别" align="center" prop="vegetableSeqNo" />-->
-<!--      <el-table-column label="蔬菜类详细名" align="center" prop="vegetableDetailName" />-->
-<!--      <el-table-column label="蔬菜类数量" align="center" prop="vegetableQuantity" />-->
-<!--      <el-table-column label="水果类序号，用于标识水果类别" align="center" prop="fruitSeqNo" />-->
-<!--      <el-table-column label="水果类详细名" align="center" prop="fruitDetailName" />-->
-<!--      <el-table-column label="水果类数量" align="center" prop="fruitQuantity" />-->
-<!--      <el-table-column label="记录创建的时间" align="center" prop="createdDate" width="180">-->
-<!--        <template slot-scope="scope">-->
-<!--          <span>{{ parseTime(scope.row.createdDate, '{y}-{m}-{d}') }}</span>-->
-<!--        </template>-->
-<!--      </el-table-column>-->
-<!--      <el-table-column label="操作" align="center" class-name="small-padding fixed-width">-->
-<!--        <template slot-scope="scope">-->
-<!--          <el-button-->
-<!--            size="mini"-->
-<!--            type="text"-->
-<!--            icon="el-icon-edit"-->
-<!--            @click="handleUpdate(scope.row)"-->
-<!--            v-hasPermi="['out:outFruInventory:edit']"-->
-<!--          >修改</el-button>-->
-<!--          <el-button-->
-<!--            size="mini"-->
-<!--            type="text"-->
-<!--            icon="el-icon-delete"-->
-<!--            @click="handleDelete(scope.row)"-->
-<!--            v-hasPermi="['out:outFruInventory:remove']"-->
-<!--          >删除</el-button>-->
-<!--        </template>-->
-<!--      </el-table-column>-->
-<!--    </el-table>-->
+    <div >
+      <el-row>
+        <el-col :span="6">
+          <div class="tree-container">
+            <el-tree :data="tree" :props="defaultProps" @node-click="handleNodeClick" >
+              <span slot-scope="{ node, data }">
+                {{ data.detailType }}  - 总数：{{ data.sampleCount ? data.sampleCount : data.sampleDetailCount }}
+              </span>
+            </el-tree>
+          </div>
+        </el-col>
+        <el-col :span="12">
+          <el-table v-loading="loading" :data="outFruInventoryList">
+            <el-table-column type="index" label="序号" width="200" align="center"/>
+            <el-table-column label="水果种类" align="center" width="200" prop="vegFruName"/>
+            <el-table-column label="数量" align="center" width="200" prop="sampleDetailCount"/>
+          </el-table>
+        </el-col>
+      </el-row>
+    </div>
 
-    <el-table v-loading="loading" :data="filteredVegFruInventoryListFilteVeg"
-              @selection-change="handleSelectionChange">
-      <!--          <el-table-column type="selection" width="55" align="center"/>-->
-      <el-table-column type="index" label="序号" width="200" align="center"/> <!-- 添加序号列 -->
-      <el-table-column label="水果种类" align="center" width="200" prop="name"/>
-      <!--          <el-table-column label="蔬果类型" align="center" prop="type"/>-->
-      <el-table-column label="数量" align="center" width="200" prop="quantity"/>
-    </el-table>
-
-
-
-    <pagination
-      v-show="total>0"
-      :total="total"
-      :page.sync="queryParams.pageNum"
-      :limit.sync="queryParams.pageSize"
-      @pagination="getList"
-    />
 
     <!-- 添加或修改水果种类及数量对话框 -->
     <el-dialog :title="title" :visible.sync="open" width="500px" append-to-body>
@@ -275,10 +139,10 @@
         </el-form-item>
         <el-form-item label="记录创建的时间" prop="createdDate">
           <el-date-picker clearable
-            v-model="form.createdDate"
-            type="date"
-            value-format="yyyy-MM-dd"
-            placeholder="请选择记录创建的时间">
+                          v-model="form.createdDate"
+                          type="date"
+                          value-format="yyyy-MM-dd"
+                          placeholder="请选择记录创建的时间">
           </el-date-picker>
         </el-form-item>
       </el-form>
@@ -323,8 +187,6 @@ export default {
       multiple: true,
       // 显示搜索条件
       showSearch: true,
-      // 总条数
-      total: 0,
       // 水果种类及数量表格数据
       outFruInventoryList: [],
       // 弹出层标题
@@ -369,18 +231,16 @@ export default {
       form: {},
       // 表单校验
       rules: {
+      },
+
+      // 菜单树
+      tree: [],
+      defaultProps: {
+        children: 'detailList',
+        label: 'detailType'
       }
     };
   },
-  computed: {
-    filteredVegFruInventoryListFilteVeg() {
-      return this.outFruInventoryList.filter(item => item.type === '水果');
-    }
-
-  },
-
-
-
 
   created() {
     this.init();
@@ -441,11 +301,22 @@ export default {
     /** 查询水果种类及数量列表 */
     getList() {
       this.loading = true;
+      this.outFruInventoryList = []
       listOutFruInventory(this.addDateRange(this.queryParams, this.dateRange)).then(response => {
-        this.outFruInventoryList = response.rows;
-        this.total = response.total;
+        response.rows.forEach(item =>{
+          item.detailList.forEach(item =>{
+            item.detailType = item.vegFruName
+          })
+        })
+        this.tree = response.rows
         this.loading = false;
       });
+    },
+    // 菜单选择
+    handleNodeClick(val){
+      if(val.detailList){
+        this.outFruInventoryList = val.detailList
+      }
     },
     // 取消按钮
     cancel() {
@@ -477,12 +348,6 @@ export default {
       this.resetForm("queryForm");
       this.init();
       this.handleQuery();
-    },
-    // 多选框选中数据
-    handleSelectionChange(selection) {
-      this.ids = selection.map(item => item.vegFruInventoryId)
-      this.single = selection.length!==1
-      this.multiple = !selection.length
     },
     /** 新增按钮操作 */
     handleAdd() {
@@ -539,3 +404,9 @@ export default {
   }
 };
 </script>
+<style>
+.tree-container {
+  max-height: 700px !important;
+  overflow-y: auto;
+}
+</style>
