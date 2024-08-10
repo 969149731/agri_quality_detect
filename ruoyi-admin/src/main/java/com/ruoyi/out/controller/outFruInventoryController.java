@@ -11,6 +11,7 @@ import cn.afterturn.easypoi.excel.ExcelExportUtil;
 import cn.afterturn.easypoi.excel.entity.TemplateExportParams;
 import com.ruoyi.detection.domain.agriCitySampleTestDetails;
 import com.ruoyi.out.domain.VegFruStatistic;
+import com.ruoyi.out.domain.vo.OutDetailTypeInventoryVo;
 import com.ruoyi.out.service.IoutVegFruInventoryService;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -53,7 +54,12 @@ public class outFruInventoryController extends BaseController
     @GetMapping("/list")
     public TableDataInfo list(outFruInventory outFruInventory, agriCitySampleTestDetails agriCitySampleTestDetails)
     {
-        List<VegFruStatistic> list = outVegFruInventoryService.selectVegFruStatistic(agriCitySampleTestDetails);
+//        List<VegFruStatistic> list = outVegFruInventoryService.selectVegFruStatistic(agriCitySampleTestDetails);
+//        return getDataTable(list);
+
+        // 2024.8.5  按新的需求改
+        String vegFruType="水果";
+        List<OutDetailTypeInventoryVo> list = outVegFruInventoryService.selectSampleDetailTypeInventory(agriCitySampleTestDetails, vegFruType);
         return getDataTable(list);
     }
 

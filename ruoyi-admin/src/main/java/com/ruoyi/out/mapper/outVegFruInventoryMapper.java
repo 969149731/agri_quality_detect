@@ -5,6 +5,9 @@ import java.util.List;
 import com.ruoyi.detection.domain.agriCitySampleTestDetails;
 import com.ruoyi.out.domain.VegFruStatistic;
 import com.ruoyi.out.domain.outVegFruInventory;
+import com.ruoyi.out.domain.vo.OutDetailTypeInventoryVo;
+import com.ruoyi.out.domain.vo.OutVegFruNameInventoryVo;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -66,4 +69,26 @@ public interface outVegFruInventoryMapper
     public int deleteoutVegFruInventoryByVegFruInventoryIds(Long[] vegFruInventoryIds);
 
     List<VegFruStatistic> selectVegFruStatistic(agriCitySampleTestDetails agriCitySampleTestDetails);
+
+    List<OutDetailTypeInventoryVo> selectVegDetailTypeInventory(@Param("agriCitySampleTestDetails") agriCitySampleTestDetails agriCitySampleTestDetails,
+                                                                @Param("vegFruType") String vegFruType);
+
+    List<OutDetailTypeInventoryVo> selectFruDetailTypeInventory(@Param("agriCitySampleTestDetails") agriCitySampleTestDetails agriCitySampleTestDetails,
+                                                                @Param("vegFruType") String vegFruType);
+
+    List<OutDetailTypeInventoryVo> selectTeaDetailTypeInventory(@Param("agriCitySampleTestDetails") agriCitySampleTestDetails agriCitySampleTestDetails,
+                                                                @Param("vegFruType") String vegFruType);
+
+    List<OutVegFruNameInventoryVo> selectVegNameInventoryByDetailType(@Param("agriCitySampleTestDetails") agriCitySampleTestDetails agriCitySampleTestDetails,
+                                                                      @Param("detailType") String detailType,
+                                                                         @Param("vegFruType") String vegFruType);
+
+    List<OutVegFruNameInventoryVo> selectFruNameInventoryByDetailType(@Param("agriCitySampleTestDetails") agriCitySampleTestDetails agriCitySampleTestDetails,
+                                                                      @Param("detailType") String detailType,
+                                                                         @Param("vegFruType") String vegFruType);
+
+    List<OutVegFruNameInventoryVo> selectTeaNameInventoryByDetailType(@Param("agriCitySampleTestDetails") agriCitySampleTestDetails agriCitySampleTestDetails,
+                                                                      @Param("detailType") String detailType,
+                                                                         @Param("vegFruType") String vegFruType);
+
 }

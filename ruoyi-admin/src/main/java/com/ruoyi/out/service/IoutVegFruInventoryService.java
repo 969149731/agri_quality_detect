@@ -5,6 +5,7 @@ import java.util.List;
 import com.ruoyi.detection.domain.agriCitySampleTestDetails;
 import com.ruoyi.out.domain.VegFruStatistic;
 import com.ruoyi.out.domain.outVegFruInventory;
+import com.ruoyi.out.domain.vo.OutDetailTypeInventoryVo;
 
 /**
  * 蔬菜水果种类及数量Service接口
@@ -63,4 +64,17 @@ public interface IoutVegFruInventoryService
     public int deleteoutVegFruInventoryByVegFruInventoryId(Long vegFruInventoryId);
 
     List<VegFruStatistic> selectVegFruStatistic(agriCitySampleTestDetails agriCitySampleTestDetails);
+
+//    List<OutDetailTypeInventoryVo> selectVegDetailTypeInventory(agriCitySampleTestDetails agriCitySampleTestDetails,String vegFruType);
+//
+//    List<OutDetailTypeInventoryVo> selectFruDetailTypeInventory(agriCitySampleTestDetails agriCitySampleTestDetails, String vegFruType);
+//
+//    List<OutDetailTypeInventoryVo> selectTeaDetailTypeInventory(agriCitySampleTestDetails agriCitySampleTestDetails, String vegFruType);
+
+    List<OutDetailTypeInventoryVo> selectSampleDetailTypeInventory(agriCitySampleTestDetails agriCitySampleTestDetails, String vegFruType);
+
+
+
+
+
 }
