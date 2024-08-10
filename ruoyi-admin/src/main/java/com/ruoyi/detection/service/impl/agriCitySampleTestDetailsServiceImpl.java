@@ -819,6 +819,17 @@ public class agriCitySampleTestDetailsServiceImpl implements IagriCitySampleTest
                     vegFruName = null;
                 }
 
+                String allDistrictCode;
+                try {
+                    allDistrictCode = agriOut2CitySampleTestDetails.get("全区编号").toString();
+                    if (vegFruName != null) {
+                        allDistrictCode = allDistrictCode.replace(" ", "");  // 去除空格
+                    }
+                } catch (Exception e) {
+                    allDistrictCode = null;
+                }
+
+
                 String samplingStageType = null;
                 try {
                     samplingStageType = agriOut2CitySampleTestDetails.get("抽样环节").toString();
@@ -959,6 +970,8 @@ public class agriCitySampleTestDetailsServiceImpl implements IagriCitySampleTest
                 agriCitySampleTestDetails.setTracingCity(tracingCity);
                 agriCitySampleTestDetails.setTracingCounty(tracingCounty);
                 agriCitySampleTestDetails.setTracingArea(tracingArea);
+                agriCitySampleTestDetails.setAllDistrictCode(allDistrictCode);
+
 
                 //如果sampleCode vegFruName  samplingLocation都是null的话，说明他们数据不规范，第二行开始才有数据，
                 // 这边做一些健壮性处理，如果第一行数据是空的，直接跳过本次循环，进入到下一行数据
