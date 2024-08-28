@@ -73,11 +73,11 @@ public class agriCitySampleTestDetailsServiceImpl implements IagriCitySampleTest
      * @return 各市样品检测结果详细
      */
     @Override
-    public List<agriCitySampleTestDetails> selectagriCitySampleTestDetailsList(agriCitySampleTestDetails agriCitySampleTestDetails) {
+    public List<agriCitySampleTestDetails> selectagriCitySampleTestDetailsList(agriCitySampleTestDetails agriCitySampleTestDetails,String samplingType) {
 
 //        startPage();
 //        List<agriCitySampleTestDetails> agriCitySampleTestDetails1 = agriCitySampleTestDetailsMapper.selectagriCitySampleTestDetailsList(agriCitySampleTestDetails);
-        List<agriCitySampleTestDetails> agriCitySampleTestDetails1 = agriCitySampleTestDetailsMapper.selectAgriCitySampleList(agriCitySampleTestDetails);
+        List<agriCitySampleTestDetails> agriCitySampleTestDetails1 = agriCitySampleTestDetailsMapper.selectAgriCitySampleList(agriCitySampleTestDetails,samplingType);
         for (agriCitySampleTestDetails agriCitySampleTestDetail : agriCitySampleTestDetails1) {
             //查询详细列表中的Id
             Long citySampleTestDetailsId = agriCitySampleTestDetail.getCitySampleTestDetailsId();
@@ -767,8 +767,9 @@ public class agriCitySampleTestDetailsServiceImpl implements IagriCitySampleTest
         return successMsg.toString();
     }
 
+    //导入数据逻辑
     @Override
-    public String importAgriOut2CitySampleTestDetailsList(List<Map<String, Object>> agriOut2CitySampleTestDetailsList, boolean updateSupport, String operName) {
+    public String importAgriOut2CitySampleTestDetailsList(List<Map<String, Object>> agriOut2CitySampleTestDetailsList, boolean updateSupport, String operName,String samplingType) {
         if (StringUtils.isNull(agriOut2CitySampleTestDetailsList) || agriOut2CitySampleTestDetailsList.size() == 0) {
             throw new ServiceException("导入数据不能为空！");
         }
@@ -971,6 +972,7 @@ public class agriCitySampleTestDetailsServiceImpl implements IagriCitySampleTest
                 agriCitySampleTestDetails.setTracingCounty(tracingCounty);
                 agriCitySampleTestDetails.setTracingArea(tracingArea);
                 agriCitySampleTestDetails.setAllDistrictCode(allDistrictCode);
+                agriCitySampleTestDetails.setSamplingType(samplingType);
 
 
                 //如果sampleCode vegFruName  samplingLocation都是null的话，说明他们数据不规范，第二行开始才有数据，

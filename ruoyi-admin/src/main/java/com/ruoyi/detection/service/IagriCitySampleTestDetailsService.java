@@ -30,7 +30,7 @@ public interface IagriCitySampleTestDetailsService
      * @param agriCitySampleTestDetails 各市样品检测结果详细
      * @return 各市样品检测结果详细集合
      */
-    public List<agriCitySampleTestDetails> selectagriCitySampleTestDetailsList(agriCitySampleTestDetails agriCitySampleTestDetails);
+    public List<agriCitySampleTestDetails> selectagriCitySampleTestDetailsList(agriCitySampleTestDetails agriCitySampleTestDetails,String samplingType);
 
     List<agriCitySampleTestDetails> selectMyImportAgriCitySampleTestDetailsList(agriCitySampleTestDetails agriCitySampleTestDetails);
 
@@ -73,5 +73,5 @@ public interface IagriCitySampleTestDetailsService
     //需求修改前的导入接口，先暂时保留着，但是不用了
     String importAgriOut2CitySampleTestDetailsList_pre(List<agriOut2CitySampleTestDetails> agriOut2CitySampleTestDetailsList, boolean updateSupport, String operName);
 
-    String importAgriOut2CitySampleTestDetailsList(List<Map<String, Object>> agriOut2CitySampleTestDetailsList, boolean updateSupport, String operName);
+    String importAgriOut2CitySampleTestDetailsList(List<Map<String, Object>> agriOut2CitySampleTestDetailsList, boolean updateSupport, String operName, String samplingType);
 }

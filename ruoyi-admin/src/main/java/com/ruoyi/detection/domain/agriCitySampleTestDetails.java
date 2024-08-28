@@ -132,6 +132,20 @@ public class agriCitySampleTestDetails extends BaseEntity
 
     //7月31日新加的需求，要求加入农药名查询
     private String pesticideName;
+    //8月15日新加的需求，要求将检测分为三个类型
+    private String samplingType;
+
+    public String getSamplingType() {
+        return samplingType;
+    }
+
+    public void setSamplingType(String samplingType) {
+        this.samplingType = samplingType;
+    }
+
+
+
+
 
 
     public String getPesticideName() {
@@ -449,6 +463,7 @@ public class agriCitySampleTestDetails extends BaseEntity
                 ", batchId='" + batchId + '\'' +
                 ", allDistrictCode='" + allDistrictCode + '\'' +
                 ", pesticideName='" + pesticideName + '\'' +
+                ", samplingType='" + samplingType + '\'' +
                 '}';
     }
 }

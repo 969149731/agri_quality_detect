@@ -96,7 +96,7 @@ public interface agriCitySampleTestDetailsMapper
 
 
     //查询各市样品检测结果详细列表，但是这边不包括检测到的农药和农药值，为了保证分页的准确性，需要分开查
-    List<agriCitySampleTestDetails> selectAgriCitySampleList(agriCitySampleTestDetails agriCitySampleTestDetails);
+    List<agriCitySampleTestDetails> selectAgriCitySampleList(@Param("agriCitySampleTestDetails") agriCitySampleTestDetails agriCitySampleTestDetails,@Param("samplingType") String samplingType);
 
     List<agriPesticideDetResult> selectAgriCitySampleTestDetailsListById(@Param("citySampleTestDetailsId") Long citySampleTestDetailsId);
 }

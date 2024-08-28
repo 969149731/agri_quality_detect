@@ -27,14 +27,14 @@
           @keyup.enter.native="handleQuery"
         />
       </el-form-item>
-<!--      <el-form-item label="抽样地点" prop="samplingLocation">-->
-<!--        <el-input-->
-<!--          v-model="queryParams.samplingLocation"-->
-<!--          placeholder="请输入抽样地点"-->
-<!--          clearable-->
-<!--          @keyup.enter.native="handleQuery"-->
-<!--        />-->
-<!--      </el-form-item>-->
+      <!--      <el-form-item label="抽样地点" prop="samplingLocation">-->
+      <!--        <el-input-->
+      <!--          v-model="queryParams.samplingLocation"-->
+      <!--          placeholder="请输入抽样地点"-->
+      <!--          clearable-->
+      <!--          @keyup.enter.native="handleQuery"-->
+      <!--        />-->
+      <!--      </el-form-item>-->
 
       <el-form-item label="抽样环节" prop="samplingStageType">
         <el-input
@@ -98,14 +98,14 @@
 
 
 
-<!--      <el-form-item label="抽样日期" prop="samplingDate">-->
-<!--        <el-date-picker clearable-->
-<!--          v-model="queryParams.samplingDate"-->
-<!--          type="date"-->
-<!--          value-format="yyyy-MM-dd"-->
-<!--          placeholder="请选择抽样日期">-->
-<!--        </el-date-picker>-->
-<!--      </el-form-item>-->
+      <!--      <el-form-item label="抽样日期" prop="samplingDate">-->
+      <!--        <el-date-picker clearable-->
+      <!--          v-model="queryParams.samplingDate"-->
+      <!--          type="date"-->
+      <!--          value-format="yyyy-MM-dd"-->
+      <!--          placeholder="请选择抽样日期">-->
+      <!--        </el-date-picker>-->
+      <!--      </el-form-item>-->
 
       <el-form-item label="国家标准" prop="chinaStandard">
         <el-select v-model="queryParams.chinaStandard" placeholder="请选择国家标准" clearable>
@@ -127,16 +127,16 @@
         />
       </el-form-item>
 
-      <el-form-item label="检测类型" prop="samplingType">
-        <el-select v-model="queryParams.samplingType" placeholder="请选择检测类型" clearable>
-          <el-option
-            v-for="dict in dict.type.sampling_type"
-            :key="dict.value"
-            :label="dict.label"
-            :value="dict.value"
-          />
-        </el-select>
-      </el-form-item>
+<!--      <el-form-item label="检测类型" prop="samplingType">-->
+<!--        <el-select v-model="queryParams.samplingType" placeholder="请选择检测类型" clearable>-->
+<!--          <el-option-->
+<!--            v-for="dict in dict.type.sampling_type"-->
+<!--            :key="dict.value"-->
+<!--            :label="dict.label"-->
+<!--            :value="dict.value"-->
+<!--          />-->
+<!--        </el-select>-->
+<!--      </el-form-item>-->
 
       <el-form-item label="抽样日期">
         <el-date-picker
@@ -152,35 +152,35 @@
 
 
       <el-form-item label="抽样地点">
-      <template>
-        <div>
-          <el-select v-model="queryParams.samplingProvince" placeholder="省份" value-key="code" @change="changeSamplingProvince">
-            <el-option
-              v-for="item in samplingAddressProvince"
-              :key="item.code"
-              :label="item.name"
-              :value="item"
-            ></el-option>
-          </el-select>
+        <template>
+          <div>
+            <el-select v-model="queryParams.samplingProvince" placeholder="省份" value-key="code" @change="changeSamplingProvince">
+              <el-option
+                v-for="item in samplingAddressProvince"
+                :key="item.code"
+                :label="item.name"
+                :value="item"
+              ></el-option>
+            </el-select>
 
-          <el-select v-model="queryParams.samplingCity" placeholder="城市" value-key="code"  @change="changeSamplingCity">
-            <el-option
-              v-for="item  in samplingAddressCity"
-              :key="item.code"
-              :label="item.name"
-              :value="item"
-            ></el-option>
-          </el-select>
-          <el-select v-model="queryParams.samplingTown" placeholder="区域" value-key="code" @change="changeSamplingTown">
-            <el-option
-              v-for="item   in samplingAddressTown"
-              :key="item.code"
-              :label="item.name"
-              :value="item"
-            ></el-option>
-          </el-select>
-        </div>
-      </template>
+            <el-select v-model="queryParams.samplingCity" placeholder="城市" value-key="code"  @change="changeSamplingCity">
+              <el-option
+                v-for="item  in samplingAddressCity"
+                :key="item.code"
+                :label="item.name"
+                :value="item"
+              ></el-option>
+            </el-select>
+            <el-select v-model="queryParams.samplingTown" placeholder="区域" value-key="code" @change="changeSamplingTown">
+              <el-option
+                v-for="item   in samplingAddressTown"
+                :key="item.code"
+                :label="item.name"
+                :value="item"
+              ></el-option>
+            </el-select>
+          </div>
+        </template>
       </el-form-item>
 
 
@@ -253,16 +253,16 @@
     <!-- 展示的数据列表 />-->
     <el-table v-loading="loading" :data="detectionDetailsList" @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="55" align="center" />
-<!--      <el-table-column label="序号" align="center" prop="index">-->
-<!--        <template slot-scope="scope">-->
-<!--          {{ scope.$index + 1 }}-->
-<!--        </template>-->
-<!--      </el-table-column>-->
+      <!--      <el-table-column label="序号" align="center" prop="index">-->
+      <!--        <template slot-scope="scope">-->
+      <!--          {{ scope.$index + 1 }}-->
+      <!--        </template>-->
+      <!--      </el-table-column>-->
       <el-table-column  label="样品编号" align="center" prop="sampleCode" />
 
       <el-table-column label="样品名称" align="center" prop="vegFruName" />
       <el-table-column label="抽样环节" align="center" prop="samplingStageType" />
-<!--      <el-table-column label="抽样省" align="center" prop="samplingLocationProvince" />-->
+      <!--      <el-table-column label="抽样省" align="center" prop="samplingLocationProvince" />-->
       <el-table-column label="抽样市" align="center" prop="samplingLocationCity" />
       <el-table-column label="抽样县" align="center" prop="samplingLocationCounty" />
       <el-table-column label="抽样地址" align="center" prop="samplingLocation" />
@@ -275,15 +275,15 @@
       <el-table-column label="企业名称/农户" align="center" prop="enterpriseName" />
       <el-table-column label="企业属性（绿色/有机/地理标志/GAP)" align="center" prop="enterpriseAttribute" />
       <el-table-column label="企业信用代码/身份证号" align="center" prop="enterpriseCreditIdCode" />
-<!--      <el-table-column label="溯源省" align="center" prop="tracingProvince" />-->
+      <!--      <el-table-column label="溯源省" align="center" prop="tracingProvince" />-->
       <el-table-column label="溯源市" align="center" prop="tracingCity" />
       <el-table-column label="溯源县" align="center" prop="tracingCounty" />
       <el-table-column label="溯源产地" align="center" prop="tracingArea" />
 
 
-<!--        <el-table-column label="检测单位" align="center" prop="detectLocation" />-->
-<!--      <el-table-column label="抽样数量（kg/个数）" align="center" prop="samplingQuantity" />-->
-<!--      <el-table-column label="抽样基数" align="center" prop="samplingBase" />-->
+      <!--        <el-table-column label="检测单位" align="center" prop="detectLocation" />-->
+      <!--      <el-table-column label="抽样数量（kg/个数）" align="center" prop="samplingQuantity" />-->
+      <!--      <el-table-column label="抽样基数" align="center" prop="samplingBase" />-->
 
       <el-table-column label="检测结果" align="center" prop="result" width="300px">
         <template slot-scope="props" >
@@ -297,31 +297,31 @@
       </el-table-column>
 
 
-<!--      下面这一段是展开和关闭检测结果详细用的-->
-<!--      <el-table-column label="检测结果" align="center" prop="result" width="300px">-->
-<!--        <template slot-scope="props">-->
-<!--          &lt;!&ndash; 使用 v-if 来判断显示哪个按钮 &ndash;&gt;-->
-<!--          <el-button-->
-<!--            type="text"-->
-<!--            icon="el-icon-arrow-down"-->
-<!--            v-if="!props.row.showDetails"-->
-<!--            @click="toggleDetails(props.row)"-->
-<!--          >查看详细</el-button>-->
-<!--          <el-button-->
-<!--            type="text"-->
-<!--            icon="el-icon-arrow-up"-->
-<!--            v-if="props.row.showDetails"-->
-<!--            @click="toggleDetails(props.row)"-->
-<!--          >收起</el-button>-->
-<!--          &lt;!&ndash; 根据 showDetails 属性的值显示或隐藏农药检测结果 &ndash;&gt;-->
-<!--          <div v-show="props.row.showDetails">-->
-<!--            <el-table :data="props.row.agriPesticideDetResultList">-->
-<!--              <el-table-column label="农药名" align="center" prop="pesticideName"></el-table-column>-->
-<!--              <el-table-column label="检测值 mg/kg" align="center" prop="pesticideDetValue"></el-table-column>-->
-<!--            </el-table>-->
-<!--          </div>-->
-<!--        </template>-->
-<!--      </el-table-column>-->
+      <!--      下面这一段是展开和关闭检测结果详细用的-->
+      <!--      <el-table-column label="检测结果" align="center" prop="result" width="300px">-->
+      <!--        <template slot-scope="props">-->
+      <!--          &lt;!&ndash; 使用 v-if 来判断显示哪个按钮 &ndash;&gt;-->
+      <!--          <el-button-->
+      <!--            type="text"-->
+      <!--            icon="el-icon-arrow-down"-->
+      <!--            v-if="!props.row.showDetails"-->
+      <!--            @click="toggleDetails(props.row)"-->
+      <!--          >查看详细</el-button>-->
+      <!--          <el-button-->
+      <!--            type="text"-->
+      <!--            icon="el-icon-arrow-up"-->
+      <!--            v-if="props.row.showDetails"-->
+      <!--            @click="toggleDetails(props.row)"-->
+      <!--          >收起</el-button>-->
+      <!--          &lt;!&ndash; 根据 showDetails 属性的值显示或隐藏农药检测结果 &ndash;&gt;-->
+      <!--          <div v-show="props.row.showDetails">-->
+      <!--            <el-table :data="props.row.agriPesticideDetResultList">-->
+      <!--              <el-table-column label="农药名" align="center" prop="pesticideName"></el-table-column>-->
+      <!--              <el-table-column label="检测值 mg/kg" align="center" prop="pesticideDetValue"></el-table-column>-->
+      <!--            </el-table>-->
+      <!--          </div>-->
+      <!--        </template>-->
+      <!--      </el-table-column>-->
 
 
       <el-table-column label="判定结果" align="center" prop="chinaStandard">
@@ -365,6 +365,10 @@
       <el-form ref="form" :model="form" :rules="rules" label-width="80px">
         <el-form-item label="样品编号" prop="sampleCode">
           <el-input v-model="form.sampleCode" placeholder="请输入样品编号" />
+        </el-form-item>
+        <el-form-item label="检测类型" prop="samplingType">
+          <!-- 将输入框禁用，使用户无法修改 -->
+          <el-input v-model="form.samplingType" placeholder="专项检测" disabled />
         </el-form-item>
         <el-form-item label="全区编号" prop="allDistrictCode">
           <el-input v-model="form.allDistrictCode" placeholder="请输入全区编号" />
@@ -423,12 +427,12 @@
         <el-form-item label="检测单位" prop="detectLocation">
           <el-input v-model="form.detectLocation" placeholder="请输入检测单位" />
         </el-form-item>
-<!--        <el-form-item label="抽样数量" prop="samplingQuantity">-->
-<!--          <el-input v-model="form.samplingQuantity" placeholder="请输入抽样数量（kg/个数）" />-->
-<!--        </el-form-item>-->
-<!--        <el-form-item label="抽样基数" prop="samplingBase">-->
-<!--          <el-input v-model="form.samplingBase" placeholder="请输入抽样基数" />-->
-<!--        </el-form-item>-->
+        <!--        <el-form-item label="抽样数量" prop="samplingQuantity">-->
+        <!--          <el-input v-model="form.samplingQuantity" placeholder="请输入抽样数量（kg/个数）" />-->
+        <!--        </el-form-item>-->
+        <!--        <el-form-item label="抽样基数" prop="samplingBase">-->
+        <!--          <el-input v-model="form.samplingBase" placeholder="请输入抽样基数" />-->
+        <!--        </el-form-item>-->
 
 
         <el-form-item label="检测结果" prop="chinaStandard">
@@ -441,57 +445,57 @@
             ></el-option>
           </el-select>
         </el-form-item>
-<!--        <el-form-item label="CAC标准" prop="cacStandard">-->
-<!--          <el-select v-model="form.cacStandard" placeholder="请选择CAC标准">-->
-<!--            <el-option-->
-<!--              v-for="dict in dict.type.pass_or_not"-->
-<!--              :key="dict.value"-->
-<!--              :label="dict.label"-->
-<!--              :value="dict.value"-->
-<!--            ></el-option>-->
-<!--          </el-select>-->
-<!--        </el-form-item>-->
-<!--        <el-form-item label="日本标准" prop="japanStandard">-->
-<!--          <el-select v-model="form.japanStandard" placeholder="请选择日本标准">-->
-<!--            <el-option-->
-<!--              v-for="dict in dict.type.pass_or_not"-->
-<!--              :key="dict.value"-->
-<!--              :label="dict.label"-->
-<!--              :value="dict.value"-->
-<!--            ></el-option>-->
-<!--          </el-select>-->
-<!--        </el-form-item>-->
-<!--        <el-form-item label="欧盟标准" prop="euStandard">-->
-<!--          <el-select v-model="form.euStandard" placeholder="请选择欧盟标准">-->
-<!--            <el-option-->
-<!--              v-for="dict in dict.type.pass_or_not"-->
-<!--              :key="dict.value"-->
-<!--              :label="dict.label"-->
-<!--              :value="dict.value"-->
-<!--            ></el-option>-->
-<!--          </el-select>-->
-<!--        </el-form-item>-->
-<!--        <el-form-item label="美国标准" prop="usStandard">-->
-<!--          <el-select v-model="form.usStandard" placeholder="请选择美国标准">-->
-<!--            <el-option-->
-<!--              v-for="dict in dict.type.pass_or_not"-->
-<!--              :key="dict.value"-->
-<!--              :label="dict.label"-->
-<!--              :value="dict.value"-->
-<!--            ></el-option>-->
-<!--          </el-select>-->
-<!--        </el-form-item>-->
+        <!--        <el-form-item label="CAC标准" prop="cacStandard">-->
+        <!--          <el-select v-model="form.cacStandard" placeholder="请选择CAC标准">-->
+        <!--            <el-option-->
+        <!--              v-for="dict in dict.type.pass_or_not"-->
+        <!--              :key="dict.value"-->
+        <!--              :label="dict.label"-->
+        <!--              :value="dict.value"-->
+        <!--            ></el-option>-->
+        <!--          </el-select>-->
+        <!--        </el-form-item>-->
+        <!--        <el-form-item label="日本标准" prop="japanStandard">-->
+        <!--          <el-select v-model="form.japanStandard" placeholder="请选择日本标准">-->
+        <!--            <el-option-->
+        <!--              v-for="dict in dict.type.pass_or_not"-->
+        <!--              :key="dict.value"-->
+        <!--              :label="dict.label"-->
+        <!--              :value="dict.value"-->
+        <!--            ></el-option>-->
+        <!--          </el-select>-->
+        <!--        </el-form-item>-->
+        <!--        <el-form-item label="欧盟标准" prop="euStandard">-->
+        <!--          <el-select v-model="form.euStandard" placeholder="请选择欧盟标准">-->
+        <!--            <el-option-->
+        <!--              v-for="dict in dict.type.pass_or_not"-->
+        <!--              :key="dict.value"-->
+        <!--              :label="dict.label"-->
+        <!--              :value="dict.value"-->
+        <!--            ></el-option>-->
+        <!--          </el-select>-->
+        <!--        </el-form-item>-->
+        <!--        <el-form-item label="美国标准" prop="usStandard">-->
+        <!--          <el-select v-model="form.usStandard" placeholder="请选择美国标准">-->
+        <!--            <el-option-->
+        <!--              v-for="dict in dict.type.pass_or_not"-->
+        <!--              :key="dict.value"-->
+        <!--              :label="dict.label"-->
+        <!--              :value="dict.value"-->
+        <!--            ></el-option>-->
+        <!--          </el-select>-->
+        <!--        </el-form-item>-->
 
-<!--        <el-form-item label="韩国标准" prop="koreaStandard">-->
-<!--          <el-select v-model="form.koreaStandard" placeholder="请选择韩国标准">-->
-<!--            <el-option-->
-<!--              v-for="dict in dict.type.pass_or_not"-->
-<!--              :key="dict.value"-->
-<!--              :label="dict.label"-->
-<!--              :value="dict.value"-->
-<!--            ></el-option>-->
-<!--          </el-select>-->
-<!--        </el-form-item>-->
+        <!--        <el-form-item label="韩国标准" prop="koreaStandard">-->
+        <!--          <el-select v-model="form.koreaStandard" placeholder="请选择韩国标准">-->
+        <!--            <el-option-->
+        <!--              v-for="dict in dict.type.pass_or_not"-->
+        <!--              :key="dict.value"-->
+        <!--              :label="dict.label"-->
+        <!--              :value="dict.value"-->
+        <!--            ></el-option>-->
+        <!--          </el-select>-->
+        <!--        </el-form-item>-->
 
 
 
@@ -529,11 +533,11 @@
     <el-dialog :title="upload.title" :visible.sync="upload.open" width="400px" append-to-body>
 
       <!-- 添加数据时候选择检测单位 -->
-<!--      <el-form ref="form" :model="form" :rules="rules" label-width="80px">-->
-<!--        <el-form-item label="检测单位" prop="detectLocation">-->
-<!--          <el-input v-model="form.detectLocation"></el-input>-->
-<!--        </el-form-item>-->
-<!--      </el-form>-->
+      <!--      <el-form ref="form" :model="form" :rules="rules" label-width="80px">-->
+      <!--        <el-form-item label="检测单位" prop="detectLocation">-->
+      <!--          <el-input v-model="form.detectLocation"></el-input>-->
+      <!--        </el-form-item>-->
+      <!--      </el-form>-->
       <!-- 添加数据时候选择检测单位 -->
 
       <el-upload
@@ -572,7 +576,7 @@
 
 <script>
 import {
-  listDetectionDetails,
+  listDetectionDetailsZXJC,
   getDetectionDetails,
   delDetectionDetails,
   addDetectionDetails,
@@ -582,7 +586,7 @@ import {
   findBySamplingProvinceCode,
   findBySamplingCityCode,
 
-} from "@/api/detection/detectionDetails";
+} from "@/api/detection/DetectionDetailsZXJC";
 import { getToken } from "@/utils/auth";
 import {listUser} from "@/api/system/user";
 import axios from "axios";
@@ -659,7 +663,7 @@ export default {
 
 
       },
-        // 数据导入参数
+      // 数据导入参数
       upload: {
         // 是否显示弹出层（数据导入）
         open: false,
@@ -672,10 +676,12 @@ export default {
         // 设置上传的请求头部
         headers: { Authorization: "Bearer " + getToken() },
         // 上传的地址
-        url: process.env.VUE_APP_BASE_API + "/detection/detectionDetails/importData"
+        url: process.env.VUE_APP_BASE_API + "/detection/DetectionDetailsZXJC/importData"
       },
       // 表单参数
-      form: {},
+      form: {
+        samplingType: '专项检测'  // 将值初始化为“专项检测”
+      },
       // 表单校验
       rules: {
       }
@@ -763,13 +769,13 @@ export default {
     getList() {
       this.loading = true;
       console.log("打印一下this.queryParams",this.queryParams);
-      listDetectionDetails(this.addDateRange(this.queryParams, this.dateRange))
+      listDetectionDetailsZXJC(this.addDateRange(this.queryParams, this.dateRange))
         .then(response => {
-        this.detectionDetailsList = response.rows;
-        this.total = response.total;
-        this.loading = false;
-        // console.log(this.detectionDetailsList)
-      });
+          this.detectionDetailsList = response.rows;
+          this.total = response.total;
+          this.loading = false;
+          // console.log(this.detectionDetailsList)
+        });
     },
     // 取消按钮
     cancel() {
@@ -853,6 +859,7 @@ export default {
     submitForm() {
       this.$refs["form"].validate(valid => {
         if (valid) {
+          this.form.samplingType = '专项检测';
           this.form.agriPesticideDetResultList = this.agriPesticideDetResultList;
           if (this.form.citySampleTestDetailsId != null) {
             updateDetectionDetails(this.form).then(response => {
@@ -906,7 +913,7 @@ export default {
     submitFileForm() {
       this.$refs.upload.submit();
     },
-	/** 农药检测结果序号 */
+    /** 农药检测结果序号 */
     rowagriPesticideDetResultIndex({ row, rowIndex }) {
       row.index = rowIndex + 1;
     },

@@ -99,7 +99,8 @@ public class agriCitySampleTestDetailsController extends BaseController {
             System.gc();//调用垃圾回收
         }
         String operName = getUsername();
-        String message = agriCitySampleTestDetailsService.importAgriOut2CitySampleTestDetailsList(list, updateSupport, operName);
+        String samplingType="";
+        String message = agriCitySampleTestDetailsService.importAgriOut2CitySampleTestDetailsList(list, updateSupport, operName, samplingType);
         return success(message);
     }
 
@@ -110,7 +111,8 @@ public class agriCitySampleTestDetailsController extends BaseController {
     @GetMapping("/list")
     public TableDataInfo list(agriCitySampleTestDetails agriCitySampleTestDetails) {
         startPage();
-        List<agriCitySampleTestDetails> list = agriCitySampleTestDetailsService.selectagriCitySampleTestDetailsList(agriCitySampleTestDetails);
+        String samplingType ="";
+        List<agriCitySampleTestDetails> list = agriCitySampleTestDetailsService.selectagriCitySampleTestDetailsList(agriCitySampleTestDetails,samplingType);
         return getDataTable(list);
     }
 
@@ -125,7 +127,8 @@ public class agriCitySampleTestDetailsController extends BaseController {
 //        List<agriCitySampleTestDetails> list = agriCitySampleTestDetailsService.selectagriCitySampleTestDetailsList(agriCitySampleTestDetails);
 //        ExcelUtil<agriCitySampleTestDetails> util = new ExcelUtil<agriCitySampleTestDetails>(agriCitySampleTestDetails.class);
 //        util.exportExcel(response, list, "各市样品检测结果详细数据");
-        List<agriCitySampleTestDetails> list = agriCitySampleTestDetailsService.selectagriCitySampleTestDetailsList(agriCitySampleTestDetails);
+        String samplingType ="";
+        List<agriCitySampleTestDetails> list = agriCitySampleTestDetailsService.selectagriCitySampleTestDetailsList(agriCitySampleTestDetails,samplingType);
         TemplateExportParams params = new TemplateExportParams("excelOutTemplate/agriCitySampleTestDetailsTemplate.xlsx");
 
         Map<String, Object> map = new HashMap<>();
