@@ -1,0 +1,229 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.detection.mapper.agriCitySampleTestDetailsLXJCMapper">
+    
+    <resultMap type="agriCitySampleTestDetailsLXJC" id="agriCitySampleTestDetailsLXJCResult">
+        <result property="citySampleTestDetailsId"    column="city_sample_test_details_id"    />
+        <result property="sampleCode"    column="sample_code"    />
+        <result property="allDistrictCode"    column="all_district_code"    />
+        <result property="samplingType"    column="sampling_type"    />
+        <result property="vegFruName"    column="veg_fru_name"    />
+        <result property="samplingLocation"    column="sampling_location"    />
+        <result property="samplingLocationProvince"    column="sampling_location_province"    />
+        <result property="samplingLocationCity"    column="sampling_location_city"    />
+        <result property="samplingLocationCounty"    column="sampling_location_county"    />
+        <result property="detectLocation"    column="detect_location"    />
+        <result property="samplingQuantity"    column="sampling_quantity"    />
+        <result property="samplingBase"    column="sampling_base"    />
+        <result property="samplingStageType"    column="sampling_stage_type"    />
+        <result property="samplingDate"    column="sampling_date"    />
+        <result property="enterpriseName"    column="enterprise_name"    />
+        <result property="enterpriseAttribute"    column="enterprise_attribute"    />
+        <result property="enterpriseCreditIdCode"    column="enterprise_credit_id_code"    />
+        <result property="tracingProvince"    column="tracing_province"    />
+        <result property="tracingCity"    column="tracing_city"    />
+        <result property="tracingCounty"    column="tracing_county"    />
+        <result property="tracingArea"    column="tracing_area"    />
+        <result property="chinaStandard"    column="china_standard"    />
+        <result property="cacStandard"    column="cac_standard"    />
+        <result property="japanStandard"    column="japan_standard"    />
+        <result property="euStandard"    column="eu_standard"    />
+        <result property="usStandard"    column="us_standard"    />
+        <result property="koreaStandard"    column="korea_standard"    />
+        <result property="userName"    column="user_name"    />
+        <result property="batchId"    column="batch_id"    />
+        <result property="createdAt"    column="created_at"    />
+    </resultMap>
+
+    <resultMap id="agriCitySampleTestDetailsLXJCagriPesticideDetResultResult" type="agriCitySampleTestDetailsLXJC" extends="agriCitySampleTestDetailsLXJCResult">
+        <collection property="agriPesticideDetResultList" notNullColumn="sub_pesticide_det_result_id" javaType="java.util.List" resultMap="agriPesticideDetResultResult" />
+    </resultMap>
+
+    <resultMap type="agriPesticideDetResult" id="agriPesticideDetResultResult">
+        <result property="pesticideDetResultId"    column="sub_pesticide_det_result_id"    />
+        <result property="pesticideName"    column="sub_pesticide_name"    />
+        <result property="pesticideDetValue"    column="sub_pesticide_det_value"    />
+        <result property="citySampleTestDetailsId"    column="sub_city_sample_test_details_id"    />
+        <result property="createdAt"    column="sub_created_at"    />
+    </resultMap>
+
+    <sql id="selectagriCitySampleTestDetailsLXJCVo">
+        select city_sample_test_details_id, sample_code, all_district_code, sampling_type, veg_fru_name, sampling_location, sampling_location_province, sampling_location_city, sampling_location_county, detect_location, sampling_quantity, sampling_base, sampling_stage_type, sampling_date, enterprise_name, enterprise_attribute, enterprise_credit_id_code, tracing_province, tracing_city, tracing_county, tracing_area, china_standard, cac_standard, japan_standard, eu_standard, us_standard, korea_standard, user_name, batch_id, created_at from agri_city_sample_test_details
+    </sql>
+
+    <select id="selectagriCitySampleTestDetailsLXJCList" parameterType="agriCitySampleTestDetailsLXJC" resultMap="agriCitySampleTestDetailsLXJCResult">
+        <include refid="selectagriCitySampleTestDetailsLXJCVo"/>
+        <where>  
+            <if test="sampleCode != null  and sampleCode != ''"> and sample_code = #{sampleCode}</if>
+            <if test="allDistrictCode != null  and allDistrictCode != ''"> and all_district_code = #{allDistrictCode}</if>
+            <if test="samplingType != null  and samplingType != ''"> and sampling_type = #{samplingType}</if>
+            <if test="vegFruName != null  and vegFruName != ''"> and veg_fru_name like concat('%', #{vegFruName}, '%')</if>
+            <if test="samplingLocation != null  and samplingLocation != ''"> and sampling_location = #{samplingLocation}</if>
+            <if test="samplingLocationProvince != null  and samplingLocationProvince != ''"> and sampling_location_province = #{samplingLocationProvince}</if>
+            <if test="samplingLocationCity != null  and samplingLocationCity != ''"> and sampling_location_city = #{samplingLocationCity}</if>
+            <if test="samplingLocationCounty != null  and samplingLocationCounty != ''"> and sampling_location_county = #{samplingLocationCounty}</if>
+            <if test="detectLocation != null  and detectLocation != ''"> and detect_location = #{detectLocation}</if>
+            <if test="samplingQuantity != null "> and sampling_quantity = #{samplingQuantity}</if>
+            <if test="samplingBase != null  and samplingBase != ''"> and sampling_base = #{samplingBase}</if>
+            <if test="samplingStageType != null  and samplingStageType != ''"> and sampling_stage_type = #{samplingStageType}</if>
+            <if test="samplingDate != null "> and sampling_date = #{samplingDate}</if>
+            <if test="enterpriseName != null  and enterpriseName != ''"> and enterprise_name like concat('%', #{enterpriseName}, '%')</if>
+            <if test="enterpriseAttribute != null  and enterpriseAttribute != ''"> and enterprise_attribute = #{enterpriseAttribute}</if>
+            <if test="enterpriseCreditIdCode != null  and enterpriseCreditIdCode != ''"> and enterprise_credit_id_code = #{enterpriseCreditIdCode}</if>
+            <if test="tracingProvince != null  and tracingProvince != ''"> and tracing_province = #{tracingProvince}</if>
+            <if test="tracingCity != null  and tracingCity != ''"> and tracing_city = #{tracingCity}</if>
+            <if test="tracingCounty != null  and tracingCounty != ''"> and tracing_county = #{tracingCounty}</if>
+            <if test="tracingArea != null  and tracingArea != ''"> and tracing_area = #{tracingArea}</if>
+            <if test="chinaStandard != null  and chinaStandard != ''"> and china_standard = #{chinaStandard}</if>
+            <if test="cacStandard != null  and cacStandard != ''"> and cac_standard = #{cacStandard}</if>
+            <if test="japanStandard != null  and japanStandard != ''"> and japan_standard = #{japanStandard}</if>
+            <if test="euStandard != null  and euStandard != ''"> and eu_standard = #{euStandard}</if>
+            <if test="usStandard != null  and usStandard != ''"> and us_standard = #{usStandard}</if>
+            <if test="koreaStandard != null  and koreaStandard != ''"> and korea_standard = #{koreaStandard}</if>
+            <if test="userName != null  and userName != ''"> and user_name like concat('%', #{userName}, '%')</if>
+            <if test="batchId != null  and batchId != ''"> and batch_id = #{batchId}</if>
+            <if test="createdAt != null "> and created_at = #{createdAt}</if>
+        </where>
+    </select>
+    
+    <select id="selectagriCitySampleTestDetailsLXJCByCitySampleTestDetailsId" parameterType="Long" resultMap="agriCitySampleTestDetailsLXJCagriPesticideDetResultResult">
+        select a.city_sample_test_details_id, a.sample_code, a.all_district_code, a.sampling_type, a.veg_fru_name, a.sampling_location, a.sampling_location_province, a.sampling_location_city, a.sampling_location_county, a.detect_location, a.sampling_quantity, a.sampling_base, a.sampling_stage_type, a.sampling_date, a.enterprise_name, a.enterprise_attribute, a.enterprise_credit_id_code, a.tracing_province, a.tracing_city, a.tracing_county, a.tracing_area, a.china_standard, a.cac_standard, a.japan_standard, a.eu_standard, a.us_standard, a.korea_standard, a.user_name, a.batch_id, a.created_at,
+ b.pesticide_det_result_id as sub_pesticide_det_result_id, b.pesticide_name as sub_pesticide_name, b.pesticide_det_value as sub_pesticide_det_value, b.city_sample_test_details_id as sub_city_sample_test_details_id, b.created_at as sub_created_at
+        from agri_city_sample_test_details a
+        left join agri_pesticide_det_result b on b.city_sample_test_details_id = a.city_sample_test_details_id
+        where a.city_sample_test_details_id = #{citySampleTestDetailsId}
+    </select>
+        
+    <insert id="insertagriCitySampleTestDetailsLXJC" parameterType="agriCitySampleTestDetailsLXJC" useGeneratedKeys="true" keyProperty="citySampleTestDetailsId">
+        insert into agri_city_sample_test_details
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="sampleCode != null">sample_code,</if>
+            <if test="allDistrictCode != null">all_district_code,</if>
+            <if test="samplingType != null">sampling_type,</if>
+            <if test="vegFruName != null">veg_fru_name,</if>
+            <if test="samplingLocation != null">sampling_location,</if>
+            <if test="samplingLocationProvince != null">sampling_location_province,</if>
+            <if test="samplingLocationCity != null">sampling_location_city,</if>
+            <if test="samplingLocationCounty != null">sampling_location_county,</if>
+            <if test="detectLocation != null">detect_location,</if>
+            <if test="samplingQuantity != null">sampling_quantity,</if>
+            <if test="samplingBase != null">sampling_base,</if>
+            <if test="samplingStageType != null">sampling_stage_type,</if>
+            <if test="samplingDate != null">sampling_date,</if>
+            <if test="enterpriseName != null">enterprise_name,</if>
+            <if test="enterpriseAttribute != null">enterprise_attribute,</if>
+            <if test="enterpriseCreditIdCode != null">enterprise_credit_id_code,</if>
+            <if test="tracingProvince != null">tracing_province,</if>
+            <if test="tracingCity != null">tracing_city,</if>
+            <if test="tracingCounty != null">tracing_county,</if>
+            <if test="tracingArea != null">tracing_area,</if>
+            <if test="chinaStandard != null">china_standard,</if>
+            <if test="cacStandard != null">cac_standard,</if>
+            <if test="japanStandard != null">japan_standard,</if>
+            <if test="euStandard != null">eu_standard,</if>
+            <if test="usStandard != null">us_standard,</if>
+            <if test="koreaStandard != null">korea_standard,</if>
+            <if test="userName != null">user_name,</if>
+            <if test="batchId != null">batch_id,</if>
+            <if test="createdAt != null">created_at,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="sampleCode != null">#{sampleCode},</if>
+            <if test="allDistrictCode != null">#{allDistrictCode},</if>
+            <if test="samplingType != null">#{samplingType},</if>
+            <if test="vegFruName != null">#{vegFruName},</if>
+            <if test="samplingLocation != null">#{samplingLocation},</if>
+            <if test="samplingLocationProvince != null">#{samplingLocationProvince},</if>
+            <if test="samplingLocationCity != null">#{samplingLocationCity},</if>
+            <if test="samplingLocationCounty != null">#{samplingLocationCounty},</if>
+            <if test="detectLocation != null">#{detectLocation},</if>
+            <if test="samplingQuantity != null">#{samplingQuantity},</if>
+            <if test="samplingBase != null">#{samplingBase},</if>
+            <if test="samplingStageType != null">#{samplingStageType},</if>
+            <if test="samplingDate != null">#{samplingDate},</if>
+            <if test="enterpriseName != null">#{enterpriseName},</if>
+            <if test="enterpriseAttribute != null">#{enterpriseAttribute},</if>
+            <if test="enterpriseCreditIdCode != null">#{enterpriseCreditIdCode},</if>
+            <if test="tracingProvince != null">#{tracingProvince},</if>
+            <if test="tracingCity != null">#{tracingCity},</if>
+            <if test="tracingCounty != null">#{tracingCounty},</if>
+            <if test="tracingArea != null">#{tracingArea},</if>
+            <if test="chinaStandard != null">#{chinaStandard},</if>
+            <if test="cacStandard != null">#{cacStandard},</if>
+            <if test="japanStandard != null">#{japanStandard},</if>
+            <if test="euStandard != null">#{euStandard},</if>
+            <if test="usStandard != null">#{usStandard},</if>
+            <if test="koreaStandard != null">#{koreaStandard},</if>
+            <if test="userName != null">#{userName},</if>
+            <if test="batchId != null">#{batchId},</if>
+            <if test="createdAt != null">#{createdAt},</if>
+         </trim>
+    </insert>
+
+    <update id="updateagriCitySampleTestDetailsLXJC" parameterType="agriCitySampleTestDetailsLXJC">
+        update agri_city_sample_test_details
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="sampleCode != null">sample_code = #{sampleCode},</if>
+            <if test="allDistrictCode != null">all_district_code = #{allDistrictCode},</if>
+            <if test="samplingType != null">sampling_type = #{samplingType},</if>
+            <if test="vegFruName != null">veg_fru_name = #{vegFruName},</if>
+            <if test="samplingLocation != null">sampling_location = #{samplingLocation},</if>
+            <if test="samplingLocationProvince != null">sampling_location_province = #{samplingLocationProvince},</if>
+            <if test="samplingLocationCity != null">sampling_location_city = #{samplingLocationCity},</if>
+            <if test="samplingLocationCounty != null">sampling_location_county = #{samplingLocationCounty},</if>
+            <if test="detectLocation != null">detect_location = #{detectLocation},</if>
+            <if test="samplingQuantity != null">sampling_quantity = #{samplingQuantity},</if>
+            <if test="samplingBase != null">sampling_base = #{samplingBase},</if>
+            <if test="samplingStageType != null">sampling_stage_type = #{samplingStageType},</if>
+            <if test="samplingDate != null">sampling_date = #{samplingDate},</if>
+            <if test="enterpriseName != null">enterprise_name = #{enterpriseName},</if>
+            <if test="enterpriseAttribute != null">enterprise_attribute = #{enterpriseAttribute},</if>
+            <if test="enterpriseCreditIdCode != null">enterprise_credit_id_code = #{enterpriseCreditIdCode},</if>
+            <if test="tracingProvince != null">tracing_province = #{tracingProvince},</if>
+            <if test="tracingCity != null">tracing_city = #{tracingCity},</if>
+            <if test="tracingCounty != null">tracing_county = #{tracingCounty},</if>
+            <if test="tracingArea != null">tracing_area = #{tracingArea},</if>
+            <if test="chinaStandard != null">china_standard = #{chinaStandard},</if>
+            <if test="cacStandard != null">cac_standard = #{cacStandard},</if>
+            <if test="japanStandard != null">japan_standard = #{japanStandard},</if>
+            <if test="euStandard != null">eu_standard = #{euStandard},</if>
+            <if test="usStandard != null">us_standard = #{usStandard},</if>
+            <if test="koreaStandard != null">korea_standard = #{koreaStandard},</if>
+            <if test="userName != null">user_name = #{userName},</if>
+            <if test="batchId != null">batch_id = #{batchId},</if>
+            <if test="createdAt != null">created_at = #{createdAt},</if>
+        </trim>
+        where city_sample_test_details_id = #{citySampleTestDetailsId}
+    </update>
+
+    <delete id="deleteagriCitySampleTestDetailsLXJCByCitySampleTestDetailsId" parameterType="Long">
+        delete from agri_city_sample_test_details where city_sample_test_details_id = #{citySampleTestDetailsId}
+    </delete>
+
+    <delete id="deleteagriCitySampleTestDetailsLXJCByCitySampleTestDetailsIds" parameterType="String">
+        delete from agri_city_sample_test_details where city_sample_test_details_id in 
+        <foreach item="citySampleTestDetailsId" collection="array" open="(" separator="," close=")">
+            #{citySampleTestDetailsId}
+        </foreach>
+    </delete>
+    
+    <delete id="deleteagriPesticideDetResultByCitySampleTestDetailsIds" parameterType="String">
+        delete from agri_pesticide_det_result where city_sample_test_details_id in 
+        <foreach item="citySampleTestDetailsId" collection="array" open="(" separator="," close=")">
+            #{citySampleTestDetailsId}
+        </foreach>
+    </delete>
+
+    <delete id="deleteagriPesticideDetResultByCitySampleTestDetailsId" parameterType="Long">
+        delete from agri_pesticide_det_result where city_sample_test_details_id = #{citySampleTestDetailsId}
+    </delete>
+
+    <insert id="batchagriPesticideDetResult">
+        insert into agri_pesticide_det_result( pesticide_det_result_id, pesticide_name, pesticide_det_value, city_sample_test_details_id, created_at) values
+		<foreach item="item" index="index" collection="list" separator=",">
+            ( #{item.pesticideDetResultId}, #{item.pesticideName}, #{item.pesticideDetValue}, #{item.citySampleTestDetailsId}, #{item.createdAt})
+        </foreach>
+    </insert>
+</mapper>
