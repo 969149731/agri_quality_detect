@@ -1,15 +1,21 @@
 package com.ruoyi.detection.controller;
 
+import java.io.IOException;
 import java.io.InputStream;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import javax.servlet.http.HttpServletResponse;
 
+import cn.afterturn.easypoi.excel.ExcelExportUtil;
 import cn.afterturn.easypoi.excel.ExcelImportUtil;
 import cn.afterturn.easypoi.excel.entity.ImportParams;
+import cn.afterturn.easypoi.excel.entity.TemplateExportParams;
+import com.ruoyi.address.domain.AddressUse;
 import com.ruoyi.detection.domain.agriCitySampleTestDetails;
 import com.ruoyi.detection.mapper.agriCitySampleTestDetailsMapper;
 import com.ruoyi.detection.service.IagriCitySampleTestDetailsService;
+import org.apache.poi.ss.usermodel.Workbook;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -70,11 +76,21 @@ public class agriCitySampleTestDetailsLXJCController extends BaseController
     @PreAuthorize("@ss.hasPermi('detection:DetectionDetailsLXJC:export')")
     @Log(title = "例行检测详细", businessType = BusinessType.EXPORT)
     @PostMapping("/export")
-    public void export(HttpServletResponse response, agriCitySampleTestDetailsLXJC agriCitySampleTestDetailsLXJC)
-    {
-        List<agriCitySampleTestDetailsLXJC> list = agriCitySampleTestDetailsLXJCService.selectagriCitySampleTestDetailsLXJCList(agriCitySampleTestDetailsLXJC);
-        ExcelUtil<agriCitySampleTestDetailsLXJC> util = new ExcelUtil<agriCitySampleTestDetailsLXJC>(agriCitySampleTestDetailsLXJC.class);
-        util.exportExcel(response, list, "例行检测详细数据");
+    public void export(HttpServletResponse response, agriCitySampleTestDetails agriCitySampleTestDetails, AddressUse addressUse) throws IOException {
+
+//        List<agriCitySampleTestDetails> list = agriCitySampleTestDetailsService.selectagriCitySampleTestDetailsList(agriCitySampleTestDetails);
+//        ExcelUtil<agriCitySampleTestDetails> util = new ExcelUtil<agriCitySampleTestDetails>(agriCitySampleTestDetails.class);
+//        util.exportExcel(response, list, "各市样品检测结果详细数据");
+        String samplingType ="例行检测";
+        List<agriCitySampleTestDetails> list = agriCitySampleTestDetailsService.selectagriCitySampleTestDetailsList(agriCitySampleTestDetails,samplingType);
+        TemplateExportParams params = new TemplateExportParams("excelOutTemplate/agriCitySampleTestDetailsTemplate.xlsx");
+
+        Map<String, Object> map = new HashMap<>();
+        map.put("maplist", list);
+        map.put("jcfs",samplingType);
+        Workbook workbook = ExcelExportUtil.exportExcel(params, map);
+        workbook.write(response.getOutputStream());
+        workbook.close();
     }
 
     /**

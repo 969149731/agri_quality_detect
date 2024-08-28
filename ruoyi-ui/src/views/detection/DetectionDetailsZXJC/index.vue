@@ -942,7 +942,7 @@ export default {
     },
     /** 导出按钮操作 */
     handleExport() {
-      this.download('detection/detectionDetails/export', {
+      this.download('detection/DetectionDetailsZXJC/export', {
         ...this.queryParams
       }, `detectionDetails_${new Date().getTime()}.xlsx`)
     }
