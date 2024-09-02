@@ -30,7 +30,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * 各市样品检测结果详细Controller
+ * 各市样品检测结果详细Controller   导入历史记录的控制器
  *
  * @author chenjie
  * @date 2024-01-24
