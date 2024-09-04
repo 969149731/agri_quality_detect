@@ -3,7 +3,7 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.ruoyi.detection.mapper.agriCitySampleTestDetailsMapper">
-    <cache type="com.ruoyi.common.core.redis.MybatisRedisCache" eviction="LRU"/>
+<!--    <cache type="com.ruoyi.common.core.redis.MybatisRedisCache" eviction="LRU"/>-->
 
     <resultMap type="agriCitySampleTestDetails" id="agriCitySampleTestDetailsResult">
         <result property="citySampleTestDetailsId" column="city_sample_test_details_id"/>
@@ -434,6 +434,8 @@
             <if test="tracingCounty != null">tracing_county=#{tracingCounty},</if>
             <if test="tracingArea != null">tracing_area=#{tracingArea},</if>
             <if test="allDistrictCode != null">all_district_code=#{allDistrictCode},</if>
+
+            <if test="flag != null">flag=#{flag},</if>
 
         </trim>
         where city_sample_test_details_id = #{citySampleTestDetailsId}
