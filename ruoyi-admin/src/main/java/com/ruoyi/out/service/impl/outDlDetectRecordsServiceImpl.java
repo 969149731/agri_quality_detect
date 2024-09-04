@@ -158,6 +158,7 @@ public class outDlDetectRecordsServiceImpl implements IoutDlDetectRecordsService
         return true;
     }
 
+
     //定量检测汇总表List
 //    @Override
 //    public Map<String, List<dlDetRecordSampleRes>> selectOutDlDetectRecordsList(agriCitySampleTestDetails agriCitySampleTestDetails) throws ParseException {
@@ -1297,4 +1298,40 @@ public class outDlDetectRecordsServiceImpl implements IoutDlDetectRecordsService
     public int deleteoutDlDetectRecordsByRecordDlId(Long recordDlId) {
         return outDlDetectRecordsMapper.deleteoutDlDetectRecordsByRecordDlId(recordDlId);
     }
+
+
+    @Override
+    public List<dlDetRecordSampleRes> selectOutDlDetectRecordsListNew(agriCitySampleTestDetails agriCitySampleTestDetails) {
+
+        List<dlDetRecordSampleRes> res = new ArrayList<>();
+        //过滤掉空白的地点
+        List<dlDetRecordSampleRes> finalRes = new ArrayList<>();
+
+        if (agriCitySampleTestDetails.getSamplingLocationCity() == null&&agriCitySampleTestDetails.getSamplingLocationCounty()==null) {
+            res=agriCitySampleTestDetailsMapper.selectDlDetRecordSampleResInCity(agriCitySampleTestDetails);
+        } else if (agriCitySampleTestDetails.getSamplingLocationCity() != null && agriCitySampleTestDetails.getSamplingLocationCounty() == null) {
+            res=agriCitySampleTestDetailsMapper.selectDlDetRecordSampleResInTown(agriCitySampleTestDetails);
+        } else if (agriCitySampleTestDetails.getSamplingLocationCity() != null && agriCitySampleTestDetails.getSamplingLocationCounty() != null) {
+            res=agriCitySampleTestDetailsMapper.selectDlDetRecordSampleResInDetailLocation(agriCitySampleTestDetails);
+        }
+        //遍历res
+        for (dlDetRecordSampleRes recordSampleRes : res) {
+            if (recordSampleRes.getSamplingLocation()==null) {
+                continue;
+            }
+            finalRes.add(recordSampleRes);
+        }
+
+        //如果地点为空，则添加一个采样地点为“其它”的记录   这边先注释了
+//        for (dlDetRecordSampleRes recordSampleRes : res) {
+//            if (recordSampleRes.getSamplingLocation()==null) {
+//                recordSampleRes.setSamplingLocation("其它");
+//                finalRes.add(recordSampleRes);
+//                break;
+//            }
+//        }
+
+        return finalRes;
+    }
+
 }

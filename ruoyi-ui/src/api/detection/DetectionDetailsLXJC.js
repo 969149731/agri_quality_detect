@@ -83,6 +83,14 @@ export function getDetectionDetails(citySampleTestDetailsId) {
   })
 }
 
+
+export function updateCheck(citySampleTestDetailsId) {
+  return request({
+    url: '/detection/DetectionDetailsLXJC/updateCheck/' + citySampleTestDetailsId+'/'+'例行检测',
+    method: 'get'
+  })
+}
+
 // 新增各市样品检测结果详细
 export function addDetectionDetails(data) {
   return request({

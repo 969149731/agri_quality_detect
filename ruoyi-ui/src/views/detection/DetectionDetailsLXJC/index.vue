@@ -335,12 +335,21 @@
       <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
         <template slot-scope="scope">
           <el-button
+          v-if="scope.row.flag == '1'"
             size="mini"
             type="text"
             icon="el-icon-edit"
             @click="handleUpdate(scope.row)"
             v-hasPermi="['detection:detectionDetails:edit']"
           >修改</el-button>
+          <el-button
+          v-if="scope.row.flag == '0'"
+            size="mini"
+            type="text"
+            icon="el-icon-edit"
+            @click="handleCheck(scope.row)"
+            v-hasPermi="['detection:detectionDetails:edit']"
+          >申请修改</el-button>
           <el-button
             size="mini"
             type="text"
@@ -587,7 +596,7 @@ import {
   delDetectionDetails,
   addDetectionDetails,
   updateDetectionDetails,
-
+  updateCheck,
   samplingAddressProvince,
   findBySamplingProvinceCode,
   findBySamplingCityCode,
@@ -780,8 +789,8 @@ export default {
           this.detectionDetailsList = response.rows;
           this.total = response.total;
           this.loading = false;
-          // console.log(this.detectionDetailsList)
         });
+
     },
     // 取消按钮
     cancel() {
@@ -855,10 +864,24 @@ export default {
         this.title = "修改各市样品检测结果详细";
       });
 
+
+
       //下面这种方法不查数据库直接回显数据
       // this.form = row;
       // this.open = true;
       // this.title = "修改各市样品检测结果详细";
+
+    },
+
+    handleCheck(row) {
+      const citySampleTestDetailsId = row.citySampleTestDetailsId || this.ids
+      updateCheck(citySampleTestDetailsId).then(res => {
+        if(res.code == 200){
+          this.$modal.msgSuccess("申请成功，正在审核中");
+        }else{
+          this.$modal.msgSuccess("申请失败，请重试");
+        }
+      })
 
     },
     /** 提交按钮 */

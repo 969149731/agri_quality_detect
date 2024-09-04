@@ -7,6 +7,8 @@ import java.math.BigDecimal;
 //定量检测要用到的输出的实体类
 public class dlDetRecordSampleRes {
 
+    private String SamplingLocation;
+
     /** 蔬菜抽样数 */
     @Excel(name = "蔬菜抽样数")
     private Integer vegSamplingCount;
@@ -72,6 +74,14 @@ public class dlDetRecordSampleRes {
         this.allSamplingCount = allSamplingCount;
         this.allPassCount = allPassCount;
         this.allPassRate = allPassRate;
+    }
+
+    public String getSamplingLocation() {
+        return SamplingLocation;
+    }
+
+    public void setSamplingLocation(String samplingLocation) {
+        SamplingLocation = samplingLocation;
     }
 
     public Integer getTeaSamplingCount() {
@@ -170,10 +180,12 @@ public class dlDetRecordSampleRes {
         this.allPassRate = allPassRate;
     }
 
+
     @Override
     public String toString() {
         return "dlDetRecordSampleRes{" +
-                "vegSamplingCount=" + vegSamplingCount +
+                "SamplingLocation='" + SamplingLocation + '\'' +
+                ", vegSamplingCount=" + vegSamplingCount +
                 ", vegPassCount=" + vegPassCount +
                 ", vegPassRate=" + vegPassRate +
                 ", fruSamplingCount=" + fruSamplingCount +

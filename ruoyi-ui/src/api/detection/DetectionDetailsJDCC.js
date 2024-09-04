@@ -25,6 +25,12 @@ export function findBySamplingCityCode(cityCode) {
 
 
 
+export function updateCheck(citySampleTestDetailsId) {
+  return request({
+    url: '/detection/DetectionDetailsLXJC/updateCheck/' + citySampleTestDetailsId+'/'+'监督抽查',
+    method: 'get'
+  })
+}
 
 
 // 查询例行检测详细列表

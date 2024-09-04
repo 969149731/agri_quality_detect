@@ -103,3 +103,11 @@ export function delDetectionDetails(citySampleTestDetailsId) {
   })
 }
 
+
+
+export function updateCheck(citySampleTestDetailsId) {
+  return request({
+    url: '/detection/DetectionDetailsLXJC/updateCheck/' + citySampleTestDetailsId+'/'+'专项检测',
+    method: 'get'
+  })
+}

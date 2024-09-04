@@ -74,4 +74,19 @@ public interface IagriCitySampleTestDetailsService
     String importAgriOut2CitySampleTestDetailsList_pre(List<agriOut2CitySampleTestDetails> agriOut2CitySampleTestDetailsList, boolean updateSupport, String operName);
 
     String importAgriOut2CitySampleTestDetailsList(List<Map<String, Object>> agriOut2CitySampleTestDetailsList, boolean updateSupport, String operName, String samplingType);
+
+    /**
+     * 根据id查询
+     * @param citySampleTestDetailsId
+     */
+    agriCitySampleTestDetails findById(Long citySampleTestDetailsId);
+
+    /**
+     * 修改审核状态
+     * @param citySampleTestDetailsId
+     * @return
+     */
+    int updateagriCitySampleTestDetailsById(Long citySampleTestDetailsId);
+
+
 }

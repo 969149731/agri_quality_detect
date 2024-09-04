@@ -68,4 +68,9 @@ public interface IoutDlDetectRecordsService
     public int deleteoutDlDetectRecordsByRecordDlId(Long recordDlId);
 
     public  boolean checkPesticideIsPass(agriCitySampleTestDetails sample);
+
+
+    public List<dlDetRecordSampleRes> selectOutDlDetectRecordsListNew(agriCitySampleTestDetails agriCitySampleTestDetails);
+
+
 }

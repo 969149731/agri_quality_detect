@@ -103,9 +103,12 @@ public interface agriCitySampleTestDetailsMapper
     List<agriPesticideDetResult> selectAgriCitySampleTestDetailsListById(@Param("citySampleTestDetailsId") Long citySampleTestDetailsId);
 
 
-    List<dlDetRecordSampleRes> selectDlDetRecordSampleResInCity();
-    List<dlDetRecordSampleRes> selectDlDetRecordSampleResInTown();
-    List<dlDetRecordSampleRes> selectDlDetRecordSampleResInDetailLocation();
+    List<dlDetRecordSampleRes> selectDlDetRecordSampleResInCity(@Param("agriCitySampleTestDetails") agriCitySampleTestDetails agriCitySampleTestDetails);
+    List<dlDetRecordSampleRes> selectDlDetRecordSampleResInTown(@Param("agriCitySampleTestDetails") agriCitySampleTestDetails agriCitySampleTestDetails);
+    List<dlDetRecordSampleRes> selectDlDetRecordSampleResInDetailLocation(@Param("agriCitySampleTestDetails") agriCitySampleTestDetails agriCitySampleTestDetails);
 
+    List<dlDetRecordSampleRes> selectDlDetRecordSampleResInAnJianBuMen(@Param("agriCitySampleTestDetails") agriCitySampleTestDetails agriCitySampleTestDetails ,@Param("city") String city);
+
+    agriCitySampleTestDetails findById(Long id);
 
 }

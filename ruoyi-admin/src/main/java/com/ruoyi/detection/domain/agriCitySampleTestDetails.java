@@ -3,6 +3,7 @@ package com.ruoyi.detection.domain;
 import java.util.List;
 import java.util.Date;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import io.swagger.models.auth.In;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 import com.ruoyi.common.annotation.Excel;
@@ -11,7 +12,7 @@ import org.springframework.context.annotation.Bean;
 
 /**
  * 各市样品检测结果详细对象 agri_city_sample_test_details  和数据库字段对应
- * 
+ *
  * @author chenjie
  * @date 2024-01-24
  */
@@ -109,6 +110,8 @@ public class agriCitySampleTestDetails extends BaseEntity
     /** 记录创建时间 */
     private Date createdAt;
 
+    private Integer flag;
+
     /** 农药检测结果信息 */
     @Excel(name = "农药检测结果信息")
     private List<agriPesticideDetResult> agriPesticideDetResultList;
@@ -116,7 +119,7 @@ public class agriCitySampleTestDetails extends BaseEntity
 
 
 
-   //新增的字段，放在搜索框那里的
+    //新增的字段，放在搜索框那里的
     /** 蔬果类型（蔬菜或水果） */
     private String vegFruType;
 
@@ -143,10 +146,13 @@ public class agriCitySampleTestDetails extends BaseEntity
         this.samplingType = samplingType;
     }
 
+    public Integer getFlag() {
+        return flag;
+    }
 
-
-
-
+    public void setFlag(Integer flag) {
+        this.flag = flag;
+    }
 
     public String getPesticideName() {
         return pesticideName;

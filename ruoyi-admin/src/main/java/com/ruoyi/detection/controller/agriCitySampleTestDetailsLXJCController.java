@@ -14,6 +14,7 @@ import cn.afterturn.easypoi.excel.entity.TemplateExportParams;
 import com.ruoyi.address.domain.AddressUse;
 import com.ruoyi.detection.domain.agriCitySampleTestDetails;
 import com.ruoyi.detection.mapper.agriCitySampleTestDetailsMapper;
+import com.ruoyi.detection.service.IAgriCheckService;
 import com.ruoyi.detection.service.IagriCitySampleTestDetailsService;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.springframework.core.io.ClassPathResource;
@@ -53,7 +54,8 @@ public class agriCitySampleTestDetailsLXJCController extends BaseController
     @Autowired
     private IagriCitySampleTestDetailsService agriCitySampleTestDetailsService;
 
-
+    @Autowired
+    private IAgriCheckService agriCheckService;
 
     /**
      * 查询例行检测详细列表  拆分后的例行检测
@@ -198,7 +200,10 @@ public class agriCitySampleTestDetailsLXJCController extends BaseController
         }
     }
 
-
+    @GetMapping("/updateCheck/{citySampleTestDetailsId}/{name}")
+    public AjaxResult updateCheck(@PathVariable("citySampleTestDetailsId")Long citySampleTestDetailsId, @PathVariable("name")String name) {
+        return agriCheckService.insertCheck(citySampleTestDetailsId,name);
+    }
 
 
 }

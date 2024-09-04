@@ -15,6 +15,7 @@ import com.ruoyi.detection.domain.agriCitySampleTestDetails;
 import com.ruoyi.detection.mapper.agriCitySampleTestDetailsMapper;
 import com.ruoyi.out.domain.dlMapToListResult;
 import com.ruoyi.out.domain.dlDetRecordSampleRes;
+import com.ruoyi.out.domain.vo.dlDetRecordSampleIncludeJianCheJiGouRes;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -64,7 +65,7 @@ public class outDlDetectRecordsController extends BaseController
 //        return getDataTable(list);
 //    }
 
-
+//
 //    @PreAuthorize("@ss.hasPermi('out:outDlDetectRecords:list')")
 //    @GetMapping("/list")
 //    public TableDataInfo list(agriCitySampleTestDetails agriCitySampleTestDetails) throws ParseException {
@@ -150,90 +151,40 @@ public class outDlDetectRecordsController extends BaseController
     @PreAuthorize("@ss.hasPermi('out:outDlDetectRecords:list')")
     @GetMapping("/list")
     public TableDataInfo list(agriCitySampleTestDetails agriCitySampleTestDetails) throws ParseException {
-        Map<String, List<dlDetRecordSampleRes>> stringSampleResMap = outDlDetectRecordsService.selectOutDlDetectRecordsList(agriCitySampleTestDetails);
-        List<dlMapToListResult> resultList = new ArrayList<>();
-        for (Map.Entry<String, List<dlDetRecordSampleRes>> entry : stringSampleResMap.entrySet()) {
-            for (dlDetRecordSampleRes sampleRes : entry.getValue()) {
-                resultList.add(new dlMapToListResult(entry.getKey(), sampleRes));
+        List<dlDetRecordSampleIncludeJianCheJiGouRes> FinalRes = new ArrayList<>();
+
+        List<dlDetRecordSampleRes> WaiRes =outDlDetectRecordsService.selectOutDlDetectRecordsListNew(agriCitySampleTestDetails);
+
+        //遍历res
+        for (dlDetRecordSampleRes sampleWaiRes : WaiRes) {
+            dlDetRecordSampleIncludeJianCheJiGouRes FinalRe = new dlDetRecordSampleIncludeJianCheJiGouRes();
+            String samplingLocation = sampleWaiRes.getSamplingLocation();
+            FinalRe.setSamplingLocation(sampleWaiRes.getSamplingLocation());
+            FinalRe.setVegSamplingCount(sampleWaiRes.getVegSamplingCount());
+            FinalRe.setVegPassCount(sampleWaiRes.getVegPassCount());
+            FinalRe.setVegPassRate(sampleWaiRes.getVegPassRate());
+            FinalRe.setFruSamplingCount(sampleWaiRes.getFruSamplingCount());
+            FinalRe.setFruPassCount(sampleWaiRes.getFruPassCount());
+            FinalRe.setFruPassRate(sampleWaiRes.getFruPassRate());
+            FinalRe.setTeaSamplingCount(sampleWaiRes.getTeaSamplingCount());
+            FinalRe.setTeaPassCount(sampleWaiRes.getTeaPassCount());
+            FinalRe.setTeaPassRate(sampleWaiRes.getTeaPassRate());
+            FinalRe.setAllSamplingCount(sampleWaiRes.getAllSamplingCount());
+            FinalRe.setAllPassCount(sampleWaiRes.getAllPassCount());
+            FinalRe.setAllPassRate(sampleWaiRes.getAllPassRate());
+
+            List<dlDetRecordSampleRes> NeiRes=null;
+            if (samplingLocation=="1"){
+                NeiRes = agriCitySampleTestDetailsMapper.selectDlDetRecordSampleResInAnJianBuMen(agriCitySampleTestDetails,samplingLocation);
             }
-        }
-        List<outDlDetectRecords> formResultList = new ArrayList<>();
-        for (dlMapToListResult result : resultList) {
-            outDlDetectRecords outDlDetectRecords=new outDlDetectRecords();
-            outDlDetectRecords.setSamplingLocation(result.getSamplingLocation());
+            FinalRe.setDlDetRecordSampleRes(NeiRes);
+            FinalRes.add(FinalRe);
 
-            outDlDetectRecords.setVegSamplingCount((long) result.getSampleRes().getVegSamplingCount());
-            outDlDetectRecords.setVegQualifiedCount((long) result.getSampleRes().getVegPassCount());
-            // 假设 result.getSampleRes().getVegPassRate() 返回的是 Double 类型的值
-            Double vegPassRate = result.getSampleRes().getVegPassRate();
-            // 将 Double 转换为 BigDecimal，并且乘以 100
-            BigDecimal vegPassRatePercent = BigDecimal.valueOf(vegPassRate * 100);
-            // 设置四舍五入模式为 HALF_UP（四舍五入）并保留两位小数
-            BigDecimal roundedVegPassRatePercent = vegPassRatePercent.setScale(2, BigDecimal.ROUND_HALF_UP);
-            // 如果你需要再次将其转换为 Double
-            double finalVegPassRatePercent = roundedVegPassRatePercent.doubleValue();
-            outDlDetectRecords.setVegPassRate(finalVegPassRatePercent);
-
-
-            outDlDetectRecords.setFruSamplingCount((long)result.getSampleRes().getFruSamplingCount() );
-            outDlDetectRecords.setFruQualifiedCount((long)result.getSampleRes().getFruPassCount());
-            // 假设 result.getSampleRes().getFruPassRate() 返回的是 Double 类型的值
-            Double fruPassRate = result.getSampleRes().getFruPassRate();
-            // 将 Double 转换为 BigDecimal，并且乘以 100
-            BigDecimal fruPassRatePercent = BigDecimal.valueOf(fruPassRate * 100);
-            // 设置四舍五入模式为 HALF_UP（四舍五入）并保留两位小数
-            BigDecimal roundedFruPassRatePercent = fruPassRatePercent.setScale(2, BigDecimal.ROUND_HALF_UP);
-            // 如果你需要再次将其转换为 Double
-            double finalFruPassRatePercent = roundedFruPassRatePercent.doubleValue();
-            // 使用 finalFruPassRatePercent 根据需要进行进一步的操作
-            outDlDetectRecords.setFruPassRate(finalFruPassRatePercent);
-
-
-            outDlDetectRecords.setTeaSamplingCount((long)result.getSampleRes().getTeaSamplingCount() );
-            outDlDetectRecords.setTeaQualifiedCount((long)result.getSampleRes().getTeaPassCount());
-            // 假设 result.getSampleRes().getFruPassRate() 返回的是 Double 类型的值
-            Double teaPassRate = result.getSampleRes().getTeaPassRate();
-            // 将 Double 转换为 BigDecimal，并且乘以 100
-            BigDecimal teaPassRatePercent = BigDecimal.valueOf(teaPassRate * 100);
-            // 设置四舍五入模式为 HALF_UP（四舍五入）并保留两位小数
-            BigDecimal roundedTeaPassRatePercent = teaPassRatePercent.setScale(2, BigDecimal.ROUND_HALF_UP);
-            // 如果你需要再次将其转换为 Double
-            double finalTeaPassRatePercent = roundedTeaPassRatePercent.doubleValue();
-            // 使用 finalFruPassRatePercent 根据需要进行进一步的操作
-            outDlDetectRecords.setTeaPassRate(finalTeaPassRatePercent);
-
-
-
-            outDlDetectRecords.setAllSamplingCount((long)result.getSampleRes().getAllSamplingCount());
-            outDlDetectRecords.setAllQualifiedCount((long)result.getSampleRes().getAllPassCount());
-            // 假设 result.getSampleRes().getAllPassRate() 返回的是 Double 类型的值
-            Double allPassRate = result.getSampleRes().getAllPassRate();
-            try {
-                // 将 Double 转换为 BigDecimal，并且乘以 100
-                BigDecimal allPassRatePercent = BigDecimal.valueOf(allPassRate * 100);
-                // 设置四舍五入模式为 HALF_UP（四舍五入）并保留两位小数
-                BigDecimal roundedAllPassRatePercent = allPassRatePercent.setScale(2, BigDecimal.ROUND_HALF_UP);
-                // 如果你需要再次将其转换为 Double
-                double finalAllPassRatePercent = roundedAllPassRatePercent.doubleValue();
-                // 现在 finalAllPassRatePercent 是四舍五入后保留两位小数的结果，可以根据需要使用它
-                outDlDetectRecords.setAllPassRate(finalAllPassRatePercent);
-            }catch (NumberFormatException e){
-                System.out.println("字符串中包含非数字字符，无法转换为整数");
-            }
-
-
-
-
-            formResultList.add(outDlDetectRecords);
         }
 
-
-        return getDataTable(formResultList);
-//        List<dlDetRecordSampleRes> res =agriCitySampleTestDetailsMapper.selectDlDetRecordSampleRes();
-//
-//        return getDataTable(res);
-
+        return getDataTable(FinalRes);
     }
+
 
 
 

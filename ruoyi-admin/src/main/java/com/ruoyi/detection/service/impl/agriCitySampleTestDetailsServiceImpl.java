@@ -252,6 +252,8 @@ public class agriCitySampleTestDetailsServiceImpl implements IagriCitySampleTest
     @Override
     public int updateagriCitySampleTestDetails(agriCitySampleTestDetails agriCitySampleTestDetails) {
         agriCitySampleTestDetailsMapper.deleteagriPesticideDetResultByCitySampleTestDetailsId(agriCitySampleTestDetails.getCitySampleTestDetailsId());
+        //修改完成后，如果需要修改，需要再次向管理员发送请求
+        agriCitySampleTestDetails.setFlag(0);
         insertagriPesticideDetResult(agriCitySampleTestDetails);
         return agriCitySampleTestDetailsMapper.updateagriCitySampleTestDetails(agriCitySampleTestDetails);
     }
@@ -1155,4 +1157,26 @@ public class agriCitySampleTestDetailsServiceImpl implements IagriCitySampleTest
             }
         }
     }
+
+    @Override
+    public agriCitySampleTestDetails findById(Long id) {
+        return agriCitySampleTestDetailsMapper.findById(id);
+    }
+
+    /**
+     * 修改状态
+     * @param id
+     * @return
+     */
+    @Override
+    public int updateagriCitySampleTestDetailsById(Long id) {
+
+        agriCitySampleTestDetails agriCitySampleTestDetails = agriCitySampleTestDetailsMapper.findById(id);
+        agriCitySampleTestDetails.setFlag(1);
+        return agriCitySampleTestDetailsMapper.updateagriCitySampleTestDetails(agriCitySampleTestDetails);
+    }
+
+
+
+
 }
