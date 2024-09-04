@@ -8,7 +8,11 @@ import java.util.regex.Pattern;
 import com.ruoyi.address.service.IAddressCityService;
 import com.ruoyi.address.service.IAddressProvinceService;
 import com.ruoyi.address.service.IAddressTownService;
+import com.ruoyi.common.core.domain.entity.SysDept;
+import com.ruoyi.common.core.domain.entity.SysRole;
+import com.ruoyi.common.core.domain.model.LoginUser;
 import com.ruoyi.common.exception.ServiceException;
+import com.ruoyi.common.utils.SecurityUtils;
 import com.ruoyi.detection.domain.agriOut2CitySampleTestDetails;
 import com.ruoyi.detection.domain.agriOutCitySampleTestDetails;
 import com.ruoyi.detection.mapper.agriPesticideDetResultMapper;
@@ -77,6 +81,32 @@ public class agriCitySampleTestDetailsServiceImpl implements IagriCitySampleTest
 
 //        startPage();
 //        List<agriCitySampleTestDetails> agriCitySampleTestDetails1 = agriCitySampleTestDetailsMapper.selectagriCitySampleTestDetailsList(agriCitySampleTestDetails);
+
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        //获取当前登录的用户名
+        String username = authentication.getName();
+
+        // 获取当前的用户信息
+        LoginUser loginUser = SecurityUtils.getLoginUser();
+
+        //用当前用户名查询当前用户所属角色，如果是属于监测机构，则只能查看自己上传过的数据
+        List<SysRole> roles = loginUser.getUser().getRoles();
+        String roleName = roles.get(0).getRoleName();
+        if (roleName.equals("监测机构")) {
+            agriCitySampleTestDetails.setUserName(username);
+        }
+        //如果是属于安监部门，则只能查看本辖区内的数据
+        if (roleName.equals("安监部门")) {
+            //获取当前安监部门 所在的部门
+            SysDept sysDept = loginUser.getUser().getDept();
+            String deptName = sysDept.getDeptName();
+            //截取depName中的字符，从开头到市结尾的字符
+            String substringDeptName = deptName.substring(0, deptName.indexOf("市") + 1);
+            agriCitySampleTestDetails.setSamplingLocationCity(substringDeptName);
+        }
+
+
+
         List<agriCitySampleTestDetails> agriCitySampleTestDetails1 = agriCitySampleTestDetailsMapper.selectAgriCitySampleList(agriCitySampleTestDetails,samplingType);
         for (agriCitySampleTestDetails agriCitySampleTestDetail : agriCitySampleTestDetails1) {
             //查询详细列表中的Id
@@ -815,6 +845,8 @@ public class agriCitySampleTestDetailsServiceImpl implements IagriCitySampleTest
                     vegFruName = agriOut2CitySampleTestDetails.get("样品名称").toString();
                     if (vegFruName != null) {
                         vegFruName = vegFruName.replace(" ", "");  // 去除空格
+                        vegFruName = vegFruName.replace("\n", "");  // 去除回车
+
                     }
                 } catch (Exception e) {
                     vegFruName = null;

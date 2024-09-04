@@ -45,7 +45,7 @@ public class AddressController extends BaseController
      * 查询所有省份信息
      * @return
      */
-    @PreAuthorize("@ss.hasPermi('address:city:list')")
+//    @PreAuthorize("@ss.hasPermi('address:city:list')")
     @GetMapping("address")
     public List<AddressProvince> findAll(){
 

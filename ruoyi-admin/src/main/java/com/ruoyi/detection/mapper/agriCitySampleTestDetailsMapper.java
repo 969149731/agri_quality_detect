@@ -3,6 +3,8 @@ package com.ruoyi.detection.mapper;
 import java.util.List;
 import com.ruoyi.detection.domain.agriCitySampleTestDetails;
 import com.ruoyi.detection.domain.agriPesticideDetResult;
+import com.ruoyi.out.domain.dlDetRecordSampleRes;
+import io.swagger.models.auth.In;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
@@ -99,4 +101,11 @@ public interface agriCitySampleTestDetailsMapper
     List<agriCitySampleTestDetails> selectAgriCitySampleList(@Param("agriCitySampleTestDetails") agriCitySampleTestDetails agriCitySampleTestDetails,@Param("samplingType") String samplingType);
 
     List<agriPesticideDetResult> selectAgriCitySampleTestDetailsListById(@Param("citySampleTestDetailsId") Long citySampleTestDetailsId);
+
+
+    List<dlDetRecordSampleRes> selectDlDetRecordSampleResInCity();
+    List<dlDetRecordSampleRes> selectDlDetRecordSampleResInTown();
+    List<dlDetRecordSampleRes> selectDlDetRecordSampleResInDetailLocation();
+
+
 }

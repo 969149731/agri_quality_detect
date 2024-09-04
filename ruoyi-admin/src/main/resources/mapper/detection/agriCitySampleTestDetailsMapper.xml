@@ -567,4 +567,350 @@
         select * from agri_pesticide_det_result where city_sample_test_details_id = #{citySampleTestDetailsId}
     </select>
 
+
+
+
+    <select id="selectDlDetRecordSampleResInCity" resultType="dlDetRecordSampleRes">
+    SELECT
+    t_address_city.name AS cityName,
+
+    -- 蔬菜统计
+    SUM(CASE WHEN vf.veg_fru_type = '蔬菜' THEN 1 ELSE 0 END) AS vegSamplingCount,
+    SUM(CASE WHEN vf.veg_fru_type = '蔬菜' AND acstd.city_sample_test_details_id NOT IN (
+    SELECT
+    acstd.city_sample_test_details_id
+    FROM
+    agri_city_sample_test_details acstd
+    LEFT JOIN
+    agri_vegetable_fruit vf ON acstd.veg_fru_name = vf.veg_fru_name
+    LEFT JOIN
+    agri_pesticide_det_result pdr ON acstd.city_sample_test_details_id = pdr.city_sample_test_details_id
+    LEFT JOIN
+    agri_pesticide_residue_standard prs ON pdr.pesticide_name = prs.pesticide_name
+    AND vf.veg_fru_name = prs.veg_fru_name
+    WHERE
+    pdr.pesticide_det_value > prs.standard_value
+    ) THEN 1 ELSE 0 END) AS vegPassCount,
+    CASE WHEN SUM(CASE WHEN vf.veg_fru_type = '蔬菜' THEN 1 ELSE 0 END) = 0
+    THEN 0
+    ELSE ROUND(
+    SUM(CASE WHEN vf.veg_fru_type = '蔬菜' AND acstd.city_sample_test_details_id NOT IN (
+    SELECT
+    acstd.city_sample_test_details_id
+    FROM
+    agri_city_sample_test_details acstd
+    LEFT JOIN
+    agri_vegetable_fruit vf ON acstd.veg_fru_name = vf.veg_fru_name
+    LEFT JOIN
+    agri_pesticide_det_result pdr ON acstd.city_sample_test_details_id = pdr.city_sample_test_details_id
+    LEFT JOIN
+    agri_pesticide_residue_standard prs ON pdr.pesticide_name = prs.pesticide_name
+    AND vf.veg_fru_name = prs.veg_fru_name
+    WHERE
+    pdr.pesticide_det_value > prs.standard_value
+    ) THEN 1 ELSE 0 END) /
+    SUM(CASE WHEN vf.veg_fru_type = '蔬菜' THEN 1 ELSE 0 END) * 100, 2
+    )
+    END AS vegPassRate,
+
+    -- 水果统计
+    SUM(CASE WHEN vf.veg_fru_type = '水果' THEN 1 ELSE 0 END) AS fruSamplingCount,
+    SUM(CASE WHEN vf.veg_fru_type = '水果' AND acstd.city_sample_test_details_id NOT IN (
+    SELECT
+    acstd.city_sample_test_details_id
+    FROM
+    agri_city_sample_test_details acstd
+    LEFT JOIN
+    agri_vegetable_fruit vf ON acstd.veg_fru_name = vf.veg_fru_name
+    LEFT JOIN
+    agri_pesticide_det_result pdr ON acstd.city_sample_test_details_id = pdr.city_sample_test_details_id
+    LEFT JOIN
+    agri_pesticide_residue_standard prs ON pdr.pesticide_name = prs.pesticide_name
+    AND vf.veg_fru_name = prs.veg_fru_name
+    WHERE
+    pdr.pesticide_det_value > prs.standard_value
+    ) THEN 1 ELSE 0 END) AS fruPassCount,
+    CASE WHEN SUM(CASE WHEN vf.veg_fru_type = '水果' THEN 1 ELSE 0 END) = 0
+    THEN 0
+    ELSE ROUND(
+    SUM(CASE WHEN vf.veg_fru_type = '水果' AND acstd.city_sample_test_details_id NOT IN (
+    SELECT
+    acstd.city_sample_test_details_id
+    FROM
+    agri_city_sample_test_details acstd
+    LEFT JOIN
+    agri_vegetable_fruit vf ON acstd.veg_fru_name = vf.veg_fru_name
+    LEFT JOIN
+    agri_pesticide_det_result pdr ON acstd.city_sample_test_details_id = pdr.city_sample_test_details_id
+    LEFT JOIN
+    agri_pesticide_residue_standard prs ON pdr.pesticide_name = prs.pesticide_name
+    AND vf.veg_fru_name = prs.veg_fru_name
+    WHERE
+    pdr.pesticide_det_value > prs.standard_value
+    ) THEN 1 ELSE 0 END) /
+    SUM(CASE WHEN vf.veg_fru_type = '水果' THEN 1 ELSE 0 END) * 100, 2
+    )
+    END AS fruPassRate,
+
+    -- 茶叶统计
+    SUM(CASE WHEN vf.veg_fru_type = '茶叶' THEN 1 ELSE 0 END) AS teaSamplingCount,
+    SUM(CASE WHEN vf.veg_fru_type = '茶叶' AND acstd.city_sample_test_details_id NOT IN (
+    SELECT
+    acstd.city_sample_test_details_id
+    FROM
+    agri_city_sample_test_details acstd
+    LEFT JOIN
+    agri_vegetable_fruit vf ON acstd.veg_fru_name = vf.veg_fru_name
+    LEFT JOIN
+    agri_pesticide_det_result pdr ON acstd.city_sample_test_details_id = pdr.city_sample_test_details_id
+    LEFT JOIN
+    agri_pesticide_residue_standard prs ON pdr.pesticide_name = prs.pesticide_name
+    AND vf.veg_fru_name = prs.veg_fru_name
+    WHERE
+    pdr.pesticide_det_value > prs.standard_value
+    ) THEN 1 ELSE 0 END) AS teaPassCount,
+    CASE WHEN SUM(CASE WHEN vf.veg_fru_type = '茶叶' THEN 1 ELSE 0 END) = 0
+    THEN 0
+    ELSE ROUND(
+    SUM(CASE WHEN vf.veg_fru_type = '茶叶' AND acstd.city_sample_test_details_id NOT IN (
+    SELECT
+    acstd.city_sample_test_details_id
+    FROM
+    agri_city_sample_test_details acstd
+    LEFT JOIN
+    agri_vegetable_fruit vf ON acstd.veg_fru_name = vf.veg_fru_name
+    LEFT JOIN
+    agri_pesticide_det_result pdr ON acstd.city_sample_test_details_id = pdr.city_sample_test_details_id
+    LEFT JOIN
+    agri_pesticide_residue_standard prs ON pdr.pesticide_name = prs.pesticide_name
+    AND vf.veg_fru_name = prs.veg_fru_name
+    WHERE
+    pdr.pesticide_det_value > prs.standard_value
+    ) THEN 1 ELSE 0 END) /
+    SUM(CASE WHEN vf.veg_fru_type = '茶叶' THEN 1 ELSE 0 END) * 100, 2
+    )
+    END AS teaPassRate,
+
+    -- 总数统计
+    SUM(CASE WHEN vf.veg_fru_type IN ('蔬菜', '水果', '茶叶') THEN 1 ELSE 0 END) AS allSamplingCount,
+    SUM(CASE WHEN vf.veg_fru_type IN ('蔬菜', '水果', '茶叶') AND acstd.city_sample_test_details_id NOT IN (
+    SELECT
+    acstd.city_sample_test_details_id
+    FROM
+    agri_city_sample_test_details acstd
+    LEFT JOIN
+    agri_vegetable_fruit vf ON acstd.veg_fru_name = vf.veg_fru_name
+    LEFT JOIN
+    agri_pesticide_det_result pdr ON acstd.city_sample_test_details_id = pdr.city_sample_test_details_id
+    LEFT JOIN
+    agri_pesticide_residue_standard prs ON pdr.pesticide_name = prs.pesticide_name
+    AND vf.veg_fru_name = prs.veg_fru_name
+    WHERE
+    pdr.pesticide_det_value > prs.standard_value
+    ) THEN 1 ELSE 0 END) AS allPassCount,
+    CASE WHEN SUM(CASE WHEN vf.veg_fru_type IN ('蔬菜', '水果', '茶叶') THEN 1 ELSE 0 END) = 0
+    THEN 0
+    ELSE ROUND(
+    SUM(CASE WHEN vf.veg_fru_type IN ('蔬菜', '水果', '茶叶') AND acstd.city_sample_test_details_id NOT IN (
+    SELECT
+    acstd.city_sample_test_details_id
+    FROM
+    agri_city_sample_test_details acstd
+    LEFT JOIN
+    agri_vegetable_fruit vf ON acstd.veg_fru_name = vf.veg_fru_name
+    LEFT JOIN
+    agri_pesticide_det_result pdr ON acstd.city_sample_test_details_id = pdr.city_sample_test_details_id
+    LEFT JOIN
+    agri_pesticide_residue_standard prs ON pdr.pesticide_name = prs.pesticide_name
+    AND vf.veg_fru_name = prs.veg_fru_name
+    WHERE
+    pdr.pesticide_det_value > prs.standard_value
+    ) THEN 1 ELSE 0 END) /
+    SUM(CASE WHEN vf.veg_fru_type IN ('蔬菜', '水果', '茶叶') THEN 1 ELSE 0 END) * 100, 2
+         )
+        END AS allPassRate
+    FROM
+        agri_city_sample_test_details acstd
+            LEFT JOIN agri_vegetable_fruit vf ON acstd.veg_fru_name = vf.veg_fru_name
+            LEFT JOIN t_address_city  ON acstd.sampling_location_city = t_address_city.name  -- 关联到城市名称
+    GROUP BY
+        t_address_city.name
+    ORDER BY NULL
+    </select>
+
+
+
+
+    <select id="selectDlDetRecordSampleResInTown" resultType="dlDetRecordSampleRes">
+        SELECT
+            t_address_town.name AS townName,
+
+            -- 蔬菜统计
+            SUM(CASE WHEN vf.veg_fru_type = '蔬菜' THEN 1 ELSE 0 END) AS vegSamplingCount,
+            SUM(CASE WHEN vf.veg_fru_type = '蔬菜' AND acstd.city_sample_test_details_id NOT IN (
+                SELECT
+                    acstd.city_sample_test_details_id
+                FROM
+                    agri_city_sample_test_details acstd
+                        LEFT JOIN
+                    agri_vegetable_fruit vf ON acstd.veg_fru_name = vf.veg_fru_name
+                        LEFT JOIN
+                    agri_pesticide_det_result pdr ON acstd.city_sample_test_details_id = pdr.city_sample_test_details_id
+                        LEFT JOIN
+                    agri_pesticide_residue_standard prs ON pdr.pesticide_name = prs.pesticide_name
+                        AND vf.veg_fru_name = prs.veg_fru_name
+                WHERE
+                    pdr.pesticide_det_value > prs.standard_value
+            ) THEN 1 ELSE 0 END) AS vegPassCount,
+            CASE WHEN SUM(CASE WHEN vf.veg_fru_type = '蔬菜' THEN 1 ELSE 0 END) = 0
+                     THEN 0
+                 ELSE ROUND(
+                         SUM(CASE WHEN vf.veg_fru_type = '蔬菜' AND acstd.city_sample_test_details_id NOT IN (
+                             SELECT
+                                 acstd.city_sample_test_details_id
+                             FROM
+                                 agri_city_sample_test_details acstd
+                                     LEFT JOIN
+                                 agri_vegetable_fruit vf ON acstd.veg_fru_name = vf.veg_fru_name
+                                     LEFT JOIN
+                                 agri_pesticide_det_result pdr ON acstd.city_sample_test_details_id = pdr.city_sample_test_details_id
+                                     LEFT JOIN
+                                 agri_pesticide_residue_standard prs ON pdr.pesticide_name = prs.pesticide_name
+                                     AND vf.veg_fru_name = prs.veg_fru_name
+                             WHERE
+                                 pdr.pesticide_det_value > prs.standard_value
+                         ) THEN 1 ELSE 0 END) /
+                         SUM(CASE WHEN vf.veg_fru_type = '蔬菜' THEN 1 ELSE 0 END) * 100, 2
+                      )
+                END AS vegPassRate,
+
+            -- 水果统计
+            SUM(CASE WHEN vf.veg_fru_type = '水果' THEN 1 ELSE 0 END) AS fruSamplingCount,
+            SUM(CASE WHEN vf.veg_fru_type = '水果' AND acstd.city_sample_test_details_id NOT IN (
+                SELECT
+                    acstd.city_sample_test_details_id
+                FROM
+                    agri_city_sample_test_details acstd
+                        LEFT JOIN
+                    agri_vegetable_fruit vf ON acstd.veg_fru_name = vf.veg_fru_name
+                        LEFT JOIN
+                    agri_pesticide_det_result pdr ON acstd.city_sample_test_details_id = pdr.city_sample_test_details_id
+                        LEFT JOIN
+                    agri_pesticide_residue_standard prs ON pdr.pesticide_name = prs.pesticide_name
+                        AND vf.veg_fru_name = prs.veg_fru_name
+                WHERE
+                    pdr.pesticide_det_value > prs.standard_value
+            ) THEN 1 ELSE 0 END) AS fruPassCount,
+            CASE WHEN SUM(CASE WHEN vf.veg_fru_type = '水果' THEN 1 ELSE 0 END) = 0
+                     THEN 0
+                 ELSE ROUND(
+                         SUM(CASE WHEN vf.veg_fru_type = '水果' AND acstd.city_sample_test_details_id NOT IN (
+                             SELECT
+                                 acstd.city_sample_test_details_id
+                             FROM
+                                 agri_city_sample_test_details acstd
+                                     LEFT JOIN
+                                 agri_vegetable_fruit vf ON acstd.veg_fru_name = vf.veg_fru_name
+                                     LEFT JOIN
+                                 agri_pesticide_det_result pdr ON acstd.city_sample_test_details_id = pdr.city_sample_test_details_id
+                                     LEFT JOIN
+                                 agri_pesticide_residue_standard prs ON pdr.pesticide_name = prs.pesticide_name
+                                     AND vf.veg_fru_name = prs.veg_fru_name
+                             WHERE
+                                 pdr.pesticide_det_value > prs.standard_value
+                         ) THEN 1 ELSE 0 END) /
+                         SUM(CASE WHEN vf.veg_fru_type = '水果' THEN 1 ELSE 0 END) * 100, 2
+                      )
+                END AS fruPassRate,
+
+            -- 茶叶统计
+            SUM(CASE WHEN vf.veg_fru_type = '茶叶' THEN 1 ELSE 0 END) AS teaSamplingCount,
+            SUM(CASE WHEN vf.veg_fru_type = '茶叶' AND acstd.city_sample_test_details_id NOT IN (
+                SELECT
+                    acstd.city_sample_test_details_id
+                FROM
+                    agri_city_sample_test_details acstd
+                        LEFT JOIN
+                    agri_vegetable_fruit vf ON acstd.veg_fru_name = vf.veg_fru_name
+                        LEFT JOIN
+                    agri_pesticide_det_result pdr ON acstd.city_sample_test_details_id = pdr.city_sample_test_details_id
+                        LEFT JOIN
+                    agri_pesticide_residue_standard prs ON pdr.pesticide_name = prs.pesticide_name
+                        AND vf.veg_fru_name = prs.veg_fru_name
+                WHERE
+                    pdr.pesticide_det_value > prs.standard_value
+            ) THEN 1 ELSE 0 END) AS teaPassCount,
+            CASE WHEN SUM(CASE WHEN vf.veg_fru_type = '茶叶' THEN 1 ELSE 0 END) = 0
+                     THEN 0
+                 ELSE ROUND(
+                         SUM(CASE WHEN vf.veg_fru_type = '茶叶' AND acstd.city_sample_test_details_id NOT IN (
+                             SELECT
+                                 acstd.city_sample_test_details_id
+                             FROM
+                                 agri_city_sample_test_details acstd
+                                     LEFT JOIN
+                                 agri_vegetable_fruit vf ON acstd.veg_fru_name = vf.veg_fru_name
+                                     LEFT JOIN
+                                 agri_pesticide_det_result pdr ON acstd.city_sample_test_details_id = pdr.city_sample_test_details_id
+                                     LEFT JOIN
+                                 agri_pesticide_residue_standard prs ON pdr.pesticide_name = prs.pesticide_name
+                                     AND vf.veg_fru_name = prs.veg_fru_name
+                             WHERE
+                                 pdr.pesticide_det_value > prs.standard_value
+                         ) THEN 1 ELSE 0 END) /
+                         SUM(CASE WHEN vf.veg_fru_type = '茶叶' THEN 1 ELSE 0 END) * 100, 2
+                      )
+                END AS teaPassRate,
+
+            -- 总数统计
+            SUM(CASE WHEN vf.veg_fru_type IN ('蔬菜', '水果', '茶叶') THEN 1 ELSE 0 END) AS allSamplingCount,
+            SUM(CASE WHEN vf.veg_fru_type IN ('蔬菜', '水果', '茶叶') AND acstd.city_sample_test_details_id NOT IN (
+                SELECT
+                    acstd.city_sample_test_details_id
+                FROM
+                    agri_city_sample_test_details acstd
+                        LEFT JOIN
+                    agri_vegetable_fruit vf ON acstd.veg_fru_name = vf.veg_fru_name
+                        LEFT JOIN
+                    agri_pesticide_det_result pdr ON acstd.city_sample_test_details_id = pdr.city_sample_test_details_id
+                        LEFT JOIN
+                    agri_pesticide_residue_standard prs ON pdr.pesticide_name = prs.pesticide_name
+                        AND vf.veg_fru_name = prs.veg_fru_name
+                WHERE
+                    pdr.pesticide_det_value > prs.standard_value
+            ) THEN 1 ELSE 0 END) AS allPassCount,
+            CASE WHEN SUM(CASE WHEN vf.veg_fru_type IN ('蔬菜', '水果', '茶叶') THEN 1 ELSE 0 END) = 0
+                     THEN 0
+                 ELSE ROUND(
+                         SUM(CASE WHEN vf.veg_fru_type IN ('蔬菜', '水果', '茶叶') AND acstd.city_sample_test_details_id NOT IN (
+                             SELECT
+                                 acstd.city_sample_test_details_id
+                             FROM
+                                 agri_city_sample_test_details acstd
+                                     LEFT JOIN
+                                 agri_vegetable_fruit vf ON acstd.veg_fru_name = vf.veg_fru_name
+                                     LEFT JOIN
+                                 agri_pesticide_det_result pdr ON acstd.city_sample_test_details_id = pdr.city_sample_test_details_id
+                                     LEFT JOIN
+                                 agri_pesticide_residue_standard prs ON pdr.pesticide_name = prs.pesticide_name
+                                     AND vf.veg_fru_name = prs.veg_fru_name
+                             WHERE
+                                 pdr.pesticide_det_value > prs.standard_value
+                         ) THEN 1 ELSE 0 END) /
+                         SUM(CASE WHEN vf.veg_fru_type IN ('蔬菜', '水果', '茶叶') THEN 1 ELSE 0 END) * 100, 2
+                      )
+                END AS allPassRate
+        FROM
+            agri_city_sample_test_details acstd
+                LEFT JOIN agri_vegetable_fruit vf ON acstd.veg_fru_name = vf.veg_fru_name
+                LEFT JOIN t_address_town  ON acstd.sampling_location_county = t_address_town.name  -- 关联到城市名称
+        GROUP BY
+            t_address_town.name
+        ORDER BY NULL
+    </select>
+
+
+
+
+
 </mapper>

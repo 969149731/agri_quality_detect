@@ -131,7 +131,7 @@ public class outBanPesticideDetectionServiceImpl implements IoutBanPesticideDete
             System.out.println("样品："+sampleName+"，未知是蔬菜还是水果，请在蔬果字典中添加该样品是属于蔬菜还是水果。");
             // 下面的代码是把不知道是水果还是蔬菜的样本输出到C盘中，方便查看添加。
             List<String> messages = new ArrayList<>();
-            messages.add("样品（veg_fru_name）："+sampleName+"，种类（veg_fru_type）：未知，请分析出该样品是蔬菜还是水果");
+            messages.add("样品（veg_fru_name）："+sampleName+"，种类（veg_fru_type）：未知，请分析出该样品是蔬菜还是水果还是茶叶");
             // 指定输出文件的路径
             String filePath = "C:\\check_fru_or_veg.txt";
             // 读取文件内容到集合中，以便后续检查

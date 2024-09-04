@@ -49,9 +49,9 @@ public class MyImportAgriCitySampleTestDetailsController extends BaseController 
 
 
     /**
-     * 查询我的导入的各市样品检测结果详细列表
+     * 查询我的导入的历史各市样品检测结果详细列表
      */
-    @PreAuthorize("@ss.hasPermi('detection:detectionDetails:list')")
+    @PreAuthorize("@ss.hasPermi('detection:detectionDetails:list') or @ss.hasAnyRoles('jiancejigou,anjianbumen')")
     @GetMapping("/list")
     public TableDataInfo list(agriCitySampleTestDetails agriCitySampleTestDetails) {
         startPage();
@@ -63,7 +63,7 @@ public class MyImportAgriCitySampleTestDetailsController extends BaseController 
     /**
      * 删除各市样品检测结果详细
      */
-    @PreAuthorize("@ss.hasPermi('detection:detectionDetails:remove')")
+    @PreAuthorize("@ss.hasPermi('detection:detectionDetails:remove') or @ss.hasAnyRoles('jiancejigou,anjianbumen')")
     @Log(title = "各市样品检测结果详细", businessType = BusinessType.DELETE)
     @DeleteMapping("/{citySampleTestDetailsIds}")
     public AjaxResult remove(@PathVariable Long[] citySampleTestDetailsIds) {
