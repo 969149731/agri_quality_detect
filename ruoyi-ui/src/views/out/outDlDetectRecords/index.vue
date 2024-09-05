@@ -304,19 +304,19 @@
       <!--      <el-table-column label="抽样年份" align="center" prop="samplingYear" />-->
       <!--      <el-table-column label="抽样月份" align="center" prop="samplingMonth" />-->
       <el-table-column label="蔬菜抽样数(个)" width="70" align="center" prop="vegSamplingCount" />
-      <el-table-column label="蔬菜合格数(个)" width="70" align="center" prop="vegQualifiedCount" />
+      <el-table-column label="蔬菜合格数(个)" width="70" align="center" prop="vegPassCount" />
       <el-table-column label="蔬菜合格率(%)" width="70" align="center" prop="vegPassRate" />
       <el-table-column label="   " width="70" align="center" prop="" />
       <el-table-column label="水果抽样数(个)" width="70" align="center" prop="fruSamplingCount" />
-      <el-table-column label="水果合格数(个)" width="70" align="center" prop="fruQualifiedCount" />
+      <el-table-column label="水果合格数(个)" width="70" align="center" prop="fruPassCount" />
       <el-table-column label="水果合格率(%)" width="70" align="center" prop="fruPassRate" />
       <el-table-column label="   " width="70" align="center" prop="" />
       <el-table-column label="茶叶抽样数(个)" width="70" align="center" prop="teaSamplingCount" />
-      <el-table-column label="茶叶合格数(个)" width="70" align="center" prop="teaQualifiedCount" />
+      <el-table-column label="茶叶合格数(个)" width="70" align="center" prop="teaPassCount" />
       <el-table-column label="茶叶合格率(%)" width="70" align="center" prop="teaPassRate" />
       <el-table-column label="   " width="70" align="center" prop="" />
       <el-table-column label="总抽样数(个)" width="70" align="center" prop="allSamplingCount" />
-      <el-table-column label="总合格数(个)" width="70" align="center" prop="allQualifiedCount" />
+      <el-table-column label="总合格数(个)" width="70" align="center" prop="allPassCount" />
       <el-table-column label="总合格率(%)" width="70" align="center" prop="allPassRate" />
       <!--      <el-table-column label="记录创建的时间" align="center" prop="createdDate" width="180">-->
       <!--        <template slot-scope="scope">-->

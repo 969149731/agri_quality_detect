@@ -1173,7 +1173,6 @@ public class agriCitySampleTestDetailsServiceImpl implements IagriCitySampleTest
 
         agriCitySampleTestDetails agriCitySampleTestDetails = agriCitySampleTestDetailsMapper.findById(id);
         agriCitySampleTestDetails.setFlag(1);
-        System.out.println("sssssssssssssssss");
         return agriCitySampleTestDetailsMapper.updateagriCitySampleTestDetails(agriCitySampleTestDetails);
     }
 

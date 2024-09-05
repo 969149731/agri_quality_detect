@@ -174,7 +174,10 @@ public class outDlDetectRecordsController extends BaseController
             FinalRe.setAllPassRate(sampleWaiRes.getAllPassRate());
 
             List<dlDetRecordSampleRes> NeiRes=null;
-            if (samplingLocation=="1"){
+            if (samplingLocation.equals("北海市")||samplingLocation.equals("南宁市")||samplingLocation.equals("崇左市")||
+                    samplingLocation.equals("来宾市")||samplingLocation.equals("柳州市")||samplingLocation.equals("桂林市")||
+                    samplingLocation.equals("梧州市")||samplingLocation.equals("河池市")||samplingLocation.equals("玉林市")||
+                    samplingLocation.equals("百色市")||samplingLocation.equals("贵港市")||samplingLocation.equals("钦州市")||samplingLocation.equals("防城港市")){
                 NeiRes = agriCitySampleTestDetailsMapper.selectDlDetRecordSampleResInAnJianBuMen(agriCitySampleTestDetails,samplingLocation);
             }
             FinalRe.setDlDetRecordSampleRes(NeiRes);
