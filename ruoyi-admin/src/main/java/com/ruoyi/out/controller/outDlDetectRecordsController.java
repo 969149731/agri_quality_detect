@@ -2,6 +2,7 @@ package com.ruoyi.out.controller;
 
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -179,6 +180,22 @@ public class outDlDetectRecordsController extends BaseController
                     samplingLocation.equals("梧州市")||samplingLocation.equals("河池市")||samplingLocation.equals("玉林市")||
                     samplingLocation.equals("百色市")||samplingLocation.equals("贵港市")||samplingLocation.equals("钦州市")||samplingLocation.equals("防城港市")){
                 NeiRes = agriCitySampleTestDetailsMapper.selectDlDetRecordSampleResInAnJianBuMen(agriCitySampleTestDetails,samplingLocation);
+                //NeiRes,设置总数
+                for (dlDetRecordSampleRes recordSampleRes : NeiRes) {
+                    int samplingCount=recordSampleRes.getVegSamplingCount()+recordSampleRes.getFruSamplingCount()+recordSampleRes.getTeaSamplingCount();
+                    int passCount=recordSampleRes.getVegPassCount()+recordSampleRes.getFruPassCount()+recordSampleRes.getTeaPassCount();
+                    double allPassRate = (double) passCount / samplingCount;
+                    DecimalFormat df = new DecimalFormat("#.00");
+                    String resultAllPassRateFormat = df.format(allPassRate);
+                    if(resultAllPassRateFormat.equals("1.00")){
+                        resultAllPassRateFormat="100";
+                    }
+
+                    recordSampleRes.setAllSamplingCount(samplingCount);
+                    recordSampleRes.setAllPassCount(passCount);
+                    recordSampleRes.setAllPassRate(Double.valueOf(resultAllPassRateFormat));
+                }
+
             }
             FinalRe.setDlDetRecordSampleRes(NeiRes);
             FinalRes.add(FinalRe);

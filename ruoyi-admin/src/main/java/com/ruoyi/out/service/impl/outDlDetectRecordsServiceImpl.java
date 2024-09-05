@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -1321,6 +1322,24 @@ public class outDlDetectRecordsServiceImpl implements IoutDlDetectRecordsService
             }
             finalRes.add(recordSampleRes);
         }
+
+        //遍历finalRes,设置总数
+        for (dlDetRecordSampleRes recordSampleRes : finalRes) {
+            int samplingCount=recordSampleRes.getVegSamplingCount()+recordSampleRes.getFruSamplingCount()+recordSampleRes.getTeaSamplingCount();
+            int passCount=recordSampleRes.getVegPassCount()+recordSampleRes.getFruPassCount()+recordSampleRes.getTeaPassCount();
+            double allPassRate = (double) passCount / samplingCount;
+            DecimalFormat df = new DecimalFormat("#.00");
+            String resultAllPassRateFormat = df.format(allPassRate);
+            if(resultAllPassRateFormat.equals("1.00")){
+                resultAllPassRateFormat="100";
+            }
+
+            recordSampleRes.setAllSamplingCount(samplingCount);
+            recordSampleRes.setAllPassCount(passCount);
+            recordSampleRes.setAllPassRate(Double.valueOf(resultAllPassRateFormat));
+        }
+
+
 
         //如果地点为空，则添加一个采样地点为“其它”的记录   这边先注释了
 //        for (dlDetRecordSampleRes recordSampleRes : res) {
