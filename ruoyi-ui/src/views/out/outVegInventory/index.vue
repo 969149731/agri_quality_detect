@@ -195,6 +195,7 @@
       </el-col>
       <right-toolbar :showSearch.sync="showSearch" @queryTable="getList"></right-toolbar>
     </el-row>
+
     <el-row>
       <el-col :span="6">
         <div class="tree-container">
@@ -409,12 +410,14 @@ export default {
         this.loading = false;
       });
     },
+
     // 菜单选择
     handleNodeClick(val){
       if(val.detailList){
         this.outVegInventoryList = val.detailList
       }
     },
+
     // 取消按钮
     cancel() {
       this.open = false;

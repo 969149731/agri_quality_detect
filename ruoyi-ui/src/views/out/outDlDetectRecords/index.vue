@@ -288,60 +288,211 @@
       <right-toolbar :showSearch.sync="showSearch" @queryTable="getList"></right-toolbar>
     </el-row>
 
+    <!--          <el-table v-loading="loading" :data="outDlDetectRecordsList" @selection-change="handleSelectionChange">-->
+    <!--            <el-table-column label="抽样地点" align="center" prop="samplingLocation" />-->
+    <!--            <el-table-column label="蔬菜抽样数(个)" width="70" align="center" prop="vegSamplingCount" />-->
+    <!--            <el-table-column label="蔬菜合格数(个)" width="70" align="center" prop="vegPassCount" />-->
+    <!--            <el-table-column label="蔬菜合格率(%)" width="70" align="center" prop="vegPassRate" />-->
+    <!--            <el-table-column label="   " width="70" align="center" prop="" />-->
+    <!--            <el-table-column label="水果抽样数(个)" width="70" align="center" prop="fruSamplingCount" />-->
+    <!--            <el-table-column label="水果合格数(个)" width="70" align="center" prop="fruPassCount" />-->
+    <!--            <el-table-column label="水果合格率(%)" width="70" align="center" prop="fruPassRate" />-->
+    <!--            <el-table-column label="   " width="70" align="center" prop="" />-->
+    <!--            <el-table-column label="茶叶抽样数(个)" width="70" align="center" prop="teaSamplingCount" />-->
+    <!--            <el-table-column label="茶叶合格数(个)" width="70" align="center" prop="teaPassCount" />-->
+    <!--            <el-table-column label="茶叶合格率(%)" width="70" align="center" prop="teaPassRate" />-->
+    <!--            <el-table-column label="   " width="70" align="center" prop="" />-->
+    <!--            <el-table-column label="总抽样数(个)" width="70" align="center" prop="allSamplingCount" />-->
+    <!--            <el-table-column label="总合格数(个)" width="70" align="center" prop="allPassCount" />-->
+    <!--            <el-table-column label="总合格率(%)" width="70" align="center" prop="allPassRate" />-->
+    <!--          </el-table>-->
+
+<!--    <el-row>-->
+<!--      <el-col :span="6">-->
+<!--        <div class="tree-container">-->
+<!--          <el-tree :data="tree" :props="defaultProps" @node-click="handleNodeClick" >-->
+<!--              <span slot-scope="{ node, data }">-->
+<!--                {{ data.samplingLocation }}  - 总数：{{data.allSamplingCount}}-->
+<!--              </span>-->
+<!--          </el-tree>-->
+<!--        </div>-->
+<!--      </el-col>-->
+<!--      <el-col :span="12">-->
+<!--        <el-table v-loading="loading" :data="outDlDetectRecordsList">-->
+<!--          <el-table-column label="抽样地点" align="center" prop="samplingLocation" />-->
+<!--          <el-table-column label="蔬菜抽样数(个)" width="70" align="center" prop="vegSamplingCount" />-->
+<!--          <el-table-column label="蔬菜合格数(个)" width="70" align="center" prop="vegPassCount" />-->
+<!--          <el-table-column label="蔬菜合格率(%)" width="70" align="center" prop="vegPassRate" />-->
+<!--          <el-table-column label="   " width="70" align="center" prop="" />-->
+<!--          <el-table-column label="水果抽样数(个)" width="70" align="center" prop="fruSamplingCount" />-->
+<!--          <el-table-column label="水果合格数(个)" width="70" align="center" prop="fruPassCount" />-->
+<!--          <el-table-column label="水果合格率(%)" width="70" align="center" prop="fruPassRate" />-->
+<!--          <el-table-column label="   " width="70" align="center" prop="" />-->
+<!--          <el-table-column label="茶叶抽样数(个)" width="70" align="center" prop="teaSamplingCount" />-->
+<!--          <el-table-column label="茶叶合格数(个)" width="70" align="center" prop="teaPassCount" />-->
+<!--          <el-table-column label="茶叶合格率(%)" width="70" align="center" prop="teaPassRate" />-->
+<!--          <el-table-column label="   " width="70" align="center" prop="" />-->
+<!--          <el-table-column label="总抽样数(个)" width="70" align="center" prop="allSamplingCount" />-->
+<!--          <el-table-column label="总合格数(个)" width="70" align="center" prop="allPassCount" />-->
+<!--          <el-table-column label="总合格率(%)" width="70" align="center" prop="allPassRate" />-->
+<!--        </el-table>-->
+<!--      </el-col>-->
+<!--    </el-row>-->
 
 
+    <el-table
+      :data="tree"
+    style="width: 100%; margin-bottom: 20px;"
+    row-key="id"
+    border
+    lazy
+    :load="load"
+    :tree-props="{children: 'dlDetRecordSampleRes', hasChildren: 'hasChildren'}">
 
+    <el-table-column
+      label="抽样地点"
+      prop="samplingLocation"
+      align="center"
+      width="200">
+    </el-table-column>
 
-    <el-table v-loading="loading" :data="outDlDetectRecordsList" @selection-change="handleSelectionChange">
-<!--      <el-table-column type="selection" width="55" align="center" />-->
-      <!--      <el-table-column label="唯一标识符，自增" align="center" prop="recordDlId" />-->
-      <el-table-column label="抽样地点" align="center" prop="samplingLocation" />
-      <!--      <el-table-column label="抽样日期" align="center" prop="samplingDate" width="180">-->
-      <!--        <template slot-scope="scope">-->
-      <!--          <span>{{ parseTime(scope.row.samplingDate, '{y}-{m}-{d}') }}</span>-->
-      <!--        </template>-->
-      <!--      </el-table-column>-->
-      <!--      <el-table-column label="抽样年份" align="center" prop="samplingYear" />-->
-      <!--      <el-table-column label="抽样月份" align="center" prop="samplingMonth" />-->
-      <el-table-column label="蔬菜抽样数(个)" width="70" align="center" prop="vegSamplingCount" />
-      <el-table-column label="蔬菜合格数(个)" width="70" align="center" prop="vegPassCount" />
-      <el-table-column label="蔬菜合格率(%)" width="70" align="center" prop="vegPassRate" />
-      <el-table-column label="   " width="70" align="center" prop="" />
-      <el-table-column label="水果抽样数(个)" width="70" align="center" prop="fruSamplingCount" />
-      <el-table-column label="水果合格数(个)" width="70" align="center" prop="fruPassCount" />
-      <el-table-column label="水果合格率(%)" width="70" align="center" prop="fruPassRate" />
-      <el-table-column label="   " width="70" align="center" prop="" />
-      <el-table-column label="茶叶抽样数(个)" width="70" align="center" prop="teaSamplingCount" />
-      <el-table-column label="茶叶合格数(个)" width="70" align="center" prop="teaPassCount" />
-      <el-table-column label="茶叶合格率(%)" width="70" align="center" prop="teaPassRate" />
-      <el-table-column label="   " width="70" align="center" prop="" />
-      <el-table-column label="总抽样数(个)" width="70" align="center" prop="allSamplingCount" />
-      <el-table-column label="总合格数(个)" width="70" align="center" prop="allPassCount" />
-      <el-table-column label="总合格率(%)" width="70" align="center" prop="allPassRate" />
-      <!--      <el-table-column label="记录创建的时间" align="center" prop="createdDate" width="180">-->
-      <!--        <template slot-scope="scope">-->
-      <!--          <span>{{ parseTime(scope.row.createdDate, '{y}-{m}-{d}') }}</span>-->
-      <!--        </template>-->
-      <!--      </el-table-column>-->
-      <!--      <el-table-column label="操作" align="center" class-name="small-padding fixed-width">-->
-      <!--        <template slot-scope="scope">-->
-      <!--          <el-button-->
-      <!--            size="mini"-->
-      <!--            type="text"-->
-      <!--            icon="el-icon-edit"-->
-      <!--            @click="handleUpdate(scope.row)"-->
-      <!--            v-hasPermi="['out:outDlDetectRecords:edit']"-->
-      <!--          >修改</el-button>-->
-      <!--          <el-button-->
-      <!--            size="mini"-->
-      <!--            type="text"-->
-      <!--            icon="el-icon-delete"-->
-      <!--            @click="handleDelete(scope.row)"-->
-      <!--            v-hasPermi="['out:outDlDetectRecords:remove']"-->
-      <!--          >删除</el-button>-->
-      <!--        </template>-->
-      <!--      </el-table-column>-->
+    <el-table-column
+      label="蔬菜抽样数(个)"
+      prop="vegSamplingCount"
+      align="center"
+      width="70">
+    </el-table-column>
+
+    <el-table-column
+      label="蔬菜合格数(个)"
+      prop="vegPassCount"
+      align="center"
+      width="70">
+    </el-table-column>
+
+    <el-table-column
+      label="蔬菜合格率(%)"
+      prop="vegPassRate"
+      align="center"
+      width="70">
+    </el-table-column>
+
+    <el-table-column
+      label="水果抽样数(个)"
+      prop="fruSamplingCount"
+      align="center"
+      width="70">
+    </el-table-column>
+
+    <el-table-column
+      label="水果合格数(个)"
+      prop="fruPassCount"
+      align="center"
+      width="70">
+    </el-table-column>
+
+    <el-table-column
+      label="水果合格率(%)"
+      prop="fruPassRate"
+      align="center"
+      width="70">
+    </el-table-column>
+
+    <el-table-column
+      label="茶叶抽样数(个)"
+      prop="teaSamplingCount"
+      align="center"
+      width="70">
+    </el-table-column>
+
+    <el-table-column
+      label="茶叶合格数(个)"
+      prop="teaPassCount"
+      align="center"
+      width="70">
+    </el-table-column>
+
+    <el-table-column
+      label="茶叶合格率(%)"
+      prop="teaPassRate"
+      align="center"
+      width="70">
+    </el-table-column>
+
+    <el-table-column
+      label="总抽样数(个)"
+      prop="allSamplingCount"
+      align="center"
+      width="70">
+    </el-table-column>
+
+    <el-table-column
+      label="总合格数(个)"
+      prop="allPassCount"
+      align="center"
+      width="70">
+    </el-table-column>
+
+    <el-table-column
+      label="总合格率(%)"
+      prop="allPassRate"
+      align="center"
+      width="70">
+    </el-table-column>
     </el-table>
+
+
+
+<!--    <el-table v-loading="loading" :data="outDlDetectRecordsList" @selection-change="handleSelectionChange">-->
+<!--&lt;!&ndash;      <el-table-column type="selection" width="55" align="center" />&ndash;&gt;-->
+<!--      &lt;!&ndash;      <el-table-column label="唯一标识符，自增" align="center" prop="recordDlId" />&ndash;&gt;-->
+<!--      <el-table-column label="抽样地点" align="center" prop="samplingLocation" />-->
+<!--      &lt;!&ndash;      <el-table-column label="抽样日期" align="center" prop="samplingDate" width="180">&ndash;&gt;-->
+<!--      &lt;!&ndash;        <template slot-scope="scope">&ndash;&gt;-->
+<!--      &lt;!&ndash;          <span>{{ parseTime(scope.row.samplingDate, '{y}-{m}-{d}') }}</span>&ndash;&gt;-->
+<!--      &lt;!&ndash;        </template>&ndash;&gt;-->
+<!--      &lt;!&ndash;      </el-table-column>&ndash;&gt;-->
+<!--      &lt;!&ndash;      <el-table-column label="抽样年份" align="center" prop="samplingYear" />&ndash;&gt;-->
+<!--      &lt;!&ndash;      <el-table-column label="抽样月份" align="center" prop="samplingMonth" />&ndash;&gt;-->
+<!--      <el-table-column label="蔬菜抽样数(个)" width="70" align="center" prop="vegSamplingCount" />-->
+<!--      <el-table-column label="蔬菜合格数(个)" width="70" align="center" prop="vegPassCount" />-->
+<!--      <el-table-column label="蔬菜合格率(%)" width="70" align="center" prop="vegPassRate" />-->
+<!--      <el-table-column label="   " width="70" align="center" prop="" />-->
+<!--      <el-table-column label="水果抽样数(个)" width="70" align="center" prop="fruSamplingCount" />-->
+<!--      <el-table-column label="水果合格数(个)" width="70" align="center" prop="fruPassCount" />-->
+<!--      <el-table-column label="水果合格率(%)" width="70" align="center" prop="fruPassRate" />-->
+<!--      <el-table-column label="   " width="70" align="center" prop="" />-->
+<!--      <el-table-column label="茶叶抽样数(个)" width="70" align="center" prop="teaSamplingCount" />-->
+<!--      <el-table-column label="茶叶合格数(个)" width="70" align="center" prop="teaPassCount" />-->
+<!--      <el-table-column label="茶叶合格率(%)" width="70" align="center" prop="teaPassRate" />-->
+<!--      <el-table-column label="   " width="70" align="center" prop="" />-->
+<!--      <el-table-column label="总抽样数(个)" width="70" align="center" prop="allSamplingCount" />-->
+<!--      <el-table-column label="总合格数(个)" width="70" align="center" prop="allPassCount" />-->
+<!--      <el-table-column label="总合格率(%)" width="70" align="center" prop="allPassRate" />-->
+<!--      &lt;!&ndash;      <el-table-column label="记录创建的时间" align="center" prop="createdDate" width="180">&ndash;&gt;-->
+<!--      &lt;!&ndash;        <template slot-scope="scope">&ndash;&gt;-->
+<!--      &lt;!&ndash;          <span>{{ parseTime(scope.row.createdDate, '{y}-{m}-{d}') }}</span>&ndash;&gt;-->
+<!--      &lt;!&ndash;        </template>&ndash;&gt;-->
+<!--      &lt;!&ndash;      </el-table-column>&ndash;&gt;-->
+<!--      &lt;!&ndash;      <el-table-column label="操作" align="center" class-name="small-padding fixed-width">&ndash;&gt;-->
+<!--      &lt;!&ndash;        <template slot-scope="scope">&ndash;&gt;-->
+<!--      &lt;!&ndash;          <el-button&ndash;&gt;-->
+<!--      &lt;!&ndash;            size="mini"&ndash;&gt;-->
+<!--      &lt;!&ndash;            type="text"&ndash;&gt;-->
+<!--      &lt;!&ndash;            icon="el-icon-edit"&ndash;&gt;-->
+<!--      &lt;!&ndash;            @click="handleUpdate(scope.row)"&ndash;&gt;-->
+<!--      &lt;!&ndash;            v-hasPermi="['out:outDlDetectRecords:edit']"&ndash;&gt;-->
+<!--      &lt;!&ndash;          >修改</el-button>&ndash;&gt;-->
+<!--      &lt;!&ndash;          <el-button&ndash;&gt;-->
+<!--      &lt;!&ndash;            size="mini"&ndash;&gt;-->
+<!--      &lt;!&ndash;            type="text"&ndash;&gt;-->
+<!--      &lt;!&ndash;            icon="el-icon-delete"&ndash;&gt;-->
+<!--      &lt;!&ndash;            @click="handleDelete(scope.row)"&ndash;&gt;-->
+<!--      &lt;!&ndash;            v-hasPermi="['out:outDlDetectRecords:remove']"&ndash;&gt;-->
+<!--      &lt;!&ndash;          >删除</el-button>&ndash;&gt;-->
+<!--      &lt;!&ndash;        </template>&ndash;&gt;-->
+<!--      &lt;!&ndash;      </el-table-column>&ndash;&gt;-->
+<!--    </el-table>-->
 
 <!--    <pagination-->
 <!--      v-show="total>0"-->
@@ -436,7 +587,7 @@ export default {
 
 
       // 遮罩层
-      loading: true,
+      // loading: true,
       // 选中数组
       ids: [],
       // 非单个禁用
@@ -503,7 +654,17 @@ export default {
       form: {},
       // 表单校验
       rules: {
-      }
+      },
+
+      // // 菜单树
+      // tree: [],
+      // defaultProps: {
+      //   children: 'dlDetRecordSampleRes',
+      //   label: 'samplingLocation'
+      // }
+      // 用于展示树形结构的数据源
+      tree: [],
+      loading: false, // 控制加载状态
     };
   },
   created() {
@@ -560,24 +721,86 @@ export default {
     },
 
 
+    // /** 查询定量监测结果汇总列表 */
+    // getList() {
+    //   this.loading = true;
+    //   // listOutDlDetectRecords(this.queryParams).then(response => {
+    //   listOutDlDetectRecords(this.addDateRange(this.queryParams, this.dateRange)).then(response => {
+    //     this.outDlDetectRecordsList = response.rows;
+    //     console.log(this.outDlDetectRecordsList)
+    //     this.total = response.total;
+    //     this.SamplingLocation = response.SamplingLocation
+    //     this.loading = false;
+    //   });
+    // },
 
+    // /** 查询定量监测结果汇总列表(两列) */
+    // getList() {
+    //   this.loading = true;
+    //   this.outDlDetectRecordsList = []
+    //   listOutDlDetectRecords(this.addDateRange(this.queryParams, this.dateRange)).then(response => {
+    //     response.rows.forEach(item =>{
+    //       item.dlDetRecordSampleRes.forEach(item =>{
+    //         item.samplingLocation = item.samplingLocation
+    //       })
+    //     })
+    //     this.tree = response.rows
+    //     this.loading = false;
+    //   });
+    // },
 
-    /** 查询定量监测结果汇总列表 */
+    // 获取定量监测结果列表数据
     getList() {
       this.loading = true;
-      // listOutDlDetectRecords(this.queryParams).then(response => {
-      listOutDlDetectRecords(this.addDateRange(this.queryParams, this.dateRange)).then(response => {
-        this.outDlDetectRecordsList = response.rows;
-        console.log(this.outDlDetectRecordsList)
-        this.total = response.total;
-        this.loading = false;
-      });
+      listOutDlDetectRecords(this.addDateRange(this.queryParams, this.dateRange))
+        .then(response => {
+          response.rows.forEach((item,index) => {
+            item.id = index + 1;
+            console.log(item.id);  // 查看 id
+            item.hasChildren = item.dlDetRecordSampleRes && item.dlDetRecordSampleRes.length > 0;
+            // console.log(item.hasChildren);  // 查看 hasChildren 的值
+            // 为子节点添加唯一标识符
+            if (item.hasChildren) {
+              item.dlDetRecordSampleRes.forEach((child, childIndex) => {
+                child.id = `${item.id}-${childIndex + 1}`;
+                console.log(child.id);  // 查看 id 的值
+              });
+            }
+          });
+          this.tree = response.rows;
+        })
+        .finally(() => {
+          this.loading = false;
+        });
     },
+
+    // 懒加载功能，用于动态加载子节点数据
+    load(tree, treeNode, resolve) {
+      // 模拟异步加载子节点
+      if (tree.dlDetRecordSampleRes) {
+        setTimeout(() => {
+          resolve(tree.dlDetRecordSampleRes);
+        }, 1000);
+      } else {
+        resolve([]);
+      }
+    },
+
+
     // 取消按钮
     cancel() {
       this.open = false;
       this.reset();
     },
+
+    // //菜单选择
+    // handleNodeClick(val){
+    //   if(val.dlDetRecordSampleRes){
+    //     this.outDlDetectRecordsList = val.dlDetRecordSampleRes
+    //   }
+    // },
+
+
     // 表单重置
     reset() {
       this.form = {
