@@ -343,6 +343,7 @@
     <el-table
       :data="tree"
     style="width: 100%; margin-bottom: 20px;"
+    v-loading="loading"
     row-key="id"
     border
     lazy
