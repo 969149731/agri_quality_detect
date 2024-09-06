@@ -185,11 +185,9 @@ public class outDlDetectRecordsController extends BaseController
                     int samplingCount=recordSampleRes.getVegSamplingCount()+recordSampleRes.getFruSamplingCount()+recordSampleRes.getTeaSamplingCount();
                     int passCount=recordSampleRes.getVegPassCount()+recordSampleRes.getFruPassCount()+recordSampleRes.getTeaPassCount();
                     double allPassRate = (double) passCount / samplingCount;
-                    DecimalFormat df = new DecimalFormat("#.00");
-                    String resultAllPassRateFormat = df.format(allPassRate);
-                    if(resultAllPassRateFormat.equals("1.00")){
-                        resultAllPassRateFormat="100";
-                    }
+                    allPassRate = allPassRate*100;
+                    //allPassRate保留两位小数
+                    String resultAllPassRateFormat = String.format("%.2f", allPassRate);
 
                     recordSampleRes.setAllSamplingCount(samplingCount);
                     recordSampleRes.setAllPassCount(passCount);
