@@ -23,7 +23,7 @@ public class MybatisRedisCache implements Cache {
     private final String id; // cache instance id
     private RedisTemplate redisTemplate;
 
-    private static final long EXPIRE_TIME_IN_MINUTES = 120; // redis过期时间
+    private static final long EXPIRE_TIME_IN_MINUTES = 600; // redis过期时间   600分钟  10小时
 
     public MybatisRedisCache(String id) {
         if (id == null) {

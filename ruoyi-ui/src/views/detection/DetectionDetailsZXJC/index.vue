@@ -259,6 +259,8 @@
       <!--        </template>-->
       <!--      </el-table-column>-->
       <el-table-column  label="样品编号" align="center" prop="sampleCode" />
+      <el-table-column  label="全区编号" align="center" prop="allDistrictCode" />
+
 
       <el-table-column label="样品名称" align="center" prop="vegFruName" />
       <el-table-column label="抽样环节" align="center" prop="samplingStageType" />
@@ -332,33 +334,63 @@
 
 
 
+<!--      <el-table-column label="操作" align="center" class-name="small-padding fixed-width">-->
+<!--        <template slot-scope="scope">-->
+<!--          <el-button-->
+<!--          v-if="scope.row.flag == '1'"-->
+<!--            size="mini"-->
+<!--            type="text"-->
+<!--            icon="el-icon-edit"-->
+<!--            @click="handleUpdate(scope.row)"-->
+<!--            v-hasPermi="['detection:detectionDetails:edit']"-->
+<!--          >修改</el-button>-->
+<!--          <el-button-->
+<!--          v-if="scope.row.flag == '0'"-->
+<!--            size="mini"-->
+<!--            type="text"-->
+<!--            icon="el-icon-edit"-->
+<!--            @click="handleCheck(scope.row)"-->
+<!--            v-hasPermi="['detection:detectionDetails:edit']"-->
+<!--          >申请修改</el-button>-->
+<!--          <el-button-->
+<!--            size="mini"-->
+<!--            type="text"-->
+<!--            icon="el-icon-delete"-->
+<!--            @click="handleDelete(scope.row)"-->
+<!--            v-hasPermi="['detection:detectionDetails:remove']"-->
+<!--          >删除</el-button>-->
+<!--        </template>-->
+<!--      </el-table-column>-->
+
+
       <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
         <template slot-scope="scope">
           <el-button
-          v-if="scope.row.flag == '1'"
+            v-if="scope.row.flag == '1'"
             size="mini"
             type="text"
             icon="el-icon-edit"
             @click="handleUpdate(scope.row)"
-            v-hasPermi="['detection:detectionDetails:edit']"
           >修改</el-button>
           <el-button
-          v-if="scope.row.flag == '0'"
+            v-if="scope.row.flag == '0'"
             size="mini"
             type="text"
             icon="el-icon-edit"
             @click="handleCheck(scope.row)"
-            v-hasPermi="['detection:detectionDetails:edit']"
           >申请修改</el-button>
           <el-button
             size="mini"
             type="text"
             icon="el-icon-delete"
             @click="handleDelete(scope.row)"
-            v-hasPermi="['detection:detectionDetails:remove']"
           >删除</el-button>
         </template>
       </el-table-column>
+
+
+
+
     </el-table>
 
     <pagination
@@ -653,6 +685,8 @@ export default {
         euStandard: null,
         usStandard: null,
         koreaStandard: null,
+        allDistrictCode: null,
+
 
         //对应到实体类的名字
         samplingLocationProvince:null,
@@ -813,6 +847,8 @@ export default {
         samplingLocationProvince: null,
         vegFruType: null,
         samplingType:null,
+        allDistrictCode:null,
+
 
       };
       this.agriPesticideDetResultList = [];
@@ -864,7 +900,7 @@ export default {
       // this.title = "修改各市样品检测结果详细";
 
     },
-    
+
     handleCheck(row) {
       const citySampleTestDetailsId = row.citySampleTestDetailsId || this.ids
       updateCheck(citySampleTestDetailsId).then(res => {
@@ -874,9 +910,9 @@ export default {
           this.$modal.msgSuccess("申请失败，请重试");
         }
       })
-    
+
     },
-    
+
     /** 提交按钮 */
     submitForm() {
       this.$refs["form"].validate(valid => {

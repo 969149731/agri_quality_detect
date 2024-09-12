@@ -291,6 +291,13 @@ public class outSampleQualityServiceImpl implements IoutSampleQualityService
             item.samplingStageType="批发市场";//将所有数据清洗为规范格式
             return;//找到一个即可返回
         }
+
+        if(item.samplingStageType!=null && item.samplingStageType.contains("车")){//不是上述类型，但是包含生产基地，应为其他基地类型
+            item.samplingStageType="运输车";//将所有数据清洗为规范格式
+            return;//找到一个即可返回
+        }
+
+
         item.samplingStageType="其它";//以上都不是，则为其它
         return;
     }

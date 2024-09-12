@@ -141,7 +141,7 @@ public class agriCitySampleTestDetailsController extends BaseController {
     /**
      * 获取各市样品检测结果详细详细信息
      */
-    @PreAuthorize("@ss.hasPermi('detection:detectionDetails:query')")
+//    @PreAuthorize("@ss.hasPermi('detection:detectionDetails:query')")
     @GetMapping(value = "/{citySampleTestDetailsId}")
     public AjaxResult getInfo(@PathVariable("citySampleTestDetailsId") Long citySampleTestDetailsId) {
 //        System.out.println("1212"+agriCitySampleTestDetailsService.selectagriCitySampleTestDetailsByCitySampleTestDetailsId(citySampleTestDetailsId));
@@ -161,7 +161,7 @@ public class agriCitySampleTestDetailsController extends BaseController {
     /**
      * 修改各市样品检测结果详细
      */
-    @PreAuthorize("@ss.hasPermi('detection:detectionDetails:edit')")
+//    @PreAuthorize("@ss.hasPermi('detection:detectionDetails:edit')")
     @Log(title = "各市样品检测结果详细", businessType = BusinessType.UPDATE)
     @PutMapping
     public AjaxResult edit(@RequestBody agriCitySampleTestDetails agriCitySampleTestDetails) {
@@ -171,7 +171,7 @@ public class agriCitySampleTestDetailsController extends BaseController {
     /**
      * 删除各市样品检测结果详细
      */
-    @PreAuthorize("@ss.hasPermi('detection:detectionDetails:remove')")
+//    @PreAuthorize("@ss.hasPermi('detection:detectionDetails:remove')")
     @Log(title = "各市样品检测结果详细", businessType = BusinessType.DELETE)
     @DeleteMapping("/{citySampleTestDetailsIds}")
     public AjaxResult remove(@PathVariable Long[] citySampleTestDetailsIds) {

@@ -7,6 +7,8 @@ import java.util.List;
 
 public class dlDetRecordSampleIncludeJianCheJiGouRes {
 
+
+    private int recordDlId;
     //地点
     private String SamplingLocation;
 
@@ -171,11 +173,20 @@ public class dlDetRecordSampleIncludeJianCheJiGouRes {
         this.dlDetRecordSampleRes = dlDetRecordSampleRes;
     }
 
+    public int getRecordDlId() {
+        return recordDlId;
+    }
+
+    public void setRecordDlId(int recordDlId) {
+        this.recordDlId = recordDlId;
+    }
+
 
     @Override
     public String toString() {
         return "dlDetRecordSampleIncludeJianCheJiGouRes{" +
-                "SamplingLocation='" + SamplingLocation + '\'' +
+                "recordDlId=" + recordDlId +
+                ", SamplingLocation='" + SamplingLocation + '\'' +
                 ", vegSamplingCount=" + vegSamplingCount +
                 ", vegPassCount=" + vegPassCount +
                 ", vegPassRate=" + vegPassRate +

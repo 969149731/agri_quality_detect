@@ -140,7 +140,7 @@ public class outExceedSampleDetailServiceImpl implements IoutExceedSampleDetailS
                 }
             }
             if (pesticideDetValue == null) {
-                pesticideDetValue=0.0;//设为不超标
+                pesticideDetValue = 0.0;//设为不超标
                 System.out.println("注意！该样本的该农药没有对应检测值，请确认为0或者其他。【农药名字：["
                         + pesticideName + "],蔬菜名字：[" + vegFruName + "],样本ID：[" + agriPesticideDetResult.getPesticideDetResultId() + "]】");
             }
@@ -175,15 +175,15 @@ public class outExceedSampleDetailServiceImpl implements IoutExceedSampleDetailS
                 //根据主表中的样品ID查询出其所对应检测到的农药名和农药值信息。
                 List<agriPesticideDetResult> agriPesticideDetResults = agriPesticideDetResultMapper.selectagriPesticideDetResultByCitySampleTestDetailsId(CitySampleTestDetail.getCitySampleTestDetailsId());
                 List<agriPesticideDetResultForOutExceedSampleDetail> agriPesticideDetResultList = new ArrayList<>();
+
                 for (agriPesticideDetResult agriPesticideDetResult : agriPesticideDetResults) {
                     agriPesticideDetResultForOutExceedSampleDetail agriPesticideDetResultForOutExceedSampleDetail = new agriPesticideDetResultForOutExceedSampleDetail();
                     //获取上传的数据中有检测出有值的农药名
                     String pesticideName = agriPesticideDetResult.getPesticideName();
                     //获取上传的数据中有检测出有值的农药值
-                    double pesticideDetValue=0.0;
-                    if(!Objects.equals(agriPesticideDetResult.getPesticideDetValue(), "")){
+                    double pesticideDetValue = 0.0;
+                    if (!Objects.equals(agriPesticideDetResult.getPesticideDetValue(), "")) {
                         pesticideDetValue = Double.parseDouble(agriPesticideDetResult.getPesticideDetValue());
-
                     }
                     //获取上传的数据中具体的样品名【蔬菜水果名】，用查询该样品农药限量值
                     String vegFruName = CitySampleTestDetail.getVegFruName();
@@ -193,24 +193,20 @@ public class outExceedSampleDetailServiceImpl implements IoutExceedSampleDetailS
                     Double limitValue = outDlDetectRecordsMapper.selectLimitValueByPesticideName(pesticideName, vegFruName, standardCategory);
                     agriPesticideDetResultForOutExceedSampleDetail.setPesticideName(pesticideName);
                     agriPesticideDetResultForOutExceedSampleDetail.setPesticideDetValue(pesticideDetValue);
-                    if(limitValue==null){
+                    if (limitValue == null) {
                         //这边在后台给出提示，后期添加对应的标准
-                        if(vegFruName.contains("柑")||vegFruName.contains("橘")){
+                        if (vegFruName.contains("柑") || vegFruName.contains("橘")) {
                             limitValue = outDlDetectRecordsMapper.selectLimitValueByPesticideName(pesticideName, "柑橘类水果", standardCategory);
                         }
-                        if(vegFruName.contains("枣")){
+                        if (vegFruName.contains("枣")) {
                             limitValue = outDlDetectRecordsMapper.selectLimitValueByPesticideName(pesticideName, "核果类水果", standardCategory);
                         }
-
-
-                        if(limitValue==null){
-                            System.out.println("！！！需要添加检测限量值信息，如下："+"农药："+pesticideName+"。 样品："+vegFruName+"。 标准："+standardCategory);
-                            limitValue=999.0;
-
-
+                        if (limitValue == null) {
+                            System.out.println("！！！需要添加检测限量值信息，如下：" + "农药：" + pesticideName + "。 样品：" + vegFruName + "。 标准：" + standardCategory);
+                            limitValue = 999.0;
                             // 标记，下面的代码是把不知道限量值标准的样本输出到C盘中，方便查看添加。
                             List<String> messages = new ArrayList<>();
-                            messages.add("！！！需要添加检测限量值信息，如下："+"农药："+pesticideName+"。 样品："+vegFruName+"。 标准："+standardCategory);
+                            messages.add("！！！需要添加检测限量值信息，如下：" + "农药：" + pesticideName + "。 样品：" + vegFruName + "。 标准：" + standardCategory);
                             // 指定输出文件的路径
                             String filePath = "C:\\check_fru_or_veg_stander.txt";
                             // 读取文件内容到集合中，以便后续检查
@@ -231,25 +227,20 @@ public class outExceedSampleDetailServiceImpl implements IoutExceedSampleDetailS
                             } catch (IOException e) {
                                 e.printStackTrace();
                             }
-
-
-
-
-
                         }
-
                     }
                     //说明超标
-                    if(pesticideDetValue>limitValue){
+                    if (pesticideDetValue > limitValue) {
                         agriPesticideDetResultForOutExceedSampleDetail.setLimitValue(limitValue);
                         agriPesticideDetResultList.add(agriPesticideDetResultForOutExceedSampleDetail);
                         outExceedSampleDetail.setExceedPesticideNameAndPesticideValueAndlimitValue(agriPesticideDetResultList);
-                        outExceedSampleDetailList.add(outExceedSampleDetail);
-
+//                        outExceedSampleDetailList.add(outExceedSampleDetail);
                     }
-
                 }
-//                outExceedSampleDetailList.add(outExceedSampleDetail);
+                if (outExceedSampleDetail.getExceedPesticideNameAndPesticideValueAndlimitValue()!=null){
+                    outExceedSampleDetailList.add(outExceedSampleDetail);
+                }
+
 
             }
         }

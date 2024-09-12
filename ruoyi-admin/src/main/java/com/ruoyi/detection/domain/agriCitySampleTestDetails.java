@@ -3,12 +3,8 @@ package com.ruoyi.detection.domain;
 import java.util.List;
 import java.util.Date;
 import com.fasterxml.jackson.annotation.JsonFormat;
-import io.swagger.models.auth.In;
-import org.apache.commons.lang3.builder.ToStringBuilder;
-import org.apache.commons.lang3.builder.ToStringStyle;
 import com.ruoyi.common.annotation.Excel;
 import com.ruoyi.common.core.domain.BaseEntity;
-import org.springframework.context.annotation.Bean;
 
 /**
  * 各市样品检测结果详细对象 agri_city_sample_test_details  和数据库字段对应
@@ -57,6 +53,8 @@ public class agriCitySampleTestDetails extends BaseEntity
     @JsonFormat(pattern = "yyyy-MM-dd")
     @Excel(name = "抽样日期", width = 30, dateFormat = "yyyy-MM-dd")
     private Date samplingDate;
+
+    private String stringTypeSamplingDate;
 
     @Excel(name = "企业名称/农户")
     private String enterpriseName;
@@ -410,6 +408,15 @@ public class agriCitySampleTestDetails extends BaseEntity
         this.userName = userName;
     }
 
+
+    public String getStringTypeSamplingDate() {
+        return stringTypeSamplingDate;
+    }
+
+    public void setStringTypeSamplingDate(String stringTypeSamplingDate) {
+        this.stringTypeSamplingDate = stringTypeSamplingDate;
+    }
+
     public boolean IsPassUnderTheStandard(String standardName){
         switch (standardName){
             case "国家标准":
@@ -447,6 +454,7 @@ public class agriCitySampleTestDetails extends BaseEntity
                 ", samplingLocation='" + samplingLocation + '\'' +
                 ", detectLocation='" + detectLocation + '\'' +
                 ", samplingDate=" + samplingDate +
+                ", stringTypeSamplingDate='" + stringTypeSamplingDate + '\'' +
                 ", enterpriseName='" + enterpriseName + '\'' +
                 ", enterpriseAttribute='" + enterpriseAttribute + '\'' +
                 ", enterpriseCreditIdCode='" + enterpriseCreditIdCode + '\'' +
@@ -463,6 +471,7 @@ public class agriCitySampleTestDetails extends BaseEntity
                 ", usStandard='" + usStandard + '\'' +
                 ", koreaStandard='" + koreaStandard + '\'' +
                 ", createdAt=" + createdAt +
+                ", flag=" + flag +
                 ", agriPesticideDetResultList=" + agriPesticideDetResultList +
                 ", vegFruType='" + vegFruType + '\'' +
                 ", userName='" + userName + '\'' +

@@ -1,5 +1,6 @@
 package com.ruoyi.detection.service.impl;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.regex.Matcher;
@@ -105,9 +106,22 @@ public class agriCitySampleTestDetailsServiceImpl implements IagriCitySampleTest
             agriCitySampleTestDetails.setSamplingLocationCity(substringDeptName);
         }
 
-
-
         List<agriCitySampleTestDetails> agriCitySampleTestDetails1 = agriCitySampleTestDetailsMapper.selectAgriCitySampleList(agriCitySampleTestDetails,samplingType);
+
+        for (agriCitySampleTestDetails agriCitySampleTestDetail : agriCitySampleTestDetails1) {
+            //如果是管理员的话，改数据的时候就不需要请求修改了,把状态改成已审核，但是状态不同步到数据库，因为非管理员角色若要修改数据还是需要审核的
+            if (roleName.equals("管理员")||roleName.equals("超级管理员")) {
+                agriCitySampleTestDetail.setFlag(1);
+            }
+
+            //格式化抽样日期
+            Date samplingDate = agriCitySampleTestDetail.getSamplingDate();
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+            String formattedDate = sdf.format(samplingDate);
+            agriCitySampleTestDetail.setStringTypeSamplingDate(formattedDate);
+
+        }
+
         for (agriCitySampleTestDetails agriCitySampleTestDetail : agriCitySampleTestDetails1) {
             //查询详细列表中的Id
             Long citySampleTestDetailsId = agriCitySampleTestDetail.getCitySampleTestDetailsId();
