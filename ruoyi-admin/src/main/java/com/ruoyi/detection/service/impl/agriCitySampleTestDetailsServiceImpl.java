@@ -117,8 +117,10 @@ public class agriCitySampleTestDetailsServiceImpl implements IagriCitySampleTest
             //格式化抽样日期
             Date samplingDate = agriCitySampleTestDetail.getSamplingDate();
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-            String formattedDate = sdf.format(samplingDate);
-            agriCitySampleTestDetail.setStringTypeSamplingDate(formattedDate);
+            if (samplingDate != null) {
+                String formattedDate = sdf.format(samplingDate);
+                agriCitySampleTestDetail.setStringTypeSamplingDate(formattedDate);
+            }
 
         }
 
@@ -911,17 +913,23 @@ public class agriCitySampleTestDetailsServiceImpl implements IagriCitySampleTest
                 String samplingDate = null;
                 try {
                     samplingDate = agriOut2CitySampleTestDetails.get("抽样日期").toString();
+                    //如果samplingDate字符串中存在字符年，月，日，或者/,把这些字符串都变成.
+                    if (samplingDate.contains("年") || samplingDate.contains("月") || samplingDate.contains("日") || samplingDate.contains("/")) {
+                        samplingDate = samplingDate.replaceAll("[年月日/]", ".");
+                    }
                 } catch (Exception e) {
                     try {
                         samplingDate = agriOut2CitySampleTestDetails.get("抽样时间").toString();
+                        //如果samplingDate字符串中存在字符年，月，日，或者/,把这些字符串都变成.
+                        if (samplingDate.contains("年") || samplingDate.contains("月") || samplingDate.contains("日") || samplingDate.contains("/")) {
+                            samplingDate = samplingDate.replaceAll("[年月日/]", ".");
+                        }
                     } catch (Exception e1) {
-                        samplingDate = "2024.5.1";
+//                        samplingDate = "2024.5.1";
+                        System.out.println(e1);
                     }
                 }
-                //如果samplingDate字符串中存在字符年，月，日，或者/,把这些字符串都变成.
-                if (samplingDate.contains("年") || samplingDate.contains("月") || samplingDate.contains("日") || samplingDate.contains("/")) {
-                    samplingDate = samplingDate.replaceAll("[年月日/]", ".");
-                }
+
 
                 String enterpriseName = null;
                 try {
