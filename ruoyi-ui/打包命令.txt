@@ -8,3 +8,10 @@
 查看后台端口进程：sudo netstat -nlp | grep :8080
 
 
+启动mysql
+/usr/local/mysql8/bin/mysqld_safe --defaults-file=/usr/local/etc/my.cnf &
+
+
+启动redis
+service redis-server restart
+redis-server &

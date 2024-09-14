@@ -169,7 +169,7 @@ export default {
       routineDetectData: [],/*快速监测数据*/
       countData:[
         {
-          name: '定量监测结果汇总',
+          name: '例行检测详细',
           value: 1200,
           icon: 'success',
           color: '#2ec7c9',
@@ -181,41 +181,41 @@ export default {
         //   color: '#ffb980'
         // },
         {
-          name: '定量检测导入明细',
+          name: '专项检测详细',
           value: 1200,
           icon: 's-goods',
           color: '#5ab1ef'
         },
         {
-          name: '样品合格率和数量统计',
+          name: '监督抽查详细',
           value: 1200,
           icon: 'success',
           color: '#2ec7c9'
         },
         {
-          name: '各抽样环节合格率',
+          name: '我的导入历史',
           value: 1200,
           icon: 'star-on',
           color: '#ffb980'
         },
-        {
-          name: '超标样品明细',
-          value: 1200,
-          icon: 'star-on',
-          color: '#ffb980'
-        },
-        {
-          name: '无判定标准检出',
-          value: 1200,
-          icon: 'star-on',
-          color: '#ffb980'
-        },
-        {
-          name: '参照各标准合格率统计',
-          value: 1200,
-          icon: 'star-on',
-          color: '#ffb980'
-        },
+        // {
+        //   name: '超标样品明细',
+        //   value: 1200,
+        //   icon: 'star-on',
+        //   color: '#ffb980'
+        // },
+        // {
+        //   name: '无判定标准检出',
+        //   value: 1200,
+        //   icon: 'star-on',
+        //   color: '#ffb980'
+        // },
+        // {
+        //   name: '参照各标准合格率统计',
+        //   value: 1200,
+        //   icon: 'star-on',
+        //   color: '#ffb980'
+        // },
       ],
 
       //个人信息展示卡
@@ -262,11 +262,11 @@ export default {
     }
   },
   created() {
-    this.getList();
+    // this.getList();
     this.getUser();
     // this.Test="MyTest()";
-    this.getFastDataList();//获取数据
-    this.getRoutineDataList();//
+    // this.getFastDataList();//获取数据
+    // this.getRoutineDataList();//
   },
   methods:{
     /** 查询定性监测结果汇总列表 */
@@ -347,30 +347,30 @@ export default {
     IntroduceClickEvent(key){
       console.log(key);
       switch (key){
-        case("定量监测结果汇总"):
-          this.$router.push('/detectInf/outDlDetectRecords');
+        case("例行检测详细"):
+          this.$router.push('/detectInf/DetectionDetailsLXJC');
           break;
         // case("定性监测"):
         //   this.$router.push('/detectInf/outDxDetectRecords');
         //   break;
-        case("定量检测导入明细"):
-          this.$router.push('/detectInf/detectionDetails');
+        case("专项检测详细"):
+          this.$router.push('/detectInf/DetectionDetailsZXJC');
           break;
-        case("样品合格率和数量统计"):
-          this.$router.push('/resultsum/count/outFruVegQualification');
+        case("监督抽查详细"):
+          this.$router.push('/detectInf/DetectionDetailsJDCC');
           break;
-        case("各抽样环节合格率"):
-          this.$router.push('/resultsum/count/outSampleQuality');
+        case("我的导入历史"):
+          this.$router.push('/detectInf/myDetectionDetails');
           break;
-        case("参照各标准合格率统计"):
-          this.$router.push('/resultsum/count/outStandCompliance');
-          break;
-        case("超标样品明细"):
-          this.$router.push('/resultsum/adddetail/outExceedSampleDetail');
-          break;
-        case("无判定标准检出"):
-          this.$router.push('/resultsum/adddetail/outUndeterminedStandDet');
-          break;
+        // case("参照各标准合格率统计"):
+        //   this.$router.push('/resultsum/count/outStandCompliance');
+        //   break;
+        // case("超标样品明细"):
+        //   this.$router.push('/resultsum/adddetail/outExceedSampleDetail');
+        //   break;
+        // case("无判定标准检出"):
+        //   this.$router.push('/resultsum/adddetail/outUndeterminedStandDet');
+        //   break;
       }
       // this.$router.push('/register');
     },
