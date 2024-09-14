@@ -78,7 +78,7 @@ public class agriCitySampleTestDetailsServiceImpl implements IagriCitySampleTest
      * @return 各市样品检测结果详细
      */
     @Override
-    public List<agriCitySampleTestDetails> selectagriCitySampleTestDetailsList(agriCitySampleTestDetails agriCitySampleTestDetails,String samplingType) {
+    public List<agriCitySampleTestDetails> selectagriCitySampleTestDetailsList(agriCitySampleTestDetails agriCitySampleTestDetails, String samplingType) {
 
 //        startPage();
 //        List<agriCitySampleTestDetails> agriCitySampleTestDetails1 = agriCitySampleTestDetailsMapper.selectagriCitySampleTestDetailsList(agriCitySampleTestDetails);
@@ -106,11 +106,11 @@ public class agriCitySampleTestDetailsServiceImpl implements IagriCitySampleTest
             agriCitySampleTestDetails.setSamplingLocationCity(substringDeptName);
         }
 
-        List<agriCitySampleTestDetails> agriCitySampleTestDetails1 = agriCitySampleTestDetailsMapper.selectAgriCitySampleList(agriCitySampleTestDetails,samplingType);
+        List<agriCitySampleTestDetails> agriCitySampleTestDetails1 = agriCitySampleTestDetailsMapper.selectAgriCitySampleList(agriCitySampleTestDetails, samplingType);
 
         for (agriCitySampleTestDetails agriCitySampleTestDetail : agriCitySampleTestDetails1) {
             //如果是管理员的话，改数据的时候就不需要请求修改了,把状态改成已审核，但是状态不同步到数据库，因为非管理员角色若要修改数据还是需要审核的
-            if (roleName.equals("管理员")||roleName.equals("超级管理员")) {
+            if (roleName.equals("管理员") || roleName.equals("超级管理员")) {
                 agriCitySampleTestDetail.setFlag(1);
             }
 
@@ -164,19 +164,15 @@ public class agriCitySampleTestDetailsServiceImpl implements IagriCitySampleTest
                     agriCitySampleTestDetail.setTracingArea(tracingArea);
                 }
             }
-        }catch (Exception e){
+        } catch (Exception e) {
             System.out.println(e);
         }
-
 
 
         return agriCitySampleTestDetails1;
         //下面的这个是原来的写法，直接返回对应的抽样地址和溯源地址
 //        return agriCitySampleTestDetailsMapper.selectagriCitySampleTestDetailsList(agriCitySampleTestDetails);
     }
-
-
-
 
 
     /**
@@ -229,17 +225,11 @@ public class agriCitySampleTestDetailsServiceImpl implements IagriCitySampleTest
                     agriCitySampleTestDetail.setTracingArea(tracingArea);
                 }
             }
-        }catch (Exception e){
+        } catch (Exception e) {
             System.out.println(e);
         }
         return agriCitySampleTestDetails1;
     }
-
-
-
-
-
-
 
 
     /**
@@ -815,7 +805,7 @@ public class agriCitySampleTestDetailsServiceImpl implements IagriCitySampleTest
 
     //导入数据逻辑
     @Override
-    public String importAgriOut2CitySampleTestDetailsList(List<Map<String, Object>> agriOut2CitySampleTestDetailsList, boolean updateSupport, String operName,String samplingType) {
+    public String importAgriOut2CitySampleTestDetailsList(List<Map<String, Object>> agriOut2CitySampleTestDetailsList, boolean updateSupport, String operName, String samplingType) {
         if (StringUtils.isNull(agriOut2CitySampleTestDetailsList) || agriOut2CitySampleTestDetailsList.size() == 0) {
             throw new ServiceException("导入数据不能为空！");
         }
@@ -846,14 +836,14 @@ public class agriCitySampleTestDetailsServiceImpl implements IagriCitySampleTest
                 try {
                     sampleCode = agriOut2CitySampleTestDetails.get("样品编号").toString();
                 } catch (Exception e) {
-                    try{
+                    try {
                         sampleCode = agriOut2CitySampleTestDetails.get("样品     编号").toString();
-                    }catch (Exception e2){
+                    } catch (Exception e2) {
                         sampleCode = null;
                     }
                 }
-                if (sampleCode!=null){
-                    sampleCode=sampleCode.replace("-", "");
+                if (sampleCode != null) {
+                    sampleCode = sampleCode.replace("-", "");
                 }
 
                 String vegFruName = null;
@@ -889,8 +879,8 @@ public class agriCitySampleTestDetailsServiceImpl implements IagriCitySampleTest
                 String samplingLocationProvince = null;
                 try {
                     samplingLocationProvince = agriOut2CitySampleTestDetails.get("抽样省").toString();
-                    if(samplingLocationProvince.equals("广西")){
-                        samplingLocationProvince="广西壮族自治区";
+                    if (samplingLocationProvince.equals("广西")) {
+                        samplingLocationProvince = "广西壮族自治区";
                     }
                 } catch (Exception e) {
                     samplingLocationProvince = null;
@@ -922,11 +912,15 @@ public class agriCitySampleTestDetailsServiceImpl implements IagriCitySampleTest
                 try {
                     samplingDate = agriOut2CitySampleTestDetails.get("抽样日期").toString();
                 } catch (Exception e) {
-                    try{
+                    try {
                         samplingDate = agriOut2CitySampleTestDetails.get("抽样时间").toString();
-                    }catch (Exception e1){
+                    } catch (Exception e1) {
                         samplingDate = "2024.5.1";
                     }
+                }
+                //如果samplingDate字符串中存在字符年，月，日，或者/,把这些字符串都变成.
+                if (samplingDate.contains("年") || samplingDate.contains("月") || samplingDate.contains("日") || samplingDate.contains("/")) {
+                    samplingDate = samplingDate.replaceAll("[年月日/]", ".");
                 }
 
                 String enterpriseName = null;
@@ -961,8 +955,8 @@ public class agriCitySampleTestDetailsServiceImpl implements IagriCitySampleTest
                 String tracingProvince = null;
                 try {
                     tracingProvince = agriOut2CitySampleTestDetails.get("溯源省").toString();
-                    if(tracingProvince.equals("广西")){
-                        tracingProvince="广西壮族自治区";
+                    if (tracingProvince.equals("广西")) {
+                        tracingProvince = "广西壮族自治区";
                     }
                 } catch (Exception e) {
                     tracingProvince = null;
@@ -1030,7 +1024,7 @@ public class agriCitySampleTestDetailsServiceImpl implements IagriCitySampleTest
                 //如果sampleCode vegFruName  samplingLocation都是null的话，说明他们数据不规范，第二行开始才有数据，
                 // 这边做一些健壮性处理，如果第一行数据是空的，直接跳过本次循环，进入到下一行数据
                 assert sampleCode != null;
-                if(sampleCode.isEmpty()) {
+                if (sampleCode.isEmpty()) {
                     assert vegFruName != null;
                     if (vegFruName.isEmpty()) {
                         assert samplingLocation != null;
@@ -1065,7 +1059,7 @@ public class agriCitySampleTestDetailsServiceImpl implements IagriCitySampleTest
                 agriCitySampleTestDetails.setBatchId(batchId);
 
                 //插入主表部分
-                System.out.println("看看"+agriCitySampleTestDetails);
+                System.out.println("看看" + agriCitySampleTestDetails);
                 agriCitySampleTestDetailsMapper.insertagriCitySampleTestDetails(agriCitySampleTestDetails);
 //                System.out.println("-----------------------------"+agriCitySampleTestDetails.getCitySampleTestDetailsId()+"---------------------------------------------------");
                 //这个判断固定真正有用的主键值，用来传给从表也就是检测表，（随便取了3个为null值的属性判断）,如果判断的字段是空的，说明这张表是为了添加从表字段时候多余添加进来的
@@ -1081,10 +1075,10 @@ public class agriCitySampleTestDetailsServiceImpl implements IagriCitySampleTest
 
                 //插入从表，除了下面的other里面的属性之外的东西，就会被识别为是农药
                 List<String> other = Arrays.asList(
-                        "序号", "样品编号","样品 编号","样品     编号", "样品名称", "抽样环节",
+                        "序号", "样品编号", "样品 编号", "样品     编号", "样品名称", "抽样环节",
                         "抽样省", "抽样市", "抽样县", "抽样地址",
-                        "企业名称/农户","企业名称/散户", "企业属性（绿色/有机/地理标志/GAP)", "企业信用代码/身份证号",
-                        "溯源省", "溯源市", "溯源县", "溯源产地", "判定结果", "抽样日期","抽样时间", "企业名称", "excelRowNum","依据国家标准");//合计在最后加入
+                        "企业名称/农户", "企业名称/散户", "企业属性（绿色/有机/地理标志/GAP)", "企业信用代码/身份证号",
+                        "溯源省", "溯源市", "溯源县", "溯源产地", "判定结果", "抽样日期", "抽样时间", "企业名称", "excelRowNum", "依据国家标准");//合计在最后加入
                 //遍历每一个map
                 Set<Map.Entry<String, Object>> entrySet = agriOut2CitySampleTestDetails.entrySet();
                 for (Map.Entry<String, Object> entryItem : entrySet) {//对于map里每一个内容
@@ -1149,7 +1143,7 @@ public class agriCitySampleTestDetailsServiceImpl implements IagriCitySampleTest
             failureMsg.insert(0, "导入成功，有 " + failureNum + " 条数据因格式不正确导入失败：");
             throw new ServiceException(failureMsg.toString());
         } else {
-            successMsg.insert(0, "恭喜，数据已全部导入成功！本次数据的导入批次编号为： "+batchId+"    <br/>   共 " + successNum + " 条，情况如下：");
+            successMsg.insert(0, "恭喜，数据已全部导入成功！本次数据的导入批次编号为： " + batchId + "    <br/>   共 " + successNum + " 条，情况如下：");
         }
         return successMsg.toString();
 
@@ -1183,6 +1177,7 @@ public class agriCitySampleTestDetailsServiceImpl implements IagriCitySampleTest
 
     /**
      * 修改状态
+     *
      * @param id
      * @return
      */
@@ -1193,8 +1188,6 @@ public class agriCitySampleTestDetailsServiceImpl implements IagriCitySampleTest
         agriCitySampleTestDetails.setFlag(1);
         return agriCitySampleTestDetailsMapper.updateagriCitySampleTestDetails(agriCitySampleTestDetails);
     }
-
-
 
 
 }
