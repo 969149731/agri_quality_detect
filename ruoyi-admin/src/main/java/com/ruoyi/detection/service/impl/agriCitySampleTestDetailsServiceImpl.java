@@ -922,7 +922,11 @@ public class agriCitySampleTestDetailsServiceImpl implements IagriCitySampleTest
                 try {
                     samplingDate = agriOut2CitySampleTestDetails.get("抽样日期").toString();
                 } catch (Exception e) {
-                    samplingDate = "2024.5.1";
+                    try{
+                        samplingDate = agriOut2CitySampleTestDetails.get("抽样时间").toString();
+                    }catch (Exception e1){
+                        samplingDate = "2024.5.1";
+                    }
                 }
 
                 String enterpriseName = null;
