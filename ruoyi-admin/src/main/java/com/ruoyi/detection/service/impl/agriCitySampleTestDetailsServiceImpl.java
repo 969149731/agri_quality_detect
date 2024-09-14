@@ -1084,7 +1084,7 @@ public class agriCitySampleTestDetailsServiceImpl implements IagriCitySampleTest
                         "序号", "样品编号","样品 编号","样品     编号", "样品名称", "抽样环节",
                         "抽样省", "抽样市", "抽样县", "抽样地址",
                         "企业名称/农户","企业名称/散户", "企业属性（绿色/有机/地理标志/GAP)", "企业信用代码/身份证号",
-                        "溯源省", "溯源市", "溯源县", "溯源产地", "判定结果", "抽样日期", "企业名称", "excelRowNum","依据国家标准");//合计在最后加入
+                        "溯源省", "溯源市", "溯源县", "溯源产地", "判定结果", "抽样日期","抽样时间", "企业名称", "excelRowNum","依据国家标准");//合计在最后加入
                 //遍历每一个map
                 Set<Map.Entry<String, Object>> entrySet = agriOut2CitySampleTestDetails.entrySet();
                 for (Map.Entry<String, Object> entryItem : entrySet) {//对于map里每一个内容
