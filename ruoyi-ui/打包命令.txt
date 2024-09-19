@@ -15,3 +15,7 @@
 启动redis
 service redis-server restart
 redis-server &
+
+
+
+tail -f nohup.out

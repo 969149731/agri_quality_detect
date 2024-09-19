@@ -103,6 +103,11 @@ public class agriCitySampleTestDetailsServiceImpl implements IagriCitySampleTest
             String deptName = sysDept.getDeptName();
             //截取depName中的字符，从开头到市结尾的字符
             String substringDeptName = deptName.substring(0, deptName.indexOf("市") + 1);
+
+            if (agriCitySampleTestDetails.getSamplingLocationCity()!=null&& !Objects.equals(agriCitySampleTestDetails.getSamplingLocationCity(), substringDeptName)){
+                throw new ServiceException("您当前角色为：安监部门，所在部门为："+deptName+"，只允许查看："+substringDeptName+" 下的数据，没有权限查看别的地方的数据");
+            }
+
             agriCitySampleTestDetails.setSamplingLocationCity(substringDeptName);
         }
 
