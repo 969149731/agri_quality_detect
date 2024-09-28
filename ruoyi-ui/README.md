@@ -16,7 +16,10 @@ npm install --registry=https://registry.npmmirror.com
 # 启动服务
 set NODE_OPTIONS=--openssl-legacy-provider
 $env:NODE_OPTIONS="--openssl-legacy-provider"    选这一个
-npm run dev
+#windows用户请执行
+npm run dev:win
+#mac用户请执行
+npm run dev:mac
 ```
 
 浏览器访问 http://localhost:80
