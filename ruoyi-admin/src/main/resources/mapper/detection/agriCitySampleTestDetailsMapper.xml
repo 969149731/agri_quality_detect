@@ -341,6 +341,7 @@
             keyProperty="citySampleTestDetailsId">
         insert into agri_city_sample_test_details
         <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="allDistrictCode != null">all_district_code,</if>
             <if test="sampleCode != null">sample_code,</if>
             <if test="vegFruName != null">veg_fru_name,</if>
             <if test="samplingLocation != null">sampling_location,</if>
@@ -377,6 +378,8 @@
 
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="allDistrictCode != null">#{allDistrictCode},</if>
+
             <if test="sampleCode != null">#{sampleCode},</if>
             <if test="vegFruName != null">#{vegFruName},</if>
             <if test="samplingLocation != null">#{samplingLocation},</if>
@@ -405,6 +408,7 @@
             <if test="userName != null">#{userName},</if>
             <if test="batchId != null">#{batchId},</if>
             <if test="samplingType != null">#{samplingType},</if>
+
 
             <if test="nickName != null">#{nickName},</if>
             <if test="deptName != null">#{deptName},</if>
