@@ -197,6 +197,7 @@
             <if test="userName != null  and userName != ''">and user_name = #{userName}</if>
             <if test="allDistrictCode != null  and allDistrictCode != ''">and all_district_code = #{allDistrictCode}</if>
             <if test="pesticideName != null  and pesticideName != ''">and pesticide_name = #{pesticideName}</if>
+            <if test="samplingType != null  and samplingType != ''">and sampling_type = #{samplingType}</if>
 
 
 

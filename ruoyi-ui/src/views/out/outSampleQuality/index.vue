@@ -32,6 +32,16 @@
       </el-form-item>
 
 
+      <el-form-item label="检测类型" prop="samplingType">
+        <el-select v-model="queryParams.samplingType" placeholder="请选择检测类型" clearable>
+          <el-option
+            v-for="dict in dict.type.sampling_type"
+            :key="dict.value"
+            :label="dict.label"
+            :value="dict.value"
+          />
+        </el-select>
+      </el-form-item>
       <el-form-item label="抽样地点">
         <template>
           <div>
@@ -139,6 +149,7 @@
 import { listOutSampleQuality,samplingAddressProvince,findBySamplingProvinceCode,findBySamplingCityCode} from "@/api/out/outSampleQuality";
 export default {
   name: "OutSampleQuality",
+  dicts: ['veg_fru_type','sampling_type'],
   data() {
     return {
       // 遮罩层

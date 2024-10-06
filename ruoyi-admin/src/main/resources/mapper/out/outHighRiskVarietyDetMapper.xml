@@ -375,6 +375,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="tracingArea != null  and tracingArea != ''"> and tracing_area = #{tracingArea}</if>
 
             <if test="vegFruType != null  and vegFruType != ''"> and veg_fru_type = #{vegFruType}</if>
+            <if test="samplingType != null  and samplingType != ''"> and sampling_type = #{samplingType}</if>
 
         </where>
         GROUP BY

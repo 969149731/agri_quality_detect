@@ -407,6 +407,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="agriCitySampleTestDetails.params.endTime != null and agriCitySampleTestDetails.params.endTime != ''"><!-- 结束时间检索 -->
                 AND date_format(sampling_date,'%y%m%d') &lt;= date_format(#{agriCitySampleTestDetails.params.endTime},'%y%m%d')
             </if>
+            <if test="agriCitySampleTestDetails.samplingType != null and agriCitySampleTestDetails.samplingType != ''">
+                AND sampling_type = #{agriCitySampleTestDetails.samplingType}
+            </if>
 
 
 
@@ -501,6 +504,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             </if>
             <if test="agriCitySampleTestDetails.params.endTime != null and agriCitySampleTestDetails.params.endTime != ''"><!-- 结束时间检索 -->
                 AND date_format(sampling_date,'%y%m%d') &lt;= date_format(#{agriCitySampleTestDetails.params.endTime},'%y%m%d')
+            </if>
+            <if test="agriCitySampleTestDetails.samplingType != null and agriCitySampleTestDetails.samplingType != ''">
+                AND sampling_type = #{agriCitySampleTestDetails.samplingType}
             </if>
 
 
@@ -601,6 +607,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             </if>
             <if test="agriCitySampleTestDetails.params.endTime != null and agriCitySampleTestDetails.params.endTime != ''"><!-- 结束时间检索 -->
                 AND date_format(sampling_date,'%y%m%d') &lt;= date_format(#{agriCitySampleTestDetails.params.endTime},'%y%m%d')
+            </if>
+            <if test="agriCitySampleTestDetails.samplingType != null and agriCitySampleTestDetails.samplingType != ''">
+                AND sampling_type = #{agriCitySampleTestDetails.samplingType}
             </if>
 
 
@@ -769,6 +778,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="agriCitySampleTestDetails.params.endTime != null and agriCitySampleTestDetails.params.endTime != ''"><!-- 结束时间检索 -->
                 AND date_format(sampling_date,'%y%m%d') &lt;= date_format(#{agriCitySampleTestDetails.params.endTime},'%y%m%d')
             </if>
+            <if test="agriCitySampleTestDetails.samplingType != null and agriCitySampleTestDetails.samplingType != ''">
+                AND sampling_type = #{agriCitySampleTestDetails.samplingType}
+            </if>
 
 
         </where>
@@ -868,6 +880,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             </if>
             <if test="agriCitySampleTestDetails.params.endTime != null and agriCitySampleTestDetails.params.endTime != ''"><!-- 结束时间检索 -->
                 AND date_format(sampling_date,'%y%m%d') &lt;= date_format(#{agriCitySampleTestDetails.params.endTime},'%y%m%d')
+            </if>
+            <if test="agriCitySampleTestDetails.samplingType != null and agriCitySampleTestDetails.samplingType != ''">
+                AND sampling_type = #{agriCitySampleTestDetails.samplingType}
             </if>
 
 
@@ -971,6 +986,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             </if>
             <if test="agriCitySampleTestDetails.params.endTime != null and agriCitySampleTestDetails.params.endTime != ''"><!-- 结束时间检索 -->
                 AND date_format(sampling_date,'%y%m%d') &lt;= date_format(#{agriCitySampleTestDetails.params.endTime},'%y%m%d')
+            </if>
+            <if test="agriCitySampleTestDetails.samplingType != null and agriCitySampleTestDetails.samplingType != ''">
+                AND sampling_type = #{agriCitySampleTestDetails.samplingType}
             </if>
 
 

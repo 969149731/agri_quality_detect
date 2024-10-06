@@ -217,6 +217,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="qualifiedNumber != null "> and qualified_number = #{qualifiedNumber}</if>
             <if test="qualificationRate != null "> and qualification_rate = #{qualificationRate}</if>
             <if test="createdDate != null "> and created_date = #{createdDate}</if>
+            <if test="samplingType != null "> and sampling_type = #{samplingType}</if>
         </where>
     </select>
     
