@@ -10,10 +10,10 @@
           @keyup.enter.native="handleQuery"
         />
       </el-form-item>
-      <el-form-item label="用户名称" prop="userName">
+      <el-form-item label="用户账号" prop="userName">
         <el-input
           v-model="queryParams.userName"
-          placeholder="请输入用户名称"
+          placeholder="请输入用户账号"
           clearable
           style="width: 240px;"
           @keyup.enter.native="handleQuery"
@@ -101,7 +101,7 @@
     <el-table ref="tables" v-loading="loading" :data="list" @selection-change="handleSelectionChange" :default-sort="defaultSort" @sort-change="handleSortChange">
       <el-table-column type="selection" width="55" align="center" />
       <el-table-column label="访问编号" align="center" prop="infoId" />
-      <el-table-column label="用户名称" align="center" prop="userName" :show-overflow-tooltip="true" sortable="custom" :sort-orders="['descending', 'ascending']" />
+      <el-table-column label="用户账号" align="center" prop="userName" :show-overflow-tooltip="true" sortable="custom" :sort-orders="['descending', 'ascending']" />
       <el-table-column label="登录地址" align="center" prop="ipaddr" width="130" :show-overflow-tooltip="true" />
       <el-table-column label="登录地点" align="center" prop="loginLocation" :show-overflow-tooltip="true" />
       <el-table-column label="浏览器" align="center" prop="browser" :show-overflow-tooltip="true" />

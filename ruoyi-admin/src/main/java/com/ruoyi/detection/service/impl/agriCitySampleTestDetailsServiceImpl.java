@@ -84,11 +84,18 @@ public class agriCitySampleTestDetailsServiceImpl implements IagriCitySampleTest
 //        List<agriCitySampleTestDetails> agriCitySampleTestDetails1 = agriCitySampleTestDetailsMapper.selectagriCitySampleTestDetailsList(agriCitySampleTestDetails);
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        //获取当前登录的用户名
-        String username = authentication.getName();
-
         // 获取当前的用户信息
         LoginUser loginUser = SecurityUtils.getLoginUser();
+        //获取当前登录的用户账号
+        String username = authentication.getName();
+
+        //获取当前用户所属部门
+        SysDept sysDept = loginUser.getUser().getDept();
+        String deptName = sysDept.getDeptName();
+
+        //获取当前用户名称
+        String nickName = loginUser.getUser().getNickName();
+
 
         //用当前用户名查询当前用户所属角色，如果是属于监测机构，则只能查看自己上传过的数据
         List<SysRole> roles = loginUser.getUser().getRoles();
@@ -98,16 +105,11 @@ public class agriCitySampleTestDetailsServiceImpl implements IagriCitySampleTest
         }
         //如果是属于安监部门，则只能查看本辖区内的数据
         if (roleName.equals("安监部门")) {
-            //获取当前安监部门 所在的部门
-            SysDept sysDept = loginUser.getUser().getDept();
-            String deptName = sysDept.getDeptName();
             //截取depName中的字符，从开头到市结尾的字符
             String substringDeptName = deptName.substring(0, deptName.indexOf("市") + 1);
-
-            if (agriCitySampleTestDetails.getSamplingLocationCity()!=null&& !Objects.equals(agriCitySampleTestDetails.getSamplingLocationCity(), substringDeptName)){
-                throw new ServiceException("您当前角色为：安监部门，所在部门为："+deptName+"，只允许查看："+substringDeptName+" 下的数据，没有权限查看别的地方的数据");
-            }
-
+//            if (agriCitySampleTestDetails.getSamplingLocationCity()!=null&& !Objects.equals(agriCitySampleTestDetails.getSamplingLocationCity(), substringDeptName)){
+//                throw new ServiceException("您当前角色为：安监部门，所在部门为："+deptName+"，只允许查看："+substringDeptName+" 下的数据，没有权限查看别的地方的数据");
+//            }
             agriCitySampleTestDetails.setSamplingLocationCity(substringDeptName);
         }
 
@@ -1060,16 +1062,26 @@ public class agriCitySampleTestDetailsServiceImpl implements IagriCitySampleTest
                     agriCitySampleTestDetails.setDetectLocation(deptName);
                 }
 
-//                agriCitySampleTestDetails.setSamplingQuantity(samplingQuantity);
-//                agriCitySampleTestDetails.setSamplingBase(samplingBase);
+                // 获取当前的用户信息
+                LoginUser loginUser = SecurityUtils.getLoginUser();
+                //获取当前用户名称
+                String nickName = loginUser.getUser().getNickName();
+
+                agriCitySampleTestDetails.setNickName(nickName);
+                agriCitySampleTestDetails.setDeptName(deptName);
 
                 agriCitySampleTestDetails.setSamplingStageType(samplingStageType);
                 agriCitySampleTestDetails.setSamplingDate(samplingDateUse);
                 agriCitySampleTestDetails.setChinaStandard(chinaStandard);
                 agriCitySampleTestDetails.setBatchId(batchId);
 
+
+
+
+
+
                 //插入主表部分
-                System.out.println("看看" + agriCitySampleTestDetails);
+//                System.out.println("看看" + agriCitySampleTestDetails);
                 agriCitySampleTestDetailsMapper.insertagriCitySampleTestDetails(agriCitySampleTestDetails);
 //                System.out.println("-----------------------------"+agriCitySampleTestDetails.getCitySampleTestDetailsId()+"---------------------------------------------------");
                 //这个判断固定真正有用的主键值，用来传给从表也就是检测表，（随便取了3个为null值的属性判断）,如果判断的字段是空的，说明这张表是为了添加从表字段时候多余添加进来的

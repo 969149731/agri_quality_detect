@@ -1,10 +1,10 @@
 <template>
   <div class="app-container">
      <el-form :model="queryParams" ref="queryForm" size="small" :inline="true" v-show="showSearch">
-      <el-form-item label="用户名称" prop="userName">
+      <el-form-item label="用户账号" prop="userName">
         <el-input
           v-model="queryParams.userName"
-          placeholder="请输入用户名称"
+          placeholder="请输入用户账号"
           clearable
           style="width: 240px"
           @keyup.enter.native="handleQuery"
@@ -61,8 +61,8 @@
 
     <el-table v-loading="loading" :data="userList" @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="55" align="center" />
-      <el-table-column label="用户名称" prop="userName" :show-overflow-tooltip="true" />
-      <el-table-column label="用户昵称" prop="nickName" :show-overflow-tooltip="true" />
+      <el-table-column label="用户账号" prop="userName" :show-overflow-tooltip="true" />
+      <el-table-column label="用户名称" prop="nickName" :show-overflow-tooltip="true" />
       <el-table-column label="邮箱" prop="email" :show-overflow-tooltip="true" />
       <el-table-column label="手机" prop="phonenumber" :show-overflow-tooltip="true" />
       <el-table-column label="状态" align="center" prop="status">

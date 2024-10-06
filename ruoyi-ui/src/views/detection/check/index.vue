@@ -1,8 +1,8 @@
 <template>
   <div class="app-container">
     <el-form :model="queryParams" ref="queryForm" size="small" :inline="true" v-show="showSearch" label-width="68px">
-      <el-form-item label="用户名称" prop="userName">
-        <el-input v-model="queryParams.userName" placeholder="请输入用户名称" clearable @keyup.enter.native="handleQuery" />
+      <el-form-item label="用户账号" prop="userName">
+        <el-input v-model="queryParams.userName" placeholder="请输入用户账号" clearable @keyup.enter.native="handleQuery" />
       </el-form-item>
       <el-form-item>
         <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery">搜索</el-button>
@@ -11,8 +11,10 @@
     </el-form>
 
     <el-table v-loading="loading" :data="checkList" @selection-change="handleSelectionChange">
-      <el-table-column type="selection" width="55" align="center" />
-      <el-table-column label="用户名称" align="center" prop="userName" />
+<!--      <el-table-column type="selection" width="55" align="center" />-->
+      <el-table-column label="用户账号" align="center" prop="userName" />
+
+      <el-table-column label="修改内容" align="center" prop="content" />
 
       <el-table-column label="审核状态" align="center" width="100">
         <template slot-scope="scope">
@@ -21,7 +23,6 @@
         </template>
       </el-table-column>
 
-      <el-table-column label="修改内容" align="center" prop="content" />
       <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
         <template slot-scope="scope">
           <el-button size="mini" v-if="scope.row.flag == 0" type="text" icon="el-icon-edit" @click="handleUpdate(scope.row)">同意修改</el-button>

@@ -9,10 +9,10 @@
           @keyup.enter.native="handleQuery"
         />
       </el-form-item>
-      <el-form-item label="用户名称" prop="userName">
+      <el-form-item label="用户账号" prop="userName">
         <el-input
           v-model="queryParams.userName"
-          placeholder="请输入用户名称"
+          placeholder="请输入用户账号"
           clearable
           @keyup.enter.native="handleQuery"
         />

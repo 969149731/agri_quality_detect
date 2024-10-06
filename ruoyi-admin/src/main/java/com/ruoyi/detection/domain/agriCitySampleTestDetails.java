@@ -122,8 +122,14 @@ public class agriCitySampleTestDetails extends BaseEntity
     private String vegFruType;
 
 
-    // 上传数据的用户名
+    // 上传数据的用户账号
     private String userName;
+
+    // 上传数据的用户昵称
+    private String nickName;
+
+    // 上传数据的用户所在部门
+    private String deptName;
 
     // 记录上传的批次编号
     private String batchId;
@@ -417,6 +423,22 @@ public class agriCitySampleTestDetails extends BaseEntity
         this.stringTypeSamplingDate = stringTypeSamplingDate;
     }
 
+    public String getDeptName() {
+        return deptName;
+    }
+
+    public void setDeptName(String deptName) {
+        this.deptName = deptName;
+    }
+
+    public String getNickName() {
+        return nickName;
+    }
+
+    public void setNickName(String nickName) {
+        this.nickName = nickName;
+    }
+
     public boolean IsPassUnderTheStandard(String standardName){
         switch (standardName){
             case "国家标准":
@@ -440,6 +462,7 @@ public class agriCitySampleTestDetails extends BaseEntity
         }
         return true;//合格
     }
+
 
     @Override
     public String toString() {
@@ -475,6 +498,8 @@ public class agriCitySampleTestDetails extends BaseEntity
                 ", agriPesticideDetResultList=" + agriPesticideDetResultList +
                 ", vegFruType='" + vegFruType + '\'' +
                 ", userName='" + userName + '\'' +
+                ", nickName='" + nickName + '\'' +
+                ", deptName='" + deptName + '\'' +
                 ", batchId='" + batchId + '\'' +
                 ", allDistrictCode='" + allDistrictCode + '\'' +
                 ", pesticideName='" + pesticideName + '\'' +

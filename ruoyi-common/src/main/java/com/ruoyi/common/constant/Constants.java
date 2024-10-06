@@ -110,7 +110,7 @@ public class Constants
     public static final String JWT_USERID = "userid";
 
     /**
-     * 用户名称
+     * 用户账号
      */
     public static final String JWT_USERNAME = Claims.SUBJECT;
 

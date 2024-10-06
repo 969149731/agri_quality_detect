@@ -1,6 +1,27 @@
 <template>
   <div class="app-container">
     <el-form :model="queryParams" ref="queryForm" size="small" :inline="true" v-show="showSearch" label-width="72px">
+
+      <el-form-item label="用户名称" prop="nickName">
+        <el-input
+          v-model="queryParams.nickName"
+          placeholder="请输入上传用户名称"
+          clearable
+          @keyup.enter.native="handleQuery"
+        />
+      </el-form-item>
+
+      <el-form-item label="所在部门" prop="deptName">
+        <el-input
+          v-model="queryParams.deptName"
+          placeholder="请输入上传用户所在部门"
+          clearable
+          @keyup.enter.native="handleQuery"
+        />
+      </el-form-item>
+
+
+
       <el-form-item label="样品编号" prop="sampleCode">
         <el-input
           v-model="queryParams.sampleCode"
@@ -258,6 +279,10 @@
       <!--          {{ scope.$index + 1 }}-->
       <!--        </template>-->
       <!--      </el-table-column>-->
+      <el-table-column  label="上传用户名称" align="center" prop="nickName" />
+      <el-table-column  label="上传用户所在部门" align="center" prop="deptName" />
+
+
       <el-table-column  label="样品编号" align="center" prop="sampleCode" />
       <el-table-column  label="全区编号" align="center" prop="allDistrictCode" />
 
@@ -689,6 +714,8 @@ export default {
         usStandard: null,
         koreaStandard: null,
         allDistrictCode: null,
+        nickName:null,
+        deptName:null,
 
 
         //对应到实体类的名字
@@ -851,7 +878,8 @@ export default {
         vegFruType: null,
         samplingType:null,
         allDistrictCode:null,
-
+        nickName:null,
+        deptName:null,
 
       };
       this.agriPesticideDetResultList = [];

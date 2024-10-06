@@ -368,6 +368,10 @@
             <if test="userName != null">user_name,</if>
             <if test="batchId != null">batch_id,</if>
             <if test="samplingType != null">sampling_type,</if>
+            <if test="nickName != null">nick_name,</if>
+            <if test="deptName != null">dept_name,</if>
+
+
 
 
         </trim>
@@ -400,6 +404,9 @@
             <if test="userName != null">#{userName},</if>
             <if test="batchId != null">#{batchId},</if>
             <if test="samplingType != null">#{samplingType},</if>
+
+            <if test="nickName != null">#{nickName},</if>
+            <if test="deptName != null">#{deptName},</if>
 
 
         </trim>
@@ -546,6 +553,9 @@
             <if test="agriCitySampleTestDetails.allDistrictCode != null  and agriCitySampleTestDetails.allDistrictCode != ''">and all_district_code = #{agriCitySampleTestDetails.allDistrictCode}</if>
             <if test="agriCitySampleTestDetails.pesticideName != null  and agriCitySampleTestDetails.pesticideName != ''">and pesticide_name = #{agriCitySampleTestDetails.pesticideName}</if>
             <if test="samplingType != null  and samplingType != ''">and  sampling_type= #{samplingType}</if>
+            <if test="agriCitySampleTestDetails.nickName != null  and agriCitySampleTestDetails.nickName != ''">and  nick_name= #{agriCitySampleTestDetails.nickName}</if>
+            <if test="agriCitySampleTestDetails.deptName != null  and agriCitySampleTestDetails.deptName != ''">and  dept_name= #{agriCitySampleTestDetails.deptName}</if>
+
 
 
 

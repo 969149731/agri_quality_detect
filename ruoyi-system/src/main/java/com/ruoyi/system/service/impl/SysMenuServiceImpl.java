@@ -124,7 +124,7 @@ public class SysMenuServiceImpl implements ISysMenuService
     /**
      * 根据用户ID查询菜单
      * 
-     * @param userId 用户名称
+     * @param userId 用户账号
      * @return 菜单列表
      */
     @Override

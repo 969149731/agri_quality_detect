@@ -64,7 +64,7 @@ public class TestController extends BaseController
     @ApiOperation("新增用户")
     @ApiImplicitParams({
         @ApiImplicitParam(name = "userId", value = "用户id", dataType = "Integer", dataTypeClass = Integer.class),
-        @ApiImplicitParam(name = "username", value = "用户名称", dataType = "String", dataTypeClass = String.class),
+        @ApiImplicitParam(name = "username", value = "用户账号", dataType = "String", dataTypeClass = String.class),
         @ApiImplicitParam(name = "password", value = "用户密码", dataType = "String", dataTypeClass = String.class),
         @ApiImplicitParam(name = "mobile", value = "用户手机", dataType = "String", dataTypeClass = String.class)
     })
@@ -119,7 +119,7 @@ class UserEntity
     @ApiModelProperty("用户ID")
     private Integer userId;
 
-    @ApiModelProperty("用户名称")
+    @ApiModelProperty("用户账号")
     private String username;
 
     @ApiModelProperty("用户密码")

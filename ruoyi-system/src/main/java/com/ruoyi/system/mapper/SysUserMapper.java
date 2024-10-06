@@ -102,9 +102,9 @@ public interface SysUserMapper
     public int deleteUserByIds(Long[] userIds);
 
     /**
-     * 校验用户名称是否唯一
+     * 校验用户账号是否唯一
      * 
-     * @param userName 用户名称
+     * @param userName 用户账号
      * @return 结果
      */
     public SysUser checkUserNameUnique(String userName);
