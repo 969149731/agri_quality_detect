@@ -5,6 +5,7 @@ import java.util.*;
 import com.github.pagehelper.PageHelper;
 import com.ruoyi.detection.domain.agriCitySampleTestDetails;
 import com.ruoyi.detection.mapper.agriCitySampleTestDetailsMapper;
+import com.ruoyi.myUtils.AgriUtils;
 import com.ruoyi.out.domain.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -107,7 +108,10 @@ public class outStandComplianceServiceImpl implements IoutStandComplianceService
     }
 
     public List<outStandardReturnType> selectoutStandComplianceList2(agriCitySampleTestDetails agriCitySampleTestDetails,StringBuilder feedBackMsg)
-    {//为避免多一次交互,将合格率计算放到前端进行1
+    {
+        AgriUtils.permissionToDifferentiateData(agriCitySampleTestDetails);
+
+        //为避免多一次交互,将合格率计算放到前端进行1
         if (initModule(feedBackMsg));
         else return returnFinalList();
 

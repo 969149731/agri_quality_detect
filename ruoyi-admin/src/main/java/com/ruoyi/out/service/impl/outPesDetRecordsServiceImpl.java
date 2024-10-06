@@ -1,6 +1,7 @@
 package com.ruoyi.out.service.impl;
 
 import com.ruoyi.detection.domain.agriCitySampleTestDetails;
+import com.ruoyi.myUtils.AgriUtils;
 import com.ruoyi.out.domain.dto.OutPesDetRecordsDto;
 import com.ruoyi.out.domain.vo.OutPesDetRecordsVo;
 import com.ruoyi.out.mapper.outPesDetRecordsMapper;
@@ -26,6 +27,7 @@ public class outPesDetRecordsServiceImpl implements IOutPesDetRecordsService
     @Override
     public List<OutPesDetRecordsVo> selectOutPesDetRecords(agriCitySampleTestDetails agriCitySampleTestDetails,
                                                            StringBuilder feedBackMsg,String SampleType,String isPermit) {
+        AgriUtils.permissionToDifferentiateData(agriCitySampleTestDetails);
         List<OutPesDetRecordsDto> outPesDetRecordsDtoList = outPesDetRecordsMapper.selectOutPesDetRecords(agriCitySampleTestDetails,feedBackMsg,SampleType,isPermit);
         // 创建一个Map来存储统计数据
         Map<String, OutPesDetRecordsVo> statsMap = new HashMap<>();

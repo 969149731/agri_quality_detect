@@ -13,6 +13,7 @@ import java.util.*;
 import com.ruoyi.detection.domain.agriCitySampleTestDetails;
 import com.ruoyi.detection.mapper.agriCitySampleTestDetailsMapper;
 import com.ruoyi.detection.mapper.agriPesticideDetResultMapper;
+import com.ruoyi.myUtils.AgriUtils;
 import com.ruoyi.out.domain.dlDetRecordSampleRes;
 import com.ruoyi.out.mapper.outDlDetectRecordsMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -381,6 +382,8 @@ public class outHighRiskVarietyDetServiceImpl implements IoutHighRiskVarietyDetS
 
     //孙帅开始写的代码   方法返回值和参数可以先不管1
     public List<outHighRiskVarietyDet> selectOutHighRiskVarietyDetList(agriCitySampleTestDetails agriCitySampleTestDetails) {
+        AgriUtils.permissionToDifferentiateData(agriCitySampleTestDetails);
+
         //好像没效果     后续：又有效果了，之前可能是没有刷新缓存的原因，尝试刷新redis缓存，或者重启数据库  ，  后续 又不行了
         outHighRiskVarietyDetMapper.setGroupConcatMaxLen();
         List<outHighRiskVarietyDet> outHighRiskVarietyDets = outHighRiskVarietyDetMapper.selectHighRiskSampleList(agriCitySampleTestDetails);

@@ -351,7 +351,7 @@
     :tree-props="{children: 'dlDetRecordSampleRes', hasChildren: 'hasChildren'}">
 
     <el-table-column
-      label="抽样地点"
+      label="检测单位"
       prop="samplingLocation"
       align="center"
       width="200">

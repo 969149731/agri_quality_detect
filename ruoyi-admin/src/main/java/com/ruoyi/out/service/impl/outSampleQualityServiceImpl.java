@@ -5,6 +5,7 @@ import java.util.*;
 import com.github.pagehelper.PageHelper;
 import com.ruoyi.detection.domain.agriCitySampleTestDetails;
 import com.ruoyi.detection.mapper.agriCitySampleTestDetailsMapper;
+import com.ruoyi.myUtils.AgriUtils;
 import com.ruoyi.out.domain.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -42,6 +43,9 @@ public class outSampleQualityServiceImpl implements IoutSampleQualityService
     @Override
     public List<outSampleQuality> selectoutSampleQualityList(agriCitySampleTestDetails agriCitySampleTestDetails,StringBuilder feedBackMsg)
     {
+
+        AgriUtils.permissionToDifferentiateData(agriCitySampleTestDetails);
+
         //////////////////////初始化
         initModle(feedBackMsg);
 

@@ -12,6 +12,7 @@ import com.ruoyi.detection.domain.agriPesticideDetResult;
 import com.ruoyi.detection.domain.agriPesticideDetResultForUndeterminedStandDet;
 import com.ruoyi.detection.mapper.agriCitySampleTestDetailsMapper;
 import com.ruoyi.detection.mapper.agriPesticideDetResultMapper;
+import com.ruoyi.myUtils.AgriUtils;
 import com.ruoyi.out.domain.out2BanPesticideDetection;
 import com.ruoyi.out.domain.out2UndeterminedStandDet;
 import com.ruoyi.out.mapper.outDlDetectRecordsMapper;
@@ -117,6 +118,8 @@ public class outUndeterminedStandDetServiceImpl implements IoutUndeterminedStand
     //无判定标准检出值详列表
     @Override
     public List<out2UndeterminedStandDet> selectOutUndeterminedStandDetList(agriCitySampleTestDetails agriCitySampleTestDetails) {
+        AgriUtils.permissionToDifferentiateData(agriCitySampleTestDetails);
+
         //最后要往out2BanPesticideDetectionList这里面add一个out2BanPesticideDetection对象
         List<out2UndeterminedStandDet> out2UndeterminedStandDetList = new ArrayList<>();
         List<agriCitySampleTestDetails> agriCitySampleTestDetailsList = agriCitySampleTestDetailsMapper.selectagriCitySampleTestDetailsList(agriCitySampleTestDetails);

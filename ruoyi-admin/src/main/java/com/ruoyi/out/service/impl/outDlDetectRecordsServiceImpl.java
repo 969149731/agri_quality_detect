@@ -16,6 +16,7 @@ import com.ruoyi.detection.domain.agriPesticideDetResult;
 import com.ruoyi.detection.mapper.agriCitySampleTestDetailsMapper;
 import com.ruoyi.detection.mapper.agriPesticideDetResultMapper;
 import com.ruoyi.detection.service.impl.agriCitySampleTestDetailsServiceImpl;
+import com.ruoyi.myUtils.AgriUtils;
 import com.ruoyi.out.domain.dlDetRecordSampleRes;
 import org.apache.commons.io.filefilter.FalseFileFilter;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -1303,6 +1304,7 @@ public class outDlDetectRecordsServiceImpl implements IoutDlDetectRecordsService
 
     @Override
     public List<dlDetRecordSampleRes> selectOutDlDetectRecordsListNew(agriCitySampleTestDetails agriCitySampleTestDetails) {
+        AgriUtils.permissionToDifferentiateData(agriCitySampleTestDetails);
 
         List<dlDetRecordSampleRes> res = new ArrayList<>();
         //过滤掉空白的地点

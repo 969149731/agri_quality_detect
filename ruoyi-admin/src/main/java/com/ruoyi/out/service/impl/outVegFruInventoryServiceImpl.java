@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.ruoyi.detection.domain.agriCitySampleTestDetails;
+import com.ruoyi.myUtils.AgriUtils;
 import com.ruoyi.out.domain.VegFruStatistic;
 import com.ruoyi.out.domain.vo.OutDetailTypeInventoryVo;
 import com.ruoyi.out.domain.vo.OutVegFruNameInventoryVo;
@@ -194,6 +195,8 @@ public class outVegFruInventoryServiceImpl implements IoutVegFruInventoryService
 
     @Override
     public List<OutDetailTypeInventoryVo> selectSampleDetailTypeInventory(agriCitySampleTestDetails agriCitySampleTestDetails, String vegFruType) {
+
+        AgriUtils.permissionToDifferentiateData(agriCitySampleTestDetails);
 
         String otherType = null;
         List<OutDetailTypeInventoryVo> detailTypeInventoryVoList = new ArrayList<>();

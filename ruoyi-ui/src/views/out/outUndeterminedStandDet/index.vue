@@ -363,7 +363,7 @@ export default {
       // 查询参数
       queryParams: {
         pageNum: 1,
-        pageSize: 1000,
+        pageSize: 1500,
         detectUnit: null,
         sampleCode: null,
         vegFruName: null,

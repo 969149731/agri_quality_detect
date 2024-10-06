@@ -401,6 +401,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="agriCitySampleTestDetails.tracingArea != null and agriCitySampleTestDetails.tracingArea != ''">
                 AND tracing_area = #{agriCitySampleTestDetails.tracingArea}
             </if>
+            <if test="agriCitySampleTestDetails.userName != null and agriCitySampleTestDetails.userName != ''">
+                AND user_name = #{agriCitySampleTestDetails.userName}
+            </if>
             <if test="agriCitySampleTestDetails.params.beginTime != null and agriCitySampleTestDetails.params.beginTime != ''"><!-- 开始时间检索 -->
                 AND date_format(sampling_date,'%y%m%d') &gt;= date_format(#{agriCitySampleTestDetails.params.beginTime},'%y%m%d')
             </if>
@@ -498,6 +501,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             </if>
             <if test="agriCitySampleTestDetails.tracingArea != null and agriCitySampleTestDetails.tracingArea != ''">
                 AND tracing_area = #{agriCitySampleTestDetails.tracingArea}
+            </if>
+            <if test="agriCitySampleTestDetails.userName != null and agriCitySampleTestDetails.userName != ''">
+                AND user_name = #{agriCitySampleTestDetails.userName}
             </if>
             <if test="agriCitySampleTestDetails.params.beginTime != null and agriCitySampleTestDetails.params.beginTime != ''"><!-- 开始时间检索 -->
                 AND date_format(sampling_date,'%y%m%d') &gt;= date_format(#{agriCitySampleTestDetails.params.beginTime},'%y%m%d')
@@ -601,6 +607,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             </if>
             <if test="agriCitySampleTestDetails.tracingArea != null and agriCitySampleTestDetails.tracingArea != ''">
                 AND tracing_area = #{agriCitySampleTestDetails.tracingArea}
+            </if>
+            <if test="agriCitySampleTestDetails.userName != null and agriCitySampleTestDetails.userName != ''">
+                AND user_name = #{agriCitySampleTestDetails.userName}
             </if>
             <if test="agriCitySampleTestDetails.params.beginTime != null and agriCitySampleTestDetails.params.beginTime != ''"><!-- 开始时间检索 -->
                 AND date_format(sampling_date,'%y%m%d') &gt;= date_format(#{agriCitySampleTestDetails.params.beginTime},'%y%m%d')

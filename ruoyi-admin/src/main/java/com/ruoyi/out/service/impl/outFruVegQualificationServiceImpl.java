@@ -7,6 +7,7 @@ import com.github.pagehelper.PageHelper;
 import com.ruoyi.detection.domain.agriCitySampleTestDetails;
 import com.ruoyi.detection.mapper.agriCitySampleTestDetailsMapper;
 import com.ruoyi.framework.web.domain.server.Sys;
+import com.ruoyi.myUtils.AgriUtils;
 import com.ruoyi.out.domain.*;
 import javassist.compiler.SymbolTable;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,6 +47,8 @@ public class outFruVegQualificationServiceImpl implements IoutFruVegQualificatio
     @Override
     public List<outFruVegQualification> selectoutFruVegQualificationList(agriCitySampleTestDetails agriCitySampleTestDetails,StringBuilder feedBackMsg)
     {
+        AgriUtils.permissionToDifferentiateData(agriCitySampleTestDetails);
+
         if (initModule(feedBackMsg));
         else return returnFinalList();
 

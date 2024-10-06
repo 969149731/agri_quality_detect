@@ -115,6 +115,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="agriCitySampleTestDetails.samplingType != null and agriCitySampleTestDetails.samplingType != ''">
                 AND sampling_type = #{agriCitySampleTestDetails.samplingType}
             </if>
+            <if test="agriCitySampleTestDetails.userName != null and agriCitySampleTestDetails.userName != ''">
+                AND user_name = #{agriCitySampleTestDetails.userName}
+            </if>
+
             <if test="agriCitySampleTestDetails.params.beginTime != null and agriCitySampleTestDetails.params.beginTime != ''"><!-- 开始时间检索 -->
                 AND date_format(sampling_date,'%y%m%d') &gt;= date_format(#{agriCitySampleTestDetails.params.beginTime},'%y%m%d')
             </if>

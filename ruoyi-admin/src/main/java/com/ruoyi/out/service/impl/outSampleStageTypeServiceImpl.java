@@ -6,6 +6,7 @@ import com.github.pagehelper.PageHelper;
 import com.ruoyi.common.annotation.Excel;
 import com.ruoyi.detection.domain.agriCitySampleTestDetails;
 import com.ruoyi.framework.web.domain.server.Sys;
+import com.ruoyi.myUtils.AgriUtils;
 import com.ruoyi.out.domain.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -41,6 +42,8 @@ public class outSampleStageTypeServiceImpl implements IoutSampleStageTypeService
     @Override
     public List<outSampleStageType> selectoutSampleStageTypeList(agriCitySampleTestDetails agriCitySampleTestDetails,StringBuilder feedBackMsg)
     {
+        AgriUtils.permissionToDifferentiateData(agriCitySampleTestDetails);
+
         if (initModule(feedBackMsg));
         else return returnFinalList();
 

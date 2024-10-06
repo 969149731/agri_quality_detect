@@ -15,6 +15,7 @@ import com.ruoyi.detection.domain.agriCitySampleTestDetails;
 import com.ruoyi.detection.domain.agriPesticideDetResult;
 import com.ruoyi.detection.domain.agriPesticideDetResultForBanPesticideDetection;
 import com.ruoyi.detection.domain.agriPesticideDetResultForOutExceedSampleDetail;
+import com.ruoyi.myUtils.AgriUtils;
 import com.ruoyi.out.domain.out2BanPesticideDetection;
 import com.ruoyi.out.domain.out2ExceedSampleDetail;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -159,6 +160,8 @@ public class outBanPesticideDetectionServiceImpl implements IoutBanPesticideDete
     //蔬菜水果禁用农药检出明细
     @Override
     public List<out2BanPesticideDetection> selectOutBanPesticideDetectionList(agriCitySampleTestDetails agriCitySampleTestDetails) {
+        AgriUtils.permissionToDifferentiateData(agriCitySampleTestDetails);
+
         //最后要往out2BanPesticideDetectionList这里面add一个out2BanPesticideDetection对象
         List<out2BanPesticideDetection> out2BanPesticideDetectionList = new ArrayList<>();
         List<agriCitySampleTestDetails> agriCitySampleTestDetailsList = agriCitySampleTestDetailsMapper.selectagriCitySampleTestDetailsList(agriCitySampleTestDetails);

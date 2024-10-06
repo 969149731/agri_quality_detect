@@ -13,6 +13,7 @@ import com.ruoyi.detection.domain.agriPesticideDetResult;
 import com.ruoyi.detection.domain.agriPesticideDetResultForOutExceedSampleDetail;
 import com.ruoyi.detection.mapper.agriCitySampleTestDetailsMapper;
 import com.ruoyi.detection.mapper.agriPesticideDetResultMapper;
+import com.ruoyi.myUtils.AgriUtils;
 import com.ruoyi.out.domain.out2ExceedSampleDetail;
 import com.ruoyi.out.mapper.outDlDetectRecordsMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -162,6 +163,7 @@ public class outExceedSampleDetailServiceImpl implements IoutExceedSampleDetailS
     //超标蔬菜水果样品明细表
     @Override
     public List<out2ExceedSampleDetail> selectOutExceedSampleDetailList(agriCitySampleTestDetails agriCitySampleTestDetails) {
+        AgriUtils.permissionToDifferentiateData(agriCitySampleTestDetails);
         List<out2ExceedSampleDetail> outExceedSampleDetailList = new ArrayList<>();
         List<agriCitySampleTestDetails> agriCitySampleTestDetailsList = agriCitySampleTestDetailsMapper.selectagriCitySampleTestDetailsList(agriCitySampleTestDetails);
         for (agriCitySampleTestDetails CitySampleTestDetail : agriCitySampleTestDetailsList) {

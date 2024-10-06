@@ -104,6 +104,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="vegFruType != null  and vegFruType != ''"> and veg_fru_type = #{vegFruType}</if>
             <if test="samplingType != null  and samplingType != ''"> and sampling_type = #{samplingType}</if>
 
+            <if test="userName != null and userName != ''">
+                AND user_name = #{userName}
+            </if>
 
 
 
