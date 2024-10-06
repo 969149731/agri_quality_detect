@@ -110,7 +110,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
                 AND tracing_area = #{agriCitySampleTestDetails.tracingArea}
             </if>
             <if test="agriCitySampleTestDetails.vegFruType != null and agriCitySampleTestDetails.vegFruType != ''">
-                AND vegFruType = #{agriCitySampleTestDetails.vegFruType}
+                AND veg_fru_type = #{agriCitySampleTestDetails.vegFruType}
+            </if>
+            <if test="agriCitySampleTestDetails.samplingType != null and agriCitySampleTestDetails.samplingType != ''">
+                AND sampling_type = #{agriCitySampleTestDetails.samplingType}
             </if>
             <if test="agriCitySampleTestDetails.params.beginTime != null and agriCitySampleTestDetails.params.beginTime != ''"><!-- 开始时间检索 -->
                 AND date_format(sampling_date,'%y%m%d') &gt;= date_format(#{agriCitySampleTestDetails.params.beginTime},'%y%m%d')

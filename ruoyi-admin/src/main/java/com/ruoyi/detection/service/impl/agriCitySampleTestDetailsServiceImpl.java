@@ -17,6 +17,7 @@ import com.ruoyi.common.utils.SecurityUtils;
 import com.ruoyi.detection.domain.agriOut2CitySampleTestDetails;
 import com.ruoyi.detection.domain.agriOutCitySampleTestDetails;
 import com.ruoyi.detection.mapper.agriPesticideDetResultMapper;
+import com.ruoyi.myUtils.AgriUtils;
 import com.ruoyi.system.service.ISysConfigService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -100,18 +101,22 @@ public class agriCitySampleTestDetailsServiceImpl implements IagriCitySampleTest
         //用当前用户名查询当前用户所属角色，如果是属于监测机构，则只能查看自己上传过的数据
         List<SysRole> roles = loginUser.getUser().getRoles();
         String roleName = roles.get(0).getRoleName();
-        if (roleName.equals("监测机构")) {
-            agriCitySampleTestDetails.setUserName(username);
-        }
-        //如果是属于安监部门，则只能查看本辖区内的数据
-        if (roleName.equals("安监部门")) {
-            //截取depName中的字符，从开头到市结尾的字符
-            String substringDeptName = deptName.substring(0, deptName.indexOf("市") + 1);
-//            if (agriCitySampleTestDetails.getSamplingLocationCity()!=null&& !Objects.equals(agriCitySampleTestDetails.getSamplingLocationCity(), substringDeptName)){
-//                throw new ServiceException("您当前角色为：安监部门，所在部门为："+deptName+"，只允许查看："+substringDeptName+" 下的数据，没有权限查看别的地方的数据");
-//            }
-            agriCitySampleTestDetails.setSamplingLocationCity(substringDeptName);
-        }
+//        if (roleName.equals("监测机构")) {
+//            agriCitySampleTestDetails.setUserName(username);
+//        }
+//        //如果是属于安监部门，则只能查看本辖区内的数据
+//        if (roleName.equals("安监部门")) {
+//            //截取depName中的字符，从开头到市结尾的字符
+//            String substringDeptName = deptName.substring(0, deptName.indexOf("市") + 1);
+////            if (agriCitySampleTestDetails.getSamplingLocationCity()!=null&& !Objects.equals(agriCitySampleTestDetails.getSamplingLocationCity(), substringDeptName)){
+////                throw new ServiceException("您当前角色为：安监部门，所在部门为："+deptName+"，只允许查看："+substringDeptName+" 下的数据，没有权限查看别的地方的数据");
+////            }
+//            agriCitySampleTestDetails.setSamplingLocationCity(substringDeptName);
+//        }
+
+        //把上面注释调的代码封装成下面的自定义工具类了，好维护。
+        AgriUtils.permissionToDifferentiateData(agriCitySampleTestDetails);
+
 
         List<agriCitySampleTestDetails> agriCitySampleTestDetails1 = agriCitySampleTestDetailsMapper.selectAgriCitySampleList(agriCitySampleTestDetails, samplingType);
 
