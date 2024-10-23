@@ -351,6 +351,7 @@ public class agriCitySampleTestDetailsServiceImpl implements IagriCitySampleTest
         }
         int successNum = 0;
         int failureNum = 0;
+
         //要用到的主表主键值
         long mainTableId = 0;
         //要丢弃的主表主键值
@@ -359,6 +360,7 @@ public class agriCitySampleTestDetailsServiceImpl implements IagriCitySampleTest
         StringBuilder failureMsg = new StringBuilder();
         String password = configService.selectConfigByKey("sys.user.initPassword");
         for (agriOutCitySampleTestDetails agriOutCitySampleTestDetails : agriOutCitySampleTestDetailsList) {
+
             try {
                 Long citySampleTestDetailsId = agriOutCitySampleTestDetails.getCitySampleTestDetailsId();
                 String sampleCode = agriOutCitySampleTestDetails.getSampleCode();
@@ -817,7 +819,7 @@ public class agriCitySampleTestDetailsServiceImpl implements IagriCitySampleTest
         return successMsg.toString();
     }
 
-    //导入数据逻辑
+    //导入数据逻辑 2024 10 23 正在用的
     @Override
     public String importAgriOut2CitySampleTestDetailsList(List<Map<String, Object>> agriOut2CitySampleTestDetailsList, boolean updateSupport, String operName, String samplingType) {
         if (StringUtils.isNull(agriOut2CitySampleTestDetailsList) || agriOut2CitySampleTestDetailsList.size() == 0) {
@@ -829,6 +831,7 @@ public class agriCitySampleTestDetailsServiceImpl implements IagriCitySampleTest
         SimpleDateFormat targetFormat = new SimpleDateFormat("yyyy-MM-dd");
         int successNum = 0;
         int failureNum = 0;
+        int nowNum = 0;
         //要用到的主表主键值
         long mainTableId = 0;
         //要丢弃的主表主键值
@@ -837,6 +840,7 @@ public class agriCitySampleTestDetailsServiceImpl implements IagriCitySampleTest
         StringBuilder failureMsg = new StringBuilder();
         String password = configService.selectConfigByKey("sys.user.initPassword");
         for (Map<String, Object> agriOut2CitySampleTestDetails : agriOut2CitySampleTestDetailsList) {
+            nowNum++;
             try {
                 // Long citySampleTestDetailsId =agriOut2CitySampleTestDetails.get("序号").toString();//?
 //                String sampleCode = agriOut2CitySampleTestDetails.get("样品编号").toString();
@@ -1040,6 +1044,7 @@ public class agriCitySampleTestDetailsServiceImpl implements IagriCitySampleTest
 
                 //如果sampleCode vegFruName  samplingLocation都是null的话，说明他们数据不规范，第二行开始才有数据，
                 // 这边做一些健壮性处理，如果第一行数据是空的，直接跳过本次循环，进入到下一行数据
+
                 assert sampleCode != null;
                 if (sampleCode.isEmpty()) {
                     assert vegFruName != null;
@@ -1159,7 +1164,7 @@ public class agriCitySampleTestDetailsServiceImpl implements IagriCitySampleTest
                 successMsg.append("<br/>" + "第" + successNum + "条" + "数据导入成功");
             } catch (Exception e) {
                 failureNum++;
-                String msg = "<br/>" + "第" + failureNum + "条" + "数据导入失败---------：";
+                String msg = "<br/>" + "第" + nowNum + "条" + "数据导入失败---------：";
                 failureMsg.append(msg + e.getMessage());
                 log.error(msg, e);
             }

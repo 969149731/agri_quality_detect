@@ -728,10 +728,10 @@ export default {
         }
       });
     },
-    /** 删除按钮操作 */
+    /** 删除按钮操作         this.$modal.confirm('是否确认删除我的导入编号为"' + citySampleTestDetailsIds + '"的数据项？').then(function () {       */
     handleDelete(row) {
       const citySampleTestDetailsIds = row.citySampleTestDetailsId || this.ids;
-      this.$modal.confirm('是否确认删除我的导入编号为"' + citySampleTestDetailsIds + '"的数据项？').then(function () {
+      this.$modal.confirm('是否确认删除数据项？').then(function () {
         return delMyDetectionDetails(citySampleTestDetailsIds);
       }).then(() => {
         this.getList();
