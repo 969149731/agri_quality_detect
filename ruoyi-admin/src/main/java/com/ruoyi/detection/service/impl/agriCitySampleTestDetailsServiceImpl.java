@@ -839,6 +839,7 @@ public class agriCitySampleTestDetailsServiceImpl implements IagriCitySampleTest
         StringBuilder successMsg = new StringBuilder();
         StringBuilder failureMsg = new StringBuilder();
         String password = configService.selectConfigByKey("sys.user.initPassword");
+        String sampleCodeCheck=null;
         for (Map<String, Object> agriOut2CitySampleTestDetails : agriOut2CitySampleTestDetailsList) {
             nowNum++;
             try {
@@ -853,9 +854,11 @@ public class agriCitySampleTestDetailsServiceImpl implements IagriCitySampleTest
                 String sampleCode = null;
                 try {
                     sampleCode = agriOut2CitySampleTestDetails.get("样品编号").toString();
+                    sampleCodeCheck=sampleCode;
                 } catch (Exception e) {
                     try {
                         sampleCode = agriOut2CitySampleTestDetails.get("样品     编号").toString();
+                        sampleCodeCheck=sampleCode;
                     } catch (Exception e2) {
                         sampleCode = null;
                     }
@@ -1164,7 +1167,7 @@ public class agriCitySampleTestDetailsServiceImpl implements IagriCitySampleTest
                 successMsg.append("<br/>" + "第" + successNum + "条" + "数据导入成功");
             } catch (Exception e) {
                 failureNum++;
-                String msg = "<br/>" + "第" + nowNum + "条" + "数据导入失败---------：";
+                String msg = "<br/>" + "第" + nowNum +"条数据，样品编号为："+sampleCodeCheck +  "导入失败---------：";
                 failureMsg.append(msg + e.getMessage());
                 log.error(msg, e);
             }
@@ -1172,7 +1175,7 @@ public class agriCitySampleTestDetailsServiceImpl implements IagriCitySampleTest
 
         if (failureNum > 0) {
 //            failureMsg.insert(0, "抱歉，导入失败！共 " + failureNum + " 条数据格式不正确，错误如下：");
-            failureMsg.insert(0, "导入成功，有 " + failureNum + " 条数据因格式不正确导入失败：");
+            failureMsg.insert(0, "数据导入成功，有 " + failureNum + " 条数据因格式不正确导入失败：");
             throw new ServiceException(failureMsg.toString());
         } else {
             successMsg.insert(0, "恭喜，数据已全部导入成功！本次数据的导入批次编号为： " + batchId + "    <br/>   共 " + successNum + " 条，情况如下：");
