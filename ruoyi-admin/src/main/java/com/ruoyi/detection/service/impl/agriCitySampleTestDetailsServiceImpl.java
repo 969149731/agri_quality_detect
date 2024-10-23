@@ -1154,8 +1154,10 @@ public class agriCitySampleTestDetailsServiceImpl implements IagriCitySampleTest
                         value = result3;
                     } else if (value instanceof Double) {
                         value = value.toString();
-                    } else {
-                        throw new IllegalArgumentException("Value must be either String or Double");
+                    } else if (value instanceof Integer) {
+                        value = value.toString();
+                    }else {
+                        throw new IllegalArgumentException("Value must be either String or Double or Integer");
                     }
 
                     agriPesticideDetResult.setPesticideDetValue((String) value);
