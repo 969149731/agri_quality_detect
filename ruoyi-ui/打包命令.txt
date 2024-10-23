@@ -1,9 +1,32 @@
-前端打包：npm run build:prod
+服务器ip   
+120.76.201.235
 
-后端后台运行：nohup java -jar ruoyi-admin.jar &
+账号
+root
+
+密码
+xida@123
 
 
+前端
+本地代码前端打包：npm run build:prod
+打包完成后把本地打包完成的dist文件放到服务器的/usr/local/myproject/qiandaun目录下
 重启前端：sudo nginx
+
+
+
+后端
+后端用meven打包，生成的ruoyi-admin.jar文件放到服务器的/usr/local/myproject/houduan目录下
+后端后台运行(先切换到对应目录下)：cd /usr/local/myproject/houduan
+然后运行
+nohup java -jar ruoyi-admin.jar &
+
+运行之前先运行sudo netstat -nlp | grep :8080   如果端口被占用，就kill-9 xxxx   结束原有的进程
+
+
+
+
+
 
 查看后台端口进程：sudo netstat -nlp | grep :8080
 
